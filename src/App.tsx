@@ -81,6 +81,43 @@ export default function App() {
     }
   }, [seoSettings]);
 
+  // Dynamic Scroll-Spy to highlight current active section in Navbar
+  const [activeSection, setActiveSection] = useState<string>('hero');
+
+  useEffect(() => {
+    const sections = [
+      'hero',
+      'tentang',
+      'komoditas',
+      'alur-ekspor',
+      'kalkulator',
+      'galeri',
+      'lokasi',
+      'testimoni',
+      'blog',
+      'kontak'
+    ];
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY + 180;
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollY >= top && scrollY < top + height) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Smooth scroll handler
   const handleScrollTo = (id: string) => {
     const targetElement = document.querySelector(id);
@@ -229,6 +266,8 @@ export default function App() {
         onOpenAdmin={() => setIsAdminOpen(true)}
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
         onScrollTo={handleScrollTo}
+        activeSection={activeSection}
+        activeVisitors={46}
       />
 
       {/* Main Page Sections */}

@@ -381,7 +381,7 @@ export default function AdminCMSModal({
                 >
                   <BookOpen className="w-6 h-6 text-amber-400 mb-3" />
                   <h4 className="font-bold text-white text-base group-hover:text-amber-400">Tulis & Publikasikan Artikel</h4>
-                  <p className="text-xs text-slate-400 mt-1">Gunakan asisten Gemini AI untuk membuat draf analisa pasar logistik.</p>
+                  <p className="text-xs text-slate-400 mt-1">Gunakan asisten Gemini AI untuk membuat draf analisa pasar ekspor hasil laut kering.</p>
                 </div>
 
                 <div 
@@ -390,7 +390,7 @@ export default function AdminCMSModal({
                 >
                   <ImageIcon className="w-6 h-6 text-amber-400 mb-3" />
                   <h4 className="font-bold text-white text-base group-hover:text-amber-400">Perbarui Galeri Fasilitas</h4>
-                  <p className="text-xs text-slate-400 mt-1">Unggah dokumentasi armada baru, sertifikasi, dan foto operasi.</p>
+                  <p className="text-xs text-slate-400 mt-1">Unggah dokumentasi sentra pengeringan, grading, dan sanitasi HACCP.</p>
                 </div>
 
                 <div 
@@ -399,7 +399,38 @@ export default function AdminCMSModal({
                 >
                   <Globe2 className="w-6 h-6 text-amber-400 mb-3" />
                   <h4 className="font-bold text-white text-base group-hover:text-amber-400">Audit & Optimasi SEO</h4>
-                  <p className="text-xs text-slate-400 mt-1">Lihat preview Google SERP dan generator JSON-LD schema.</p>
+                  <p className="text-xs text-slate-400 mt-1">Lihat preview Google SERP dan generator JSON-LD schema B2B ekspor.</p>
+                </div>
+              </div>
+
+              {/* Export Compliance & Quality Assurance Grid */}
+              <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                    <span>Status Kepatuhan Karantina & Fasilitas Ekspor</span>
+                  </h4>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    SEMUA SISTEM NORMAL
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">Sertifikasi Karantina BKIPM</span>
+                    <strong className="text-emerald-400 font-semibold mt-1 block">Health Cert Terbit</strong>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">Standar Mutu HACCP</span>
+                    <strong className="text-amber-400 font-semibold mt-1 block">Grade A Internasional</strong>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">Kelembaban Gudang (RH)</span>
+                    <strong className="text-slate-200 font-semibold mt-1 block">52% (Dehumidified)</strong>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">Uji Bebas Formalin</span>
+                    <strong className="text-emerald-400 font-semibold mt-1 block">100% Negatif (Lolos)</strong>
+                  </div>
                 </div>
               </div>
 
