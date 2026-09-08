@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { GLOBAL_COUNTRIES } from '../data/initialData';
 import { ShippingCalculationResult, CountryInfo } from '../types';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface GlobalShippingCalculatorProps {
   onBookInquiry: (bookingDetails: {
@@ -32,6 +33,7 @@ interface GlobalShippingCalculatorProps {
 }
 
 export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippingCalculatorProps) {
+  const { t, currentLang } = useTranslation();
   const [originCode, setOriginCode] = useState('ID');
   const [destinationCode, setDestinationCode] = useState('US');
   const [weightKg, setWeightKg] = useState<number>(5);
@@ -115,17 +117,17 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
   const handleCopyQuoteSlip = () => {
     if (!result || !selectedQuote) return;
     const slipText = `=================================================
-RESMI ESTIMASI ONGKIR & EKSPOR KARGO - DRIED SEAFOOD GLOBAL
+OFFICIAL FREIGHT & EXPORT ESTIMATE - DRIED SEAFOOD GLOBAL
 Ref ID: ${selectedQuote.bookingReference}
-Tanggal: ${new Date().toLocaleDateString('id-ID')}
-Rute: ${result.origin.name} (${result.origin.code}) -> ${result.destination.name} (${result.destination.code})
-Kurir Rekanan: ${selectedQuote.courierName} (${selectedQuote.serviceTier})
-Berat Aktual: ${result.actualWeightKg} kg | Volumetrik: ${result.volumetricWeightKg} kg
+Date: ${new Date().toLocaleDateString('en-US')}
+Route: ${result.origin.name} (${result.origin.code}) -> ${result.destination.name} (${result.destination.code})
+Carrier Partner: ${selectedQuote.courierName} (${selectedQuote.serviceTier})
+Actual Weight: ${result.actualWeightKg} kg | Volumetric: ${result.volumetricWeightKg} kg
 Chargeable Weight: ${result.chargeableWeightKg} kg
-Dimensi: ${lengthCm}x${widthCm}x${heightCm} cm
-Estimasi Waktu: ${selectedQuote.estimatedDeliveryDays} (Est: ${selectedQuote.estimatedDeliveryDate})
-Total Biaya: USD $${selectedQuote.totalUSD} (Rp ${selectedQuote.totalIDR.toLocaleString('id-ID')})
-Enkripsi Transaksi: TLS 1.3 256-Bit Digicert Verified
+Dimensions: ${lengthCm}x${widthCm}x${heightCm} cm
+Transit Estimate: ${selectedQuote.estimatedDeliveryDays} (Est: ${selectedQuote.estimatedDeliveryDate})
+Total Estimated Cost: USD $${selectedQuote.totalUSD} (Rp ${selectedQuote.totalIDR.toLocaleString('id-ID')})
+Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
 =================================================`;
     navigator.clipboard.writeText(slipText);
     setCopiedSlip(true);
@@ -150,13 +152,13 @@ Enkripsi Transaksi: TLS 1.3 256-Bit Digicert Verified
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
             <Calculator className="w-3.5 h-3.5" />
-            <span>Multi-Carrier Global API Routing</span>
+            <span>{t.calculator.badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Kalkulator Estimasi Pengiriman Antar-Negara
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-serif">
+            {t.calculator.title}
           </h2>
           <p className="mt-3 text-slate-300 text-base">
-            Bandingkan tarif real-time kurir internasional (DHL, FedEx, UPS, Aramex, Sea Freight) ke 200+ negara dengan perhitungan volumetrik IATA dan estimasi bea masuk pabean.
+            {t.calculator.subtitle}
           </p>
         </div>
 

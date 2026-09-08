@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { EXPORT_COMMODITIES } from '../data/initialData';
 import { ExportCommodity } from '../types';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface ExportCommoditiesProps {
   onSelectCommodityForQuote: (commodityName: string) => void;
@@ -28,18 +29,18 @@ export default function ExportCommodities({
   onSelectCommodityForQuote,
   onOpenCatalogModal 
 }: ExportCommoditiesProps) {
+  const { t, currentLang } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalCommodity, setActiveModalCommodity] = useState<ExportCommodity | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
   const categories = [
-    { id: 'all', label: 'Semua Produk Ikan Kering' },
-    { id: 'Ikan Kering & Asin', label: 'Ikan Teri & Ikan Asin' },
-    { id: 'Cumi & Gurita Kering', label: 'Cumi Kering Sero' },
-    { id: 'Fish Maw & Mewah', label: 'Fish Maw & Teripang' },
-    { id: 'Udang Kering & Ebi', label: 'Ebi Kering Super' },
-    { id: 'Ikan Olahan & Asap', label: 'Ikan Asap & Olahan' }
+    { id: 'all', label: t.commodities?.filterAll || 'All Products' },
+    { id: 'Ikan Kering & Asin', label: t.commodities?.filterFish || 'Dried & Salted Fish' },
+    { id: 'Cumi & Gurita Kering', label: t.commodities?.filterSquid || 'Dried Squid & Octopus' },
+    { id: 'Fish Maw & Mewah', label: t.commodities?.filterMaw || 'Fish Maw & Luxury' },
+    { id: 'Udang Kering & Ebi', label: t.commodities?.filterShrimp || 'Dried Shrimp & Ebi' }
   ];
 
   const filteredCommodities = EXPORT_COMMODITIES.filter(item => {
@@ -70,23 +71,23 @@ export default function ExportCommodities({
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Katalog Komoditas Ekspor Ikan & Hasil Laut Khas Indonesia</span>
+              <span>{t.commodities?.badge || 'EXPORT GRADE COMMODITIES'}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight font-serif">
-              Produk Ikan Asin & Hasil Laut Kering Nusantara Berstandar Mutu Dunia
+              {t.commodities?.title || 'Flagship Commodities'}
             </h2>
             <p className="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
-              Diproduksi higienis dengan Solar Dome Dryer dan garam kristal murni tanpa pemutih maupun formalin. Memenuhi standar sertifikasi karantina BKIPM KKP, HACCP Grade A, dan sertifikat Halal resmi.
+              {t.commodities?.subtitle || ''}
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={onOpenCatalogModal}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all shadow-lg hover:shadow-amber-500/20"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all shadow-lg hover:shadow-amber-500/20 cursor-pointer"
             >
               <Download className="w-4 h-4" />
-              <span>Unduh E-Katalog Komoditas (PDF)</span>
+              <span>{t.commodities?.downloadCatalog || 'Download Export Catalog (PDF)'}</span>
             </button>
           </div>
         </div>
@@ -100,7 +101,7 @@ export default function ExportCommodities({
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                   selectedCategory === cat.id
                     ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                     : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 hover:text-white border border-slate-700/60'
@@ -118,7 +119,7 @@ export default function ExportCommodities({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari komoditas, HS Code, asal..."
+              placeholder={t.commodities?.searchPlaceholder || 'Search commodities...'}
               className="w-full bg-slate-950/80 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
             />
           </div>
@@ -187,19 +188,19 @@ export default function ExportCommodities({
                   {/* Specs Quick Matrix */}
                   <div className="bg-slate-900/80 rounded-2xl p-3 border border-slate-800 space-y-2 mb-4 text-[11px]">
                     <div className="flex justify-between items-center text-slate-400">
-                      <span>Asal / Origin:</span>
+                      <span>{t.commodities.origin}:</span>
                       <span className="text-slate-200 font-medium text-right max-w-[180px] truncate">{item.origin}</span>
                     </div>
                     <div className="flex justify-between items-center text-slate-400">
-                      <span>Grade Mutu:</span>
+                      <span>{t.commodities.grade}:</span>
                       <span className="text-amber-300 font-bold">{item.specification.grade}</span>
                     </div>
                     <div className="flex justify-between items-center text-slate-400">
-                      <span>Minimum Order (MOQ):</span>
+                      <span>{t.commodities.moq}:</span>
                       <span className="text-slate-200 font-semibold">{item.specification.moq}</span>
                     </div>
                     <div className="flex justify-between items-center text-slate-400">
-                      <span>Kapasitas Pasokan:</span>
+                      <span>{t.commodities.supplyCapacity}:</span>
                       <span className="text-emerald-400 font-bold">{item.supplyCapacity}</span>
                     </div>
                   </div>
@@ -207,7 +208,7 @@ export default function ExportCommodities({
                   {/* Certifications badges */}
                   <div className="space-y-1.5">
                     <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold block">
-                      Sertifikasi Mutu & Pasar Ekspor:
+                      {t.commodities.certifications}:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {item.certifications.slice(0, 3).map((cert, idx) => (
@@ -221,7 +222,7 @@ export default function ExportCommodities({
                       ))}
                       {item.certifications.length > 3 && (
                         <span className="px-1.5 py-0.5 rounded-md bg-slate-800 text-slate-400 text-[10px]">
-                          +{item.certifications.length - 3} lainnya
+                          +{item.certifications.length - 3}
                         </span>
                       )}
                     </div>
@@ -233,15 +234,15 @@ export default function ExportCommodities({
               <div className="p-6 pt-0 flex items-center gap-2">
                 <button
                   onClick={() => openCommodityDetail(item)}
-                  className="flex-1 py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-bold transition-colors text-center"
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-bold transition-colors text-center cursor-pointer"
                 >
-                  Spesifikasi Teknis
+                  {t.commodities.specs}
                 </button>
                 <button
                   onClick={() => onSelectCommodityForQuote(item.name)}
-                  className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-extrabold transition-all flex items-center justify-center gap-1 shadow-md"
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-extrabold transition-all flex items-center justify-center gap-1 shadow-md cursor-pointer"
                 >
-                  <span>Minta RFQ</span>
+                  <span>{t.commodities.requestQuote}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>

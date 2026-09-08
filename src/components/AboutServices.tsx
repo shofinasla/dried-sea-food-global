@@ -20,12 +20,14 @@ import {
 } from 'lucide-react';
 import { COMPANY_PROFILE, SERVICES_LIST, LEADERSHIP_TEAM, CERTIFICATIONS } from '../data/initialData';
 import { ServiceItem } from '../types';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface AboutServicesProps {
   onSelectServiceForQuote: (serviceTitle: string) => void;
 }
 
 export default function AboutServices({ onSelectServiceForQuote }: AboutServicesProps) {
+  const { t, currentLang } = useTranslation();
   const [activeTab, setActiveTab] = useState<'profile' | 'services' | 'leadership' | 'certifications'>('services');
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
 
@@ -45,13 +47,13 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
             <Building2 className="w-3.5 h-3.5" />
-            <span>Indonesian Marine Excellence & Global Export</span>
+            <span>{t.about.badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-            Profil Korporat & Standar Pengolahan Ekspor
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-serif">
+            {t.about.title}
           </h2>
           <p className="mt-3 text-slate-300 text-base leading-relaxed">
-            Menghadirkan produk ikan asin dan hasil laut kering Nusantara terbaik dengan pengeringan higienis berstandar HACCP, bebas formalin, dan sertifikasi karantina resmi ke pasar global.
+            {t.about?.description || t.about?.subtitle || ''}
           </p>
         </div>
 
@@ -67,7 +69,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
-              Layanan Utama (6 Pilar)
+              {t.about?.tabs?.services || (currentLang === 'id' ? 'Layanan & Operasional' : 'Services & Capabilities')}
             </button>
             <button
               onClick={() => setActiveTab('profile')}
@@ -78,7 +80,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
-              Visi, Misi & Sejarah
+              {t.about?.tabs?.profile || (currentLang === 'id' ? 'Profil Perusahaan' : 'Corporate Profile')}
             </button>
             <button
               onClick={() => setActiveTab('leadership')}
@@ -89,7 +91,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
-              Dewan Direksi & Pimpinan
+              {t.about?.tabs?.leadership || (currentLang === 'id' ? 'Tim Manajemen' : 'Executive Team')}
             </button>
             <button
               onClick={() => setActiveTab('certifications')}
@@ -100,7 +102,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
-              Akreditasi & Sertifikasi
+              {t.about?.tabs?.certifications || (currentLang === 'id' ? 'Sertifikasi & Legalitas' : 'Accreditation & Compliance')}
             </button>
           </div>
         </div>

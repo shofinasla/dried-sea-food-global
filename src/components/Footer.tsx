@@ -17,6 +17,7 @@ import {
   Youtube
 } from 'lucide-react';
 import { COMPANY_PROFILE, CERTIFICATIONS } from '../data/initialData';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface FooterProps {
   onScrollTo: (id: string) => void;
@@ -25,6 +26,7 @@ interface FooterProps {
 }
 
 export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: FooterProps) {
+  const { t, currentLang } = useTranslation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -39,16 +41,16 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: Foot
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-bold text-white block text-sm">Keamanan Transaksi & Data Korporat Terjamin</span>
-              <span className="text-[11px] text-slate-400">Enkripsi TLS 1.3 256-Bit • Bersertifikasi ISO 9001:2015, ISO 27001, & AEO Gold</span>
+              <span className="font-bold text-white block text-sm">{t.footer?.securityTitle || 'Enterprise Security Guaranteed'}</span>
+              <span className="text-[11px] text-slate-400">{t.footer?.securityDesc || 'TLS 1.3 256-Bit DigiCert Encryption'}</span>
             </div>
           </div>
 
           <button
             onClick={onOpenSSLModal}
-            className="px-4 py-2 rounded-xl bg-emerald-950/60 border border-emerald-800/80 text-emerald-400 text-xs font-semibold hover:bg-emerald-900/40 transition-colors"
+            className="px-4 py-2 rounded-xl bg-emerald-950/60 border border-emerald-800/80 text-emerald-400 text-xs font-semibold hover:bg-emerald-900/40 transition-colors cursor-pointer"
           >
-            Lihat Validasi Sertifikat SSL
+            TLS 1.3 DigiCert EV SSL
           </button>
         </div>
       </div>
@@ -64,7 +66,7 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: Foot
                 <Globe2 className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-base font-extrabold text-white tracking-tight block">
+                <span className="text-base font-extrabold text-white tracking-tight block font-serif">
                   DRIED SEAFOOD GLOBAL
                 </span>
                 <span className="text-[10px] text-amber-400 tracking-widest uppercase font-semibold">
@@ -74,70 +76,70 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: Foot
             </div>
 
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
-              Eksportir resmi terkemuka hasil laut kering dan ikan asin khas Nusantara. Menghubungkan kekayaan laut Indonesia ke pasar internasional dengan standar higienis HACCP, bebas formalin, dan sertifikasi karantina resmi.
+              {t.footer?.description || t.footer?.tagline || ''}
             </p>
 
             <div className="pt-2 text-xs space-y-1.5">
               <p className="flex items-center gap-2 text-slate-300">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                 <span>{COMPANY_PROFILE.headquarters}</span>
               </p>
               <p className="flex items-center gap-2 text-slate-300">
-                <Phone className="w-3.5 h-3.5 text-amber-400" />
-                <span>Hotline Korporat 24/7: <strong>{COMPANY_PROFILE.hotline}</strong></span>
+                <Phone className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span>{t.topBar?.hotlineLabel || 'Hotline:'} <strong>{COMPANY_PROFILE.hotline}</strong></span>
               </p>
               <p className="flex items-center gap-2 text-slate-300">
-                <Mail className="w-3.5 h-3.5 text-amber-400" />
-                <span>Email Permintaan RFQ: <strong>{COMPANY_PROFILE.supportEmail}</strong></span>
+                <Mail className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span>Email RFQ: <strong>{COMPANY_PROFILE.supportEmail}</strong></span>
               </p>
             </div>
           </div>
 
           {/* Col 2: Services */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Produk & Layanan</h4>
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider">{t.footer?.productsTitle || 'Products & Services'}</h4>
             <ul className="space-y-2">
-              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors">Ikan Teri Nasi Super Belawan</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors">Ikan Asin Jambal Roti Cilacap</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors">Cumi Kering Sero Telur</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors">Fish Maw (Gelembung Ikan) Gulama</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors">Teripang Kering Koro Super</button></li>
-              <li><button onClick={() => onScrollTo('#alur-ekspor')} className="hover:text-amber-400 transition-colors">Pengurusan Karantina & Health Certificate</button></li>
+              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors cursor-pointer">Dried Whitebait (Teri Nasi)</button></li>
+              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors cursor-pointer">Salted Giant Catfish (Jambal)</button></li>
+              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors cursor-pointer">Sun-Dried Squid (Cumi Sero)</button></li>
+              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors cursor-pointer">Fish Maw (Gelembung Ikan)</button></li>
+              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors cursor-pointer">Dried Sea Cucumber (Teripang)</button></li>
+              <li><button onClick={() => onScrollTo('#alur-ekspor')} className="hover:text-amber-400 transition-colors cursor-pointer">BKIPM Quarantine Certificate</button></li>
             </ul>
           </div>
 
           {/* Col 3: Navigation */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Navigasi Perusahaan</h4>
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider">{t.footer?.quickLinks || 'Quick Links'}</h4>
             <ul className="space-y-2">
-              <li><button onClick={() => onScrollTo('#hero')} className="hover:text-amber-400 transition-colors">Beranda</button></li>
-              <li><button onClick={() => onScrollTo('#tentang')} className="hover:text-amber-400 transition-colors">Profil & Standar Pengolahan</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors">Katalog Hasil Laut Kering</button></li>
-              <li><button onClick={() => onScrollTo('#kalkulator')} className="hover:text-amber-400 transition-colors">Kalkulator Ongkir Global</button></li>
-              <li><button onClick={() => onScrollTo('#galeri')} className="hover:text-amber-400 transition-colors">Galeri Foto Sentra Nelayan</button></li>
-              <li><button onClick={() => onScrollTo('#lokasi')} className="hover:text-amber-400 transition-colors">Peta Hub & Pelabuhan Muat</button></li>
-              <li><button onClick={() => onScrollTo('#kontak')} className="hover:text-amber-400 transition-colors">Permintaan RFQ Ekspor</button></li>
+              <li><button onClick={() => onScrollTo('#hero')} className="hover:text-amber-400 transition-colors cursor-pointer">{t.nav?.home || 'Home'}</button></li>
+              <li><button onClick={() => onScrollTo('#tentang')} className="hover:text-amber-400 transition-colors cursor-pointer">{t.nav?.about || 'About'}</button></li>
+              <li><button onClick={() => onScrollTo('#komoditas')} className="hover:text-amber-400 transition-colors cursor-pointer">{t.nav?.products || 'Products'}</button></li>
+              <li><button onClick={() => onScrollTo('#kalkulator')} className="hover:text-amber-400 transition-colors cursor-pointer">{t.nav?.shippingCalc || 'Shipping'}</button></li>
+              <li><button onClick={() => onScrollTo('#galeri')} className="hover:text-amber-400 transition-colors cursor-pointer">{t.nav?.gallery || 'Facility'}</button></li>
+              <li><button onClick={() => onScrollTo('#lokasi')} className="hover:text-amber-400 transition-colors cursor-pointer">{t.nav?.mapHubs || 'Ports'}</button></li>
+              <li><button onClick={() => onScrollTo('#kontak')} className="hover:text-amber-400 transition-colors cursor-pointer">{t.nav?.contactRfq || 'Contact'}</button></li>
             </ul>
           </div>
 
           {/* Col 4: Portals & Admin */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Kepatuhan & Sertifikasi</h4>
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider">{t.footer?.complianceTitle || 'Compliance & Ports'}</h4>
             <ul className="space-y-2">
-              <li><button onClick={onOpenAdmin} className="text-amber-400 hover:underline font-bold">Admin CMS & Trafik Real-Time</button></li>
-              <li><button onClick={onOpenSSLModal} className="hover:text-amber-400 transition-colors">Sertifikat Enkripsi SSL TLS 1.3</button></li>
-              <li><span className="text-slate-500">HACCP Certified KKP RI</span></li>
-              <li><span className="text-slate-500">Halal BPJPH Kemenag RI</span></li>
-              <li><span className="text-slate-500">Health Certificate BKIPM Perikanan</span></li>
+              <li><button onClick={onOpenAdmin} className="text-amber-400 hover:underline font-bold cursor-pointer">{t.topBar?.adminPortal || 'Admin'}</button></li>
+              <li><button onClick={onOpenSSLModal} className="hover:text-amber-400 transition-colors cursor-pointer">TLS 1.3 EV SSL Certificate</button></li>
+              <li><span className="text-slate-500">HACCP Grade A Certified</span></li>
+              <li><span className="text-slate-500">BPJPH Halal Indonesia</span></li>
+              <li><span className="text-slate-500">BKIPM Quarantine Health Cert</span></li>
             </ul>
 
             <div className="pt-3">
               <button
                 onClick={scrollToTop}
-                className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-all flex items-center gap-1.5 text-xs"
+                className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-all flex items-center gap-1.5 text-xs cursor-pointer"
               >
                 <ArrowUp className="w-3.5 h-3.5" />
-                <span>Kembali ke Atas</span>
+                <span>Back to Top</span>
               </button>
             </div>
           </div>
@@ -147,17 +149,18 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: Foot
         {/* Bottom copyright row */}
         <div className="mt-12 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-slate-400 text-xs">
           <p>
-            © {new Date().getFullYear()} {COMPANY_PROFILE.legalName}. Seluruh Hak Cipta Dilindungi Undang-Undang.
+            © {new Date().getFullYear()} {COMPANY_PROFILE.legalName}. {t.footer?.rightsReserved || 'All Rights Reserved'}.
           </p>
           <div className="flex items-center gap-4">
-            <button onClick={onOpenSSLModal} className="hover:text-slate-200">Enkripsi SSL</button>
+            <button onClick={onOpenSSLModal} className="hover:text-slate-200 cursor-pointer">TLS 1.3 Verified</button>
             <span>•</span>
-            <button onClick={() => onScrollTo('#kontak')} className="hover:text-slate-200">Kontak Korporat</button>
+            <button onClick={() => onScrollTo('#kontak')} className="hover:text-slate-200 cursor-pointer">Contact & RFQ</button>
             <span>•</span>
-            <button onClick={onOpenAdmin} className="text-amber-400 hover:underline">Sistem Manajemen Konten</button>
+            <button onClick={onOpenAdmin} className="text-amber-400 hover:underline cursor-pointer">Admin CMS</button>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+

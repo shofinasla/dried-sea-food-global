@@ -51,6 +51,58 @@ function getGeminiClient(): GoogleGenAI {
 }
 
 // ----------------------------------------------------
+// 0. INTERNATIONAL SEO: SITEMAP.XML & ROBOTS.TXT
+// ----------------------------------------------------
+app.get('/robots.txt', (req: Request, res: Response) => {
+  res.type('text/plain');
+  res.send(`User-agent: *
+Allow: /
+Disallow: /api/admin/
+Disallow: /api/cms/
+
+Sitemap: https://driedseafoodglobal.com/sitemap.xml
+`);
+});
+
+app.get('/sitemap.xml', (req: Request, res: Response) => {
+  res.type('application/xml');
+  const lastMod = new Date().toISOString().split('T')[0];
+  const languages = ['en', 'id', 'zh', 'ja', 'ar'];
+  const sections = ['', 'products', 'quality', 'workflow', 'calculator', 'gallery', 'rfq'];
+
+  let urlsXml = '';
+
+  // Main multilingual root pages
+  for (const lang of languages) {
+    const isDefault = lang === 'en';
+    const loc = isDefault ? 'https://driedseafoodglobal.com/' : `https://driedseafoodglobal.com/?lang=${lang}`;
+    const priority = isDefault ? '1.0' : '0.9';
+
+    urlsXml += `
+  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>${priority}</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://driedseafoodglobal.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://driedseafoodglobal.com/?lang=id" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://driedseafoodglobal.com/?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://driedseafoodglobal.com/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://driedseafoodglobal.com/?lang=ar" />
+  </url>`;
+  }
+
+  const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urlsXml}
+</urlset>`;
+
+  res.send(sitemapContent);
+});
+
+// ----------------------------------------------------
 // 1. HEALTH & SSL SECURITY VERIFICATION
 // ----------------------------------------------------
 app.get('/api/health', (req: Request, res: Response) => {
