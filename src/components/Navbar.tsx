@@ -12,7 +12,6 @@ import {
   X,
   PhoneCall,
   ChevronDown,
-  FileText,
   Star,
   Award,
   Globe2,
@@ -350,23 +349,12 @@ export default function Navbar({
             </a>
           </nav>
 
-          {/* Quick CTA Action & Mobile Toggle */}
-          <div className="flex items-center gap-3">
-            {/* Primary Action Button: RFQ Quotation Request */}
-            <button
-              onClick={() => handleNavClick('#kontak')}
-              id="btn-nav-rfq-cta"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 via-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-amber-500/20 hover:shadow-amber-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer"
-            >
-              <FileText className="w-4 h-4" />
-              <span>{t.nav.requestRfqBtn}</span>
-            </button>
-
-            {/* Mobile Menu Toggle Button */}
+          {/* Mobile Menu Toggle */}
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               id="btn-mobile-menu-toggle"
-              className="lg:hidden p-2.5 rounded-xl bg-slate-900 text-slate-300 hover:text-white border border-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer"
+              className="p-2.5 rounded-xl bg-slate-900 text-slate-300 hover:text-white border border-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer"
               aria-label="Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6 text-amber-400" /> : <Menu className="w-6 h-6" />}
@@ -453,14 +441,6 @@ export default function Navbar({
 
           {/* Section 3: Contact & Direct Action Buttons */}
           <div className="pt-3 border-t border-slate-850 space-y-2">
-            <button
-              onClick={() => { setMobileMenuOpen(false); handleNavClick('#kontak'); }}
-              id="mobile-btn-rfq"
-              className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-md"
-            >
-              <FileText className="w-4 h-4" />
-              <span>{t.nav.requestRfqBtn}</span>
-            </button>
             <button
               onClick={() => { setMobileMenuOpen(false); handleNavClick('#kalkulator'); }}
               id="mobile-btn-calculator"
