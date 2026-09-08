@@ -1,0 +1,6 @@
+{
+  "name": "Dried Seafood Global",
+  "description": "Website resmi eksportir produk ikan khas Indonesia dan hasil laut kering unggulan Nusantara. Dilengkapi katalog spesifikasi teknis, estimasi kargo internasional, pelacakan mutu HACCP/KKP, dan formulir permintaan RFQ.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
