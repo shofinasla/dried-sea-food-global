@@ -236,6 +236,28 @@ app.patch('/api/contact/messages/:id', (req: Request, res: Response) => {
 });
 
 // ----------------------------------------------------
+// 2.1 ADMIN AUTHENTICATION API
+// ----------------------------------------------------
+app.post('/api/admin/login', (req: Request, res: Response) => {
+  const { username, password } = req.body || {};
+  if (username === 'sayaadmin' && password === 'Passdemak@1') {
+    return res.json({
+      success: true,
+      user: {
+        username: 'sayaadmin',
+        role: 'Administrator Ekspor & Direksi',
+        name: 'Admin Utama Shrimora'
+      },
+      message: 'Autentikasi berhasil. Selamat datang di Portal Admin Shrimora.'
+    });
+  }
+  return res.status(401).json({
+    success: false,
+    message: 'Username atau password tidak sesuai. Akses ditolak.'
+  });
+});
+
+// ----------------------------------------------------
 // 3. GLOBAL SHIPPING ESTIMATOR API (200+ Countries)
 // ----------------------------------------------------
 app.post('/api/shipping/estimate', (req: Request, res: Response) => {
