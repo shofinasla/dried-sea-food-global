@@ -16,7 +16,8 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
-  Download
+  Download,
+  Mail
 } from 'lucide-react';
 import { COMPANY_PROFILE, CERTIFICATIONS } from '../data/initialData';
 import { useTranslation } from '../i18n/LanguageContext';
@@ -180,38 +181,12 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Top Trust & Verification Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-8 pb-4 border-b border-slate-150">
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-800 text-[11px] sm:text-xs font-bold shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#009bb3] shrink-0" />
-              <span>HACCP Grade A • KKP RI Health Certificate • Halal BPJPH</span>
-            </div>
-            <button
-              onClick={onOpenSSLModal}
-              id="hero-ssl-badge"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] sm:text-xs font-bold hover:bg-emerald-100 transition-colors shadow-xs cursor-pointer shrink-0"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span>{t.topBar.sslVerified}</span>
-            </button>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-2 text-xs text-slate-500 font-semibold">
-            <span>Standar Ekspor:</span>
-            <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">SALTED</span>
-            <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">NATURAL</span>
-            <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">DRIED</span>
-            <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">PACKED</span>
-          </div>
-        </div>
-
-        {/* MAIN HERO SPLIT: COASTAL SUN DRYING PANORAMA (LEFT) + CATALOG PRODUK & PILL BADGES (RIGHT) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        {/* MAIN HERO SPLIT: COASTAL SUN DRYING PANORAMA (LEFT) + EXPORT OVERVIEW & VALUE PILLARS (RIGHT) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Coastal Beach Drying Scene (Inspired by Image 1) */}
+          {/* Left Column: Coastal Beach Drying Scene */}
           <div className="lg:col-span-6 relative group">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-slate-100 aspect-[4/3] sm:aspect-[16/11]">
+            <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 bg-slate-100 aspect-[4/3] sm:aspect-[16/11]">
               <img
                 src="https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1200&q=85"
                 alt="Pengeringan Ikan Teri Tradisional Pesisir Indonesia"
@@ -225,7 +200,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
               <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/90 backdrop-blur-md border border-white/40 text-slate-800 shadow-lg">
                 <div className="flex items-center justify-between gap-2">
                   <div>
-                    <div className="text-[10px] font-bold text-[#009bb3] uppercase tracking-wider">
+                    <div className="text-[10px] font-bold text-teal-700 uppercase tracking-wider">
                       Sentra Pesisir Nusantara
                     </div>
                     <div className="text-xs sm:text-sm font-black text-slate-900">
@@ -241,7 +216,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
 
             {/* Floating Quality Stamp */}
             <div className="absolute -top-4 -left-3 hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white shadow-xl border border-teal-100">
-              <div className="w-8 h-8 rounded-full bg-[#eef7f6] flex items-center justify-center text-[#519992] font-black">
+              <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-teal-700 font-black">
                 ✓
               </div>
               <div className="text-left">
@@ -251,46 +226,51 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
             </div>
           </div>
 
-          {/* Right Column: CATALOG PRODUK, SHRIMORA Brand Seal, 3 Vignettes & 4 Core Pillars */}
+          {/* Right Column: Dynamic Localized Title, Brand Emblem, Vignettes & Value Pillars */}
           <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
             
-            {/* Big Black Heavy Display Title: CATALOG PRODUK */}
+            {/* Display Headline */}
             <div>
-              <div className="inline-block px-3 py-1 rounded-full bg-teal-50 text-[#009bb3] text-[11px] font-bold uppercase tracking-widest mb-2">
-                INDONESIA EXPORT SELECTION
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-800 text-xs font-bold uppercase tracking-wider mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                <span>{t.hero.badge}</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 uppercase leading-none font-sans">
-                CATALOG PRODUK
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 leading-[1.15] font-sans">
+                {t.hero.titlePart1}{' '}
+                <span className="text-teal-700">
+                  {t.hero.titleHighlight}
+                </span>{' '}
+                {t.hero.titlePart2}
               </h1>
-              <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
-                Koleksi komoditas ikan asin, teri nasi super, cumi kering, dan olahan siap saji kualitas ekspor terbaik dari perairan Indonesia untuk distributor global.
+              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
+                {t.hero.description}
               </p>
             </div>
 
-            {/* Brand Emblem & 3 Circular Photographic Vignettes (Exact match to Image 1) */}
-            <div className="w-full flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 py-2">
+            {/* Brand Emblem & 3 Circular Photographic Vignettes */}
+            <div className="w-full flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 py-1">
               
               {/* SHRIMORA Sea-Green Circular Emblem */}
               <div className="flex flex-col items-center shrink-0">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#f0f8f7] border-2 border-[#519992] flex items-center justify-center shadow-md p-2">
-                  <svg viewBox="0 0 100 100" className="w-full h-full text-[#519992]" fill="none" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-teal-50/70 border-2 border-teal-600 flex items-center justify-center shadow-md p-1.5">
+                  <svg viewBox="0 0 100 100" className="w-full h-full text-teal-700" fill="none" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="50" cy="50" r="44" stroke="currentColor" strokeWidth="5" />
                     <path d="M 26 44 C 36 26 65 26 76 40 C 66 40 50 46 34 46" stroke="currentColor" strokeWidth="4.5" />
-                    <path d="M 34 54 C 50 54 66 60 76 58 C 66 74 36 74 26 56 Z" fill="#519992" fillOpacity="0.2" stroke="currentColor" strokeWidth="4.5" />
-                    <circle cx="67" cy="38" r="3.5" fill="#519992" />
+                    <path d="M 34 54 C 50 54 66 60 76 58 C 66 74 36 74 26 56 Z" fill="#0d9488" fillOpacity="0.2" stroke="currentColor" strokeWidth="4.5" />
+                    <circle cx="67" cy="38" r="3.5" fill="#0d9488" />
                     <path d="M 74 48 C 82 46 88 42 90 38" stroke="currentColor" strokeWidth="3.5" />
                     <path d="M 74 52 C 82 54 88 58 90 62" stroke="currentColor" strokeWidth="3.5" />
                   </svg>
                 </div>
-                <span className="text-xs font-black tracking-wider text-[#519992] mt-1 uppercase">
+                <span className="text-[11px] font-black tracking-wider text-teal-700 mt-1 uppercase">
                   SHRIMORA
                 </span>
               </div>
 
-              {/* 3 Circular Photographic Vignettes (Fishing Boat, Sun Drying, Quality Check) */}
+              {/* 3 Circular Photographic Vignettes */}
               <div className="flex items-center gap-2.5 sm:gap-3">
                 <div className="group relative">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-slate-200 shadow-md group-hover:border-[#009bb3] transition-all">
+                  <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full overflow-hidden border-2 border-slate-200 shadow-xs group-hover:border-teal-600 transition-all">
                     <img 
                       src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=200&q=80" 
                       alt="Nelayan & Perahu Tradisional" 
@@ -302,7 +282,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
                 </div>
 
                 <div className="group relative">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-slate-200 shadow-md group-hover:border-[#009bb3] transition-all">
+                  <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full overflow-hidden border-2 border-slate-200 shadow-xs group-hover:border-teal-600 transition-all">
                     <img 
                       src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=200&q=80" 
                       alt="Rak Penjemuran Surya" 
@@ -314,7 +294,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
                 </div>
 
                 <div className="group relative">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-slate-200 shadow-md group-hover:border-[#009bb3] transition-all">
+                  <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full overflow-hidden border-2 border-slate-200 shadow-xs group-hover:border-teal-600 transition-all">
                     <img 
                       src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=200&q=80" 
                       alt="Sortasi & Laboratorium Higienis" 
@@ -327,20 +307,24 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
               </div>
             </div>
 
-            {/* THE 4 SIGNATURE SHRIMORA PILL BUTTONS (Exact Match to Image 1) */}
+            {/* 4 Core Export Value Pillars */}
             <div className="w-full pt-1">
-              <div className="grid grid-cols-2 gap-3 max-w-md mx-auto lg:mx-0">
-                <div className="px-5 py-3 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-black text-xs sm:text-sm tracking-wider uppercase text-center shadow-md shadow-teal-500/20 hover:shadow-teal-500/35 transition-all">
-                  QUALITY
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-xl mx-auto lg:mx-0">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-center hover:border-teal-400 transition-colors">
+                  <div className="text-[11px] sm:text-xs font-black text-teal-800 tracking-wider uppercase">QUALITY</div>
+                  <div className="text-[10px] text-slate-500 font-medium mt-0.5">Grade A Certified</div>
                 </div>
-                <div className="px-5 py-3 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-black text-xs sm:text-sm tracking-wider uppercase text-center shadow-md shadow-teal-500/20 hover:shadow-teal-500/35 transition-all">
-                  CONSISTENCY
+                <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-center hover:border-teal-400 transition-colors">
+                  <div className="text-[11px] sm:text-xs font-black text-teal-800 tracking-wider uppercase">CONSISTENCY</div>
+                  <div className="text-[10px] text-slate-500 font-medium mt-0.5">Moisture &lt;12%</div>
                 </div>
-                <div className="px-5 py-3 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-black text-xs sm:text-sm tracking-wider uppercase text-center shadow-md shadow-teal-500/20 hover:shadow-teal-500/35 transition-all">
-                  TRACEABILITY
+                <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-center hover:border-teal-400 transition-colors">
+                  <div className="text-[11px] sm:text-xs font-black text-teal-800 tracking-wider uppercase">TRACEABILITY</div>
+                  <div className="text-[10px] text-slate-500 font-medium mt-0.5">Lot & Batch QR</div>
                 </div>
-                <div className="px-5 py-3 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-black text-xs sm:text-sm tracking-wider uppercase text-center shadow-md shadow-teal-500/20 hover:shadow-teal-500/35 transition-all">
-                  RELIABILITY
+                <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-center hover:border-teal-400 transition-colors">
+                  <div className="text-[11px] sm:text-xs font-black text-teal-800 tracking-wider uppercase">RELIABILITY</div>
+                  <div className="text-[10px] text-slate-500 font-medium mt-0.5">FCL Container</div>
                 </div>
               </div>
             </div>
@@ -348,31 +332,31 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
             {/* Quick Action Buttons */}
             <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3 w-full">
               <button
-                onClick={() => onScrollTo('#komoditas')}
-                className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-3 rounded-full text-xs sm:text-sm tracking-wide shadow-md transition-all cursor-pointer"
+                onClick={() => onScrollTo('#kontak')}
+                className="inline-flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-800 text-white font-bold px-6 py-3 rounded-xl text-xs sm:text-sm tracking-wide shadow-md transition-all cursor-pointer"
               >
-                <Package className="w-4 h-4 text-[#009bb3]" />
-                <span>Lihat Semua Komoditas</span>
+                <Mail className="w-4 h-4" />
+                <span>{t.hero.ctaRfq}</span>
                 <ArrowRight className="w-4 h-4 ml-0.5" />
+              </button>
+
+              <button
+                onClick={() => onScrollTo('#komoditas')}
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-bold px-5 py-3 rounded-xl text-xs sm:text-sm border border-slate-200 shadow-2xs transition-all cursor-pointer"
+              >
+                <Package className="w-4 h-4 text-teal-700" />
+                <span>{t.hero.ctaCatalog}</span>
               </button>
 
               {onOpenCatalogModal && (
                 <button
                   onClick={onOpenCatalogModal}
-                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-teal-50 text-teal-800 font-bold px-5 py-3 rounded-full text-xs sm:text-sm border-2 border-teal-200 hover:border-teal-400 transition-all cursor-pointer shadow-xs"
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-teal-50 text-teal-800 font-medium px-4 py-3 rounded-xl text-xs border border-teal-200 transition-all cursor-pointer"
                 >
-                  <Download className="w-4 h-4 text-[#009bb3]" />
-                  <span>Unduh E-Katalog PDF</span>
+                  <Download className="w-3.5 h-3.5 text-teal-700" />
+                  <span>PDF Spec</span>
                 </button>
               )}
-
-              <button
-                onClick={() => onScrollTo('#kalkulator')}
-                className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-5 py-3 rounded-full text-xs sm:text-sm transition-all cursor-pointer"
-              >
-                <Calculator className="w-4 h-4 text-slate-500" />
-                <span>Simulasi Ongkir Ekspor</span>
-              </button>
             </div>
 
           </div>

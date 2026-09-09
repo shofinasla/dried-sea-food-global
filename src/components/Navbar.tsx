@@ -133,81 +133,79 @@ export default function Navbar({
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-slate-200/90 transition-all duration-300 shadow-sm">
       
-      {/* 1. TOP ENTERPRISE DASHBOARD STATUS BAR */}
-      <div className="bg-[#f0f9f8] border-b border-teal-100/80 py-1.5 px-2.5 sm:px-6 text-xs text-slate-600 overflow-hidden">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
+      {/* 1. TOP ENTERPRISE STATUS & COMPLIANCE BAR */}
+      <div className="bg-slate-50 border-b border-slate-200/80 py-1.5 px-3 sm:px-6 text-xs text-slate-600">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
-          {/* Left: Security & Live Export Operational Badges */}
-          <div className="flex items-center gap-1.5 sm:gap-4 min-w-0 overflow-hidden py-0.5">
-            {/* SSL Verification Badge */}
+          {/* Left: Security & Official Export Accreditations */}
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button 
               onClick={onOpenSSLModal}
               id="top-ssl-badge-btn"
-              title="Click to view Extended Validation (EV) SSL certificate details"
-              className="inline-flex items-center gap-1.5 text-teal-700 hover:text-teal-800 font-semibold bg-teal-50 border border-teal-200 hover:border-teal-400 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] transition-all shrink-0 cursor-pointer shadow-xs"
+              title="Sertifikat Ekspor Resmi: HACCP Grade A, KKP RI & TLS 1.3 EV SSL"
+              className="inline-flex items-center gap-1.5 text-slate-700 hover:text-teal-700 font-medium transition-colors cursor-pointer shrink-0"
             >
-              <ShieldCheck className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-[#009bb3] shrink-0" />
-              <span className="hidden sm:inline whitespace-nowrap">{t.topBar.sslVerified}</span>
-              <span className="sm:hidden whitespace-nowrap font-bold">TLS 1.3 EV SSL</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+              <span className="font-bold text-slate-900 text-[11px] sm:text-xs">HACCP Grade A</span>
+              <span className="text-slate-300">•</span>
+              <span className="text-[11px] text-slate-600 hidden sm:inline">KKP RI Certified</span>
+              <span className="text-slate-300 hidden sm:inline">•</span>
+              <span className="px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-[10px] hidden md:inline">TLS 1.3 EV</span>
             </button>
 
-            {/* Live Traffic Metric */}
+            <span className="text-slate-300 hidden md:inline">|</span>
+
+            {/* Live Global Activity Indicator */}
             <button
               onClick={onOpenAdmin}
               id="top-bar-live-analytics-btn"
-              title="Lihat Detail Analitik Pengunjung Real-Time & Integrasi Google"
-              className="hidden sm:inline-flex items-center gap-2 text-[11px] text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 hover:border-teal-400 px-2.5 py-0.5 rounded-full shrink-0 transition-all cursor-pointer shadow-xs"
+              title="Lihat Telemetri & Aktivitas Buyer Global Real-Time"
+              className="hidden md:inline-flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-slate-900 transition-colors cursor-pointer shrink-0"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#009bb3] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#009bb3]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
               </span>
-              <span>{t.topBar.liveMonitor}: <strong className="text-[#009bb3] font-mono font-bold">{activeVisitors}</strong> {t.topBar.buyersOnline}</span>
+              <span><strong className="text-teal-700 font-mono font-bold">{activeVisitors}</strong> {t.topBar.buyersOnline}</span>
             </button>
-
-            {/* Quality Standard Chip */}
-            <div className="hidden lg:inline-flex items-center gap-1 text-[11px] text-teal-800 font-semibold bg-teal-50 border border-teal-200/80 px-2.5 py-0.5 rounded-full shrink-0">
-              <Award className="w-3 h-3 text-[#009bb3]" />
-              <span>{t.topBar.qualityBadge}</span>
-            </div>
           </div>
 
           {/* Right: Hotline, Multilingual Selector & Admin Portal */}
-          <div className="flex items-center gap-1.5 sm:gap-4 shrink-0 ml-auto">
-            {/* 24/7 Hotline Direct Dial */}
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0 ml-auto">
+            {/* 24/7 Direct Export Desk Phone */}
             <a 
               href={`tel:${COMPANY_PROFILE.hotline.replace(/\s+/g, '')}`}
               id="top-hotline-link"
-              className="hidden md:inline-flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-[#009bb3] transition-colors"
+              className="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-teal-700 transition-colors font-medium"
             >
-              <PhoneCall className="w-3 h-3 text-[#009bb3]" />
+              <PhoneCall className="w-3 h-3 text-teal-600" />
               <span className="text-slate-500">{t.topBar.hotlineLabel}</span>
               <strong className="text-slate-900 font-mono tracking-tight">{COMPANY_PROFILE.hotline}</strong>
             </a>
 
-            {/* Global Multilingual Selector Dropdown (5 Languages) */}
+            {/* Global Multilingual Selector Dropdown */}
             <div className="relative" ref={langDropdownRef}>
               <button
                 type="button"
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
                 id="btn-lang-selector-top"
                 aria-label="Change Website Language & Country Locale"
-                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-teal-400 text-slate-700 hover:text-slate-900 transition-all cursor-pointer text-xs font-semibold shadow-xs"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-teal-500 text-slate-700 hover:text-slate-900 transition-all cursor-pointer text-xs font-semibold shadow-2xs"
               >
                 <span className="text-sm leading-none">{currentLanguageOption.flag}</span>
-                <span className="font-bold text-[11px] text-[#009bb3] uppercase tracking-wide">{currentLanguageOption.code}</span>
+                <span className="font-bold text-[11px] text-teal-700 uppercase tracking-wide">{currentLanguageOption.code}</span>
                 <span className="hidden sm:inline text-slate-600 text-[11px]">({currentLanguageOption.name})</span>
-                <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${langDropdownOpen ? 'rotate-180 text-[#009bb3]' : ''}`} />
+                <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${langDropdownOpen ? 'rotate-180 text-teal-600' : ''}`} />
               </button>
 
               {langDropdownOpen && (
                 <div className="absolute right-0 top-full mt-1.5 w-72 bg-white border border-slate-200 rounded-xl shadow-2xl p-1.5 z-50 animate-fadeIn max-h-88 overflow-y-auto">
-                  <div className="px-2.5 py-1.5 text-[10px] font-bold text-[#009bb3] uppercase tracking-wider border-b border-slate-100 mb-1 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-xs z-10">
+                  <div className="px-2.5 py-1.5 text-[10px] font-bold text-teal-700 uppercase tracking-wider border-b border-slate-100 mb-1 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-xs z-10">
                     <div className="flex items-center gap-1.5">
-                      <Globe2 className="w-3 h-3 text-[#009bb3]" />
+                      <Globe2 className="w-3 h-3 text-teal-600" />
                       <span>Select Language ({availableLanguages.length})</span>
                     </div>
-                    <span className="text-[9px] text-slate-600 font-normal">Global Export</span>
+                    <span className="text-[9px] text-slate-500 font-normal">Global Export</span>
                   </div>
                   <div className="space-y-0.5">
                     {availableLanguages.map((lang) => {
@@ -218,7 +216,7 @@ export default function Navbar({
                           onClick={() => handleSelectLanguage(lang.code)}
                           className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-all text-left cursor-pointer ${
                             isSelected 
-                              ? 'bg-teal-50 text-[#009bb3] font-bold border border-teal-200' 
+                              ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200' 
                               : 'hover:bg-slate-50 text-slate-700 hover:text-slate-900'
                           }`}
                         >
@@ -229,7 +227,7 @@ export default function Navbar({
                               <div className="text-[10px] text-slate-500 truncate">{lang.name} • {lang.region}</div>
                             </div>
                           </div>
-                          {isSelected && <Check className="w-3.5 h-3.5 text-[#009bb3] shrink-0 ml-1.5" />}
+                          {isSelected && <Check className="w-3.5 h-3.5 text-teal-600 shrink-0 ml-1.5" />}
                         </button>
                       );
                     })}
@@ -238,14 +236,14 @@ export default function Navbar({
               )}
             </div>
 
-            {/* Admin CMS Portal Button */}
+            {/* Admin Portal Button */}
             <button 
               onClick={onOpenAdmin}
               id="btn-open-admin-top"
-              title="Open Export Management Portal & CMS"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 bg-teal-50 border border-teal-200 hover:bg-teal-100 hover:border-teal-300 px-2 sm:px-2.5 py-1 rounded-lg transition-all shadow-xs cursor-pointer"
+              title="Buka Portal Manajemen Ekspor & CMS"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-teal-700 bg-white hover:bg-slate-100 border border-slate-200 hover:border-slate-300 px-2.5 py-1 rounded-md transition-all shadow-2xs cursor-pointer"
             >
-              <Lock className="w-3 h-3 text-[#009bb3]" />
+              <Lock className="w-3 h-3 text-teal-600" />
               <span className="hidden sm:inline">{t.topBar.adminPortal}</span>
               <span className="sm:hidden font-bold">Admin</span>
             </button>
@@ -254,58 +252,46 @@ export default function Navbar({
       </div>
 
       {/* 2. MAIN NAVIGATION HEADER */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           
-          {/* Brand Logo & Identity (SHRIMORA Marine Emblem) */}
+          {/* Brand Logo & Corporate Identity (Fixed width, never truncated) */}
           <a 
             href="#hero" 
             onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}
             id="brand-logo-link"
-            className="flex items-center gap-2.5 sm:gap-3 group min-w-0 max-w-[calc(100%-54px)] sm:max-w-none cursor-pointer"
+            className="flex items-center gap-3 shrink-0 cursor-pointer group"
           >
-            {/* Stylized Shrimora Fish & Marine Seal in Sea-Green */}
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#eef7f6] border-2 border-[#519992] flex items-center justify-center shadow-sm group-hover:scale-105 transition-all shrink-0">
-              <svg viewBox="0 0 100 100" className="w-7 h-7 sm:w-8 sm:h-8 text-[#519992]" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
+            {/* Marine Emblem */}
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center shadow-xs group-hover:border-teal-400 group-hover:scale-105 transition-all shrink-0">
+              <svg viewBox="0 0 100 100" className="w-7 h-7 sm:w-8 sm:h-8 text-teal-700" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="50" cy="50" r="42" stroke="currentColor" strokeWidth="6" />
-                {/* Stylized fish curve */}
                 <path d="M 28 45 C 38 28 65 28 75 42 C 65 42 50 48 35 48" stroke="currentColor" strokeWidth="5" />
-                <path d="M 35 55 C 50 55 65 60 75 58 C 65 72 38 72 28 55 Z" fill="#519992" fillOpacity="0.18" stroke="currentColor" strokeWidth="5" />
-                <circle cx="65" cy="40" r="3.5" fill="#519992" />
+                <path d="M 35 55 C 50 55 65 60 75 58 C 65 72 38 72 28 55 Z" fill="#0d9488" fillOpacity="0.18" stroke="currentColor" strokeWidth="5" />
+                <circle cx="65" cy="40" r="3.5" fill="#0d9488" />
                 <path d="M 72 50 C 80 48 86 44 88 40" stroke="currentColor" strokeWidth="4" />
                 <path d="M 72 54 C 80 56 86 60 88 64" stroke="currentColor" strokeWidth="4" />
               </svg>
             </div>
-            <div className="flex flex-col min-w-0">
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-base sm:text-xl font-black tracking-tight text-slate-900 group-hover:text-[#009bb3] transition-colors truncate font-sans">
+            
+            {/* Full Unclipped Brand Name & Subtitle */}
+            <div className="flex flex-col shrink-0">
+              <div className="flex items-center gap-1.5">
+                <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 group-hover:text-teal-700 transition-colors font-sans whitespace-nowrap">
                   SHRIMORA
                 </span>
-                <span className="text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200 tracking-wider shrink-0">
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 border border-teal-200 tracking-wider">
                   EXPORT
                 </span>
               </div>
-              <p className="text-[9px] sm:text-[10px] font-semibold tracking-wide text-slate-500 uppercase leading-none mt-0.5 truncate">
+              <span className="text-[10px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap leading-tight">
                 DRIED SEAFOOD INDONESIA
-              </p>
+              </span>
             </div>
           </a>
 
-          {/* Quick Shrimora Category Shortcuts from Image (SALTED, NATURAL, DRIED, PACKED) */}
-          <div className="hidden xl:flex items-center gap-6 text-xs font-bold tracking-widest text-slate-600 uppercase">
-            {categoryShortcuts.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => handleNavClick('#komoditas')}
-                className="hover:text-[#009bb3] transition-colors py-1 cursor-pointer"
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Streamlined Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+          {/* Clean Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 ml-auto">
             {primaryNavLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
@@ -314,10 +300,10 @@ export default function Navbar({
                   href={link.href}
                   id={`nav-link-${link.id}`}
                   onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
-                  className={`px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all ${
+                  className={`px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all ${
                     isActive
-                      ? 'text-[#009bb3] bg-teal-50 border border-teal-200 font-bold'
-                      : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
+                      ? 'text-teal-800 bg-teal-50/90 font-bold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
                   {link.label}
@@ -331,19 +317,19 @@ export default function Navbar({
                 type="button"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 id="nav-dropdown-toggle"
-                className={`px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`px-3 py-2 rounded-lg text-xs xl:text-sm font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
                   isExplorationActive || dropdownOpen
-                    ? 'text-[#009bb3] bg-teal-50 border border-teal-200 font-bold'
-                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
+                    ? 'text-teal-800 bg-teal-50/90 font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
                 <span>{t.nav.docsHub}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180 text-[#009bb3]' : 'text-slate-400'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180 text-teal-700' : 'text-slate-400'}`} />
               </button>
 
               {dropdownOpen && (
                 <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 space-y-1 z-50 animate-fadeIn">
-                  <div className="px-3 py-1.5 text-[10px] font-bold text-[#009bb3] uppercase tracking-wider border-b border-slate-100 mb-1">
+                  <div className="px-3 py-1.5 text-[10px] font-bold text-teal-700 uppercase tracking-wider border-b border-slate-100 mb-1">
                     {t.nav.docsHub}
                   </div>
                   {explorationLinks.map((item) => {
@@ -362,7 +348,7 @@ export default function Navbar({
                         }`}
                       >
                         <div className={`p-2 rounded-lg mt-0.5 shrink-0 ${
-                          isActive ? 'bg-teal-100 text-[#009bb3]' : 'bg-slate-100 text-slate-500'
+                          isActive ? 'bg-teal-100 text-teal-700' : 'bg-slate-100 text-slate-500'
                         }`}>
                           <Icon className="w-4 h-4" />
                         </div>
@@ -377,31 +363,32 @@ export default function Navbar({
               )}
             </div>
 
-            {/* The Signature SHRIMORA Teal Gradient Pill CTA Button (From Image) */}
+            {/* High-Converting Executive RFQ Quote CTA Button */}
             <button
-              onClick={onOpenCatalogModal || (() => handleNavClick('#komoditas'))}
-              id="nav-btn-shrimora-cta"
-              className="ml-2 inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-black text-xs tracking-widest uppercase shadow-md shadow-teal-500/20 hover:shadow-teal-500/35 transition-all cursor-pointer transform hover:-translate-y-0.5"
+              onClick={() => handleNavClick('#kontak')}
+              id="nav-btn-rfq-cta"
+              className="ml-2 inline-flex items-center justify-center gap-1.5 px-4.5 py-2 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs xl:text-[13px] shadow-sm hover:shadow transition-all cursor-pointer whitespace-nowrap"
             >
-              SHRIMORA
+              <Mail className="w-3.5 h-3.5" />
+              <span>{t.nav.requestRfqBtn}</span>
             </button>
           </nav>
 
-          {/* Mobile Right: Pill CTA & Hamburger */}
+          {/* Mobile Right: RFQ CTA & Hamburger */}
           <div className="lg:hidden flex items-center gap-2">
             <button
-              onClick={onOpenCatalogModal || (() => handleNavClick('#komoditas'))}
-              className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-extrabold text-[11px] tracking-wider uppercase shadow-sm"
+              onClick={() => handleNavClick('#kontak')}
+              className="px-3 py-1.5 rounded-lg bg-teal-700 text-white font-bold text-xs shadow-xs"
             >
-              SHRIMORA
+              RFQ
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               id="btn-mobile-menu-toggle"
-              className="p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#009bb3] cursor-pointer"
+              className="p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
               aria-label="Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 text-[#009bb3]" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-teal-700" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
