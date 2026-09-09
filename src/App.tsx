@@ -16,7 +16,7 @@ import SSLSecurityModal from './components/SSLSecurityModal';
 import ExportCatalogModal from './components/ExportCatalogModal';
 import NotFoundPage from './components/NotFoundPage';
 import { INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
-import { BlogPost, GalleryItem, ContactInquiry, SEOSettings } from './types';
+import { BlogPost, BlogComment, GalleryItem, ContactInquiry, SEOSettings } from './types';
 import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
 
 export default function App() {
@@ -272,11 +272,12 @@ export default function App() {
   const handleAddBlogComment = (postId: string, comment: { author: string; email: string; content: string }) => {
     setBlogPosts(prev => prev.map(post => {
       if (post.id === postId) {
-        const newComments = [
+        const newComments: BlogComment[] = [
           ...(post.comments || []),
           {
             id: `c-${Date.now()}`,
             author: comment.author,
+            email: comment.email,
             content: comment.content,
             createdAt: 'Baru saja'
           }
