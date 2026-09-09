@@ -267,7 +267,7 @@ export default function AdminCMSModal({
         {/* Modal Top Header */}
         <div className="p-4 sm:px-6 bg-slate-950 border-b border-slate-800 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold shadow-md">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#009bb3] to-[#519992] text-white flex items-center justify-center font-bold shadow-md">
               <Lock className="w-5 h-5" />
             </div>
             <div>
@@ -275,7 +275,7 @@ export default function AdminCMSModal({
                 <h2 className="text-base sm:text-lg font-bold text-white">
                   Admin CMS & Security Portal
                 </h2>
-                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-teal-500/20 text-[#009bb3] border border-teal-500/30">
                   LIVE OPS
                 </span>
               </div>
@@ -291,7 +291,7 @@ export default function AdminCMSModal({
               className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
               title="Refresh Real-time Data"
             >
-              <RefreshCw className={`w-4 h-4 ${loadingAnalytics ? 'animate-spin text-amber-400' : ''}`} />
+              <RefreshCw className={`w-4 h-4 ${loadingAnalytics ? 'animate-spin text-[#009bb3]' : ''}`} />
             </button>
             <button
               onClick={onClose}
@@ -322,7 +322,7 @@ export default function AdminCMSModal({
                 id={`admin-tab-${tab.id}`}
                 className={`py-3 px-3.5 text-xs font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
                   isActive
-                    ? 'border-amber-500 text-amber-400 bg-slate-900/80 font-bold'
+                    ? 'border-[#009bb3] text-[#009bb3] bg-slate-900/80 font-bold'
                     : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
                 }`}
               >
@@ -334,7 +334,7 @@ export default function AdminCMSModal({
                   </span>
                 )}
                 {tab.badge !== undefined && (
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-400 font-bold animate-pulse">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-teal-950 border border-teal-700 text-teal-400 font-bold animate-pulse">
                     {tab.badge} Online
                   </span>
                 )}

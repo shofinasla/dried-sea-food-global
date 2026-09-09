@@ -303,12 +303,13 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-slate-950 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
       
       {/* Top Fixed Header Navbar */}
       <Navbar
         onOpenAdmin={() => setIsAdminOpen(true)}
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
+        onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
         onScrollTo={handleScrollTo}
         activeSection={activeSection}
         activeVisitors={liveVisitors}

@@ -59,41 +59,41 @@ export default function ExportCommodities({
   };
 
   return (
-    <section id="komoditas" className="py-24 bg-slate-900/60 relative border-t border-slate-800/80 overflow-hidden">
-      {/* Background Decorative Glow */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+    <section id="komoditas" className="py-24 bg-white relative border-t border-b border-slate-200 overflow-hidden">
+      {/* Background Decorative Soft Tint */}
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-teal-100/40 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-emerald-100/30 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
+        {/* Section Header with Inspiration from Image 1: KATALOG PRODUK */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>{t.commodities?.badge || 'EXPORT GRADE COMMODITIES'}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
+              <span>KATALOG PRODUK EKSPOR</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight font-serif">
-              {t.commodities?.title || 'Flagship Commodities'}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight uppercase font-sans">
+              Koleksi Komoditas Hasil Laut Kering Kualitas Ekspor
             </h2>
-            <p className="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
-              {t.commodities?.subtitle || ''}
+            <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+              Diproses dengan higienitas ketat, kadar garam terstandarisasi, dan pengemasan vakum multi-lapis untuk menjaga aroma, tekstur, serta daya simpan maksimal bagi importir mancanegara.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={onOpenCatalogModal}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all shadow-lg hover:shadow-amber-500/20 cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-bold text-xs transition-all shadow-md shadow-teal-500/20 cursor-pointer"
             >
               <Download className="w-4 h-4" />
-              <span>{t.commodities?.downloadCatalog || 'Download Export Catalog (PDF)'}</span>
+              <span>Unduh Katalog Ekspor (PDF)</span>
             </button>
           </div>
         </div>
 
         {/* Search & Category Filter Toolbar */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-800">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-200">
           
           {/* Categories Pill Bar */}
           <div className="flex items-center gap-2 overflow-x-auto w-full lg:w-auto pb-2 lg:pb-0 scrollbar-none">
@@ -101,10 +101,10 @@ export default function ExportCommodities({
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                   selectedCategory === cat.id
-                    ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                    : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/80 hover:text-white border border-slate-700/60'
+                    ? 'bg-gradient-to-r from-[#009bb3] to-[#519992] text-white shadow-md shadow-teal-500/20'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
                 }`}
               >
                 {cat.label}
@@ -119,8 +119,8 @@ export default function ExportCommodities({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t.commodities?.searchPlaceholder || 'Search commodities...'}
-              className="w-full bg-slate-950/80 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+              placeholder="Cari nama ikan, cumi, HS Code..."
+              className="w-full bg-slate-50 border border-slate-200 rounded-full pl-10 pr-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#009bb3] focus:ring-2 focus:ring-teal-100 transition-all"
             />
           </div>
         </div>
@@ -130,11 +130,11 @@ export default function ExportCommodities({
           {filteredCommodities.map((item) => (
             <div
               key={item.id}
-              className="bg-slate-950/90 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all duration-300 group flex flex-col justify-between shadow-xl hover:shadow-2xl hover:shadow-amber-500/5 hover:-translate-y-1"
+              className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1"
             >
               <div>
                 {/* Photo with badges and zoom overlay */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                   <img
                     src={item.imageUrl}
                     alt={item.name}
@@ -142,86 +142,102 @@ export default function ExportCommodities({
                     referrerPolicy="no-referrer"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-black/20" />
                   
                   {/* Category & Origin Tags */}
                   <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                    <span className="px-2.5 py-1 rounded-lg bg-slate-950/80 backdrop-blur-md border border-slate-700 text-amber-400 text-[10px] font-extrabold uppercase">
+                    <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 text-[10px] font-extrabold uppercase shadow-xs">
                       {item.category}
                     </span>
                     {item.featured && (
-                      <span className="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 text-[10px] font-extrabold uppercase shadow-sm">
+                      <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white text-[10px] font-extrabold uppercase shadow-sm">
                         Top Export
                       </span>
                     )}
                   </div>
 
                   <div className="absolute top-3 right-3">
-                    <span className="px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md border border-slate-700 text-slate-300 text-[10px] font-mono">
+                    <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[10px] font-mono">
                       HS: {item.hsCode}
+                    </span>
+                  </div>
+
+                  {/* 4 Pillars Mini Tag Bar Inspired by Image 1 */}
+                  <div className="absolute bottom-3 left-3 flex items-center gap-1">
+                    <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-sm text-[9px] font-black text-slate-800 uppercase shadow-xs">
+                      SALTED
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-sm text-[9px] font-black text-[#009bb3] uppercase shadow-xs">
+                      NATURAL
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-sm text-[9px] font-black text-[#519992] uppercase shadow-xs">
+                      DRIED
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-sm text-[9px] font-black text-slate-800 uppercase shadow-xs">
+                      PACKED
                     </span>
                   </div>
 
                   {/* Quick View Button on Image */}
                   <button
                     onClick={() => openCommodityDetail(item)}
-                    className="absolute bottom-3 right-3 p-2.5 rounded-xl bg-slate-900/90 hover:bg-amber-500 text-white hover:text-slate-950 transition-colors shadow-lg border border-slate-700 flex items-center gap-1.5 text-xs font-semibold backdrop-blur-sm"
+                    className="absolute bottom-3 right-3 p-2 rounded-full bg-white/95 hover:bg-[#009bb3] text-slate-800 hover:text-white transition-colors shadow-md flex items-center justify-center cursor-pointer"
+                    title="Lihat Foto & Spek"
                   >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Lihat Foto & Spek</span>
+                    <Eye className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Content Details */}
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors line-clamp-1">
+                  <h3 className="text-lg font-black text-slate-950 group-hover:text-[#009bb3] transition-colors line-clamp-1">
                     {item.name}
                   </h3>
-                  <p className="text-xs text-amber-500/90 font-medium mt-0.5 mb-3">
+                  <p className="text-xs text-[#519992] font-bold mt-0.5 mb-3">
                     {item.indonesianName}
                   </p>
                   
-                  <p className="text-xs text-slate-400 leading-relaxed line-clamp-2 mb-4">
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-4">
                     {item.description}
                   </p>
 
                   {/* Specs Quick Matrix */}
-                  <div className="bg-slate-900/80 rounded-2xl p-3 border border-slate-800 space-y-2 mb-4 text-[11px]">
-                    <div className="flex justify-between items-center text-slate-400">
-                      <span>{t.commodities.origin}:</span>
-                      <span className="text-slate-200 font-medium text-right max-w-[180px] truncate">{item.origin}</span>
+                  <div className="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 space-y-2 mb-4 text-[11px]">
+                    <div className="flex justify-between items-center text-slate-500">
+                      <span>Asal Perairan:</span>
+                      <span className="text-slate-800 font-semibold text-right max-w-[180px] truncate">{item.origin}</span>
                     </div>
-                    <div className="flex justify-between items-center text-slate-400">
-                      <span>{t.commodities.grade}:</span>
-                      <span className="text-amber-300 font-bold">{item.specification.grade}</span>
+                    <div className="flex justify-between items-center text-slate-500">
+                      <span>Standar Grade:</span>
+                      <span className="text-[#009bb3] font-black">{item.specification.grade}</span>
                     </div>
-                    <div className="flex justify-between items-center text-slate-400">
-                      <span>{t.commodities.moq}:</span>
-                      <span className="text-slate-200 font-semibold">{item.specification.moq}</span>
+                    <div className="flex justify-between items-center text-slate-500">
+                      <span>Min. Order (MOQ):</span>
+                      <span className="text-slate-800 font-bold">{item.specification.moq}</span>
                     </div>
-                    <div className="flex justify-between items-center text-slate-400">
-                      <span>{t.commodities.supplyCapacity}:</span>
-                      <span className="text-emerald-400 font-bold">{item.supplyCapacity}</span>
+                    <div className="flex justify-between items-center text-slate-500">
+                      <span>Kapasitas Pasokan:</span>
+                      <span className="text-[#519992] font-black">{item.supplyCapacity}</span>
                     </div>
                   </div>
 
                   {/* Certifications badges */}
                   <div className="space-y-1.5">
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold block">
-                      {t.commodities.certifications}:
+                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-extrabold block">
+                      Sertifikasi Mutu:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {item.certifications.slice(0, 3).map((cert, idx) => (
                         <span 
                           key={idx}
-                          className="px-2 py-0.5 rounded-md bg-emerald-950/40 border border-emerald-800/60 text-emerald-400 text-[10px] font-medium flex items-center gap-1"
+                          className="px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-100 text-[#009bb3] text-[10px] font-bold flex items-center gap-1"
                         >
                           <CheckCircle2 className="w-2.5 h-2.5" />
                           <span>{cert}</span>
                         </span>
                       ))}
                       {item.certifications.length > 3 && (
-                        <span className="px-1.5 py-0.5 rounded-md bg-slate-800 text-slate-400 text-[10px]">
+                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold">
                           +{item.certifications.length - 3}
                         </span>
                       )}
@@ -234,15 +250,15 @@ export default function ExportCommodities({
               <div className="p-6 pt-0 flex items-center gap-2">
                 <button
                   onClick={() => openCommodityDetail(item)}
-                  className="flex-1 py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-bold transition-colors text-center cursor-pointer"
+                  className="flex-1 py-2.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors text-center cursor-pointer"
                 >
-                  {t.commodities.specs}
+                  Spesifikasi Teknis
                 </button>
                 <button
                   onClick={() => onSelectCommodityForQuote(item.name)}
-                  className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-extrabold transition-all flex items-center justify-center gap-1 shadow-md cursor-pointer"
+                  className="flex-1 py-2.5 px-3 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white text-xs font-extrabold transition-all flex items-center justify-center gap-1 shadow-md shadow-teal-500/20 cursor-pointer"
                 >
-                  <span>{t.commodities.requestQuote}</span>
+                  <span>Minta Penawaran</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -255,13 +271,13 @@ export default function ExportCommodities({
 
       {/* Detail Modal with High-Res Photo Gallery & Technical Spec Sheet */}
       {activeModalCommodity && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white border border-slate-200 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative text-slate-800">
             
             {/* Close Button */}
             <button
               onClick={() => setActiveModalCommodity(null)}
-              className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-slate-950/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+              className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-950 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -269,16 +285,16 @@ export default function ExportCommodities({
             <div className="grid grid-cols-1 lg:grid-cols-2">
               
               {/* Left Column: Visual Gallery Carousel */}
-              <div className="p-6 sm:p-8 bg-slate-950 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800">
+              <div className="p-6 sm:p-8 bg-slate-50 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-200">
                 <div>
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-900 mb-4 border border-slate-800">
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-200 mb-4 border border-slate-200">
                     <img
                       src={activeModalCommodity.galleryImages[activeImageIndex] || activeModalCommodity.imageUrl}
                       alt={activeModalCommodity.name}
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-slate-950/80 backdrop-blur-sm text-[11px] font-mono text-amber-400 border border-slate-700">
+                    <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-sm text-[11px] font-mono text-white">
                       Foto {activeImageIndex + 1} dari {activeModalCommodity.galleryImages.length}
                     </div>
                   </div>
@@ -289,8 +305,8 @@ export default function ExportCommodities({
                       <button
                         key={idx}
                         onClick={() => setActiveImageIndex(idx)}
-                        className={`relative w-20 h-14 rounded-xl overflow-hidden border-2 transition-all ${
-                          activeImageIndex === idx ? 'border-amber-500 scale-105' : 'border-slate-800 opacity-60 hover:opacity-100'
+                        className={`relative w-20 h-14 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                          activeImageIndex === idx ? 'border-[#009bb3] scale-105 shadow-md' : 'border-slate-300 opacity-60 hover:opacity-100'
                         }`}
                       >
                         <img src={img} alt="Thumbnail" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
@@ -300,14 +316,14 @@ export default function ExportCommodities({
                 </div>
 
                 {/* Country Export Highlights */}
-                <div className="mt-6 pt-4 border-t border-slate-800 text-xs">
-                  <span className="text-slate-400 block mb-2 font-bold uppercase tracking-wider text-[10px]">
+                <div className="mt-6 pt-4 border-t border-slate-200 text-xs">
+                  <span className="text-slate-500 block mb-2 font-extrabold uppercase tracking-wider text-[10px]">
                     Destinasi Utama Ekspor Komoditas Ini:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {activeModalCommodity.keyMarkets.map((market, idx) => (
-                      <span key={idx} className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 text-xs flex items-center gap-1">
-                        <Globe2 className="w-3 h-3 text-amber-400" />
+                      <span key={idx} className="px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs flex items-center gap-1 shadow-xs">
+                        <Globe2 className="w-3 h-3 text-[#009bb3]" />
                         <span>{market}</span>
                       </span>
                     ))}
@@ -319,73 +335,73 @@ export default function ExportCommodities({
               <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
+                    <span className="px-2.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold">
                       HS Code: {activeModalCommodity.hsCode}
                     </span>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-slate-500 font-medium">
                       Kategori: {activeModalCommodity.category}
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-white mb-1">
+                  <h3 className="text-2xl font-black text-slate-950 mb-1">
                     {activeModalCommodity.name}
                   </h3>
-                  <p className="text-xs text-amber-400 font-semibold mb-4">
+                  <p className="text-xs text-[#519992] font-bold mb-4">
                     {activeModalCommodity.indonesianName}
                   </p>
 
-                  <p className="text-xs text-slate-300 leading-relaxed mb-6">
+                  <p className="text-xs text-slate-600 leading-relaxed mb-6">
                     {activeModalCommodity.description}
                   </p>
 
                   {/* Detailed Spec Sheet Table */}
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-2.5">
+                  <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-2.5">
                     Lembar Spesifikasi Mutu Ekspor:
                   </h4>
-                  <div className="bg-slate-950 rounded-2xl p-4 border border-slate-800 space-y-2 text-xs">
-                    <div className="grid grid-cols-3 py-1 border-b border-slate-900">
-                      <span className="text-slate-400">Wilayah Asal:</span>
-                      <span className="col-span-2 text-slate-200 font-medium">{activeModalCommodity.origin}</span>
+                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2 text-xs">
+                    <div className="grid grid-cols-3 py-1 border-b border-slate-200">
+                      <span className="text-slate-500">Wilayah Asal:</span>
+                      <span className="col-span-2 text-slate-900 font-semibold">{activeModalCommodity.origin}</span>
                     </div>
-                    <div className="grid grid-cols-3 py-1 border-b border-slate-900">
-                      <span className="text-slate-400">Standar Grade:</span>
-                      <span className="col-span-2 text-amber-400 font-bold">{activeModalCommodity.specification.grade}</span>
+                    <div className="grid grid-cols-3 py-1 border-b border-slate-200">
+                      <span className="text-slate-500">Standar Grade:</span>
+                      <span className="col-span-2 text-[#009bb3] font-black">{activeModalCommodity.specification.grade}</span>
                     </div>
                     {activeModalCommodity.specification.moisture && (
-                      <div className="grid grid-cols-3 py-1 border-b border-slate-900">
-                        <span className="text-slate-400">Kadar Air (Moisture):</span>
-                        <span className="col-span-2 text-slate-200">{activeModalCommodity.specification.moisture}</span>
+                      <div className="grid grid-cols-3 py-1 border-b border-slate-200">
+                        <span className="text-slate-500">Kadar Air (Moisture):</span>
+                        <span className="col-span-2 text-slate-800">{activeModalCommodity.specification.moisture}</span>
                       </div>
                     )}
-                    <div className="grid grid-cols-3 py-1 border-b border-slate-900">
-                      <span className="text-slate-400">Standar Kemasan:</span>
-                      <span className="col-span-2 text-slate-200">{activeModalCommodity.specification.packaging}</span>
+                    <div className="grid grid-cols-3 py-1 border-b border-slate-200">
+                      <span className="text-slate-500">Standar Kemasan:</span>
+                      <span className="col-span-2 text-slate-800">{activeModalCommodity.specification.packaging}</span>
                     </div>
-                    <div className="grid grid-cols-3 py-1 border-b border-slate-900">
-                      <span className="text-slate-400">Minimum Order (MOQ):</span>
-                      <span className="col-span-2 text-emerald-400 font-bold">{activeModalCommodity.specification.moq}</span>
+                    <div className="grid grid-cols-3 py-1 border-b border-slate-200">
+                      <span className="text-slate-500">Minimum Order (MOQ):</span>
+                      <span className="col-span-2 text-[#519992] font-black">{activeModalCommodity.specification.moq}</span>
                     </div>
-                    <div className="grid grid-cols-3 py-1 border-b border-slate-900">
-                      <span className="text-slate-400">Kapasitas Pasokan:</span>
-                      <span className="col-span-2 text-slate-200">{activeModalCommodity.supplyCapacity}</span>
+                    <div className="grid grid-cols-3 py-1 border-b border-slate-200">
+                      <span className="text-slate-500">Kapasitas Pasokan:</span>
+                      <span className="col-span-2 text-slate-800">{activeModalCommodity.supplyCapacity}</span>
                     </div>
                     {activeModalCommodity.specification.colorTexture && (
                       <div className="grid grid-cols-3 py-1">
-                        <span className="text-slate-400">Karakteristik Fisik:</span>
-                        <span className="col-span-2 text-slate-300">{activeModalCommodity.specification.colorTexture}</span>
+                        <span className="text-slate-500">Karakteristik Fisik:</span>
+                        <span className="col-span-2 text-slate-700">{activeModalCommodity.specification.colorTexture}</span>
                       </div>
                     )}
                   </div>
 
                   {/* Certifications Row */}
                   <div className="mt-4 space-y-1.5">
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold block">
+                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-extrabold block">
                       Sertifikat & Izin Laboratorium Tersedia:
                     </span>
                     <div className="flex flex-wrap gap-2">
                       {activeModalCommodity.certifications.map((c, i) => (
-                        <span key={i} className="px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800 text-emerald-300 text-xs font-semibold flex items-center gap-1.5">
-                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                        <span key={i} className="px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold flex items-center gap-1.5">
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#009bb3]" />
                           <span>{c}</span>
                         </span>
                       ))}
@@ -394,20 +410,20 @@ export default function ExportCommodities({
                 </div>
 
                 {/* Modal CTA Buttons */}
-                <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
+                <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => {
                       onSelectCommodityForQuote(activeModalCommodity.name);
                       setActiveModalCommodity(null);
                     }}
-                    className="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-lg"
+                    className="flex-1 py-3 px-5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-md shadow-teal-500/20 cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>Minta Penawaran Harga (FOB / CIF / CFR)</span>
                   </button>
                   <button
                     onClick={() => setActiveModalCommodity(null)}
-                    className="py-3 px-5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors"
+                    className="py-3 px-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
                   >
                     Tutup
                   </button>

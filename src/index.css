@@ -42,14 +42,44 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #009bb3;
 }
+
+/* Shrimora Brand Gradient & Accent Utilities */
+.bg-shrimora-gradient {
+  background: linear-gradient(135deg, #009bb3 0%, #519992 100%);
+}
+
+.bg-shrimora-teal {
+  background-color: #009bb3;
+}
+
+.bg-shrimora-sage {
+  background-color: #519992;
+}
+
+.text-shrimora-teal {
+  color: #009bb3;
+}
+
+.text-shrimora-sage {
+  color: #519992;
+}
+
+.border-shrimora-teal {
+  border-color: #009bb3;
+}
+
+.border-shrimora-sage {
+  border-color: #519992;
+}
+

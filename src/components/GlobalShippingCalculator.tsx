@@ -146,18 +146,18 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
   };
 
   return (
-    <section id="kalkulator" className="py-20 bg-slate-900/60 border-b border-slate-800 text-slate-100 relative overflow-hidden">
+    <section id="kalkulator" className="py-20 bg-white border-b border-slate-200 text-slate-800 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
-            <Calculator className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+            <Calculator className="w-3.5 h-3.5 text-[#009bb3]" />
             <span>{t.calculator.badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-serif">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight uppercase font-sans">
             {t.calculator.title}
           </h2>
-          <p className="mt-3 text-slate-300 text-base">
+          <p className="mt-3 text-slate-600 text-base">
             {t.calculator.subtitle}
           </p>
         </div>
@@ -166,13 +166,13 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Input Form Parameters */}
-          <div className="lg:col-span-5 bg-slate-900 border border-slate-800 p-6 sm:p-7 rounded-3xl shadow-xl space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <span className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                <Globe className="w-4 h-4 text-amber-400" />
+          <div className="lg:col-span-5 bg-slate-50 border border-slate-200 p-6 sm:p-7 rounded-3xl shadow-xs space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+              <span className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <Globe className="w-4 h-4 text-[#009bb3]" />
                 Parameter Kargo & Rute
               </span>
-              <span className="text-[11px] text-emerald-400 font-medium bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full">
+              <span className="text-[11px] text-[#009bb3] font-bold bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">
                 Live Currency Rate USD/IDR
               </span>
             </div>
@@ -180,14 +180,14 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
             {/* Country Origin & Destination */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   Negara Asal (Origin)
                 </label>
                 <select
                   value={originCode}
                   onChange={(e) => setOriginCode(e.target.value)}
                   id="select-origin-country"
-                  className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                  className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#009bb3] transition-colors shadow-xs"
                 >
                   {GLOBAL_COUNTRIES.map((c) => (
                     <option key={c.code} value={c.code}>
@@ -198,14 +198,14 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   Negara Tujuan (Destination)
                 </label>
                 <select
                   value={destinationCode}
                   onChange={(e) => setDestinationCode(e.target.value)}
                   id="select-destination-country"
-                  className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                  className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#009bb3] transition-colors shadow-xs"
                 >
                   {GLOBAL_COUNTRIES.map((c) => (
                     <option key={c.code} value={c.code}>
@@ -219,14 +219,14 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
             {/* Package Type & Actual Weight */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   Kategori Kargo / Barang
                 </label>
                 <select
                   value={itemType}
                   onChange={(e: any) => setItemType(e.target.value)}
                   id="select-item-type"
-                  className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500"
+                  className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#009bb3] shadow-xs"
                 >
                   <option value="parcel">Paket Standar Komersil</option>
                   <option value="document">Dokumen / Kontrak Bisnis</option>
@@ -238,7 +238,7 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   Berat Aktual (Kg)
                 </label>
                 <div className="relative">
@@ -249,16 +249,16 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
                     value={weightKg}
                     onChange={(e) => setWeightKg(Math.max(0.1, parseFloat(e.target.value) || 0))}
                     id="input-weight-kg"
-                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl px-3 py-2.5 text-sm pr-10 focus:outline-none focus:border-amber-500 font-semibold"
+                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm pr-10 focus:outline-none focus:border-[#009bb3] font-semibold shadow-xs"
                   />
-                  <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-bold">KG</span>
+                  <span className="absolute right-3 top-2.5 text-xs text-slate-500 font-bold">KG</span>
                 </div>
               </div>
             </div>
 
             {/* Dimensions (Length, Width, Height) */}
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 Dimensi Paket (P x L x T dalam cm)
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -270,9 +270,9 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
                     onChange={(e) => setLengthCm(Math.max(1, parseInt(e.target.value) || 1))}
                     id="input-length-cm"
                     placeholder="P"
-                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-amber-500 focus:outline-none"
+                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-[#009bb3] focus:outline-none shadow-xs"
                   />
-                  <span className="text-[10px] text-slate-400 block text-center mt-0.5">Panjang (cm)</span>
+                  <span className="text-[10px] text-slate-500 block text-center mt-0.5">Panjang (cm)</span>
                 </div>
                 <div className="relative">
                   <input
@@ -282,9 +282,9 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
                     onChange={(e) => setWidthCm(Math.max(1, parseInt(e.target.value) || 1))}
                     id="input-width-cm"
                     placeholder="L"
-                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-amber-500 focus:outline-none"
+                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-[#009bb3] focus:outline-none shadow-xs"
                   />
-                  <span className="text-[10px] text-slate-400 block text-center mt-0.5">Lebar (cm)</span>
+                  <span className="text-[10px] text-slate-500 block text-center mt-0.5">Lebar (cm)</span>
                 </div>
                 <div className="relative">
                   <input
@@ -294,53 +294,53 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
                     onChange={(e) => setHeightCm(Math.max(1, parseInt(e.target.value) || 1))}
                     id="input-height-cm"
                     placeholder="T"
-                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-amber-500 focus:outline-none"
+                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-[#009bb3] focus:outline-none shadow-xs"
                   />
-                  <span className="text-[10px] text-slate-400 block text-center mt-0.5">Tinggi (cm)</span>
+                  <span className="text-[10px] text-slate-500 block text-center mt-0.5">Tinggi (cm)</span>
                 </div>
               </div>
-              <p className="text-[11px] text-slate-400 mt-1">
-                Rumus Volumetrik IATA: <code className="text-amber-400 font-mono">(P×L×T)/5000</code> = {((lengthCm * widthCm * heightCm) / 5000).toFixed(2)} Kg
+              <p className="text-[11px] text-slate-500 mt-1">
+                Rumus Volumetrik IATA: <code className="text-[#009bb3] font-mono font-bold">(P×L×T)/5000</code> = {((lengthCm * widthCm * heightCm) / 5000).toFixed(2)} Kg
               </p>
             </div>
 
             {/* Declared Value & Value Additions */}
-            <div className="space-y-3 pt-2 border-t border-slate-800">
+            <div className="space-y-3 pt-2 border-t border-slate-200">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   Nilai Deklarasi Barang (Declared Value USD)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-2.5 text-xs text-slate-400 font-bold">$</span>
+                  <span className="absolute left-3 top-2.5 text-xs text-slate-500 font-bold">$</span>
                   <input
                     type="number"
                     min="10"
                     value={declaredValueUSD}
                     onChange={(e) => setDeclaredValueUSD(Math.max(0, parseFloat(e.target.value) || 0))}
                     id="input-declared-value"
-                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 rounded-xl pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-amber-500 font-semibold"
+                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-[#009bb3] font-semibold shadow-xs"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2 pt-1">
-                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={includeInsurance}
                     onChange={(e) => setIncludeInsurance(e.target.checked)}
                     id="check-insurance"
-                    className="rounded border-slate-700 text-amber-500 focus:ring-amber-400 bg-slate-950"
+                    className="rounded border-slate-300 text-[#009bb3] focus:ring-[#009bb3] bg-white"
                   />
                   <span>Sertakan Asuransi All-Risk Maritim & Udara Klausul A (+1.5% nilai barang)</span>
                 </label>
-                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={expressClearance}
                     onChange={(e) => setExpressClearance(e.target.checked)}
                     id="check-express-clearance"
-                    className="rounded border-slate-700 text-amber-500 focus:ring-amber-400 bg-slate-950"
+                    className="rounded border-slate-300 text-[#009bb3] focus:ring-[#009bb3] bg-white"
                   />
                   <span>Prioritas Fast-Track Jalur Hijau AEO Kepabeanan (+$15)</span>
                 </label>
@@ -352,7 +352,7 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
               onClick={handleCalculate}
               disabled={loading}
               id="btn-trigger-estimate"
-              className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-black py-3 rounded-xl text-sm shadow-md shadow-teal-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <Calculator className="w-4 h-4" />
               <span>{loading ? 'Menghitung Rute & Tarif...' : 'Hitung Semua Opsi Kurir Global'}</span>
@@ -363,9 +363,9 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
               onClick={handleAskCustomsAI}
               disabled={loadingAdvisory}
               id="btn-ai-customs-advisory"
-              className="w-full bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/40 text-amber-300 text-xs font-semibold py-2 rounded-xl transition-all flex items-center justify-center gap-1.5"
+              className="w-full bg-teal-50 hover:bg-teal-100/80 border border-teal-200 text-[#009bb3] text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
               <span>{loadingAdvisory ? 'Menganalisis Regulasi Bea Cukai...' : 'Konsultasi Regulasi Bea Cukai AI untuk Rute Ini'}</span>
             </button>
           </div>
@@ -375,20 +375,20 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
             
             {/* Weight Summary Banner */}
             {result && (
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs shadow-xs">
                 <div className="flex items-center gap-2">
-                  <span className="text-slate-400">Rute Pengiriman:</span>
-                  <span className="font-bold text-white">{result.origin.flag} {result.origin.name} ➔ {result.destination.flag} {result.destination.name}</span>
+                  <span className="text-slate-500">Rute Pengiriman:</span>
+                  <span className="font-bold text-slate-900">{result.origin.flag} {result.origin.name} ➔ {result.destination.flag} {result.destination.name}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="bg-slate-800 px-2.5 py-1 rounded-md text-slate-300">
-                    Aktual: <strong className="text-white">{result.actualWeightKg} kg</strong>
+                  <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700">
+                    Aktual: <strong className="text-slate-900">{result.actualWeightKg} kg</strong>
                   </span>
-                  <span className="bg-slate-800 px-2.5 py-1 rounded-md text-slate-300">
-                    Volumetrik: <strong className="text-white">{result.volumetricWeightKg} kg</strong>
+                  <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700">
+                    Volumetrik: <strong className="text-slate-900">{result.volumetricWeightKg} kg</strong>
                   </span>
-                  <span className="bg-amber-500/20 border border-amber-500/40 text-amber-300 px-2.5 py-1 rounded-md font-bold">
-                    Dikenakan (Chargeable): {result.chargeableWeightKg} kg
+                  <span className="bg-teal-50 border border-teal-200 text-[#009bb3] px-2.5 py-1 rounded-md font-bold">
+                    Chargeable: {result.chargeableWeightKg} kg
                   </span>
                 </div>
               </div>
@@ -396,7 +396,7 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
 
             {/* Comparative Courier Option Cards */}
             <div className="space-y-3">
-              <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+              <h3 className="text-xs font-black text-slate-500 uppercase tracking-wider flex items-center justify-between">
                 <span>Pilihan Layanan & Tarif Kurir Internasional</span>
                 <span className="text-xs text-slate-400 font-normal">Klik untuk memilih</span>
               </h3>
@@ -410,54 +410,54 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
                     onClick={() => setSelectedQuoteId(quote.courierId)}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-amber-500/10 border-amber-500 shadow-lg shadow-amber-500/10'
-                        : 'bg-slate-900/90 border-slate-800 hover:border-slate-700'
+                        ? 'bg-teal-50/60 border-2 border-[#009bb3] shadow-md'
+                        : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 shadow-xs'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div className="flex items-start gap-3">
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-xs shrink-0 ${
-                          isSelected ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-amber-400 border border-slate-700'
+                          isSelected ? 'bg-gradient-to-br from-[#009bb3] to-[#519992] text-white shadow-xs' : 'bg-slate-100 text-slate-600 border border-slate-200'
                         }`}>
                           {quote.serviceTier === 'Ocean Cargo' ? <Ship className="w-5 h-5" /> : <Plane className="w-5 h-5" />}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h4 className="font-bold text-white text-base">{quote.courierName}</h4>
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-amber-400 border border-slate-700">
+                            <h4 className="font-bold text-slate-900 text-base">{quote.courierName}</h4>
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                               {quote.serviceTier}
                             </span>
                           </div>
-                          <div className="flex items-center gap-2 text-xs text-slate-300 mt-1">
-                            <Clock className="w-3.5 h-3.5 text-amber-400" />
+                          <div className="flex items-center gap-2 text-xs text-slate-600 mt-1">
+                            <Clock className="w-3.5 h-3.5 text-[#009bb3]" />
                             <span>Transit: <strong>{quote.estimatedDeliveryDays}</strong></span>
-                            <span className="text-slate-500">•</span>
-                            <span className="text-slate-400">Est. Tiba: {quote.estimatedDeliveryDate}</span>
+                            <span className="text-slate-300">•</span>
+                            <span className="text-slate-500">Est. Tiba: {quote.estimatedDeliveryDate}</span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="text-right sm:border-l sm:border-slate-800 sm:pl-4">
-                        <div className="text-lg font-extrabold text-amber-400">
+                      <div className="text-right sm:border-l sm:border-slate-200 sm:pl-4">
+                        <div className="text-lg font-black text-[#009bb3]">
                           USD ${quote.totalUSD.toFixed(2)}
                         </div>
-                        <div className="text-xs text-slate-400 font-medium">
+                        <div className="text-xs text-slate-500 font-medium">
                           Rp {quote.totalIDR.toLocaleString('id-ID')}
                         </div>
                       </div>
                     </div>
 
                     {/* Features list */}
-                    <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+                    <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500">
                       <div className="flex items-center gap-3">
                         {quote.features.map((feat, i) => (
                           <span key={i} className="inline-flex items-center gap-1">
-                            <Check className="w-3 h-3 text-emerald-400" />
+                            <Check className="w-3 h-3 text-emerald-600" />
                             <span>{feat}</span>
                           </span>
                         ))}
                       </div>
-                      <span className="text-slate-500 font-mono">Ref: {quote.bookingReference}</span>
+                      <span className="text-slate-400 font-mono">Ref: {quote.bookingReference}</span>
                     </div>
                   </div>
                 );
@@ -466,45 +466,45 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
 
             {/* Selected Quote Breakdown Slip & Actions */}
             {selectedQuote && (
-              <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-amber-500/40 p-6 rounded-3xl shadow-2xl space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="bg-white border-2 border-[#009bb3]/30 p-6 rounded-3xl shadow-sm space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <div>
-                    <span className="text-xs text-amber-400 font-bold uppercase tracking-wider">
+                    <span className="text-xs text-[#009bb3] font-bold uppercase tracking-wider">
                       Official Freight Quotation Slip
                     </span>
-                    <h4 className="text-lg font-bold text-white">{selectedQuote.courierName}</h4>
+                    <h4 className="text-lg font-bold text-slate-900">{selectedQuote.courierName}</h4>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-slate-400 block">Kode Referensi:</span>
-                    <span className="text-xs font-mono font-bold text-amber-400">{selectedQuote.bookingReference}</span>
+                    <span className="text-xs text-slate-500 block">Kode Referensi:</span>
+                    <span className="text-xs font-mono font-bold text-[#009bb3]">{selectedQuote.bookingReference}</span>
                   </div>
                 </div>
 
                 {/* Price components breakdown */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 text-xs">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs">
                   <div>
-                    <span className="text-slate-400 block">Tarif Dasar Freight:</span>
-                    <strong className="text-slate-100 font-bold">${selectedQuote.basePriceUSD}</strong>
+                    <span className="text-slate-500 block">Tarif Dasar Freight:</span>
+                    <strong className="text-slate-900 font-bold">${selectedQuote.basePriceUSD}</strong>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Fuel Surcharge:</span>
-                    <strong className="text-slate-100 font-bold">${selectedQuote.fuelSurchargeUSD}</strong>
+                    <span className="text-slate-500 block">Fuel Surcharge:</span>
+                    <strong className="text-slate-900 font-bold">${selectedQuote.fuelSurchargeUSD}</strong>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Est. Pajak / Bea Masuk:</span>
-                    <strong className="text-slate-100 font-bold">${selectedQuote.customsDutyEstimatedUSD}</strong>
+                    <span className="text-slate-500 block">Est. Pajak / Bea Masuk:</span>
+                    <strong className="text-slate-900 font-bold">${selectedQuote.customsDutyEstimatedUSD}</strong>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Asuransi All-Risk:</span>
-                    <strong className="text-slate-100 font-bold">${selectedQuote.insuranceUSD}</strong>
+                    <span className="text-slate-500 block">Asuransi All-Risk:</span>
+                    <strong className="text-slate-900 font-bold">${selectedQuote.insuranceUSD}</strong>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    <span className="text-xs text-slate-300">
-                      Enkripsi SSL TLS 1.3 Terjamin • Dijamin Nol Penalti Bea Cukai
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    <span className="text-xs text-slate-600">
+                      Enkripsi SSL TLS 1.3 Terjamin • Dijamin Sesuai Ketentuan Kepabeanan
                     </span>
                   </div>
 
@@ -512,16 +512,16 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
                     <button
                       onClick={handleCopyQuoteSlip}
                       id="btn-copy-quote"
-                      className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold inline-flex items-center gap-1.5 transition-colors"
+                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      {copiedSlip ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Download className="w-3.5 h-3.5" />}
+                      {copiedSlip ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Download className="w-3.5 h-3.5" />}
                       <span>{copiedSlip ? 'Tersalin ke Clipboard!' : 'Salin Slip Penawaran'}</span>
                     </button>
 
                     <button
                       onClick={handleProceedBooking}
                       id="btn-book-quote"
-                      className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs inline-flex items-center gap-1.5 shadow-md shadow-amber-500/20 transition-all"
+                      className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-bold text-xs inline-flex items-center gap-1.5 shadow-md shadow-teal-500/20 transition-all cursor-pointer"
                     >
                       <span>Lanjutkan Pemesanan RFQ</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -533,29 +533,29 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
 
             {/* AI Customs Advisory Card (if generated) */}
             {customsAdvisory && (
-              <div className="bg-indigo-950/40 border border-indigo-800/60 p-5 rounded-2xl animate-fadeIn space-y-3">
+              <div className="bg-teal-50/60 border border-teal-200 p-5 rounded-2xl animate-fadeIn space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
-                    <Sparkles className="w-4 h-4 text-amber-400" />
+                  <div className="flex items-center gap-2 text-[#009bb3] font-bold text-sm">
+                    <Sparkles className="w-4 h-4 text-[#009bb3]" />
                     <span>Panduan Regulasi Bea Cukai AI ({customsAdvisory.route})</span>
                   </div>
-                  <span className="text-xs px-2 py-0.5 rounded bg-indigo-900/80 text-indigo-200 border border-indigo-700">
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-white text-teal-800 border border-teal-200 font-medium">
                     Tingkat Risiko: {customsAdvisory.riskLevel}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
                   <div>
-                    <span className="font-bold text-slate-200 block mb-1">Dokumen Wajib:</span>
-                    <ul className="list-disc list-inside space-y-1 text-slate-400">
+                    <span className="font-bold text-slate-900 block mb-1">Dokumen Wajib:</span>
+                    <ul className="list-disc list-inside space-y-1 text-slate-600">
                       {customsAdvisory.requiredDocuments?.map((doc: string, i: number) => (
                         <li key={i}>{doc}</li>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <span className="font-bold text-slate-200 block mb-1">Tips Kelancaran Pabean:</span>
-                    <ul className="list-disc list-inside space-y-1 text-slate-400">
+                    <span className="font-bold text-slate-900 block mb-1">Tips Kelancaran Pabean:</span>
+                    <ul className="list-disc list-inside space-y-1 text-slate-600">
                       {customsAdvisory.customsTips?.map((tip: string, i: number) => (
                         <li key={i}>{tip}</li>
                       ))}
@@ -564,7 +564,7 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
                 </div>
 
                 {customsAdvisory.preferentialTradeAgreements && (
-                  <p className="text-[11px] text-indigo-300 bg-indigo-900/40 p-2 rounded-lg border border-indigo-800/50">
+                  <p className="text-[11px] text-teal-900 bg-white p-2.5 rounded-xl border border-teal-200">
                     <strong>Fasilitas Perdagangan:</strong> {customsAdvisory.preferentialTradeAgreements}
                   </p>
                 )}
