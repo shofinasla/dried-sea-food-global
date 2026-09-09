@@ -188,7 +188,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
           <div className="lg:col-span-6 relative group">
             <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 bg-slate-100 aspect-[4/3] sm:aspect-[16/11]">
               <img
-                src="https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1200&q=85"
+                src="/images/hero/tempat-penjemuran-ikan.png"
                 alt="Pengeringan Ikan Teri Tradisional Pesisir Indonesia"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
@@ -272,7 +272,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
                 <div className="group relative">
                   <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full overflow-hidden border-2 border-slate-200 shadow-xs group-hover:border-teal-600 transition-all">
                     <img 
-                      src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=200&q=80" 
+                      src="/images/hero/nelayan-perahu-tradisional.png" 
                       alt="Nelayan & Perahu Tradisional" 
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
                       referrerPolicy="no-referrer"
@@ -284,7 +284,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
                 <div className="group relative">
                   <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full overflow-hidden border-2 border-slate-200 shadow-xs group-hover:border-teal-600 transition-all">
                     <img 
-                      src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=200&q=80" 
+                      src="/images/hero/penjemur-surya.png" 
                       alt="Rak Penjemuran Surya" 
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
                       referrerPolicy="no-referrer"

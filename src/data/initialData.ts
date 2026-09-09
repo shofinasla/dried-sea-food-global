@@ -722,11 +722,10 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '80 Metrik Ton / Bulan',
     certifications: ['HACCP Grade A', 'Health Certificate BKIPM', 'SKP KKP RI', 'Halal BPJPH', 'US FDA Registered'],
     keyMarkets: ['Hong Kong', 'Singapura', 'Taiwan', 'Malaysia', 'Amerika Serikat (USA)'],
-    imageUrl: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-teri-nasi-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-teri-nasi-1.png',
+      '/images/products/exp-teri-nasi-2.png'
     ],
     description: 'Ikan teri nasi kualitas super grade yang dikeringkan secara higienis menggunakan teknologi pengering modern. Berwarna putih gading alami tanpa bahan kimia pemutih, bercita rasa gurih renyah, dan sangat digemari pasar Asia Timur serta supermarket diaspora.',
     featured: true
@@ -749,10 +748,11 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '60 Metrik Ton / Bulan',
     certifications: ['HACCP Grade A', 'Health Certificate KKP', 'SKP KKP RI', 'Halal BPJPH'],
     keyMarkets: ['Singapura', 'Malaysia', 'Brunei Darussalam', 'Australia', 'Belanda'],
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-ikan-a-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-ikan-a-1.png',
+      '/images/products/exp-ikan-a-2.png',
+      '/images/products/exp-ikan-a-3.png'
     ],
     description: 'Dibuat dari ikan manyung liar segar pilihan dengan proses fermentasi garam alami tradisional. Daging tebal yang merekah lembut saat digoreng menyerupai tekstur roti, menjadikannya primadona kuliner ikan asin khas Indonesia berkelas ekspor.',
     featured: true
@@ -775,10 +775,11 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '45 Metrik Ton / Bulan',
     certifications: ['HACCP Grade A', 'Health Certificate BKIPM', 'Halal BPJPH', 'US FDA Registered'],
     keyMarkets: ['Korea Selatan', 'Tiongkok', 'Taiwan', 'Jepang', 'Singapura'],
-    imageUrl: 'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-ikan-b-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-ikan-b-1.png',
+      '/images/products/exp-ikan-b-2.png',
+      '/images/products/exp-ikan-b-3.png'
     ],
     description: 'Cumi-cumi segar hasil tangkapan pancing sero yang langsung dibersihkan dan dikeringkan di bawah terik matahari pesisir. Menghasilkan rasa manis alami sari laut tanpa garam berlebih, sempurna untuk hidangan stir-fry oriental dan sambal cumi ekspor.',
     featured: true
@@ -801,10 +802,10 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '5 Metrik Ton / Bulan',
     certifications: ['Health Certificate BKIPM', 'CITES Non-Endangered Verification', 'Halal BPJPH', 'Certificate of Origin (COO Form E)'],
     keyMarkets: ['Hong Kong (Sheung Wan Market)', 'Guangdong (Tiongkok)', 'Singapura', 'Taiwan', 'Kanada'],
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-ikan-c-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-ikan-c-1.png',
+      '/images/products/exp-ikan-c-2.png'
     ],
     description: 'Gelembung renang ikan air tawar dan laut dalam pilihan yang kaya kolagen murni. Disortir secara cermat satu per satu oleh spesialis kami untuk memenuhi standar perjamuan haute-cuisine Tiongkok, sup kesehatan bernilai tinggi, dan industri kecantikan.',
     featured: true
@@ -827,10 +828,11 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '8 Metrik Ton / Bulan',
     certifications: ['Health Certificate BKIPM KKP', 'Sertifikat Bebas Logam Berat', 'Halal BPJPH', 'Form E COO'],
     keyMarkets: ['Hong Kong', 'Guangzhou (Tiongkok)', 'Singapura', 'Malaysia', 'Amerika Serikat'],
-    imageUrl: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-ikan-d-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-ikan-d-1.png',
+      '/images/products/exp-ikan-d-2.png',
+      '/images/products/exp-ikan-d-3.png'
     ],
     description: 'Teripang hasil tangkapan nelayan selam tradisional dari dasar laut terumbu karang yang bersih. Diproses melalui perebusan higienis dan pengasapan/penjemuran cermat, memiliki rasio pembesaran (expansion ratio) di atas 6x saat direhidrasi.',
     featured: false
@@ -853,10 +855,11 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '50 Metrik Ton / Bulan',
     certifications: ['HACCP Grade A', 'Health Certificate BKIPM', 'SKP KKP RI', 'Halal BPJPH'],
     keyMarkets: ['Taiwan', 'Jepang', 'Singapura', 'Hong Kong', 'Uni Emirat Arab'],
-    imageUrl: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-ikan-e-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-ikan-e-1.png',
+      '/images/products/exp-ikan-e-2.png',
+      '/images/products/exp-ikan-e-3.png'
     ],
     description: 'Udang ebi kering kualitas nomor satu yang diproduksi dari udang segar tangkapan laut dangkal. Memiliki cita rasa manis gurih alami tanpa tambahan MSG, sangat cocok sebagai bumbu dasar saus XO oriental, dumpling, dan masakan gourmet.',
     featured: true
@@ -879,9 +882,12 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '35 Metrik Ton / Bulan',
     certifications: ['HACCP Grade A', 'Health Certificate KKP', 'Halal BPJPH'],
     keyMarkets: ['Singapura', 'Malaysia', 'Australia', 'Belanda', 'Kanada'],
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-ikan-f-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-ikan-f-1.png',
+      '/images/products/exp-ikan-f-2.png',
+      '/images/products/exp-ikan-f-3.png',
+      '/images/products/exp-ikan-f-4.png'
     ],
     description: 'Fillet ikan tenggiri segar yang diasinkan dengan garam laut murni bermutu tinggi. Dagingnya yang padat dan aroma sedap tanpa bau amis menyengat menjadikannya pilihan favorit hotel dan restoran seafood di Asia Tenggara.',
     featured: false
@@ -904,9 +910,9 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     supplyCapacity: '30 Metrik Ton / Bulan',
     certifications: ['HACCP Grade A', 'Health Certificate BKIPM', 'Halal BPJPH'],
     keyMarkets: ['Singapura', 'Malaysia', 'Taiwan', 'Jepang'],
-    imageUrl: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/products/exp-ikan-c-1.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80'
+      '/images/products/exp-ikan-c-1.png'
     ],
     description: 'Ikan gabus rawa segar yang terkenal akan kandungan protein dan albumin tinggi, dibelah butterfly dan dijemur hingga garing sempurna. Digemari para pemerhati gizi dan masakan tradisional di seluruh kawasan Asia Tenggara.',
     featured: false
@@ -919,7 +925,7 @@ export const EXPORT_WORKFLOW_STEPS: ExportWorkflowStep[] = [
     title: 'Sourcing Nelayan & Seleksi Ikan Segar',
     subtitle: 'Pemilihan Bahan Baku & Sortasi Mutu',
     description: 'Ikan hasil tangkapan nelayan langsung dipilih saat tiba di pelabuhan perikanan. Kami hanya menggunakan ikan segar kualitas terbaik tanpa pembusukan awal.',
-    imageUrl: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/gallery/sortir-ikan-segar.png',
     keyAction: 'Pengecekan kesegaran insang, elastisitas daging, dan uji awal non-formalin.',
     complianceDoc: 'Form Penerimaan Bahan Baku Segar & Laporan Sortasi'
   },
@@ -928,7 +934,7 @@ export const EXPORT_WORKFLOW_STEPS: ExportWorkflowStep[] = [
     title: 'Penggaraman Higienis & Solar Dome Drying',
     subtitle: 'Pengeringan Ramah Lingkungan & Higienis',
     description: 'Proses penggaraman menggunakan garam laut murni food-grade dilanjutkan dengan pengeringan dalam kubah Solar Dome tertutup yang bebas debu, lalat, dan polusi.',
-    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/gallery/solar-dome-drying.png',
     keyAction: 'Pengukuran kadar air (< 14%) dan kelembaban dengan moisture meter digital berkala.',
     complianceDoc: 'Monitoring Suhu Pengeringan & Kartu Kendali Mutu'
   },
@@ -937,7 +943,7 @@ export const EXPORT_WORKFLOW_STEPS: ExportWorkflowStep[] = [
     title: 'Uji Laboratorium Mutu & Bebas Formalin',
     subtitle: 'Sertifikasi Karantina BKIPM & HACCP Grade A',
     description: 'Setiap lot produksi diuji di laboratorium independen untuk memastikan bebas formalin, residu logam berat, serta tingkat histamin yang aman.',
-    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/gallery/laboratorium-mutu.png',
     keyAction: 'Penerbitan Certificate of Analysis (COA) resmi dan verifikasi kesehatan ikan.',
     complianceDoc: 'Health Certificate (HC) BKIPM & COA ISO 17025'
   },
@@ -946,7 +952,7 @@ export const EXPORT_WORKFLOW_STEPS: ExportWorkflowStep[] = [
     title: 'Pengemasan Kedap Udara & Food-Grade Desiccant',
     subtitle: 'Vacuum Sealing & Kemasan Ekspor Khusus',
     description: 'Pengemasan menggunakan plastik vacuum barrier tinggi atau kemasan ritel berlabel nutrisi ekspor, dilengkapi food-grade desiccant dan master box tebal 5-ply.',
-    imageUrl: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/gallery/pengemasan-kedap-udara.png',
     keyAction: 'Penyegelan vakum otomatis, detektor logam (metal detector), dan labeling multibahasa.',
     complianceDoc: 'Packing List, Weight Slip & Certificate of Packaging Quality'
   },
@@ -955,7 +961,7 @@ export const EXPORT_WORKFLOW_STEPS: ExportWorkflowStep[] = [
     title: 'Pemuatan Kontainer Kering & Pengapalan Global',
     subtitle: 'Pemberangkatan FCL Laut & Kargo Udara Kilat',
     description: 'Pemuatan kontainer ekspor di pelabuhan Tanjung Priok atau Bandara Soekarno-Hatta dengan jalur hijau kepabeanan dan pelayaran terjadwal ke pelabuhan tujuan.',
-    imageUrl: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/gallery/pemuatan-kontainer.png',
     keyAction: 'Pengurusan PEB, COO Form E/D/AK, dan pelacakan kontainer maritim real-time.',
     complianceDoc: 'Bill of Lading (B/L), COO Form E, PEB & Dokumen Ekspor Lengkap'
   }
