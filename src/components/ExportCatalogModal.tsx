@@ -12,6 +12,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { EXPORT_COMMODITIES, COMPANY_PROFILE } from '../data/initialData';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface ExportCatalogModalProps {
   isOpen: boolean;
@@ -24,15 +25,99 @@ export default function ExportCatalogModal({
   onClose,
   onSelectCommodityForQuote
 }: ExportCatalogModalProps) {
+  const { t, currentLang } = useTranslation();
   const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const [downloading, setDownloading] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSimulateDownload = () => {
+  const handleDownloadCatalog = () => {
+    setDownloading(true);
+
+    // Track download in analytics API
+    fetch('/api/analytics/event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event: 'download_catalog',
+        label: `Official Export Catalog (${currentLang.toUpperCase()})`,
+        path: window.location.pathname
+      })
+    }).catch(() => {});
+
+    // Generate real downloadable text/spec summary document
+    const catalogHeader = `================================================================================
+PT DRIED SEAFOOD GLOBAL INDONESIA - OFFICIAL B2B EXPORT CATALOG 2026
+Exporter & Processor: Dried Seafood, Salted Fish, Fish Maw & Marine Products
+Legal: ${COMPANY_PROFILE.registrationNo} | Tax ID: ${COMPANY_PROFILE.taxId}
+HQ: ${COMPANY_PROFILE.headquarters}
+Hotline: ${COMPANY_PROFILE.hotline} | Email: ${COMPANY_PROFILE.salesEmail}
+Web: https://driedseafoodglobal.com | Quality Standard: HACCP Grade A & BKIPM
+================================================================================
+
+CERTIFICATIONS:
+1. HACCP Grade A (Food Safety Hazard Analysis Critical Control Point)
+2. Official Sanitary & Health Certificate from BKIPM KKP RI
+3. Halal MUI / BPJPH Certified 100%
+4. US FDA Foreign Supplier Verification Program (FSVP) Compliant
+5. Clean Solar Dome Dehydrated - Zero Formalin / No Chemical Preservatives
+
+================================================================================
+FLAGSHIP EXPORT COMMODITIES & SPECIFICATIONS
+================================================================================
+${EXPORT_COMMODITIES.map((c, i) => `
+[${i + 1}] ${c.name.toUpperCase()} (${c.indonesianName})
+Category: ${c.category}
+HS Code: ${c.hsCode}
+Harvest Origin: ${c.origin}
+Quality Grade: ${c.specification.grade}
+Moisture Content: ${c.specification.moisture || 'Standard'}
+Shelf Life: ${c.specification.shelfLife || '12 - 24 Months'}
+Packaging: ${c.specification.packaging}
+Minimum Order (MOQ): ${c.specification.moq}
+Supply Capacity: ${c.supplyCapacity}
+Export Certifications: ${c.certifications.join(', ')}
+Target Export Markets: ${c.keyMarkets.join(', ')}
+Description: ${c.description}
+--------------------------------------------------------------------------------`).join('\n')}
+
+================================================================================
+SUPPORTED INCOTERMS 2020:
+- FOB (Free on Board): Jakarta (Tanjung Priok), Surabaya (Tanjung Perak), Belawan
+- CFR (Cost & Freight): Direct to Destination Port
+- CIF (Cost, Insurance & Freight): Comprehensive Marine Cargo Insurance Included
+- Air Freight Express: Via Soekarno-Hatta International Airport (CGK)
+
+PAYMENT TERMS:
+- Irrevocable Letter of Credit (L/C at Sight)
+- Telegraphic Transfer (T/T: 30% Deposit, 70% against Bill of Lading copy)
+================================================================================
+© 2026 PT Dried Seafood Global Indonesia. All Rights Reserved.
+================================================================================`;
+
+    const blob = new Blob([catalogHeader], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `E-Katalog-Ekspor-Dried-Seafood-Global-2026-${currentLang.toUpperCase()}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    setDownloading(false);
     setDownloadSuccess(true);
-    setTimeout(() => {
-      setDownloadSuccess(false);
-    }, 4000);
+    setTimeout(() => setDownloadSuccess(false), 5000);
+  };
+
+  const getCatalogTitle = () => {
+    switch (currentLang) {
+      case 'zh': return '2026年 印尼优质干鱼与海产出口官方电子目录';
+      case 'ja': return '2026年 インドネシア産海産乾物・塩魚 輸出公式カタログ';
+      case 'ar': return 'الكتالوج الرسمي لتصدير الأسماك المجففة والمأكولات البحرية 2026';
+      case 'id': return 'E-Katalog Komoditas Ikan Asin & Hasil Laut Kering 2026';
+      default: return '2026 Official Indonesian Dried Seafood & Salted Fish Export Catalog';
+    }
   };
 
   return (
@@ -122,28 +207,38 @@ export default function ExportCatalogModal({
             </div>
           </div>
 
-          {/* Download Simulation message */}
+          {/* Download Action Section */}
           {downloadSuccess ? (
             <div className="p-4 rounded-2xl bg-teal-50 border border-teal-200 text-teal-800 text-center space-y-1 animate-fadeIn">
               <CheckCircle2 className="w-6 h-6 text-[#009bb3] mx-auto" />
-              <p className="font-bold text-xs">E-Katalog Resmi Dried Seafood Global 2026 Siap Diunduh!</p>
-              <p className="text-[11px] text-slate-600">File PDF berukuran 8.4 MB berisi seluruh spesifikasi teknis, hasil uji lab COA, dan panduan kemasan ekspor.</p>
+              <p className="font-bold text-xs">
+                {currentLang === 'id' ? 'E-Katalog Resmi Berhasil Diunduh!' : 'Official Export Catalog Downloaded Successfully!'}
+              </p>
+              <p className="text-[11px] text-slate-600">
+                {currentLang === 'id' ? 'File dokumen berisi seluruh spesifikasi teknis kadar air/garam, HS Code, dan sertifikasi karantina BKIPM.' : 'The file includes full technical specifications, moisture/salt tolerances, HS codes, and quarantine certifications.'}
+              </p>
             </div>
           ) : (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-teal-50/50 to-slate-50 border border-teal-100">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-teal-50/60 to-slate-50 border border-teal-100">
               <div className="flex items-center gap-3">
                 <FileText className="w-8 h-8 text-[#009bb3] shrink-0" />
                 <div>
-                  <span className="font-bold text-slate-900 block">Unduh Format PDF Lengkap</span>
-                  <span className="text-[11px] text-slate-500">Edisi Digital (PDF • 8.4 MB • Bahasa Indonesia & English)</span>
+                  <span className="font-bold text-slate-900 block">
+                    {currentLang === 'id' ? 'Unduh E-Katalog & Spesifikasi Ekspor' : 'Download Complete Export Catalog'}
+                  </span>
+                  <span className="text-[11px] text-slate-500">
+                    Official Edition • {currentLang.toUpperCase()} & English
+                  </span>
                 </div>
               </div>
               <button
-                onClick={handleSimulateDownload}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                onClick={handleDownloadCatalog}
+                disabled={downloading}
+                id="btn-download-catalog-file"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer disabled:opacity-50"
               >
                 <Download className="w-4 h-4" />
-                <span>Unduh E-Katalog PDF</span>
+                <span>{downloading ? 'Preparing File...' : (t.commodities?.downloadCatalog || 'Download Catalog (PDF/Spec)')}</span>
               </button>
             </div>
           )}
@@ -152,12 +247,13 @@ export default function ExportCatalogModal({
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500">
-          <span>Kontak Departemen Ekspor: <strong className="text-slate-800">{COMPANY_PROFILE.hotline}</strong></span>
+          <span>Export Desk Hotline: <strong className="text-slate-800">{COMPANY_PROFILE.hotline}</strong></span>
           <button
             onClick={onClose}
+            id="btn-close-catalog-footer"
             className="px-5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold cursor-pointer"
           >
-            Tutup
+            {currentLang === 'id' ? 'Tutup' : 'Close'}
           </button>
         </div>
 

@@ -43,7 +43,11 @@ export default function App() {
     fetch('/api/blog')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data) && data.length > 0) setBlogPosts(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setBlogPosts(data);
+        } else if (data && Array.isArray(data.posts) && data.posts.length > 0) {
+          setBlogPosts(data.posts);
+        }
       })
       .catch(err => console.log('API blog load fallback to memory', err));
 
@@ -51,11 +55,25 @@ export default function App() {
     fetch('/api/gallery')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data) && data.length > 0) setGalleryItems(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setGalleryItems(data);
+        } else if (data && Array.isArray(data.items) && data.items.length > 0) {
+          setGalleryItems(data.items);
+        }
       })
       .catch(err => console.log('API gallery load fallback to memory', err));
 
-    // 3. Fetch SEO Settings
+    // 3. Fetch Inquiries for Admin CMS
+    fetch('/api/contact/messages')
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data.inquiries) && data.inquiries.length > 0) {
+          setInquiries(data.inquiries);
+        }
+      })
+      .catch(() => {});
+
+    // 4. Fetch SEO Settings
     fetch('/api/seo')
       .then(res => res.json())
       .then(data => {
@@ -367,6 +385,7 @@ export default function App() {
           prefilledService={prefilledService}
           prefilledBooking={prefilledBooking}
           onOpenSSLModal={() => setIsSSLModalOpen(true)}
+          onInquirySubmitted={(newInquiry) => setInquiries(prev => [newInquiry, ...prev])}
         />
       </main>
 
