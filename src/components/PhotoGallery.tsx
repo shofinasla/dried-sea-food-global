@@ -43,7 +43,7 @@ export default function PhotoGallery({ items, onOpenAdmin }: PhotoGalleryProps) 
   };
 
   return (
-    <section id="galeri" className="py-20 bg-slate-950 text-slate-100 border-b border-slate-800">
+    <section id="galeri" className="py-20 bg-slate-950 text-slate-100 border-b border-slate-800 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

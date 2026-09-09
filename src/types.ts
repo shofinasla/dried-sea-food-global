@@ -191,6 +191,12 @@ export interface SEOSettings {
   robotsFollow: boolean;
   sitemapCount: number;
   sslGrade: 'A+' | 'A';
+  // Google Ecosystem & Tracking Integration
+  googleSearchConsoleKey?: string; // e.g. "google-site-verification=xxxx"
+  googleAnalyticsId?: string; // e.g. "G-XXXXXXXXXX"
+  googleTagManagerId?: string; // e.g. "GTM-XXXXXXX"
+  googleMerchantCenterId?: string; // e.g. "123456789"
+  googleBusinessProfileUrl?: string; // e.g. Google Maps / Business profile link
 }
 
 export interface ExportCommodity {

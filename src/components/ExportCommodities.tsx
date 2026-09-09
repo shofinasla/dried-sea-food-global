@@ -59,7 +59,7 @@ export default function ExportCommodities({
   };
 
   return (
-    <section id="komoditas" className="py-24 bg-slate-900/60 relative border-t border-slate-800/80">
+    <section id="komoditas" className="py-24 bg-slate-900/60 relative border-t border-slate-800/80 overflow-hidden">
       {/* Background Decorative Glow */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />

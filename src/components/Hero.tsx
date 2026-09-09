@@ -143,36 +143,36 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Trust Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-bold shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>HACCP Grade A • KKP RI Health Certificate • Halal Certified</span>
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mb-6 sm:mb-8 text-center max-w-full">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[11px] sm:text-xs font-bold shadow-sm max-w-full">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span className="text-center">HACCP Grade A • KKP RI Health Certificate • Halal</span>
           </div>
           <a
             href={`tel:${COMPANY_PROFILE.hotline.replace(/\s+/g, '')}`}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300 hover:text-amber-400 hover:border-amber-500/50 text-xs font-bold transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300 hover:text-amber-400 hover:border-amber-500/50 text-[11px] sm:text-xs font-bold transition-colors shadow-sm shrink-0"
           >
             <span>{t.topBar.hotlineLabel} <strong>{COMPANY_PROFILE.hotline}</strong></span>
           </a>
           <button
             onClick={onOpenSSLModal}
             id="hero-ssl-badge"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-600/60 text-emerald-400 text-xs font-bold hover:bg-emerald-900/60 transition-colors shadow-sm cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-600/60 text-emerald-400 text-[11px] sm:text-xs font-bold hover:bg-emerald-900/60 transition-colors shadow-sm cursor-pointer shrink-0"
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
+            <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
             <span>{t.topBar.sslVerified}</span>
           </button>
         </div>
 
         {/* Main Hero Header */}
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+        <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6">
           
           {/* Active Carousel Badge Tag */}
-          <div className="inline-block px-4 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-amber-400 text-xs font-mono font-bold tracking-wider uppercase backdrop-blur-md">
+          <div className="inline-block px-3 sm:px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-700 text-amber-400 text-[10px] sm:text-xs font-mono font-bold tracking-normal sm:tracking-wider uppercase backdrop-blur-md max-w-full break-words leading-tight">
             {heroSlides[currentSlideIndex].badge}
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.18] font-serif">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight sm:leading-[1.18] font-serif break-words">
             {heroSlides[currentSlideIndex].title}{' '}
             <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
               {heroSlides[currentSlideIndex].highlight}
@@ -180,15 +180,15 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
             {heroSlides[currentSlideIndex].titlePart2}
           </h1>
 
-          <p className="text-base sm:text-lg lg:text-xl text-slate-300 font-normal leading-relaxed max-w-3xl mx-auto">
+          <p className="text-sm sm:text-lg lg:text-xl text-slate-300 font-normal leading-relaxed max-w-3xl mx-auto break-words">
             {heroSlides[currentSlideIndex].subtitle}
           </p>
 
           {/* Call-to-action buttons */}
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
+          <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-4 max-w-md sm:max-w-none mx-auto w-full">
             <button
               onClick={() => onScrollTo('#komoditas')}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold px-6 py-3.5 rounded-2xl text-sm shadow-xl shadow-amber-500/20 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold px-6 py-3 sm:py-3.5 rounded-2xl text-sm shadow-xl shadow-amber-500/20 transition-all transform hover:-translate-y-0.5 cursor-pointer w-full sm:w-auto"
             >
               <Package className="w-4 h-4" />
               <span>{t.nav.products}</span>
@@ -198,7 +198,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
             <button
               onClick={() => onScrollTo('#kalkulator')}
               id="hero-cta-shipping"
-              className="inline-flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 text-amber-300 font-bold px-6 py-3.5 rounded-2xl text-sm border border-amber-500/30 hover:border-amber-500 transition-all shadow-lg cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 bg-slate-900/90 hover:bg-slate-800 text-amber-300 font-bold px-6 py-3 sm:py-3.5 rounded-2xl text-sm border border-amber-500/30 hover:border-amber-500 transition-all shadow-lg cursor-pointer w-full sm:w-auto"
             >
               <Calculator className="w-4 h-4 text-amber-400" />
               <span>{t.hero.ctaCalculator}</span>
@@ -207,7 +207,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
             <button
               onClick={() => onScrollTo('#kontak')}
               id="hero-cta-rfq"
-              className="inline-flex items-center gap-2 bg-slate-950/80 hover:bg-slate-900 text-slate-200 font-semibold px-5 py-3.5 rounded-2xl text-sm border border-slate-700 hover:border-slate-500 transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 bg-slate-950/80 hover:bg-slate-900 text-slate-200 font-semibold px-5 py-3 sm:py-3.5 rounded-2xl text-sm border border-slate-700 hover:border-slate-500 transition-all cursor-pointer w-full sm:w-auto"
             >
               <FileText className="w-4 h-4 text-amber-400" />
               <span>{t.hero.ctaRfq}</span>
@@ -243,11 +243,11 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
                  'Primary Global Trade Routes:'}
               </span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-2.5 text-slate-300 font-semibold text-[11px]">
-              <span className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800">🚢 Jakarta / Belawan ⇄ Hong Kong & Kaohsiung</span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800">✈️ CGK Express Air ⇄ Singapore & Tokyo Narita</span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800">🚢 Tanjung Perak ⇄ Los Angeles USA</span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800">🚢 Tanjung Priok ⇄ Jebel Ali Dubai & Jeddah</span>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-slate-300 font-semibold text-[10px] sm:text-[11px] max-w-full">
+              <span className="px-2 sm:px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 max-w-full text-center">🚢 Jakarta / Belawan ⇄ Hong Kong & Kaohsiung</span>
+              <span className="px-2 sm:px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 max-w-full text-center">✈️ CGK Express Air ⇄ Singapore & Tokyo Narita</span>
+              <span className="px-2 sm:px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 max-w-full text-center">🚢 Tanjung Perak ⇄ Los Angeles USA</span>
+              <span className="px-2 sm:px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 max-w-full text-center">🚢 Tanjung Priok ⇄ Jebel Ali Dubai & Jeddah</span>
             </div>
           </div>
         </div>

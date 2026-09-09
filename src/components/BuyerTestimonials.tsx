@@ -25,7 +25,7 @@ export default function BuyerTestimonials() {
   ];
 
   return (
-    <section id="testimoni" className="py-24 bg-slate-900/40 relative border-t border-slate-800">
+    <section id="testimoni" className="py-24 bg-slate-900/40 relative border-t border-slate-800 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}

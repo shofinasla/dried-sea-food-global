@@ -21,7 +21,8 @@ import {
   RefreshCw,
   TrendingUp,
   FileCode,
-  Share2
+  Share2,
+  Copy
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -93,12 +94,31 @@ export default function AdminCMSModal({
   const [galDescription, setGalDescription] = useState('');
   const [galTags, setGalTags] = useState('');
 
-  // SEO Form state
+  // SEO & Google Ecosystem Form state
   const [metaTitle, setMetaTitle] = useState(seoSettings.metaTitle);
   const [metaDesc, setMetaDesc] = useState(seoSettings.metaDescription);
   const [focusKeywords, setFocusKeywords] = useState(seoSettings.focusKeywords.join(', '));
+  const [googleSearchConsoleKey, setGoogleSearchConsoleKey] = useState(seoSettings.googleSearchConsoleKey || '');
+  const [googleAnalyticsId, setGoogleAnalyticsId] = useState(seoSettings.googleAnalyticsId || '');
+  const [googleTagManagerId, setGoogleTagManagerId] = useState(seoSettings.googleTagManagerId || '');
+  const [googleMerchantCenterId, setGoogleMerchantCenterId] = useState(seoSettings.googleMerchantCenterId || '');
+  const [googleBusinessProfileUrl, setGoogleBusinessProfileUrl] = useState(seoSettings.googleBusinessProfileUrl || '');
+  const [copiedSitemap, setCopiedSitemap] = useState(false);
+  const [copiedGmcFeed, setCopiedGmcFeed] = useState(false);
   const [optimizingAISEO, setOptimizingAISEO] = useState(false);
   const [seoSuccessNotice, setSeoSuccessNotice] = useState(false);
+
+  // Sync state if external seoSettings changes
+  useEffect(() => {
+    setMetaTitle(seoSettings.metaTitle);
+    setMetaDesc(seoSettings.metaDescription);
+    setFocusKeywords(seoSettings.focusKeywords.join(', '));
+    setGoogleSearchConsoleKey(seoSettings.googleSearchConsoleKey || '');
+    setGoogleAnalyticsId(seoSettings.googleAnalyticsId || '');
+    setGoogleTagManagerId(seoSettings.googleTagManagerId || '');
+    setGoogleMerchantCenterId(seoSettings.googleMerchantCenterId || '');
+    setGoogleBusinessProfileUrl(seoSettings.googleBusinessProfileUrl || '');
+  }, [seoSettings]);
 
   // Inquiry reply note state
   const [selectedInquiry, setSelectedInquiry] = useState<ContactInquiry | null>(null);
@@ -229,7 +249,12 @@ export default function AdminCMSModal({
     await onSaveSEOSettings({
       metaTitle,
       metaDescription: metaDesc,
-      focusKeywords: focusKeywords.split(',').map(k => k.trim()).filter(Boolean)
+      focusKeywords: focusKeywords.split(',').map(k => k.trim()).filter(Boolean),
+      googleSearchConsoleKey: googleSearchConsoleKey.trim(),
+      googleAnalyticsId: googleAnalyticsId.trim(),
+      googleTagManagerId: googleTagManagerId.trim(),
+      googleMerchantCenterId: googleMerchantCenterId.trim(),
+      googleBusinessProfileUrl: googleBusinessProfileUrl.trim()
     });
     setSeoSuccessNotice(true);
     setTimeout(() => setSeoSuccessNotice(false), 3000);
@@ -285,7 +310,7 @@ export default function AdminCMSModal({
             { id: 'blog', label: 'Kelola Blog & Berita', icon: BookOpen, count: blogPosts.length },
             { id: 'gallery', label: 'Kelola Galeri Foto', icon: ImageIcon, count: galleryItems.length },
             { id: 'inquiries', label: 'Kotak Masuk RFQ', icon: Mail, count: inquiries.length },
-            { id: 'seo', label: 'SEO & Meta Manager', icon: Globe2 },
+            { id: 'seo', label: 'SEO & Integrasi Google', icon: Globe2 },
             { id: 'security', label: 'Keamanan & SSL Hub', icon: ShieldCheck }
           ].map((tab) => {
             const Icon = tab.icon;
@@ -466,6 +491,37 @@ export default function AdminCMSModal({
           {/* ========================================================================= */}
           {activeTab === 'analytics' && (
             <div className="space-y-6 animate-fadeIn">
+
+              {/* Telemetry Real-Time Status Card */}
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/40 to-slate-950 border border-emerald-800/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="flex items-start sm:items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                    <Activity className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                      <span>Engine Telemetri Pengunjung Live Aktif</span>
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                    </h4>
+                    <p className="text-xs text-slate-300 mt-0.5">
+                      Sesi browser pengunjung nyata yang sedang membuka website ini mengirimkan ping heartbeat otomatis ke server dan disinkronkan ke counter live navbar.
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('seo')}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold shrink-0 transition-colors cursor-pointer"
+                >
+                  <Globe2 className="w-3.5 h-3.5" />
+                  <span>Koneksikan Google Analytics 4 (GA4)</span>
+                </button>
+              </div>
+
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -1025,42 +1081,276 @@ export default function AdminCMSModal({
           )}
 
           {/* ========================================================================= */}
-          {/* TAB 6: SEO & META MANAGER */}
+          {/* TAB 6: SEO & GOOGLE ECOSYSTEM INTEGRATION */}
           {/* ========================================================================= */}
           {activeTab === 'seo' && (
             <div className="space-y-6 animate-fadeIn">
               
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
                 <div>
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
                     <Globe2 className="w-5 h-5 text-amber-400" />
-                    <span>SEO Optimization Suite & Meta Tags</span>
+                    <span>SEO & Integrasi Google Ecosystem Hub</span>
                   </h3>
-                  <p className="text-xs text-slate-400">Konfigurasi metadata Google Search, OpenGraph preview, dan Schema.org JSON-LD.</p>
+                  <p className="text-xs text-slate-400">
+                    Konfigurasi Google Search Console (GSC), Google Merchant Center (GMC), Google Analytics 4 (GA4), dan metadata SERP.
+                  </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleOptimizeAISEO}
-                  disabled={optimizingAISEO}
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow-md disabled:opacity-50"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  <span>{optimizingAISEO ? 'Mengoptimalkan AI...' : '✨ Optimasi SEO Otomatis dengan AI'}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleOptimizeAISEO}
+                    disabled={optimizingAISEO}
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs shadow-md disabled:opacity-50 transition-all cursor-pointer"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    <span>{optimizingAISEO ? 'Mengoptimalkan AI...' : '✨ Optimasi AI'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveSEOForm}
+                    className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all cursor-pointer"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Simpan Pengaturan</span>
+                  </button>
+                </div>
               </div>
 
               {seoSuccessNotice && (
-                <div className="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 text-emerald-400 text-xs flex items-center gap-2">
-                  <Check className="w-4 h-4" />
-                  <span>Pengaturan SEO berhasil diperbarui dan diterapkan ke seluruh halaman web!</span>
+                <div className="p-3.5 rounded-2xl bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs flex items-center gap-2.5 shadow-lg">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Pengaturan SEO dan integrasi Google berhasil disimpan dan disinkronkan ke seluruh sistem!</span>
                 </div>
               )}
+
+              {/* GOOGLE SUITE DEDICATED INTEGRATIONS (GSC & GMC & GA4) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                
+                {/* 1. Google Search Console (GSC) Card */}
+                <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-xs">
+                        GSC
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white">Google Search Console</h4>
+                        <span className="text-[10px] text-blue-400 font-semibold">Webmaster & Indexing Google</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
+                      Sitemap Siap
+                    </span>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Kode Verifikasi HTML Tag Google (Site Verification)
+                    </label>
+                    <input
+                      type="text"
+                      value={googleSearchConsoleKey}
+                      onChange={(e) => setGoogleSearchConsoleKey(e.target.value)}
+                      placeholder="Contoh: google-site-verification=xxxx atau kode verifikasi"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none font-mono"
+                    />
+                    <p className="text-[10px] text-slate-400 mt-1">
+                      Otomatis disematkan ke tag <code className="text-amber-400">&lt;meta name="google-site-verification"&gt;</code> di root HTML.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2 pt-2 border-t border-slate-800/80">
+                    <div className="flex items-center justify-between text-xs bg-slate-900 p-2.5 rounded-xl border border-slate-850">
+                      <div className="truncate pr-2">
+                        <span className="text-[10px] text-slate-400 block font-semibold">Sitemap XML URL:</span>
+                        <code className="text-[11px] text-emerald-400 font-mono">https://driedseafoodglobal.com/sitemap.xml</code>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText('https://driedseafoodglobal.com/sitemap.xml');
+                          setCopiedSitemap(true);
+                          setTimeout(() => setCopiedSitemap(false), 2000);
+                        }}
+                        className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs shrink-0 flex items-center gap-1 cursor-pointer"
+                        title="Salin Link Sitemap XML"
+                      >
+                        {copiedSitemap ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span className="text-[10px]">{copiedSitemap ? 'Disalin' : 'Salin'}</span>
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] text-slate-400 px-1">
+                      <span>Robots.txt: <code className="text-slate-300">/robots.txt</code> (Googlebot Diizinkan)</span>
+                      <a href="/robots.txt" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline flex items-center gap-1">
+                        <span>Cek Robots.txt</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Google Merchant Center (GMC) Card */}
+                <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-bold text-xs">
+                        GMC
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white">Google Merchant Center</h4>
+                        <span className="text-[10px] text-amber-400 font-semibold">Google Shopping B2B Product Feed</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
+                      RSS 2.0 Feed Siap
+                    </span>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      ID Akun Google Merchant Center (Opsional)
+                    </label>
+                    <input
+                      type="text"
+                      value={googleMerchantCenterId}
+                      onChange={(e) => setGoogleMerchantCenterId(e.target.value)}
+                      placeholder="Contoh: 123456789"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none font-mono"
+                    />
+                  </div>
+
+                  <div className="space-y-2 pt-2 border-t border-slate-800/80">
+                    <div className="flex items-center justify-between text-xs bg-slate-900 p-2.5 rounded-xl border border-slate-850">
+                      <div className="truncate pr-2">
+                        <span className="text-[10px] text-slate-400 block font-semibold">Official GMC Product XML Feed:</span>
+                        <code className="text-[11px] text-amber-400 font-mono">/feed/google-merchant-center.xml</code>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <a
+                          href="/feed/google-merchant-center.xml"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center gap-1"
+                          title="Buka XML Feed di Tab Baru"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText('https://driedseafoodglobal.com/feed/google-merchant-center.xml');
+                            setCopiedGmcFeed(true);
+                            setTimeout(() => setCopiedGmcFeed(false), 2000);
+                          }}
+                          className="p-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs flex items-center gap-1 cursor-pointer"
+                          title="Salin Link Feed Google Merchant Center"
+                        >
+                          {copiedGmcFeed ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                          <span className="text-[10px] font-bold">{copiedGmcFeed ? 'Disalin' : 'Salin Feed'}</span>
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-slate-400">
+                      Feed XML ini memuat seluruh komoditas ekspor (Teri Nasi, Cumi Sero, Jambal Roti, Fish Maw) sesuai standar Google Merchant namespace.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 3. Google Analytics 4 (GA4) & Google Tag Manager (GTM) Card */}
+                <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                        GA4
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white">Google Analytics 4 & Tag Manager</h4>
+                        <span className="text-[10px] text-emerald-400 font-semibold">Real-Time Traffic & Conversions</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 font-semibold">
+                      gtag.js Auto-Injected
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">
+                        GA4 Measurement ID
+                      </label>
+                      <input
+                        type="text"
+                        value={googleAnalyticsId}
+                        onChange={(e) => setGoogleAnalyticsId(e.target.value)}
+                        placeholder="G-XXXXXXXXXX"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">
+                        GTM Container ID (Opsional)
+                      </label>
+                      <input
+                        type="text"
+                        value={googleTagManagerId}
+                        onChange={(e) => setGoogleTagManagerId(e.target.value)}
+                        placeholder="GTM-XXXXXXX"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-xl border border-slate-850">
+                    💡 <strong>Cara Kerja:</strong> Begitu ID GA4 diisi, script resmi Google (<code className="text-amber-400">gtag.js</code>) akan aktif secara real-time melacak pengunjung di seluruh dunia dan mengirim event interaksi (kalkulasi ongkir, download katalog, dan klik RFQ).
+                  </div>
+                </div>
+
+                {/* 4. Google Business Profile & Local SEO */}
+                <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center font-bold text-xs">
+                        Maps
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white">Google Business Profile (Maps)</h4>
+                        <span className="text-[10px] text-rose-400 font-semibold">Local SEO & Trust Exporter</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      URL Google Maps / Google Business Listing
+                    </label>
+                    <input
+                      type="text"
+                      value={googleBusinessProfileUrl}
+                      onChange={(e) => setGoogleBusinessProfileUrl(e.target.value)}
+                      placeholder="https://maps.google.com/..."
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none font-mono"
+                    />
+                    <p className="text-[10px] text-slate-400 mt-1">
+                      Meningkatkan otoritas domain pada penelusuran lokal Google dan integrasi Schema PostalAddress.
+                    </p>
+                  </div>
+
+                  <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
+                    📍 Kawasan Industri Maritim Terpadu Muara Baru No. 88, Jakarta Utara (Koordinat: -6.1158, 106.8042)
+                  </div>
+                </div>
+
+              </div>
 
               {/* SERP Live Preview (Google Search snippet simulation) */}
               <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                  Google Search Engine Result Snippet Preview:
+                  Google Search Engine Result Snippet Preview (Desktop & Mobile):
                 </span>
                 <div className="bg-white text-slate-900 p-4 rounded-xl shadow-md space-y-1">
                   <div className="text-xs text-slate-600 flex items-center gap-1 font-mono">
@@ -1079,9 +1369,14 @@ export default function AdminCMSModal({
               {/* Edit SEO Meta Form */}
               <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">
-                    Meta Title Tag (Maks. 60 Karakter) - Panjang: {metaTitle.length}
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-bold text-slate-300">
+                      Meta Title Tag (Disarankan 50-60 Karakter)
+                    </label>
+                    <span className={`text-[11px] font-mono ${metaTitle.length > 60 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                      {metaTitle.length} / 60 Karakter
+                    </span>
+                  </div>
                   <input
                     type="text"
                     value={metaTitle}
@@ -1091,40 +1386,63 @@ export default function AdminCMSModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">
-                    Meta Description (Maks. 160 Karakter) - Panjang: {metaDesc.length}
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-bold text-slate-300">
+                      Meta Description (Disarankan 140-160 Karakter)
+                    </label>
+                    <span className={`text-[11px] font-mono ${metaDesc.length > 160 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                      {metaDesc.length} / 160 Karakter
+                    </span>
+                  </div>
                   <textarea
                     rows={3}
                     value={metaDesc}
                     onChange={(e) => setMetaDesc(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:border-amber-500 focus:outline-none"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:border-amber-500 focus:outline-none leading-relaxed"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">
-                    Target Focus Keywords (B2B Logistics)
+                    Target Focus Keywords (Dipisahkan koma)
                   </label>
                   <input
                     type="text"
                     value={focusKeywords}
                     onChange={(e) => setFocusKeywords(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:border-amber-500 focus:outline-none"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:border-amber-500 focus:outline-none font-mono"
                   />
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {focusKeywords.split(',').map((kw, i) => kw.trim() ? (
+                      <span key={i} className="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[10px]">
+                        #{kw.trim()}
+                      </span>
+                    ) : null)}
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center gap-2 text-xs text-emerald-400">
-                    <Check className="w-4 h-4" />
-                    <span>Schema.org Organization & LogisticsService JSON-LD Aktif</span>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-3 border-t border-slate-800">
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-emerald-400">
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] flex items-center gap-1">
+                      <Check className="w-3 h-3" />
+                      <span>Schema Organization & WholesaleStore Aktif</span>
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] flex items-center gap-1">
+                      <Check className="w-3 h-3" />
+                      <span>Product Offer Catalog JSON-LD</span>
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] flex items-center gap-1">
+                      <Check className="w-3 h-3" />
+                      <span>Hreflang Multilingual Ready</span>
+                    </span>
                   </div>
+
                   <button
                     type="button"
                     onClick={handleSaveSEOForm}
-                    className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs"
+                    className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition-colors cursor-pointer shrink-0"
                   >
-                    Simpan Konfigurasi SEO
+                    Simpan Semua Konfigurasi
                   </button>
                 </div>
               </div>

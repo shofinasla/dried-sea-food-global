@@ -146,7 +146,7 @@ Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
   };
 
   return (
-    <section id="kalkulator" className="py-20 bg-slate-900/60 border-b border-slate-800 text-slate-100 relative">
+    <section id="kalkulator" className="py-20 bg-slate-900/60 border-b border-slate-800 text-slate-100 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12">

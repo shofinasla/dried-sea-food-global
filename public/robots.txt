@@ -1,0 +1,19 @@
+# Robots.txt for Dried Seafood Global
+User-agent: *
+Allow: /
+Disallow: /api/admin/
+Disallow: /api/cms/
+
+# Googlebot specific directives
+User-agent: Googlebot
+Allow: /
+Allow: /#komoditas
+Allow: /#tentang
+Allow: /#kalkulator
+Allow: /#kontak
+Allow: /#alur-ekspor
+Allow: /#galeri
+Allow: /#blog
+
+# Sitemaps
+Sitemap: https://driedseafoodglobal.com/sitemap.xml

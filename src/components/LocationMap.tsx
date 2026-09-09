@@ -18,7 +18,7 @@ export default function LocationMap() {
   const [selectedOffice, setSelectedOffice] = useState<OfficeLocation>(OFFICE_LOCATIONS[0]);
 
   return (
-    <section id="lokasi" className="py-20 bg-slate-900/70 text-slate-100 border-b border-slate-800">
+    <section id="lokasi" className="py-20 bg-slate-900/70 text-slate-100 border-b border-slate-800 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -67,8 +67,8 @@ export default function LocationMap() {
           
           {/* Left Column: Interactive Map Visualization / Embed */}
           <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col">
-            <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs text-slate-300">
-              <div className="flex items-center gap-2">
+            <div className="p-4 bg-slate-950 border-b border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-300">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
                 <span className="font-bold text-white">Live GPS Coordinates:</span>
                 <span className="font-mono text-amber-400 font-bold">

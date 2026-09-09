@@ -32,7 +32,7 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: Foot
   };
 
   return (
-    <footer className="bg-slate-950 text-slate-400 text-xs border-t border-slate-800">
+    <footer className="bg-slate-950 text-slate-400 text-xs border-t border-slate-800 overflow-hidden">
       {/* Top Banner / Trust Bar */}
       <div className="border-b border-slate-900 py-6 bg-slate-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">

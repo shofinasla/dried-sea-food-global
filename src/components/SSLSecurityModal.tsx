@@ -10,8 +10,8 @@ export default function SSLSecurityModal({ isOpen, onClose }: SSLSecurityModalPr
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
-      <div className="bg-slate-900 border border-emerald-500/40 rounded-3xl max-w-xl w-full shadow-2xl p-6 sm:p-8 relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn overflow-y-auto">
+      <div className="bg-slate-900 border border-emerald-500/40 rounded-3xl max-w-xl w-full shadow-2xl p-5 sm:p-8 relative max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
@@ -19,13 +19,13 @@ export default function SSLSecurityModal({ isOpen, onClose }: SSLSecurityModalPr
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-lg">
+        <div className="flex items-center gap-3 mb-6 pr-8">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-lg shrink-0">
             <ShieldCheck className="w-7 h-7" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-lg font-bold text-white">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-base sm:text-lg font-bold text-white">
                 Sertifikat Keamanan SSL / TLS 1.3
               </h3>
               <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-700">
@@ -40,23 +40,23 @@ export default function SSLSecurityModal({ isOpen, onClose }: SSLSecurityModalPr
 
         <div className="space-y-4">
           <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2.5 text-xs font-mono">
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
               <span className="text-slate-400">Penerbit Resmi (Issuer):</span>
               <span className="text-emerald-400 font-bold">{SSL_CERTIFICATE_INFO.issuer}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
               <span className="text-slate-400">Tingkat Enkripsi:</span>
               <span className="text-white font-bold">{SSL_CERTIFICATE_INFO.encryptionLevel}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
               <span className="text-slate-400">Protokol Cipher:</span>
-              <span className="text-amber-400 font-bold">{SSL_CERTIFICATE_INFO.protocol} ({SSL_CERTIFICATE_INFO.cipherSuite})</span>
+              <span className="text-amber-400 font-bold break-all">{SSL_CERTIFICATE_INFO.protocol} ({SSL_CERTIFICATE_INFO.cipherSuite})</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
               <span className="text-slate-400">Masa Berlaku Sertifikat:</span>
               <span className="text-slate-200">{SSL_CERTIFICATE_INFO.validUntil}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
               <span className="text-slate-400">Subject / Organization:</span>
               <span className="text-slate-200">{COMPANY_PROFILE.legalName}</span>
             </div>

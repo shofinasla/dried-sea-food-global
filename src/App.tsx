@@ -16,12 +16,14 @@ import SSLSecurityModal from './components/SSLSecurityModal';
 import ExportCatalogModal from './components/ExportCatalogModal';
 import { INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
 import { BlogPost, GalleryItem, ContactInquiry, SEOSettings } from './types';
+import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
 
 export default function App() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(INITIAL_BLOG_POSTS);
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(INITIAL_GALLERY);
   const [inquiries, setInquiries] = useState<ContactInquiry[]>(INITIAL_INQUIRIES);
   const [seoSettings, setSeoSettings] = useState<SEOSettings>(INITIAL_SEO_SETTINGS);
+  const [liveVisitors, setLiveVisitors] = useState<number>(46);
 
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isSSLModalOpen, setIsSSLModalOpen] = useState(false);
@@ -60,9 +62,35 @@ export default function App() {
         if (data && data.metaTitle) setSeoSettings(data);
       })
       .catch(err => console.log('API SEO fallback to memory', err));
+
+    // 4. Real-time Telemetry Ping & Active Visitor counter
+    pingVisitorPresence();
+    fetch('/api/analytics/realtime')
+      .then(res => res.json())
+      .then(data => {
+        if (data && typeof data.activeVisitorsNow === 'number') {
+          setLiveVisitors(data.activeVisitorsNow);
+        }
+      })
+      .catch(() => {});
+
+    // Periodic heartbeat to refresh live visitor count every 20 seconds
+    const interval = setInterval(() => {
+      pingVisitorPresence();
+      fetch('/api/analytics/realtime')
+        .then(res => res.json())
+        .then(data => {
+          if (data && typeof data.activeVisitorsNow === 'number') {
+            setLiveVisitors(data.activeVisitorsNow);
+          }
+        })
+        .catch(() => {});
+    }, 20000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  // Synchronize dynamic SEO Meta Tags with state
+  // Synchronize dynamic SEO Meta Tags & Google Ecosystem with state
   useEffect(() => {
     if (seoSettings.metaTitle) {
       document.title = seoSettings.metaTitle;
@@ -78,6 +106,22 @@ export default function App() {
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc && seoSettings.metaDescription) {
       ogDesc.setAttribute('content', seoSettings.metaDescription);
+    }
+
+    // Google Site Verification (GSC / GMC)
+    const gscMeta = document.getElementById('meta-google-verification');
+    if (gscMeta && seoSettings.googleSearchConsoleKey) {
+      gscMeta.setAttribute('content', seoSettings.googleSearchConsoleKey);
+    }
+
+    // Google Analytics 4 (GA4)
+    if (seoSettings.googleAnalyticsId) {
+      initGoogleAnalytics(seoSettings.googleAnalyticsId);
+    }
+
+    // Google Tag Manager (GTM)
+    if (seoSettings.googleTagManagerId) {
+      initGoogleTagManager(seoSettings.googleTagManagerId);
     }
   }, [seoSettings]);
 
@@ -259,7 +303,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-slate-950 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
       
       {/* Top Fixed Header Navbar */}
       <Navbar
@@ -267,7 +311,7 @@ export default function App() {
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
         onScrollTo={handleScrollTo}
         activeSection={activeSection}
-        activeVisitors={46}
+        activeVisitors={liveVisitors}
       />
 
       {/* Main Page Sections */}

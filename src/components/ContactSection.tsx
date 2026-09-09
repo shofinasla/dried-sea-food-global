@@ -115,7 +115,7 @@ Mohon jadwalkan penjemputan kargo (cargo pickup) dan pengurusan dokumen ekspor.`
   };
 
   return (
-    <section id="kontak" className="py-20 bg-slate-900/80 text-slate-100 border-b border-slate-800 relative">
+    <section id="kontak" className="py-20 bg-slate-900/80 text-slate-100 border-b border-slate-800 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

@@ -681,7 +681,12 @@ export const DEFAULT_SEO_SETTINGS: SEOSettings = {
   robotsIndex: true,
   robotsFollow: true,
   sitemapCount: 24,
-  sslGrade: 'A+'
+  sslGrade: 'A+',
+  googleSearchConsoleKey: '',
+  googleAnalyticsId: '',
+  googleTagManagerId: '',
+  googleMerchantCenterId: '',
+  googleBusinessProfileUrl: 'https://maps.google.com/?q=Kawasan+Industri+Maritim+Muara+Baru+Jakarta+Utara'
 };
 
 export const INITIAL_SEO_SETTINGS = DEFAULT_SEO_SETTINGS;

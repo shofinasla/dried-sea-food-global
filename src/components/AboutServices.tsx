@@ -41,7 +41,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
   };
 
   return (
-    <section id="tentang" className="py-20 bg-slate-950 text-slate-100 border-b border-slate-800">
+    <section id="tentang" className="py-20 bg-slate-950 text-slate-100 border-b border-slate-800 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -59,11 +59,11 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
 
         {/* Tab Switcher */}
         <div className="flex justify-center mb-12">
-          <div className="inline-flex p-1.5 rounded-2xl bg-slate-900 border border-slate-800 shadow-inner flex-wrap gap-1">
+          <div className="inline-flex p-1 sm:p-1.5 rounded-2xl bg-slate-900 border border-slate-800 shadow-inner flex-wrap gap-1 justify-center max-w-full">
             <button
               onClick={() => setActiveTab('services')}
               id="tab-btn-services"
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
+              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 activeTab === 'services'
                   ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
@@ -74,7 +74,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
             <button
               onClick={() => setActiveTab('profile')}
               id="tab-btn-profile"
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
+              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 activeTab === 'profile'
                   ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
@@ -85,7 +85,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
             <button
               onClick={() => setActiveTab('leadership')}
               id="tab-btn-leadership"
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
+              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 activeTab === 'leadership'
                   ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
@@ -96,7 +96,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
             <button
               onClick={() => setActiveTab('certifications')}
               id="tab-btn-certifications"
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
+              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 activeTab === 'certifications'
                   ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'

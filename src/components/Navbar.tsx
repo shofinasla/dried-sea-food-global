@@ -124,30 +124,36 @@ export default function Navbar({
     <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/80 transition-all duration-300 shadow-2xl">
       
       {/* 1. TOP ENTERPRISE DASHBOARD STATUS BAR */}
-      <div className="bg-slate-950 border-b border-slate-850 py-1.5 px-3 sm:px-6 text-xs text-slate-300">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <div className="bg-slate-950 border-b border-slate-850 py-1.5 px-2.5 sm:px-6 text-xs text-slate-300 overflow-hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
           
           {/* Left: Security & Live Export Operational Badges */}
-          <div className="flex items-center gap-2.5 sm:gap-4 overflow-x-auto scrollbar-none py-0.5">
+          <div className="flex items-center gap-1.5 sm:gap-4 min-w-0 overflow-hidden py-0.5">
             {/* SSL Verification Badge */}
             <button 
               onClick={onOpenSSLModal}
               id="top-ssl-badge-btn"
               title="Click to view Extended Validation (EV) SSL certificate details"
-              className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-medium bg-emerald-500/10 border border-emerald-500/25 hover:border-emerald-500/40 px-2.5 py-0.5 rounded-full text-[11px] transition-all shrink-0 cursor-pointer shadow-sm"
+              className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-medium bg-emerald-500/10 border border-emerald-500/25 hover:border-emerald-500/40 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] transition-all shrink-0 cursor-pointer shadow-sm"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="whitespace-nowrap">{t.topBar.sslVerified}</span>
+              <ShieldCheck className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400 shrink-0" />
+              <span className="hidden sm:inline whitespace-nowrap">{t.topBar.sslVerified}</span>
+              <span className="sm:hidden whitespace-nowrap font-bold">TLS 1.3 EV SSL</span>
             </button>
 
-            {/* Live Traffic Metric */}
-            <div className="hidden sm:inline-flex items-center gap-2 text-[11px] text-slate-400 bg-slate-900/90 border border-slate-800 px-2.5 py-0.5 rounded-full shrink-0">
+            {/* Live Traffic Metric - Interactive to view Real-Time Analytics */}
+            <button
+              onClick={onOpenAdmin}
+              id="top-bar-live-analytics-btn"
+              title="Lihat Detail Analitik Pengunjung Real-Time & Integrasi Google"
+              className="hidden sm:inline-flex items-center gap-2 text-[11px] text-slate-400 hover:text-slate-200 bg-slate-900/90 hover:bg-slate-850 border border-slate-800 hover:border-emerald-500/40 px-2.5 py-0.5 rounded-full shrink-0 transition-all cursor-pointer"
+            >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span>{t.topBar.liveMonitor}: <strong className="text-slate-200 font-mono">{activeVisitors}</strong> {t.topBar.buyersOnline}</span>
-            </div>
+              <span>{t.topBar.liveMonitor}: <strong className="text-emerald-400 font-mono font-bold">{activeVisitors}</strong> {t.topBar.buyersOnline}</span>
+            </button>
 
             {/* Quality Standard Chip */}
             <div className="hidden lg:inline-flex items-center gap-1 text-[11px] text-amber-300/90 font-medium bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full shrink-0">
@@ -157,7 +163,7 @@ export default function Navbar({
           </div>
 
           {/* Right: Hotline, Multilingual Selector & Admin Portal */}
-          <div className="flex items-center gap-2.5 sm:gap-4 shrink-0 ml-auto">
+          <div className="flex items-center gap-1.5 sm:gap-4 shrink-0 ml-auto">
             {/* 24/7 Hotline Direct Dial */}
             <a 
               href={`tel:${COMPANY_PROFILE.hotline.replace(/\s+/g, '')}`}
@@ -176,7 +182,7 @@ export default function Navbar({
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
                 id="btn-lang-selector-top"
                 aria-label="Change Website Language & Country Locale"
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-750 hover:border-amber-500/50 text-slate-200 hover:text-white transition-all cursor-pointer text-xs font-semibold shadow-sm"
+                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-750 hover:border-amber-500/50 text-slate-200 hover:text-white transition-all cursor-pointer text-xs font-semibold shadow-sm"
               >
                 <span className="text-sm leading-none">{currentLanguageOption.flag}</span>
                 <span className="font-bold text-[11px] text-amber-400 uppercase tracking-wide">{currentLanguageOption.code}</span>
@@ -222,40 +228,40 @@ export default function Navbar({
               onClick={onOpenAdmin}
               id="btn-open-admin-top"
               title="Open Export Management Portal & CMS"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 hover:bg-amber-500/25 hover:border-amber-400 px-2.5 py-1 rounded-lg transition-all shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 hover:bg-amber-500/25 hover:border-amber-400 px-2 sm:px-2.5 py-1 rounded-lg transition-all shadow-sm cursor-pointer"
             >
               <Lock className="w-3 h-3 text-amber-400" />
               <span className="hidden sm:inline">{t.topBar.adminPortal}</span>
-              <span className="sm:hidden">Admin</span>
+              <span className="sm:hidden font-bold">Admin</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* 2. MAIN NAVIGATION HEADER */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* Brand Logo & Identity */}
           <a 
             href="#hero" 
             onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}
             id="brand-logo-link"
-            className="flex items-center gap-3 group shrink-0"
+            className="flex items-center gap-2.5 sm:gap-3 group min-w-0 max-w-[calc(100%-54px)] sm:max-w-none"
           >
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-all border border-amber-400/40 shrink-0">
-              <Fish className="w-6 h-6 text-slate-950 transition-transform group-hover:rotate-6" />
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-all border border-amber-400/40 shrink-0">
+              <Fish className="w-5 h-5 sm:w-6 sm:h-6 text-slate-950 transition-transform group-hover:rotate-6" />
             </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="text-base sm:text-lg font-extrabold tracking-tight text-white group-hover:text-amber-400 transition-colors font-serif">
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-sm sm:text-lg font-extrabold tracking-tight text-white group-hover:text-amber-400 transition-colors font-serif truncate">
                   DRIED SEAFOOD
                 </span>
-                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wider">
+                <span className="text-[9px] sm:text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wider shrink-0">
                   GLOBAL
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-400 uppercase leading-none mt-0.5">
+              <p className="text-[9px] sm:text-[11px] font-medium tracking-normal sm:tracking-wide text-slate-400 uppercase leading-none mt-0.5 truncate">
                 INDONESIA CERTIFIED EXPORT TRADING
               </p>
             </div>
