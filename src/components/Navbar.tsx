@@ -46,6 +46,17 @@ export default function Navbar({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const langDropdownRef = useRef<HTMLDivElement>(null);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Track window scroll to add shadow and ensure sticky navbar stays visible
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 15);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -131,7 +142,7 @@ export default function Navbar({
   const isExplorationActive = explorationLinks.some(link => link.id === activeSection);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-slate-200/90 transition-all duration-300 shadow-sm">
+    <header className={`sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200/90 transition-all duration-300 ${isScrolled ? 'shadow-md' : 'shadow-xs'}`}>
       
       {/* 1. TOP ENTERPRISE STATUS & COMPLIANCE BAR */}
       <div className="bg-slate-50 border-b border-slate-200/80 py-1.5 px-3 sm:px-6 text-xs text-slate-600">
@@ -183,8 +194,8 @@ export default function Navbar({
               <strong className="text-slate-900 font-mono tracking-tight">{COMPANY_PROFILE.hotline}</strong>
             </a>
 
-            {/* Global Multilingual Selector Dropdown */}
-            <div className="relative" ref={langDropdownRef}>
+            {/* Global Multilingual Selector Dropdown - Hidden on Mobile to keep top bar uncluttered; available in Mobile Menu */}
+            <div className="relative hidden sm:block" ref={langDropdownRef}>
               <button
                 type="button"
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
@@ -192,9 +203,9 @@ export default function Navbar({
                 aria-label="Change Website Language & Country Locale"
                 className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-teal-500 text-slate-700 hover:text-slate-900 transition-all cursor-pointer text-xs font-semibold shadow-2xs"
               >
-                <span className="text-sm leading-none">{currentLanguageOption.flag}</span>
+                <Globe2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
                 <span className="font-bold text-[11px] text-teal-700 uppercase tracking-wide">{currentLanguageOption.code}</span>
-                <span className="hidden sm:inline text-slate-600 text-[11px]">({currentLanguageOption.name})</span>
+                <span className="hidden md:inline text-slate-600 text-[11px]">({currentLanguageOption.name})</span>
                 <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${langDropdownOpen ? 'rotate-180 text-teal-600' : ''}`} />
               </button>
 

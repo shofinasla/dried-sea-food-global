@@ -23,9 +23,10 @@ interface FooterProps {
   onScrollTo: (id: string) => void;
   onOpenSSLModal: () => void;
   onOpenAdmin: () => void;
+  onOpen404?: () => void;
 }
 
-export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: FooterProps) {
+export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin, onOpen404 }: FooterProps) {
   const { t, currentLang } = useTranslation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -157,6 +158,12 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin }: Foot
             <button onClick={() => onScrollTo('#kontak')} className="hover:text-[#009bb3] cursor-pointer">Contact & RFQ</button>
             <span>•</span>
             <button onClick={onOpenAdmin} className="text-[#009bb3] font-semibold hover:underline cursor-pointer">Admin CMS</button>
+            {onOpen404 && (
+              <>
+                <span>•</span>
+                <button onClick={onOpen404} className="hover:text-[#009bb3] cursor-pointer text-slate-400">Halaman 404</button>
+              </>
+            )}
           </div>
         </div>
       </div>

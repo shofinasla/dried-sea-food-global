@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import AdminCMSModal from './components/AdminCMSModal';
 import SSLSecurityModal from './components/SSLSecurityModal';
 import ExportCatalogModal from './components/ExportCatalogModal';
+import NotFoundPage from './components/NotFoundPage';
 import { INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
 import { BlogPost, GalleryItem, ContactInquiry, SEOSettings } from './types';
 import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
@@ -36,6 +37,29 @@ export default function App() {
     courierName: string;
     estimatedPriceUSD: number;
   } | null>(null);
+
+  // Client-side route detection (supporting /404 and unknown routes)
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    return typeof window !== 'undefined' ? window.location.pathname : '/';
+  });
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path: string) => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', path);
+      setCurrentPath(path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const is404 = currentPath !== '/' && currentPath !== '' && currentPath !== '/index.html';
 
   // Fetch initial data from server APIs
   useEffect(() => {
@@ -320,8 +344,54 @@ export default function App() {
     }
   };
 
+  if (is404) {
+    return (
+      <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
+        <NotFoundPage
+          onBackToHome={() => navigateTo('/')}
+          onScrollToSection={(sectionId) => {
+            navigateTo('/');
+            setTimeout(() => {
+              handleScrollTo(sectionId);
+            }, 120);
+          }}
+          onOpenAdmin={() => setIsAdminOpen(true)}
+          onOpenSSLModal={() => setIsSSLModalOpen(true)}
+          onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
+        />
+
+        {/* Modals accessible from 404 page */}
+        <AdminCMSModal
+          isOpen={isAdminOpen}
+          onClose={() => setIsAdminOpen(false)}
+          blogPosts={blogPosts}
+          galleryItems={galleryItems}
+          inquiries={inquiries}
+          seoSettings={seoSettings}
+          onSaveBlogPost={handleSaveBlogPost}
+          onDeleteBlogPost={handleDeleteBlogPost}
+          onSaveGalleryItem={handleSaveGalleryItem}
+          onDeleteGalleryItem={handleDeleteGalleryItem}
+          onUpdateInquiryStatus={handleUpdateInquiryStatus}
+          onSaveSEOSettings={handleSaveSEOSettings}
+        />
+
+        <SSLSecurityModal
+          isOpen={isSSLModalOpen}
+          onClose={() => setIsSSLModalOpen(false)}
+        />
+
+        <ExportCatalogModal
+          isOpen={isCatalogModalOpen}
+          onClose={() => setIsCatalogModalOpen(false)}
+          onSelectCommodityForQuote={handleSelectCommodityForQuote}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
+    <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
       
       {/* Top Fixed Header Navbar */}
       <Navbar
@@ -394,6 +464,7 @@ export default function App() {
         onScrollTo={handleScrollTo}
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
         onOpenAdmin={() => setIsAdminOpen(true)}
+        onOpen404={() => navigateTo('/404')}
       />
 
       {/* Admin Content Management System (CMS) & Analytics Portal */}
