@@ -69,6 +69,24 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       document.documentElement.lang = currentLang;
       document.documentElement.dir = dir;
 
+      const ogLocales: Record<SupportedLanguage, string> = {
+        en: 'en_US',
+        id: 'id_ID',
+        zh: 'zh_CN',
+        ja: 'ja_JP',
+        ko: 'ko_KR',
+        ar: 'ar_SA',
+        es: 'es_ES',
+        fr: 'fr_FR',
+        de: 'de_DE',
+        vi: 'vi_VN',
+        ru: 'ru_RU'
+      };
+      const ogLocale = document.querySelector('meta[property="og:locale"]');
+      if (ogLocale) {
+        ogLocale.setAttribute('content', ogLocales[currentLang]);
+      }
+
       // Update meta titles & description based on current language
       const titles: Record<SupportedLanguage, string> = {
         en: 'Dried Seafood Global - Certified Indonesian Dried Fish & Seafood Exporter',

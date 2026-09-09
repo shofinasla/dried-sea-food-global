@@ -132,24 +132,9 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Synchronize dynamic SEO Meta Tags & Google Ecosystem with state
+  // Keep analytics and verification settings in sync with the admin panel.
+  // LanguageContext owns translated title and description metadata.
   useEffect(() => {
-    if (seoSettings.metaTitle) {
-      document.title = seoSettings.metaTitle;
-    }
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc && seoSettings.metaDescription) {
-      metaDesc.setAttribute('content', seoSettings.metaDescription);
-    }
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle && seoSettings.metaTitle) {
-      ogTitle.setAttribute('content', seoSettings.metaTitle);
-    }
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc && seoSettings.metaDescription) {
-      ogDesc.setAttribute('content', seoSettings.metaDescription);
-    }
-
     // Google Site Verification (GSC / GMC)
     const gscMeta = document.getElementById('meta-google-verification');
     if (gscMeta && seoSettings.googleSearchConsoleKey) {
