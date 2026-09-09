@@ -46,17 +46,35 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
       title: currentLang === 'id' ? 'Katalog Komoditas Ikan Asin & Teri Medan Super' :
              currentLang === 'zh' ? '特级印尼白饭鱼与深海咸马友鱼出口' :
              currentLang === 'ja' ? '極上チリメンジャコ・白子干し＆塩干魚輸出' :
+             currentLang === 'ko' ? '특급 인도네시아산 백자멸치 & 염장 삼치' :
              currentLang === 'ar' ? 'كتالوج تصدير أسماك الأنشوجة البيضاء والأسماك المملحة' :
+             currentLang === 'es' ? 'Catálogo de Anchoas Blancas y Pescado Salado' :
+             currentLang === 'fr' ? 'Catalogue d\'Anchois Blancs & Poissons Salés' :
+             currentLang === 'de' ? 'Katalog für Premium-Sardellen & Salzfisch' :
+             currentLang === 'vi' ? 'Danh Mục Cá Cơm Trắng & Cá Mặn Cao Cấp' :
+             currentLang === 'ru' ? 'Каталог Белого Анчоуса и Соленой Рыбы' :
              'Premium Indonesian Whitebait Anchovy & Salted Giant Catfish',
       highlight: currentLang === 'id' ? 'Higienis Tanpa Formalin' :
                  currentLang === 'zh' ? '纯天然零化学添加' :
                  currentLang === 'ja' ? '無添加・天然乾燥' :
+                 currentLang === 'ko' ? '무방부제·100% 천연건조' :
                  currentLang === 'ar' ? 'طبيعي بدون فورمالين' :
+                 currentLang === 'es' ? '100% Natural Sin Conservantes' :
+                 currentLang === 'fr' ? 'Hygiénique Sans Conservateur' :
+                 currentLang === 'de' ? '100% Ohne Konservierungsstoffe' :
+                 currentLang === 'vi' ? 'Vệ Sinh 100% Không Formol' :
+                 currentLang === 'ru' ? 'Без Формалина и Консервантов' :
                  'Zero Chemical Preservatives',
       titlePart2: currentLang === 'id' ? 'Proses Solar Dome Mutu Ekspor' :
                   currentLang === 'zh' ? '太阳能干燥大棚标准化出品' :
                   currentLang === 'ja' ? 'ソーラードーム衛生乾燥' :
+                  currentLang === 'ko' ? '솔라돔 위생 건조 국제표준 규격' :
                   currentLang === 'ar' ? 'تجفيف شمسي بمعايير عالمية' :
+                  currentLang === 'es' ? 'Secado en Domo Solar para Exportación' :
+                  currentLang === 'fr' ? 'Séchage Solar Dome Normes Export' :
+                  currentLang === 'de' ? 'Solar-Dome-Trocknung nach Exportstandard' :
+                  currentLang === 'vi' ? 'Sấy Vòm Solar Dome Tiêu Chuẩn Xuất Khẩu' :
+                  currentLang === 'ru' ? 'Купольная Сушка Экспортного Стандарта' :
                   'Solar Dome Dried to International Specs',
       badge: 'HACCP Grade A • BKIPM Certified',
       subtitle: t.hero.trust1Desc,
@@ -67,17 +85,35 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
       title: currentLang === 'id' ? 'Gudang Dehumidified Kering & Laboratorium Mutu Terpadu' :
              currentLang === 'zh' ? '恒温恒湿干燥仓储与严苛出口品控实验室' :
              currentLang === 'ja' ? '定温除湿型メガストレージ＆品質検査ラボ' :
+             currentLang === 'ko' ? '저습도 제습 메가 창고 및 수출 품질검사 랩' :
              currentLang === 'ar' ? 'مستودعات مجهزة بالتحكم في الرطوبة ومختبرات معتمدة' :
+             currentLang === 'es' ? 'Almacenes Deshumidificados y Laboratorio de Calidad' :
+             currentLang === 'fr' ? 'Entrepôts Déshumidifiés et Laboratoire de Contrôle Qualité' :
+             currentLang === 'de' ? 'Entfeuchtete Lagerhallen & Integriertes Qualitätslabor' :
+             currentLang === 'vi' ? 'Kho Hút Ẩm Tiêu Chuẩn & Phòng Lab Kiểm Nghiệm Chất Lượng' :
+             currentLang === 'ru' ? 'Склады с Осушением и Аккредитованная Лаборатория' :
              'Dehumidified Storage & Integrated Quality Laboratory',
       highlight: currentLang === 'id' ? 'Kelembaban Terkontrol (<55% RH)' :
                  currentLang === 'zh' ? '低湿度防潮防变质' :
                  currentLang === 'ja' ? '低湿度管理' :
+                 currentLang === 'ko' ? '제어된 항습도 (<55% RH)' :
                  currentLang === 'ar' ? 'رطوبة منضبطة تماماً' :
+                 currentLang === 'es' ? 'Humedad Controlada (<55% HR)' :
+                 currentLang === 'fr' ? 'Humidité Contrôlée (<55 % HR)' :
+                 currentLang === 'de' ? 'Kontrollierte Luftfeuchte (<55% rF)' :
+                 currentLang === 'vi' ? 'Độ Ẩm Kiểm Soát (<55% RH)' :
+                 currentLang === 'ru' ? 'Контролируемая Влажность (<55% RH)' :
                  'Controlled Humidity (<55% RH)',
       titlePart2: currentLang === 'id' ? 'Menjaga Garing Alami & Bebas Jamur' :
                   currentLang === 'zh' ? '确保跨洋远航成色稳定' :
-                  currentLang === 'ja' ? '長期海上航行でも変質なし' :
+                  currentLang === 'ja' ? '長期海上航行でも変质なし' :
+                  currentLang === 'ko' ? '대양 횡단 항해 중 변질 및 곰팡이 방지' :
                   currentLang === 'ar' ? 'حماية فائقة خلال الرحلات البحرية' :
+                  currentLang === 'es' ? 'Preservando la Frescura en Rutas Oceánicas' :
+                  currentLang === 'fr' ? 'Préservation de la Fraîcheur sur Longues Traversées' :
+                  currentLang === 'de' ? 'Sichert Frische auf Transozeanischen Routen' :
+                  currentLang === 'vi' ? 'Giữ Độ Giòn Tự Nhiên Suốt Hành Trình Vận Chuyển' :
+                  currentLang === 'ru' ? 'Защита от Влаги и Плесени при Трансокеанской Доставке' :
                   'Safeguarding Freshness on Transoceanic Routes',
       badge: 'Climate Controlled Logistics',
       subtitle: t.hero.trust2Desc,
@@ -88,17 +124,35 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
       title: currentLang === 'id' ? 'Fish Maw (Gelembung Ikan) & Teripang Kering Mewah' :
              currentLang === 'zh' ? '印尼特级花胶鱼鳔与名贵干海参国际直供' :
              currentLang === 'ja' ? '高級魚鰾（花胶）＆干しナマコ国際航空直送' :
+             currentLang === 'ko' ? '수출 특급 생선 부레(화교) 및 최고급 건해삼' :
              currentLang === 'ar' ? 'حويصلات الأسماك الفاخرة وخيار البحر عالي الجودة' :
+             currentLang === 'es' ? 'Buches de Pescado de Exportación y Pepino de Mar Prémium' :
+             currentLang === 'fr' ? 'Vessies Natatoires d\'Exportation & Holothuries de Luxe' :
+             currentLang === 'de' ? 'Export-Fischblasen (Fish Maw) & Edle Seegurken' :
+             currentLang === 'vi' ? 'Bong Bóng Cá Xuất Khẩu & Hải Sâm Khô Thượng Hạng' :
+             currentLang === 'ru' ? 'Рыбьи Пузыри Экспортного Класса и Морской Огурец' :
              'Export Grade Fish Maw & Premium Sea Cucumber',
       highlight: currentLang === 'id' ? 'Kargo Udara Kilat & FCL Kontainer' :
                  currentLang === 'zh' ? '空运极速与整柜海运' :
                  currentLang === 'ja' ? '航空便＆海上コンテナ' :
+                 currentLang === 'ko' ? '항공 특송 및 FCL 컨테이너' :
                  currentLang === 'ar' ? 'شحن جوي سريع وحاويات بحرية' :
+                 currentLang === 'es' ? 'Flete Aéreo Prioritario y FCL Marítimo' :
+                 currentLang === 'fr' ? 'Fret Aérien Prioritaire & FCL Maritime' :
+                 currentLang === 'de' ? 'Prioritäre Luftfracht & FCL-Seefracht' :
+                 currentLang === 'vi' ? 'Vận Chuyển Hàng Không Hỏa Tốc & Container FCL' :
+                 currentLang === 'ru' ? 'Приоритетный Авиафрахт и Морские FCL' :
                  'Priority Air Freight & Ocean FCL',
       titlePart2: currentLang === 'id' ? 'Direct ke Hong Kong, Taiwan, LA, & Dubai' :
                   currentLang === 'zh' ? '直达香港、台湾、洛杉矶与迪拜' :
                   currentLang === 'ja' ? '香港・台湾・米国・ドバイへ直送' :
+                  currentLang === 'ko' ? '홍콩, 대만, 미국 LA, 두바이 직배송' :
                   currentLang === 'ar' ? 'مباشرة إلى الخليج، آسيا، وأمريكا' :
+                  currentLang === 'es' ? 'Directo a Hong Kong, Taiwán, LA y Dubái' :
+                  currentLang === 'fr' ? 'Direct vers Hong Kong, Taïwan, LA et Dubaï' :
+                  currentLang === 'de' ? 'Direkt nach Hongkong, Taiwan, LA & Dubai' :
+                  currentLang === 'vi' ? 'Giao Trực Tiếp Đến Hồng Kông, Đài Loan, LA & Dubai' :
+                  currentLang === 'ru' ? 'Прямые Рейсы в Гонконг, Тайвань, Лос-Анджелес и Дубай' :
                   'Direct to Hong Kong, Taiwan, LA, & Dubai',
       badge: 'Luxury Seafood Trade',
       subtitle: t.hero.trust4Desc,

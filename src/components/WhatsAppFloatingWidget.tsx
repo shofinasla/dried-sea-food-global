@@ -12,10 +12,22 @@ export default function WhatsAppFloatingWidget() {
         return '您好！欢迎联系印尼 Dried Seafood Global 出口团队。请问您需要了解哪类干鱼或海产产品？';
       case 'ja':
         return 'こんにちは！インドネシア Dried Seafood Global 輸出デスクへようこそ。どのような海産乾物をお探しですか？';
+      case 'ko':
+        return '안녕하세요! 인도네시아 Dried Seafood Global 수출 전담 데스크입니다. 건어물 및 염장 생선 수출 상담을 도와드리겠습니다.';
       case 'ar':
         return 'مرحباً! مرحباً بكم في مكتب تصدير الأسماك المجففة والمأكولات البحرية من إندونيسيا. كيف يمكننا مساعدتك اليوم؟';
       case 'id':
         return 'Halo! Selamat datang di Export Desk Dried Seafood Global Indonesia. Ada yang dapat kami bantu terkait pemesanan & ekspor komoditas ikan kering?';
+      case 'es':
+        return '¡Hola! Bienvenido a la Mesa de Exportación de Dried Seafood Global Indonesia. ¿En qué podemos ayudarle con respecto a nuestros pescados secos?';
+      case 'fr':
+        return 'Bonjour ! Bienvenue au bureau export de Dried Seafood Global Indonésie. Comment pouvons-nous vous aider pour vos commandes de poissons séchés ?';
+      case 'de':
+        return 'Guten Tag! Willkommen beim Export-Desk von Dried Seafood Global Indonesien. Wie können wir Ihnen bei Trockenfisch und Meeresfrüchten helfen?';
+      case 'vi':
+        return 'Xin chào! Chào mừng quý khách đến với Bàn xuất khẩu Dried Seafood Global Indonesia. Chúng tôi có thể hỗ trợ gì về thủy hải sản khô?';
+      case 'ru':
+        return 'Здравствуйте! Добро пожаловать в экспортный отдел Dried Seafood Global Индонезия. Чем мы можем помочь по поставкам сушеной рыбы?';
       default:
         return 'Hello! Welcome to Dried Seafood Global Indonesia Export Desk. How can we assist you with our dried seafood and salted fish commodities?';
     }
@@ -25,8 +37,14 @@ export default function WhatsAppFloatingWidget() {
     switch (currentLang) {
       case 'zh': return '在线咨询 (WhatsApp)';
       case 'ja': return 'WhatsApp相談 (24h)';
+      case 'ko': return '실시간 상담 (WhatsApp)';
       case 'ar': return 'مكتب التصدير (واتساب)';
       case 'id': return 'Hotline Ekspor (24 Jam)';
+      case 'es': return 'Chat Exportación (WhatsApp)';
+      case 'fr': return 'Assistance Export (WhatsApp)';
+      case 'de': return 'Export-Chat (WhatsApp)';
+      case 'vi': return 'Tư vấn xuất khẩu (WhatsApp)';
+      case 'ru': return 'Экспортный чат (WhatsApp)';
       default: return 'Export Desk (24/7)';
     }
   };

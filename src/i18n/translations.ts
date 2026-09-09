@@ -1,4 +1,11 @@
-export type SupportedLanguage = 'id' | 'en' | 'zh' | 'ja' | 'ar';
+import { ko } from './locales/ko';
+import { es } from './locales/es';
+import { fr } from './locales/fr';
+import { de } from './locales/de';
+import { vi } from './locales/vi';
+import { ru } from './locales/ru';
+
+export type SupportedLanguage = 'id' | 'en' | 'zh' | 'ja' | 'ko' | 'ar' | 'es' | 'fr' | 'de' | 'vi' | 'ru';
 
 export interface LanguageOption {
   code: SupportedLanguage;
@@ -14,7 +21,13 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
   { code: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia', flag: '🇮🇩', region: 'Domestik / Produsen', dir: 'ltr' },
   { code: 'zh', name: 'Chinese', nativeName: '中文 (简体/繁體)', flag: '🇨🇳', region: 'China / Taiwan / HK', dir: 'ltr' },
   { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵', region: 'Japan Market', dir: 'ltr' },
+  { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷', region: 'South Korea Market', dir: 'ltr' },
   { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', region: 'Middle East / GCC', dir: 'rtl' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸', region: 'Spain & Latin America', dir: 'ltr' },
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷', region: 'France & Europe', dir: 'ltr' },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪', region: 'Germany & Central EU', dir: 'ltr' },
+  { code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt', flag: '🇻🇳', region: 'Vietnam & ASEAN', dir: 'ltr' },
+  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺', region: 'Eurasia & CIS', dir: 'ltr' },
 ];
 
 export interface TranslationSchema {
@@ -1392,5 +1405,11 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationSchema> = {
       complianceTitle: 'الامتثال والمعايير الدولية',
       rightsReserved: 'جميع الحقوق محفوظة'
     }
-  }
+  },
+  ko,
+  es,
+  fr,
+  de,
+  vi,
+  ru
 };
