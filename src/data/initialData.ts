@@ -18,7 +18,7 @@ export const COMPANY_PROFILE = {
   name: 'Dried Seafood Global',
   legalName: 'PT Dried Seafood Global Indonesia',
   shortName: 'Dried Seafood Global',
-  tagline: 'Exporting Indonesia\'s Finest Dried Seafood & Heritage Marine Products Worldwide',
+  tagline: 'Supplying Indonesia\'s Finest Dried Seafood & Heritage Marine Products Worldwide',
   description: 'Perusahaan eksportir terkemuka produk ikan asin, teri nasi super, cumi kering, gelembung ikan (fish maw), dan hasil laut kering khas Nusantara dengan sertifikasi HACCP, KKP, dan standar karantina perikanan internasional.',
   foundedYear: 2014,
   headquarters: 'Kawasan Industri & Pelabuhan Perikanan Samudera Jakarta, Jl. Muara Baru Raya No. 88, Jakarta Utara 14440, Indonesia',
@@ -243,7 +243,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: 'gal-1',
     title: 'Sentra Pengeringan & Sortasi Teri Nasi Super Pilihan',
     category: 'processing',
-    imageUrl: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/surtir-teri-nasi-super.png',
     location: 'Sentra Pengolahan Muara Baru & Belawan',
     date: '15 Agustus 2025',
     description: 'Proses pemilihan dan sortasi ikan teri nasi putih super grade tanpa bahan pengawet kimia dengan penjemuran higienis di atas rak stainless steel mesh.',
@@ -263,7 +263,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: 'gal-3',
     title: 'Grading Gelembung Ikan (Fish Maw) & Teripang Kering Super',
     category: 'commodities',
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/grading-fish-maw.png',
     location: 'Fasilitas Ekspor Premium Muara Baru, Jakarta',
     date: '02 Mei 2025',
     description: 'Pemeriksaan ketebalan, kejernihan, dan kadar air gelembung ikan (fish maw) kelas premium untuk pasar restoran mewah dan pengobatan tradisional Hong Kong.',
@@ -293,7 +293,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: 'gal-6',
     title: 'Uji Laboratorium Bebas Formalin & Uji Histamin Karantina',
     category: 'storage',
-    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/lab-testing-formalin.png',
     location: 'Laboratorium Mutu Terpadu Dried Seafood Global',
     date: '04 September 2025',
     description: 'Pengujian ketat setiap batch untuk menjamin 0% formalin, kadar air < 14%, serta kadar garam yang presisi sebelum penerbitan Health Certificate resmi.',
@@ -303,7 +303,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: 'gal-7',
     title: 'Teknologi Pengeringan Solar Dome Dryer Higienis',
     category: 'processing',
-    imageUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/solar-dome-dryer.png',
     location: 'Sentra Nelayan Binaan Pantura Jawa Tengah',
     date: '12 Januari 2026',
     description: 'Kubah pengering bertenaga surya tertutup yang melindungi ikan teri dan cumi dari debu, lalat, dan kontaminasi udara luar dengan sirkulasi panas merata.',
@@ -323,7 +323,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: 'gal-9',
     title: 'Kemitraan Nelayan Pesisir Tangkap Ramah Lingkungan',
     category: 'sustainability',
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/nelayan-tangkap-ramah-lingkungan.png',
     location: 'Sentra Nelayan Pesisir Pangandaran & Cilacap',
     date: '18 Oktober 2025',
     description: 'Pemberdayaan 1.200+ nelayan tradisional dengan kapal tangkap ramah lingkungan, jaring non-trawl, dan jaminan pembelian hasil tangkap ikan segar dengan harga adil.',
@@ -333,17 +333,17 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: 'gal-10',
     title: 'Sortasi & Pembersihan Cumi Kering Sero Telur Utuh',
     category: 'commodities',
-    imageUrl: 'https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/sortasi-cumi-sero.png',
     location: 'Sentra Pemrosesan Cumi Muara Angke, Jakarta',
     date: '05 November 2025',
     description: 'Pembersihan manual cumi sero telur dengan air garam laut murni sebelum penjemuran pada dome tertutup untuk menjaga warna putih kemerahan alami.',
-    tags: ['Cumi Sero', 'Squid Export', 'Alami Tanpa Pemutih', 'Grade AAA']
+    tags: ['Cumi Sero', 'Squid Trade', 'Alami Tanpa Pemutih', 'Grade AAA']
   },
   {
     id: 'gal-11',
     title: 'Inspeksi Petugas Karantina Ikan BKIPM KKP untuk Health Certificate',
     category: 'processing',
-    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/inspeksi-karantina-bkipm.png',
     location: 'Stasiun Karantina Ikan Pengendalian Mutu (SKIPM) Tanjung Priok',
     date: '14 Desember 2025',
     description: 'Pemeriksaan fisik dan organoleptik oleh inspektur karantina resmi KKP untuk memastikan kepatuhan standar SPS (Sanitary and Phytosanitary) negara tujuan.',
@@ -353,7 +353,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: 'gal-12',
     title: 'Program Kemitraan UMKM Nelayan Perempuan Pengolah Ikan Asin',
     category: 'sustainability',
-    imageUrl: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/gallery/kemitraan-umkm-nelayan-perempuan.png',
     location: 'Koperasi Nelayan Pesisir Belawan, Sumatera Utara',
     date: '22 Januari 2026',
     description: 'Pelatihan standar sanitasi, penggunaan Solar Dome, dan teknik pembelahan ikan asin peda & jambal yang higienis untuk kelompok ibu nelayan pesisir.',
@@ -364,7 +364,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
 export const OFFICE_LOCATIONS: OfficeLocation[] = [
   {
     id: 'jkt-hq',
-    city: 'Jakarta (Headquarters & Export Terminal)',
+    city: 'Jakarta (Headquarters & Trade Terminal)',
     country: 'Indonesia',
     address: 'Kawasan Industri & Pelabuhan Perikanan Samudera Jakarta, Jl. Muara Baru Raya No. 88, Penjaringan',
     postalCode: '14440',
@@ -441,18 +441,18 @@ Kami meninggalkan metode penjemuran terbuka di tanah. Dengan sistem Solar Dome D
 
 ### 3. Jaminan Bebas Formalin & Uji Histamin
 Setiap lot produksi diuji di laboratorium terakreditasi ISO 17025. Kami menjamin nol kandungan formalin, boraks, maupun pemutih sintetis, dengan kadar garam yang dapat disesuaikan dengan preferensi pembeli.`,
-    coverImage: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '/images/blog/standar-mutu-teri-nasi.png',
     author: {
       name: 'Dr. Rina Kusuma, S.Pi.',
       role: 'Head of QA & Quarantine Compliance',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80'
+      avatar: '/images/blog/standar-mutu-teri-nasi.png'
     },
     category: 'Industri',
     tags: ['Teri Nasi Super', 'Ekspor Ikan Kering', 'Standar Mutu', 'HACCP Grade A'],
     readTime: '5 menit baca',
     publishedAt: '28 Februari 2026',
     featured: true,
-    seoKeywords: ['ekspor teri nasi', 'ikan teri medan', 'standar karantina ikan', 'dried anchovy exporter'],
+    seoKeywords: ['teri nasi indonesia', 'ikan teri medan', 'standar karantina ikan', 'dried anchovy supplier'],
     comments: [
       {
         id: 'c-1',
@@ -476,11 +476,11 @@ Setiap lot produksi diuji di laboratorium terakreditasi ISO 17025. Kami menjamin
 * **COO Form E & Form D:** Fasilitas bea masuk nol persen bagi importir di Tiongkok dan negara-negara ASEAN.
 
 Hubungi tim spesialis ekspor Dried Seafood Global untuk mendapatkan konsultasi regulasi kepabeanan produk perikanan di negara Anda.`,
-    coverImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '/images/blog/panduan-karantina-ikan.png',
     author: {
       name: 'Ir. H. Bambang Priyono',
       role: 'CEO & Founder',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
+      avatar: '/images/blog/panduan-karantina-ikan.png'
     },
     category: 'Teknologi',
     tags: ['Health Certificate', 'BKIPM KKP', 'Dokumen Ekspor', 'Kepatuhan Regulasi'],
@@ -498,11 +498,11 @@ Hubungi tim spesialis ekspor Dried Seafood Global untuk mendapatkan konsultasi r
     content: `Gelembung renang ikan atau dikenal secara internasional sebagai Fish Maw merupakan komoditas laut kering premium dengan nilai jual tinggi di pasar Tiongkok Raya dan Asia Timur. 
 
 Kualitas Fish Maw dinilai berdasarkan ketebalan dinding, kejernihan serat saat diterawang cahaya, dan ketiadaan bintik darah. Dried Seafood Global menyediakan Fish Maw kualitas ekspor dengan penyortiran manual oleh tenaga ahli berpengalaman puluhan tahun.`,
-    coverImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '/images/blog/gelembung-ikan-fish-maw.png',
     author: {
       name: 'Kenneth Chen',
       role: 'Director of Asian Seafood Trade',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
+      avatar: '/images/blog/gelembung-ikan-fish-maw.png'
     },
     category: 'Kasus Nyata',
     tags: ['Fish Maw', 'Gelembung Ikan', 'Komoditas Mewah', 'Perdagangan Asia'],
@@ -518,11 +518,11 @@ Kualitas Fish Maw dinilai berdasarkan ketebalan dinding, kejernihan serat saat d
     slug: 'pemberdayaan-nelayan-dan-keberlanjutan-seafood',
     excerpt: 'Komitmen kemitraan rantai pasok maritim yang adil bersama ribuan keluarga nelayan tangkap di pesisir Sumatera, Jawa, dan Sulawesi.',
     content: `Keberlanjutan pasokan ikan kering bermutu tinggi berakar dari kesejahteraan para nelayan mitra. Kami memberikan edukasi pengolahan higienis di atas perahu, penyediaan garam laut murni bersertifikat, dan kepastian harga beli yang stabil demi memutus rantai tengkulak yang merugikan.`,
-    coverImage: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '/images/blog/pemberdayaan-nelayan-dan-keberlanjutan-seafood.png',
     author: {
       name: 'Hendra Tanudjaja, S.T.',
       role: 'Director of Marine Logistics',
-      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80'
+      avatar: '/images/blog/pemberdayaan-nelayan-dan-keberlanjutan-seafood.png'
     },
     category: 'Sustainability',
     tags: ['Pemberdayaan Nelayan', 'Fair Trade', 'Keberlanjutan', 'Pesisir Indonesia'],
@@ -674,7 +674,7 @@ export const INITIAL_INQUIRIES: ContactInquiry[] = [
 export const DEFAULT_SEO_SETTINGS: SEOSettings = {
   metaTitle: 'Dried Seafood Global - Eksportir Resmi Produk Ikan & Hasil Laut Khas Indonesia',
   metaDescription: 'Eksportir resmi terpercaya produk ikan asin, teri nasi super, cumi kering, gelembung ikan (fish maw), dan hasil laut Nusantara berstandar HACCP dan KKP ke 28+ negara.',
-  focusKeywords: ['dried seafood global', 'ekspor ikan asin', 'teri medan ekspor', 'cumi kering indonesia', 'supplier fish maw', 'indonesian dried fish exporter', 'ikan asin jambal roti'],
+  focusKeywords: ['dried seafood global', 'ikan asin indonesia', 'teri medan indonesia', 'cumi kering indonesia', 'supplier fish maw', 'indonesian dried fish supplier', 'ikan asin jambal roti'],
   canonicalUrl: 'https://driedseafoodglobal.com',
   ogImageUrl: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1200&q=80',
   structuredDataType: 'Corporation',
@@ -765,7 +765,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     hsCode: '0307.49.20',
     origin: 'Bangka Belitung, Tegal (Jawa Tengah), & Laut Jawa',
     specification: {
-      grade: 'Export Grade A (Ukuran 4-6 cm Baby Cumi & 12-18 cm Cumi Sero)',
+      grade: 'Premium Grade A (Ukuran 4-6 cm Baby Cumi & 12-18 cm Cumi Sero)',
       moisture: '14% - 16% Max',
       packaging: 'Vacuum Pack 500g / 1 Kg + Master Carton 15 Kg',
       moq: '500 Kg via Air Cargo / 10 Metric Tons via Sea FCL',
@@ -794,7 +794,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     specification: {
       grade: 'Imperial First Grade (Thick Wall, Clean Amber Hue, Deep Collagen)',
       moisture: 'Max 8.0%',
-      packaging: 'Gift Box Luxury Wood Case (1 Kg) / Air Cargo Export Carton (10 Kg)',
+      packaging: 'Gift Box Luxury Wood Case (1 Kg) / Air Cargo Carton (10 Kg)',
       moq: '25 Kg via Priority Air Freight / 100 Kg Konsolidasi',
       shelfLife: '5 Tahun (semakin lama semakin tinggi nilai gastronominya)',
       colorTexture: 'Kuning Keemasan Jernih, Bebas Noda Darah, Sangat Tebal'

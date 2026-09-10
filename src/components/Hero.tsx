@@ -71,9 +71,9 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
                   currentLang === 'ja' ? 'ソーラードーム衛生乾燥' :
                   currentLang === 'ko' ? '솔라돔 위생 건조 국제표준 규격' :
                   currentLang === 'ar' ? 'تجفيف شمسي بمعايير عالمية' :
-                  currentLang === 'es' ? 'Secado en Domo Solar para Exportación' :
-                  currentLang === 'fr' ? 'Séchage Solar Dome Normes Export' :
-                  currentLang === 'de' ? 'Solar-Dome-Trocknung nach Exportstandard' :
+                  currentLang === 'es' ? 'Secado en Domo Solar para Mercados Globales' :
+                  currentLang === 'fr' ? 'Séchage Solar Dome pour Marchés Internationaux' :
+                  currentLang === 'de' ? 'Solar-Dome-Trocknung für globale Märkte' :
                   currentLang === 'vi' ? 'Sấy Vòm Solar Dome Tiêu Chuẩn Xuất Khẩu' :
                   currentLang === 'ru' ? 'Купольная Сушка Экспортного Стандарта' :
                   'Solar Dome Dried to International Specs',
@@ -127,12 +127,12 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
              currentLang === 'ja' ? '高級魚鰾（花胶）＆干しナマコ国際航空直送' :
              currentLang === 'ko' ? '수출 특급 생선 부레(화교) 및 최고급 건해삼' :
              currentLang === 'ar' ? 'حويصلات الأسماك الفاخرة وخيار البحر عالي الجودة' :
-             currentLang === 'es' ? 'Buches de Pescado de Exportación y Pepino de Mar Prémium' :
-             currentLang === 'fr' ? 'Vessies Natatoires d\'Exportation & Holothuries de Luxe' :
-             currentLang === 'de' ? 'Export-Fischblasen (Fish Maw) & Edle Seegurken' :
+             currentLang === 'es' ? 'Buches de Pescado y Pepino de Mar Prémium' :
+             currentLang === 'fr' ? 'Vessies Natatoires & Holothuries de Luxe' :
+             currentLang === 'de' ? 'Premium-Fischblasen (Fish Maw) & Edle Seegurken' :
              currentLang === 'vi' ? 'Bong Bóng Cá Xuất Khẩu & Hải Sâm Khô Thượng Hạng' :
              currentLang === 'ru' ? 'Рыбьи Пузыри Экспортного Класса и Морской Огурец' :
-             'Export Grade Fish Maw & Premium Sea Cucumber',
+             'Premium Fish Maw & Sea Cucumber',
       highlight: currentLang === 'id' ? 'Kargo Udara Kilat & FCL Kontainer' :
                  currentLang === 'zh' ? '空运极速与整柜海运' :
                  currentLang === 'ja' ? '航空便＆海上コンテナ' :
@@ -181,7 +181,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* MAIN HERO SPLIT: COASTAL SUN DRYING PANORAMA (LEFT) + EXPORT OVERVIEW & VALUE PILLARS (RIGHT) */}
+        {/* MAIN HERO SPLIT: COASTAL SUN DRYING PANORAMA (LEFT) + PRODUCT OVERVIEW & VALUE PILLARS (RIGHT) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left Column: Coastal Beach Drying Scene */}
@@ -307,7 +307,7 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
               </div>
             </div>
 
-            {/* 4 Core Export Value Pillars */}
+            {/* 4 Core Product Value Pillars */}
             <div className="w-full pt-1">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-xl mx-auto lg:mx-0">
                 <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-center hover:border-teal-400 transition-colors">

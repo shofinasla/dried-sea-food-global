@@ -113,7 +113,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
             </div>
             <div className="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#519992]">
               <CheckCircle2 className="w-4 h-4" />
-              <span>Full Export Documentation & COA</span>
+              <span>Full Trade Documentation & COA</span>
             </div>
           </div>
 
@@ -304,7 +304,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
                 </div>
                 <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-slate-200 shadow-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80" 
+                    src="/images/products/exp-teri-nasi-1.png" 
                     alt="Sentra Pengolahan Dried Seafood Global"
                     referrerPolicy="no-referrer"
                     className="w-full h-72 object-cover"

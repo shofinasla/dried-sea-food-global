@@ -17,7 +17,7 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://driedseafoodglobal.com/?lang=ar" />
     <image:image>
       <image:loc>https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&amp;w=1200&amp;auto=format&amp;fit=crop</image:loc>
-      <image:title>Indonesian Certified Dried Seafood Export</image:title>
+      <image:title>Indonesian Certified Dried Seafood Trade</image:title>
     </image:image>
   </url>
 
@@ -97,7 +97,7 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- Export Workflow & HACCP Quality -->
+  <!-- Trade Workflow & HACCP Quality -->
   <url>
     <loc>https://driedseafoodglobal.com/#alur-ekspor</loc>
     <lastmod>2026-03-09</lastmod>

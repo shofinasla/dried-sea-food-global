@@ -202,10 +202,10 @@ Mohon jadwalkan penjemputan kargo (cargo pickup) dan pengurusan dokumen ekspor.`
         return {
           badge: 'TLS 1.3 END-TO-END ENCRYPTED INQUIRY FORM',
           title: 'Request for Quotation (RFQ) & Consultation',
-          subtitle: 'Receive official FOB/CIF freight and commodity price quotes for Indonesian dried seafood within 2 business hours from our export desk.',
-          cardTitle: 'Client Concierge & Export RFQ Desk',
+          subtitle: 'Receive official FOB/CIF freight and commodity price quotes for Indonesian dried seafood within 2 business hours from our trade desk.',
+          cardTitle: 'Client Concierge & Trade RFQ Desk',
           cardDesc: 'Our trade desk coordinates laboratory COA testing, moisture verification, BKIPM sanitary quarantine clearances, and reefers/air cargo logistics worldwide.',
-          hotlineLabel: '24/7 Export Trade Hotline:',
+          hotlineLabel: '24/7 Trade Hotline:',
           emailLabel: 'Direct RFQ Inquiries:',
           slaLabel: 'SLA Guarantee: Official Response < 2 Hours',
           securityTitle: 'Non-Disclosure & High-Assurance SSL Encryption',

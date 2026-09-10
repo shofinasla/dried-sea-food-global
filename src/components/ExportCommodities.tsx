@@ -152,7 +152,7 @@ export default function ExportCommodities({
                     </span>
                     {item.featured && (
                       <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white text-[10px] font-extrabold uppercase shadow-sm">
-                        Top Export
+                        Top Product
                       </span>
                     )}
                   </div>
@@ -316,7 +316,7 @@ export default function ExportCommodities({
                   </div>
                 </div>
 
-                {/* Country Export Highlights */}
+                {/* Country Trade Highlights */}
                 <div className="mt-6 pt-4 border-t border-slate-200 text-xs">
                   <span className="text-slate-500 block mb-2 font-extrabold uppercase tracking-wider text-[10px]">
                     Destinasi Utama Ekspor Komoditas Ini:

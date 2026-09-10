@@ -40,15 +40,15 @@ export default function ExportCatalogModal({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         event: 'download_catalog',
-        label: `Official Export Catalog (${currentLang.toUpperCase()})`,
+        label: `Official Product Catalog (${currentLang.toUpperCase()})`,
         path: window.location.pathname
       })
     }).catch(() => {});
 
     // Generate real downloadable text/spec summary document
     const catalogHeader = `================================================================================
-PT DRIED SEAFOOD GLOBAL INDONESIA - OFFICIAL B2B EXPORT CATALOG 2026
-Exporter & Processor: Dried Seafood, Salted Fish, Fish Maw & Marine Products
+PT DRIED SEAFOOD GLOBAL INDONESIA - OFFICIAL B2B PRODUCT CATALOG 2026
+Supplier & Processor: Dried Seafood, Salted Fish, Fish Maw & Marine Products
 Legal: ${COMPANY_PROFILE.registrationNo} | Tax ID: ${COMPANY_PROFILE.taxId}
 HQ: ${COMPANY_PROFILE.headquarters}
 Hotline: ${COMPANY_PROFILE.hotline} | Email: ${COMPANY_PROFILE.salesEmail}
@@ -63,7 +63,7 @@ CERTIFICATIONS:
 5. Clean Solar Dome Dehydrated - Zero Formalin / No Chemical Preservatives
 
 ================================================================================
-FLAGSHIP EXPORT COMMODITIES & SPECIFICATIONS
+FLAGSHIP PRODUCTS & SPECIFICATIONS
 ================================================================================
 ${EXPORT_COMMODITIES.map((c, i) => `
 [${i + 1}] ${c.name.toUpperCase()} (${c.indonesianName})
@@ -76,8 +76,8 @@ Shelf Life: ${c.specification.shelfLife || '12 - 24 Months'}
 Packaging: ${c.specification.packaging}
 Minimum Order (MOQ): ${c.specification.moq}
 Supply Capacity: ${c.supplyCapacity}
-Export Certifications: ${c.certifications.join(', ')}
-Target Export Markets: ${c.keyMarkets.join(', ')}
+Certifications: ${c.certifications.join(', ')}
+Target Markets: ${c.keyMarkets.join(', ')}
 Description: ${c.description}
 --------------------------------------------------------------------------------`).join('\n')}
 
@@ -116,7 +116,7 @@ PAYMENT TERMS:
       case 'ja': return '2026年 インドネシア産海産乾物・塩魚 輸出公式カタログ';
       case 'ar': return 'الكتالوج الرسمي لتصدير الأسماك المجففة والمأكولات البحرية 2026';
       case 'id': return 'E-Katalog Komoditas Ikan Asin & Hasil Laut Kering 2026';
-      default: return '2026 Official Indonesian Dried Seafood & Salted Fish Export Catalog';
+      default: return '2026 Official Indonesian Dried Seafood & Salted Fish Product Catalog';
     }
   };
 
@@ -147,7 +147,7 @@ PAYMENT TERMS:
               </span>
             </div>
             <p className="text-xs text-slate-500">
-              Dokumen Resmi {COMPANY_PROFILE.legalName} (Edisi Lengkap Ekspor)
+              Dokumen Resmi {COMPANY_PROFILE.legalName} (Edisi Lengkap)
             </p>
           </div>
         </div>
@@ -212,7 +212,7 @@ PAYMENT TERMS:
             <div className="p-4 rounded-2xl bg-teal-50 border border-teal-200 text-teal-800 text-center space-y-1 animate-fadeIn">
               <CheckCircle2 className="w-6 h-6 text-[#009bb3] mx-auto" />
               <p className="font-bold text-xs">
-                {currentLang === 'id' ? 'E-Katalog Resmi Berhasil Diunduh!' : 'Official Export Catalog Downloaded Successfully!'}
+                {currentLang === 'id' ? 'E-Katalog Resmi Berhasil Diunduh!' : 'Official Product Catalog Downloaded Successfully!'}
               </p>
               <p className="text-[11px] text-slate-600">
                 {currentLang === 'id' ? 'File dokumen berisi seluruh spesifikasi teknis kadar air/garam, HS Code, dan sertifikasi karantina BKIPM.' : 'The file includes full technical specifications, moisture/salt tolerances, HS codes, and quarantine certifications.'}
@@ -224,7 +224,7 @@ PAYMENT TERMS:
                 <FileText className="w-8 h-8 text-[#009bb3] shrink-0" />
                 <div>
                   <span className="font-bold text-slate-900 block">
-                    {currentLang === 'id' ? 'Unduh E-Katalog & Spesifikasi Ekspor' : 'Download Complete Export Catalog'}
+                    {currentLang === 'id' ? 'Unduh E-Katalog & Spesifikasi Produk' : 'Download Complete Product Catalog'}
                   </span>
                   <span className="text-[11px] text-slate-500">
                     Official Edition • {currentLang.toUpperCase()} & English
@@ -247,7 +247,7 @@ PAYMENT TERMS:
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500">
-          <span>Export Desk Hotline: <strong className="text-slate-800">{COMPANY_PROFILE.hotline}</strong></span>
+          <span>Trade Desk Hotline: <strong className="text-slate-800">{COMPANY_PROFILE.hotline}</strong></span>
           <button
             onClick={onClose}
             id="btn-close-catalog-footer"

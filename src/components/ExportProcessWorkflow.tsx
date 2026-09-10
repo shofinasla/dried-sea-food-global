@@ -61,8 +61,8 @@ export default function ExportProcessWorkflow() {
         };
       case 'id':
         return {
-          badge: 'SOP & ALUR KERJA EKSPOR',
-          title: 'Alur Proses Ekspor Terstruktur Berstandar Internasional',
+          badge: 'SOP & ALUR KERJA PERDAGANGAN',
+          title: 'Alur Proses Perdagangan Berstandar Internasional',
           subtitle: 'Menjamin keamanan mutu produk, sertifikasi karantina ikan BKIPM, ketepatan jadwal kontainer, dan pelaporan rantai dingin dari pelabuhan muat Indonesia hingga tiba di gudang tujuan.',
           stepLabel: 'TAHAP',
           stepOf: 'Langkah {current} dari {total}',
@@ -73,8 +73,8 @@ export default function ExportProcessWorkflow() {
         };
       default:
         return {
-          badge: 'SOP & EXPORT WORKFLOW',
-          title: 'Structured Export Process Adhering to Global Standards',
+          badge: 'SOP & TRADE WORKFLOW',
+          title: 'Structured Trade Process Adhering to Global Standards',
           subtitle: 'Guaranteeing commodity food safety, Indonesian BKIPM quarantine certifications, on-time container loading, and cold chain reporting from Indonesian origin ports to overseas destination warehouses.',
           stepLabel: 'PHASE',
           stepOf: 'Step {current} of {total}',

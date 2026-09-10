@@ -71,7 +71,7 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin, onOpen
                   DRIED SEAFOOD GLOBAL
                 </span>
                 <span className="text-[10px] text-[#009bb3] tracking-widest uppercase font-bold">
-                  INDONESIAN DRIED SEAFOOD EXPORTER
+                  INDONESIAN DRIED SEAFOOD SUPPLIER
                 </span>
               </div>
             </div>

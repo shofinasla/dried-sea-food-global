@@ -87,7 +87,7 @@ export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSe
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
               <BookOpen className="w-3.5 h-3.5 text-[#009bb3]" />
-              <span>MARKET INTELLIGENCE & EXPORT GUIDES</span>
+              <span>MARKET INTELLIGENCE & TRADE GUIDES</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight uppercase font-sans">
               Blog & Wawasan Ekspor Hasil Laut

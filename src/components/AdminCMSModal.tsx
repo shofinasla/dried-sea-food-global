@@ -484,7 +484,7 @@ export default function AdminCMSModal({
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                PT Dried Seafood Global Indonesia Export Enterprise Management Suite
+                PT Dried Seafood Global Indonesia Trade Enterprise Management Suite
               </p>
             </div>
           </div>
@@ -652,7 +652,7 @@ export default function AdminCMSModal({
                 </div>
               </div>
 
-              {/* Export Compliance & Quality Assurance Grid */}
+              {/* Trade Compliance & Quality Assurance Grid */}
               <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <h4 className="text-sm font-bold text-white flex items-center gap-2">
@@ -1543,7 +1543,7 @@ export default function AdminCMSModal({
                       </div>
                       <div>
                         <h4 className="text-sm font-bold text-white">Google Business Profile (Maps)</h4>
-                        <span className="text-[10px] text-rose-400 font-semibold">Local SEO & Trust Exporter</span>
+                        <span className="text-[10px] text-rose-400 font-semibold">Local SEO & Trust Supplier</span>
                       </div>
                     </div>
                   </div>

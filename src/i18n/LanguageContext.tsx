@@ -46,7 +46,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (navLang.startsWith('vi')) return 'vi';
       if (navLang.startsWith('ru')) return 'ru';
     }
-    return 'en'; // Global standard default for international export
+    return 'en'; // Global standard default for international trade
   });
 
   const setLanguage = (lang: SupportedLanguage) => {
@@ -89,29 +89,29 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
       // Update meta titles & description based on current language
       const titles: Record<SupportedLanguage, string> = {
-        en: 'Dried Seafood Global - Certified Indonesian Dried Fish & Seafood Exporter',
+        en: 'Dried Seafood Global - Certified Indonesian Dried Fish & Seafood Supplier',
         id: 'Dried Seafood Global - Eksportir Resmi Ikan Asin & Hasil Laut Kering Indonesia',
         zh: 'Dried Seafood Global - 印度尼西亚特级水产干货与咸鱼官方出口商',
         ja: 'Dried Seafood Global - インドネシア産高級水産乾物・チリメンジャコ正規輸出商社',
         ko: 'Dried Seafood Global - 인도네시아산 프리미엄 건어물·멸치·어교 공식 수출기업',
         ar: 'Dried Seafood Global - المصدّر المعتمد للأسماك والمأكولات البحرية المجففة من إندونيسيا',
-        es: 'Dried Seafood Global - Exportador Certificado de Pescado y Mariscos Secos de Indonesia',
-        fr: 'Dried Seafood Global - Exportateur Agréé de Poissons Séchés & Produits Halieutiques d\'Indonésie',
-        de: 'Dried Seafood Global - Zertifizierter Exporteur für Indonesischen Trockenfisch & Meeresfrüchte',
+        es: 'Dried Seafood Global - Proveedor Certificado de Pescado y Mariscos Secos de Indonesia',
+        fr: 'Dried Seafood Global - Fournisseur Agréé de Poissons Séchés & Produits Halieutiques d\'Indonésie',
+        de: 'Dried Seafood Global - Zertifizierter Lieferant für Indonesischen Trockenfisch & Meeresfrüchte',
         vi: 'Dried Seafood Global - Doanh Nghiệp Xuất Khẩu Thủy Hải Sản Khô & Cá Muối Indonesia Chính Thức',
         ru: 'Dried Seafood Global - Официальный Экспортер Индонезийской Сушеной Рыбы и Морепродуктов'
       };
 
       const descriptions: Record<SupportedLanguage, string> = {
-        en: 'Direct exporter of Indonesian dried anchovy (teri nasi), salted fish (jambal roti), sun-dried squid, and fish maw. HACCP Grade A and BKIPM Quarantine certified.',
+        en: 'Direct supplier of Indonesian dried anchovy (teri nasi), salted fish (jambal roti), sun-dried squid, and fish maw. HACCP Grade A and BKIPM Quarantine certified.',
         id: 'Eksportir langsung ikan asin jambal roti, teri nasi super, cumi kering sero, dan gelembung ikan khas Indonesia bersertifikasi HACCP dan Karantina BKIPM.',
         zh: '专业直供印尼特级白饭鱼干、咸马友鱼、优质鱿鱼干与花胶鱼鳔，持有 HACCP A 级体系与印尼官方检疫证书。',
         ja: '極上チリメンジャコ、塩干魚、スルメイカ、魚鰾の正規輸出。HACCP A級基準および国家検疫BKIPM認証取得。',
         ko: '인도네시아산 특급 백자멸치, 염장 생선, 마른오징어, 생선 부레(화교) 직수출. HACCP Grade A 및 인도네시아 해양수산부 검역 인증.',
         ar: 'مصدّر معتمد لأسماك الأنشوجة البيضاء، الأسماك المملحة، الحبار، وحويصلات الأسماك من إندونيسيا بشهادات HACCP والفحص البيطري.',
-        es: 'Exportador directo de anchoa seca indonesia (teri nasi), pescado salado, calamar seco y buches de pescado. Certificación HACCP Grado A y Cuarentena BKIPM.',
-        fr: 'Exportateur direct d\'anchois séchés indonésiens, poissons salés, calmars séchés et vessies natatoires. Certifié HACCP Grade A et inspection vétérinaire BKIPM.',
-        de: 'Direktexporteur für indonesische getrocknete Sardellen (Teri Nasi), gesalzenen Fisch, getrockneten Tintenfisch und Fischblasen. HACCP Klasse A und BKIPM-zertifiziert.',
+        es: 'Proveedor directo de anchoa seca indonesia (teri nasi), pescado salado, calamar seco y buches de pescado. Certificación HACCP Grado A y Cuarentena BKIPM.',
+        fr: 'Fournisseur direct d\'anchois séchés indonésiens, poissons salés, calmars séchés et vessies natatoires. Certifié HACCP Grade A et inspection vétérinaire BKIPM.',
+        de: 'Direktlieferant für indonesische getrocknete Sardellen (Teri Nasi), gesalzenen Fisch, getrockneten Tintenfisch und Fischblasen. HACCP Klasse A und BKIPM-zertifiziert.',
         vi: 'Xuất khẩu trực tiếp cá cơm khô trắng Indonesia (teri nasi), cá mặn, mực khô và bong bóng cá. Chứng nhận HACCP Hạng A và kiểm dịch BKIPM.',
         ru: 'Прямой экспортер индонезийского сушеного анчоуса (teri nasi), соленой рыбы, сушеного кальмара и рыбьих пузырей. Сертифицировано HACCP Grade A и карантином BKIPM.'
       };

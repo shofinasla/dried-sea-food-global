@@ -38,7 +38,7 @@ export default function NotFoundPage({
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = '404 - Halaman Tidak Ditemukan | Dried Seafood Global Exporter';
+    document.title = '404 - Halaman Tidak Ditemukan | Dried Seafood Global Supplier';
     return () => {
       document.title = prevTitle;
     };
@@ -47,7 +47,7 @@ export default function NotFoundPage({
   // Quick directory topics to assist lost visitors
   const helpfulDestinations = [
     {
-      title: currentLang === 'id' ? 'Katalog Komoditas Ekspor' : 'Export Commodities Catalog',
+      title: currentLang === 'id' ? 'Katalog Komoditas Global' : 'Global Product Catalog',
       desc: currentLang === 'id' ? 'Teri Nasi Medan, Jambal Roti, Cumi Kering & Fish Maw Grade AAA.' : 'Premium dried whitebait, salted catfish, sun-dried squid & fish maw.',
       icon: Package,
       badge: 'Grade AAA',
@@ -55,7 +55,7 @@ export default function NotFoundPage({
     },
     {
       title: currentLang === 'id' ? 'Kalkulator Biaya Kontainer' : 'Shipping Freight Calculator',
-      desc: currentLang === 'id' ? 'Simulasi tarif pengiriman Reefer FCL & LCL Port-to-Port global.' : 'Instant freight cost estimation for ocean and air export cargo.',
+      desc: currentLang === 'id' ? 'Simulasi tarif pengiriman Reefer FCL & LCL Port-to-Port global.' : 'Instant freight cost estimation for ocean and air cargo.',
       icon: Calculator,
       badge: 'Instant Quote',
       action: () => onScrollToSection('#kalkulator')
@@ -69,7 +69,7 @@ export default function NotFoundPage({
     },
     {
       title: currentLang === 'id' ? 'Permintaan Penawaran (RFQ)' : 'Request for Quotation (RFQ)',
-      desc: currentLang === 'id' ? 'Kirim spesifikasi pesanan B2B langsung ke tim export desk kami.' : 'Submit institutional purchase inquiries directly to our export managers.',
+      desc: currentLang === 'id' ? 'Kirim spesifikasi pesanan B2B langsung ke tim trade desk kami.' : 'Submit institutional purchase inquiries directly to our trade managers.',
       icon: Mail,
       badge: '24h Response',
       action: () => onScrollToSection('#kontak')
@@ -96,7 +96,7 @@ export default function NotFoundPage({
                 DRIED SEAFOOD GLOBAL
               </span>
               <span className="text-[10px] text-[#009bb3] font-bold uppercase tracking-wider block">
-                Indonesian Export Enterprise
+                Indonesian Seafood Enterprise
               </span>
             </div>
           </div>
@@ -155,13 +155,13 @@ export default function NotFoundPage({
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight max-w-2xl mb-4 font-serif-display">
           {currentLang === 'id' 
             ? 'Koordinat Halaman Tidak Ditemukan' 
-            : 'Export Resource Coordinates Not Found'}
+            : 'Trade Resource Coordinates Not Found'}
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed mb-8">
           {currentLang === 'id'
             ? 'Tautan dokumen, katalog spesifik, atau halaman yang Anda tuju telah dipindahkan ke direktori baru, diperbarui demi kepatuhan regulasi ekspor, atau alamat URL yang dimasukkan kurang tepat.'
-            : 'The document link or export directory you are looking for might have been updated, relocated under international trade standards, or the URL address was misspelled.'}
+            : 'The document link or trade directory you are looking for might have been updated, relocated under international standards, or the URL address was misspelled.'}
         </p>
 
         {/* Primary Interactive Search Bar */}
@@ -209,7 +209,7 @@ export default function NotFoundPage({
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#009bb3] border border-teal-200 text-sm font-bold transition-all cursor-pointer"
           >
             <Mail className="w-4 h-4" />
-            <span>{currentLang === 'id' ? 'Hubungi Export Desk' : 'Contact Export Desk'}</span>
+            <span>{currentLang === 'id' ? 'Hubungi Trade Desk' : 'Contact Trade Desk'}</span>
           </button>
         </div>
 
@@ -217,7 +217,7 @@ export default function NotFoundPage({
         <div className="w-full text-left">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              {currentLang === 'id' ? 'Rekomendasi Rute Navigasi Ekspor' : 'Recommended Export Destinations'}
+              {currentLang === 'id' ? 'Rekomendasi Rute Navigasi Global' : 'Recommended Global Destinations'}
             </h2>
             <span className="text-[11px] text-slate-400">
               {filteredDestinations.length} {currentLang === 'id' ? 'direktori tersedia' : 'available'}
@@ -273,7 +273,7 @@ export default function NotFoundPage({
               <p className="text-xs text-slate-600">
                 {currentLang === 'id' 
                   ? `Hubungi hotline ekspor 24/7 kami di ${COMPANY_PROFILE.hotline} atau email ${COMPANY_PROFILE.supportEmail}`
-                  : `Contact our 24/7 export desk at ${COMPANY_PROFILE.hotline} or email ${COMPANY_PROFILE.supportEmail}`}
+                  : `Contact our 24/7 trade desk at ${COMPANY_PROFILE.hotline} or email ${COMPANY_PROFILE.supportEmail}`}
               </p>
             </div>
           </div>

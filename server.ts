@@ -114,7 +114,7 @@ app.get(['/feed/google-merchant-center.xml', '/feed/gmc-products.xml'], (req: Re
   const itemsXml = EXPORT_COMMODITIES.map((c, index) => {
     // Default reference wholesale price in USD
     const priceUSD = index === 0 ? '14.50' : index === 1 ? '11.20' : index === 2 ? '16.80' : index === 3 ? '240.00' : '18.00';
-    const cleanDesc = (c.description || `${c.name} - Certified Indonesian Dried Seafood Export Quality.`).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cleanDesc = (c.description || `${c.name} - Certified Indonesian Dried Seafood Trade Quality.`).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const cleanTitle = `${c.name} (${c.indonesianName})`.replace(/&/g, '&amp;');
 
     return `
@@ -148,9 +148,9 @@ app.get(['/feed/google-merchant-center.xml', '/feed/gmc-products.xml'], (req: Re
   const gmcFeedContent = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>PT Dried Seafood Global Indonesia - B2B Export Catalog Feed</title>
+    <title>PT Dried Seafood Global Indonesia - B2B Product Catalog Feed</title>
     <link>https://driedseafoodglobal.com/</link>
-    <description>Google Merchant Center Official Feed for Indonesian High-Grade Export Dried Fish, Dried Squid, Salted Fish, and Fish Maw.</description>
+    <description>Google Merchant Center Official Feed for Indonesian High-Grade Dried Fish, Dried Squid, Salted Fish, and Fish Maw.</description>
     <lastBuildDate>${nowUtc}</lastBuildDate>
 ${itemsXml}
   </channel>
@@ -525,11 +525,11 @@ app.post('/api/blog', (req: Request, res: Response) => {
     coverImage: coverImage || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
     author: author || {
       name: 'Tim Redaksi Dried Seafood Global',
-      role: 'Fisheries & Export Intelligence',
+      role: 'Fisheries & Trade Intelligence',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
     },
     category: category || 'Ekspor & Pasar',
-    tags: Array.isArray(tags) ? tags : ['Dried Seafood', 'Export Indonesia', 'Perikanan'],
+    tags: Array.isArray(tags) ? tags : ['Dried Seafood', 'Indonesia Trade', 'Perikanan'],
     readTime: readTime || '4 menit baca',
     publishedAt: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }),
     featured: false,
@@ -717,11 +717,11 @@ Format JSON:
         category: 'Kualitas & Higienitas',
         readTime: '5 menit baca',
         tags: ['Dried Seafood', 'Ekspor Ikan Asin', 'KKP RI', 'HACCP'],
-        seoKeywords: ['dried fish exporter indonesia', 'ikan asin ekspor', 'teri medan jepang', 'supplier cumi kering'],
+        seoKeywords: ['dried fish supplier indonesia', 'ikan asin indonesia', 'teri medan jepang', 'supplier cumi kering'],
         content: `### Standar Mutu Ekspor Hasil Laut Kering Indonesia\n\nDalam lanskap perdagangan hasil laut internasional, sertifikasi higienis dan konsistensi kadar air menjadi faktor utama penerimaan di pasar ekspor seperti Taiwan, Singapura, Amerika Serikat, dan Uni Emirat Arab. Dried Seafood Global memastikan setiap batch memenuhi standar mutu ketat.\n\n* **Higienitas Solar Dome Dryer:** Bebas dari debu, lalat, dan kontaminasi luar.\n* **Pengawasan Kadar Garam & Air:** Uji laboratorium berkala dengan sertifikat analisis (COA).\n* **Sertifikasi Karantina Resmi:** Health Certificate resmi dari BKIPM Kementerian Kelautan dan Perikanan.`,
         metaTitle: 'Dried Seafood Global | Eksportir Ikan Asin & Hasil Laut Kering Indonesia',
         metaDescription: 'Eksportir terpercaya ikan asin jambal, teri nasi, cumi kering, dan fish maw khas Indonesia dengan standar mutu HACCP dan karantina BKIPM.',
-        focusKeywords: ['dried seafood exporter indonesia', 'ikan asin ekspor', 'salted fish supplier', 'supplier teri medan'],
+        focusKeywords: ['dried seafood supplier indonesia', 'ikan asin indonesia', 'salted fish supplier', 'supplier teri medan'],
         structuredDataType: 'WholesaleStore',
         seoScore: 96,
         actionableTips: ['Pastikan dokumen Health Certificate BKIPM terlampir', 'Sertakan hasil uji lab kadar formalin & timbal', 'Gunakan kemasan vacuum pack kedap udara berstandar food grade']

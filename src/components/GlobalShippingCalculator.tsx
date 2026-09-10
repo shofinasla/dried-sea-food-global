@@ -117,7 +117,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
   const handleCopyQuoteSlip = () => {
     if (!result || !selectedQuote) return;
     const slipText = `=================================================
-OFFICIAL FREIGHT & EXPORT ESTIMATE - DRIED SEAFOOD GLOBAL
+OFFICIAL FREIGHT & SHIPPING ESTIMATE - DRIED SEAFOOD GLOBAL
 Ref ID: ${selectedQuote.bookingReference}
 Date: ${new Date().toLocaleDateString('en-US')}
 Route: ${result.origin.name} (${result.origin.code}) -> ${result.destination.name} (${result.destination.code})

@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://dried-sea-food-global.netlify.app/*"
+  to = "https://driedseafoodglobal.com/:splat"
+  status = 301
+  force = true

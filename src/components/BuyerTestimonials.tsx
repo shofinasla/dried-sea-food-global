@@ -42,7 +42,7 @@ export default function BuyerTestimonials() {
           </p>
         </div>
 
-        {/* Global Export Destination Stats Cards */}
+        {/* Global Destination Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-16">
           {globalDestinations.map((dest, idx) => (
             <div 

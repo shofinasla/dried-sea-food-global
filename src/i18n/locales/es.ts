@@ -2,23 +2,23 @@ import { TranslationSchema } from '../translations';
 
 export const es: TranslationSchema = {
   topBar: {
-    sslVerified: 'Exportador Verificado TLS 1.3 EV SSL',
+    sslVerified: 'Proveedor Verificado TLS 1.3 EV SSL',
     liveMonitor: 'Radar de Operaciones',
     buyersOnline: 'Compradores Globales Activos',
     qualityBadge: 'HACCP Grado A • Certificado Sanitario Oficial BKIPM',
-    hotlineLabel: 'Mesa de Exportación 24/7:',
+    hotlineLabel: 'Mesa Comercial 24/7:',
     adminPortal: 'Portal Admin'
   },
   nav: {
     home: 'Inicio',
     about: 'Nosotros & Calidad',
-    products: 'Catálogo de Exportación',
-    workflow: 'Proceso de Exportación',
+    products: 'Catálogo de Productos',
+    workflow: 'Proceso Comercial',
     shippingCalc: 'Calculadora de Flete',
     docsHub: 'Documentación & Hubs',
     gallery: 'Instalaciones & Galería',
     galleryDesc: 'Secadores Solar Dome, clasificación y almacenamiento climatizado',
-    mapHubs: 'Puertos & Hubs de Exportación',
+    mapHubs: 'Puertos & Hubs Comerciales',
     mapHubsDesc: 'Oficinas y puertos en Yakarta, Belawan, Cilacap, Surabaya',
     testimonials: 'Testimonios Internacionales',
     testimonialsDesc: 'Importadores verificados de España, Singapur, Taiwán, EE. UU.',
@@ -30,13 +30,13 @@ export const es: TranslationSchema = {
     adminOpen: 'Abrir Portal de Gestión'
   },
   hero: {
-    badge: 'EXPORTADOR DE EXCELENCIA PESQUERA DE INDONESIA',
+    badge: 'PROVEEDOR DE EXCELENCIA PESQUERA DE INDONESIA',
     titlePart1: 'Pescado y Mariscos Secos',
     titleHighlight: 'De Calidad Prémium',
     titlePart2: 'Para el Mercado Global',
-    description: 'Exportador directo de boquerón/anchoa seca indonesia (teri nasi), pescado salado kurisi y jambal roti, calamar seco al sol y buches de pescado de grado prémium. Producidos con tecnología de secado cerrado Solar Dome, 100% libres de conservantes químicos, conforme a normas HACCP y cuarentena internacional SPS.',
+    description: 'Proveedor directo de boquerón/anchoa seca indonesia (teri nasi), pescado salado kurisi y jambal roti, calamar seco al sol y buches de pescado prémium. Producidos con tecnología de secado cerrado Solar Dome, 100% libres de conservantes químicos, conforme a normas HACCP y cuarentena internacional SPS.',
     ctaRfq: 'Solicitar Cotización Formal (RFQ)',
-    ctaCatalog: 'Descargar Catálogo de Exportación (PDF)',
+    ctaCatalog: 'Descargar Catálogo de Productos (PDF)',
     ctaCalculator: 'Calculadora de Tarifas de Flete',
     trust1Title: 'HACCP & Certificado Sanitario',
     trust1Desc: 'Certificado Sanitario Oficial de Cuarentena emitido por el Ministerio de Pesca de Indonesia (BKIPM).',
@@ -49,7 +49,7 @@ export const es: TranslationSchema = {
     statCountries: '45+',
     statCountriesLabel: 'Países de Destino',
     statVolume: '350+ TM',
-    statVolumeLabel: 'Tonelaje Anual de Exportación',
+    statVolumeLabel: 'Volumen Anual de Suministro',
     statSatisfaction: '99.4%',
     statSatisfactionLabel: 'Tasa de Aceptación de Lotes',
     statFarms: '1,200+',
@@ -72,7 +72,7 @@ export const es: TranslationSchema = {
     pillar2Desc: 'Cada lote de producción pasa por análisis organolépticos, metales pesados, histamina y microbiología antes del despacho aduanero.',
     pillar3Title: 'Comercio Justo con Pescadores Locales',
     pillar3Desc: 'Alianza con más de 1.200 pescadores costeros en Java, Sumatra y Sulawesi utilizando artes de pesca sostenibles sin arrastre.',
-    pillar4Title: 'Empaque Especializado para Exportación',
+    pillar4Title: 'Empaque Especializado para Productos',
     pillar4Desc: 'Bolsas al vacío multicapa de grado alimentario, cajas de cartón corrugado reforzado con desecantes y estiba en contenedores Reefer o secos.',
     certSectionTitle: 'Certificaciones Acreditadas Internacionalmente',
     certHaccpTitle: 'Certificación HACCP Grado A',
@@ -85,10 +85,10 @@ export const es: TranslationSchema = {
     certHalalDesc: 'Procesamiento 100% certificado Halal con trazabilidad completa de materias primas.'
   },
   commodities: {
-    badge: 'COMMODITIES DE GRADO DE EXPORTACIÓN',
+    badge: 'COMMODITIES DE GRADO PREMIUM',
     title: 'Pescado Seco, Salado y Mariscos de Indonesia',
     subtitle: 'Abastecimiento directo desde los puertos de Belawan, Cilacap y Java Oriental. Secado al sol en Solar Dome sin formalina.',
-    downloadCatalog: 'Descargar Catálogo de Exportación (PDF)',
+    downloadCatalog: 'Descargar Catálogo de Productos (PDF)',
     filterAll: 'Todos los Productos',
     filterFish: 'Pescado Salado & Anchoa',
     filterSquid: 'Calamar Seco',
@@ -105,7 +105,7 @@ export const es: TranslationSchema = {
   },
   products: {
     badge: 'ESTÁNDAR DE CALIDAD DE MATERIA PRIMA',
-    title: 'Línea de Productos de Exportación',
+    title: 'Línea de Productos Premium',
     subtitle: 'Productos seleccionados bajo rigurosas pruebas sensoriales y parámetros de humedad controlados.',
     filterAll: 'Todos',
     filterFish: 'Peces (Anchoas/Salados)',
@@ -123,8 +123,8 @@ export const es: TranslationSchema = {
     chemicalFree: 'Sin Aditivos Químicos'
   },
   workflow: {
-    badge: 'PROCEDIMIENTOS ESTÁNDAR DE EXPORTACIÓN (SOP)',
-    title: 'Flujo de Exportación en 5 Etapas Estandarizadas',
+    badge: 'PROCEDIMIENTOS ESTÁNDAR COMERCIALES (SOP)',
+    title: 'Flujo Comercial en 5 Etapas Estandarizadas',
     subtitle: 'Garantizamos inocuidad del producto, certificación de cuarentena BKIPM y control en puerto de origen y destino.',
     step1Title: 'Recepción & Selección Rigurosa',
     step1Desc: 'Selección manual del pescado según frescura, tamaño y textura inmediatamente después del desembarque costero.',
@@ -133,7 +133,7 @@ export const es: TranslationSchema = {
     step3Title: 'Ensayos de Laboratorio & Certificado COA',
     step3Desc: 'Inspección de humedad, salinidad, metales pesados y recuento microbiológico.',
     step4Title: 'Inspección Sanitaria BKIPM & Despacho',
-    step4Desc: 'Inspección oficial de cuarentena pesquera indonesia y expedición de permisos de exportación.',
+    step4Desc: 'Inspección oficial de cuarentena pesquera indonesia y expedición de permisos comerciales.',
     step5Title: 'Carga de Contenedor & Envío Internacional',
     step5Desc: 'Estiba con desecantes de alta absorción y seguimiento satelital de la carga hasta el puerto de destino.'
   },
@@ -165,9 +165,9 @@ export const es: TranslationSchema = {
   },
   map: {
     badge: 'RED DE DISTRIBUCIÓN NACIONAL',
-    title: 'Hubs de Exportación y Puertos en Indonesia',
+    title: 'Hubs Comerciales y Puertos en Indonesia',
     subtitle: 'Operaciones centralizadas en Yakarta, Belawan (Sumatra), Cilacap (Java Central) y Surabaya (Java Oriental).',
-    headquartersTitle: 'Sede Central & Oficina de Exportación (Yakarta)',
+    headquartersTitle: 'Sede Central & Oficina Comercial (Yakarta)',
     portHubTitle: 'Puerto Comercial Tanjung Priok',
     storageFacilityTitle: 'Centro de Almacenamiento & Cuarentena'
   },
@@ -183,7 +183,7 @@ export const es: TranslationSchema = {
     subtitle: 'Respuestas directas a las dudas más comunes de compradores internacionales antes de ordenar.',
     q1: '¿Qué documentos oficiales se entregan con cada embarque?',
     a1: 'Entregamos el paquete completo para desaduanamiento: Certificado Sanitario Oficial BKIPM, Certificado de Origen (COO), Factura Comercial, Lista de Empaque, Certificado de Análisis (COA), Bill of Lading (B/L) o Air Waybill (AWB).',
-    q2: '¿Cuál es el pedido mínimo (MOQ) de exportación?',
+    q2: '¿Cuál es el pedido mínimo (MOQ)?',
     a2: 'Para productos prémium como buches de pescado o pepino de mar, aceptamos pedidos de prueba por aire desde 25 a 50 kg. Para pescado seco y anchoas, el mínimo en carga consolidada (LCL) es de 500 kg y en contenedor completo (20ft FCL) entre 10 y 14 toneladas.',
     q3: '¿Cómo previenen la humedad o deterioro durante viajes marítimos prolongados?',
     a3: 'El producto se deshidrata rigurosamente al 15-18% de humedad dentro de Solar Domes, se empaca al vacío y se colocan bolsas de cloruro de calcio de alta capacidad dentro del contenedor para absorber la condensación.',
@@ -192,7 +192,7 @@ export const es: TranslationSchema = {
   },
   contact: {
     badge: 'RESPUESTA RÁPIDA 24H',
-    title: 'Solicitud Formal de Cotización de Exportación (RFQ)',
+    title: 'Solicitud Formal de Cotización Comercial (RFQ)',
     subtitle: 'Indique los productos, volúmenes estimados y puerto de destino. Nuestro equipo comercial responderá con cotización FOB o CIF en un plazo de 4 a 12 horas.',
     nameLabel: 'Nombre Completo *',
     emailLabel: 'Correo Electrónico Corporativo *',
@@ -204,11 +204,11 @@ export const es: TranslationSchema = {
     messageLabel: 'Especificaciones Técnicas o Requisitos de Empaque *',
     submitBtn: 'Enviar Solicitud Cifrada (RFQ)',
     sending: 'Enviando solicitud de forma segura...',
-    successMessage: '¡Solicitud recibida con éxito! Nuestro gerente regional de exportación se pondrá en contacto a la brevedad con su cotización.',
+    successMessage: '¡Solicitud recibida con éxito! Nuestro gerente regional comercial se pondrá en contacto a la brevedad con su cotización.',
     sslNote: 'Protegido con cifrado TLS 1.3 de 256 bits. Garantizamos total confidencialidad comercial.'
   },
   footer: {
-    tagline: 'Exportador oficial de pescado seco y salado, anchoa teri nasi, calamar seco y buches de pescado de Indonesia. Certificado HACCP Grado A y Cuarentena Sanitaria Internacional.',
+    tagline: 'Proveedor oficial de pescado seco y salado, anchoa teri nasi, calamar seco y buches de pescado de Indonesia. Certificado HACCP Grado A y Cuarentena Sanitaria Internacional.',
     addressLabel: 'Sede Principal y Base Logística',
     hotlineLabel: 'Mesa de Comercio Exterior (24 Horas)',
     emailLabel: 'Correo de Cotizaciones Comerciales',
@@ -221,7 +221,7 @@ export const es: TranslationSchema = {
     securityTitle: 'Garantía de Seguridad y Confidencialidad Comercial',
     securityDesc: 'Cifrado DigiCert TLS 1.3 de 256 bits • Certificado ISO 9001:2015, ISO 27001 y Operador Económico Autorizado AEO Gold',
     description: 'Conectamos la riqueza pesquera del archipiélago indonesio con compradores mundiales mediante rigurosos estándares de higiene HACCP, procesamiento 100% natural libre de químicos y certificaciones oficiales de cuarentena.',
-    productsTitle: 'Productos & Servicios de Exportación',
+    productsTitle: 'Productos & Servicios Comerciales',
     complianceTitle: 'Normativa & Cumplimiento Sanitario',
     rightsReserved: 'Todos los derechos reservados.'
   }

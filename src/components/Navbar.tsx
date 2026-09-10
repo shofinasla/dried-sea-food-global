@@ -148,7 +148,7 @@ export default function Navbar({
       <div className="bg-slate-50 border-b border-slate-200/80 py-1.5 px-3 sm:px-6 text-xs text-slate-600">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
-          {/* Left: Security & Official Export Accreditations */}
+          {/* Left: Security & Official Trade Accreditations */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button 
               onClick={onOpenSSLModal}
@@ -183,7 +183,7 @@ export default function Navbar({
 
           {/* Right: Hotline, Multilingual Selector & Admin Portal */}
           <div className="flex items-center gap-2 sm:gap-4 shrink-0 ml-auto">
-            {/* 24/7 Direct Export Desk Phone */}
+            {/* 24/7 Direct Trade Desk Phone */}
             <a 
               href={`tel:${COMPANY_PROFILE.hotline.replace(/\s+/g, '')}`}
               id="top-hotline-link"
@@ -216,7 +216,7 @@ export default function Navbar({
                       <Globe2 className="w-3 h-3 text-teal-600" />
                       <span>Select Language ({availableLanguages.length})</span>
                     </div>
-                    <span className="text-[9px] text-slate-500 font-normal">Global Export</span>
+                    <span className="text-[9px] text-slate-500 font-normal">Global Trade</span>
                   </div>
                   <div className="space-y-0.5">
                     {availableLanguages.map((lang) => {
@@ -292,7 +292,7 @@ export default function Navbar({
                   SHRIMORA
                 </span>
                 <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 border border-teal-200 tracking-wider">
-                  EXPORT
+                  GLOBAL
                 </span>
               </div>
               <span className="text-[10px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap leading-tight">

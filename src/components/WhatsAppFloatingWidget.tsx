@@ -17,19 +17,19 @@ export default function WhatsAppFloatingWidget() {
       case 'ar':
         return 'مرحباً! مرحباً بكم في مكتب تصدير الأسماك المجففة والمأكولات البحرية من إندونيسيا. كيف يمكننا مساعدتك اليوم؟';
       case 'id':
-        return 'Halo! Selamat datang di Export Desk Dried Seafood Global Indonesia. Ada yang dapat kami bantu terkait pemesanan & ekspor komoditas ikan kering?';
+        return 'Halo! Selamat datang di Trade Desk Dried Seafood Global Indonesia. Ada yang dapat kami bantu terkait pemesanan komoditas ikan kering?';
       case 'es':
-        return '¡Hola! Bienvenido a la Mesa de Exportación de Dried Seafood Global Indonesia. ¿En qué podemos ayudarle con respecto a nuestros pescados secos?';
+        return '¡Hola! Bienvenido a la Mesa Comercial de Dried Seafood Global Indonesia. ¿En qué podemos ayudarle con respecto a nuestros pescados secos?';
       case 'fr':
-        return 'Bonjour ! Bienvenue au bureau export de Dried Seafood Global Indonésie. Comment pouvons-nous vous aider pour vos commandes de poissons séchés ?';
+        return 'Bonjour ! Bienvenue au bureau commercial de Dried Seafood Global Indonésie. Comment pouvons-nous vous aider pour vos commandes de poissons séchés ?';
       case 'de':
-        return 'Guten Tag! Willkommen beim Export-Desk von Dried Seafood Global Indonesien. Wie können wir Ihnen bei Trockenfisch und Meeresfrüchten helfen?';
+        return 'Guten Tag! Willkommen beim Handelsbüro von Dried Seafood Global Indonesien. Wie können wir Ihnen bei Trockenfisch und Meeresfrüchten helfen?';
       case 'vi':
         return 'Xin chào! Chào mừng quý khách đến với Bàn xuất khẩu Dried Seafood Global Indonesia. Chúng tôi có thể hỗ trợ gì về thủy hải sản khô?';
       case 'ru':
         return 'Здравствуйте! Добро пожаловать в экспортный отдел Dried Seafood Global Индонезия. Чем мы можем помочь по поставкам сушеной рыбы?';
       default:
-        return 'Hello! Welcome to Dried Seafood Global Indonesia Export Desk. How can we assist you with our dried seafood and salted fish commodities?';
+        return 'Hello! Welcome to Dried Seafood Global Indonesia Trade Desk. How can we assist you with our dried seafood and salted fish products?';
     }
   };
 
@@ -40,17 +40,17 @@ export default function WhatsAppFloatingWidget() {
       case 'ko': return '실시간 상담 (WhatsApp)';
       case 'ar': return 'مكتب التصدير (واتساب)';
       case 'id': return 'Hotline Ekspor (24 Jam)';
-      case 'es': return 'Chat Exportación (WhatsApp)';
-      case 'fr': return 'Assistance Export (WhatsApp)';
-      case 'de': return 'Export-Chat (WhatsApp)';
+      case 'es': return 'Chat Comercial (WhatsApp)';
+      case 'fr': return 'Assistance Commerciale (WhatsApp)';
+      case 'de': return 'Handels-Chat (WhatsApp)';
       case 'vi': return 'Tư vấn xuất khẩu (WhatsApp)';
       case 'ru': return 'Экспортный чат (WhatsApp)';
-      default: return 'Export Desk (24/7)';
+      default: return 'Trade Desk (24/7)';
     }
   };
 
   const defaultMessage = encodeURIComponent(
-    `Hello Dried Seafood Global, I am interested in importing Indonesian dried seafood & salted fish commodities. Please provide catalog and export terms.`
+    `Hello Dried Seafood Global, I am interested in importing Indonesian dried seafood & salted fish commodities. Please provide catalog and trade terms.`
   );
 
   const whatsappUrl = `https://wa.me/6288985582838?text=${defaultMessage}`;
@@ -69,7 +69,7 @@ export default function WhatsAppFloatingWidget() {
                 <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
               </div>
               <div>
-                <h4 className="text-xs font-bold text-slate-900">Export Desk 24/7</h4>
+                <h4 className="text-xs font-bold text-slate-900">Trade Desk 24/7</h4>
                 <p className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   Online & Ready for RFQ
@@ -117,7 +117,7 @@ export default function WhatsAppFloatingWidget() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         id="btn-whatsapp-floating"
-        title="Direct WhatsApp Export Consultation"
+        title="Direct WhatsApp Trade Consultation"
         className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 transition-all duration-300 transform hover:scale-105 cursor-pointer"
       >
         <div className="relative">
