@@ -250,11 +250,11 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
             {/* Brand Emblem & 3 Circular Photographic Vignettes */}
             <div className="w-full flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 py-1">
               
-              {/* SHRIMORA official logo */}
+              {/* Dried Seafood Global official logo */}
               <div className="flex flex-col items-center shrink-0">
                 <img
-                  src="/logo-shrimora.png"
-                  alt="Shrimora official logo"
+                  src="/logo-dsg.png"
+                  alt="Dried Seafood Global official logo"
                   className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-sm"
                   referrerPolicy="no-referrer"
                 />

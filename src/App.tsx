@@ -15,6 +15,9 @@ import AdminCMSModal from './components/AdminCMSModal';
 import SSLSecurityModal from './components/SSLSecurityModal';
 import ExportCatalogModal from './components/ExportCatalogModal';
 import NotFoundPage from './components/NotFoundPage';
+import CompanyPage from './components/CompanyPage';
+import PartnersPage from './components/PartnersPage';
+import StrategicPartners from './components/StrategicPartners';
 import { INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
 import { BlogPost, BlogComment, GalleryItem, ContactInquiry, SEOSettings } from './types';
 import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
@@ -59,7 +62,8 @@ export default function App() {
     }
   };
 
-  const is404 = currentPath !== '/' && currentPath !== '' && currentPath !== '/index.html';
+  const normalizedPath = currentPath.replace(/\/$/, '') || '/';
+  const is404 = normalizedPath !== '/' && normalizedPath !== '/index.html';
 
   // Fetch initial data from server APIs
   useEffect(() => {
@@ -330,6 +334,22 @@ export default function App() {
     }
   };
 
+  if (normalizedPath === '/company') {
+    return <CompanyPage onBackToHome={() => navigateTo('/')} />;
+  }
+
+  if (normalizedPath === '/partners') {
+    return (
+      <PartnersPage
+        onBackToHome={() => navigateTo('/')}
+        onOpenContact={() => {
+          navigateTo('/');
+          setTimeout(() => handleScrollTo('#kontak'), 120);
+        }}
+      />
+    );
+  }
+
   if (is404) {
     return (
       <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
@@ -403,6 +423,8 @@ export default function App() {
           onSelectServiceForQuote={handleSelectServiceForQuote}
         />
 
+        <StrategicPartners onOpenPartners={() => navigateTo('/partners')} />
+
         {/* 3. Indonesian High-Value Export Commodities Showcase (WebEkspor Collaboration) */}
         <ExportCommodities
           onSelectCommodityForQuote={handleSelectCommodityForQuote}
@@ -448,6 +470,8 @@ export default function App() {
       {/* Footer with rich enterprise navigation and certification logos */}
       <Footer
         onScrollTo={handleScrollTo}
+        onOpenCompany={() => navigateTo('/company')}
+        onOpenPartners={() => navigateTo('/partners')}
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
         onOpenAdmin={() => setIsAdminOpen(true)}
         onOpen404={() => navigateTo('/404')}

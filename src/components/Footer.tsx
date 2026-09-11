@@ -21,12 +21,14 @@ import { useTranslation } from '../i18n/LanguageContext';
 
 interface FooterProps {
   onScrollTo: (id: string) => void;
+  onOpenCompany: () => void;
+  onOpenPartners: () => void;
   onOpenSSLModal: () => void;
   onOpenAdmin: () => void;
   onOpen404?: () => void;
 }
 
-export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin, onOpen404 }: FooterProps) {
+export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOpenSSLModal, onOpenAdmin, onOpen404 }: FooterProps) {
   const { t, currentLang } = useTranslation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -120,6 +122,7 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin, onOpen
               <li><button onClick={() => onScrollTo('#galeri')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.gallery || 'Facility'}</button></li>
               <li><button onClick={() => onScrollTo('#lokasi')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.mapHubs || 'Ports'}</button></li>
               <li><button onClick={() => onScrollTo('#kontak')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.contactRfq || 'Contact'}</button></li>
+              <li><button onClick={onOpenPartners} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">Mitra Strategis</button></li>
             </ul>
           </div>
 
@@ -150,7 +153,15 @@ export default function Footer({ onScrollTo, onOpenSSLModal, onOpenAdmin, onOpen
         {/* Bottom copyright row */}
         <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-slate-500 text-xs">
           <p>
-            © {new Date().getFullYear()} {COMPANY_PROFILE.legalName}. {t.footer?.rightsReserved || 'All Rights Reserved'}.
+            © {new Date().getFullYear()}{' '}
+            <button
+              type="button"
+              onClick={onOpenCompany}
+              className="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-[#009bb3]"
+            >
+              PT Samdura Bara Persada Indonesia
+            </button>
+            . {t.footer?.rightsReserved || 'All Rights Reserved'}.
           </p>
           <div className="flex items-center gap-4">
             <button onClick={onOpenSSLModal} className="hover:text-[#009bb3] cursor-pointer">TLS 1.3 Verified</button>

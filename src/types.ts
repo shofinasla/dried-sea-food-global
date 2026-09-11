@@ -15,6 +15,15 @@ export interface CompanyLeader {
   linkedin?: string;
 }
 
+export interface StrategicPartner {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  logoUrl?: string;
+  initials: string;
+}
+
 export interface ServiceItem {
   id: string;
   title: string;

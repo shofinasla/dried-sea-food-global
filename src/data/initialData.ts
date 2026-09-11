@@ -32,6 +32,25 @@ export const COMPANY_PROFILE = {
   sslVerification: 'DigiCert High-Assurance TLS 1.3 Extended Validation (EV) 256-Bit SHA-384',
 };
 
+export const STRATEGIC_PARTNERS = [
+  {
+    id: 'shrimora',
+    name: 'Shrimora',
+    category: 'Brand & Produk Hasil Laut',
+    description: 'Mitra brand untuk pengembangan dan pengemasan produk hasil laut berkualitas.',
+    logoUrl: '/logo-shrimora.png',
+    initials: 'S'
+  },
+  {
+    id: 'dapur-ikan-nusantara',
+    name: 'Dapur Ikan Nusantara',
+    category: 'Kuliner & Distribusi',
+    description: 'Mitra kolaborasi untuk memperluas akses produk ikan Nusantara ke pasar yang lebih luas.',
+    logoUrl: '/logo-dapur-ikan-nusantara.png',
+    initials: 'DIN'
+  }
+];
+
 export const COMPANY_STATS: CompanyStat[] = [
   {
     id: 'exp',

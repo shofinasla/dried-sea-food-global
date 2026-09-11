@@ -272,11 +272,11 @@ export default function Navbar({
             onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}
             id="brand-logo-link"
             className="flex items-center gap-3 shrink-0 cursor-pointer group"
-            aria-label="Shrimora home"
+            aria-label="Dried Seafood Global home"
           >
             <img
-              src="/logo-shrimora.png"
-              alt="Shrimora logo"
+              src="/logo-dsg.png"
+              alt="Dried Seafood Global logo"
               className="h-10 w-auto sm:h-11 object-contain drop-shadow-sm transition-transform group-hover:scale-[1.03]"
               referrerPolicy="no-referrer"
             />
