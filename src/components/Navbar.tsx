@@ -272,33 +272,14 @@ export default function Navbar({
             onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}
             id="brand-logo-link"
             className="flex items-center gap-3 shrink-0 cursor-pointer group"
+            aria-label="Shrimora home"
           >
-            {/* Marine Emblem */}
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center shadow-xs group-hover:border-teal-400 group-hover:scale-105 transition-all shrink-0">
-              <svg viewBox="0 0 100 100" className="w-7 h-7 sm:w-8 sm:h-8 text-teal-700" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="50" cy="50" r="42" stroke="currentColor" strokeWidth="6" />
-                <path d="M 28 45 C 38 28 65 28 75 42 C 65 42 50 48 35 48" stroke="currentColor" strokeWidth="5" />
-                <path d="M 35 55 C 50 55 65 60 75 58 C 65 72 38 72 28 55 Z" fill="#0d9488" fillOpacity="0.18" stroke="currentColor" strokeWidth="5" />
-                <circle cx="65" cy="40" r="3.5" fill="#0d9488" />
-                <path d="M 72 50 C 80 48 86 44 88 40" stroke="currentColor" strokeWidth="4" />
-                <path d="M 72 54 C 80 56 86 60 88 64" stroke="currentColor" strokeWidth="4" />
-              </svg>
-            </div>
-            
-            {/* Full Unclipped Brand Name & Subtitle */}
-            <div className="flex flex-col shrink-0">
-              <div className="flex items-center gap-1.5">
-                <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 group-hover:text-teal-700 transition-colors font-sans whitespace-nowrap">
-                  SHRIMORA
-                </span>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 border border-teal-200 tracking-wider">
-                  GLOBAL
-                </span>
-              </div>
-              <span className="text-[10px] font-semibold tracking-wider text-slate-500 uppercase whitespace-nowrap leading-tight">
-                DRIED SEAFOOD INDONESIA
-              </span>
-            </div>
+            <img
+              src="/logo-shrimora.png"
+              alt="Shrimora logo"
+              className="h-10 w-auto sm:h-11 object-contain drop-shadow-sm transition-transform group-hover:scale-[1.03]"
+              referrerPolicy="no-referrer"
+            />
           </a>
 
           {/* Clean Desktop Navigation */}

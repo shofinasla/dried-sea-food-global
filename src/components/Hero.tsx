@@ -250,21 +250,14 @@ export default function Hero({ onScrollTo, onOpenSSLModal, onOpenCatalogModal }:
             {/* Brand Emblem & 3 Circular Photographic Vignettes */}
             <div className="w-full flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 py-1">
               
-              {/* SHRIMORA Sea-Green Circular Emblem */}
+              {/* SHRIMORA official logo */}
               <div className="flex flex-col items-center shrink-0">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-teal-50/70 border-2 border-teal-600 flex items-center justify-center shadow-md p-1.5">
-                  <svg viewBox="0 0 100 100" className="w-full h-full text-teal-700" fill="none" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="50" cy="50" r="44" stroke="currentColor" strokeWidth="5" />
-                    <path d="M 26 44 C 36 26 65 26 76 40 C 66 40 50 46 34 46" stroke="currentColor" strokeWidth="4.5" />
-                    <path d="M 34 54 C 50 54 66 60 76 58 C 66 74 36 74 26 56 Z" fill="#0d9488" fillOpacity="0.2" stroke="currentColor" strokeWidth="4.5" />
-                    <circle cx="67" cy="38" r="3.5" fill="#0d9488" />
-                    <path d="M 74 48 C 82 46 88 42 90 38" stroke="currentColor" strokeWidth="3.5" />
-                    <path d="M 74 52 C 82 54 88 58 90 62" stroke="currentColor" strokeWidth="3.5" />
-                  </svg>
-                </div>
-                <span className="text-[11px] font-black tracking-wider text-teal-700 mt-1 uppercase">
-                  SHRIMORA
-                </span>
+                <img
+                  src="/logo-shrimora.png"
+                  alt="Shrimora official logo"
+                  className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-sm"
+                  referrerPolicy="no-referrer"
+                />
               </div>
 
               {/* 3 Circular Photographic Vignettes */}
