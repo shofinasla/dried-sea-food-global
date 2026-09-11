@@ -18,6 +18,13 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.use((req: Request, res: Response, next) => {
+  if (req.hostname.toLowerCase() === 'driedseafoodglobal.com') {
+    return res.redirect(301, `https://www.driedseafoodglobal.com${req.originalUrl}`);
+  }
+  next();
+});
+
 // In-memory persistent state during runtime
 let blogPosts: BlogPost[] = [...INITIAL_BLOG_POSTS];
 let galleryItems: GalleryItem[] = [...GALLERY_ITEMS];
@@ -64,7 +71,7 @@ Allow: /
 Disallow: /api/admin/
 Disallow: /api/cms/
 
-Sitemap: https://driedseafoodglobal.com/sitemap.xml
+Sitemap: https://www.driedseafoodglobal.com/sitemap.xml
 `);
 });
 
@@ -79,7 +86,7 @@ app.get('/sitemap.xml', (req: Request, res: Response) => {
   // Main multilingual root pages
   for (const lang of languages) {
     const isDefault = lang === 'en';
-    const loc = isDefault ? 'https://driedseafoodglobal.com/' : `https://driedseafoodglobal.com/?lang=${lang}`;
+    const loc = isDefault ? 'https://www.driedseafoodglobal.com/' : `https://www.driedseafoodglobal.com/?lang=${lang}`;
     const priority = isDefault ? '1.0' : '0.9';
 
     urlsXml += `
@@ -88,12 +95,12 @@ app.get('/sitemap.xml', (req: Request, res: Response) => {
     <lastmod>${lastMod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${priority}</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://driedseafoodglobal.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://driedseafoodglobal.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://driedseafoodglobal.com/?lang=id" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://driedseafoodglobal.com/?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://driedseafoodglobal.com/?lang=ja" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://driedseafoodglobal.com/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/?lang=id" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.driedseafoodglobal.com/?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.driedseafoodglobal.com/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/?lang=ar" />
   </url>`;
   }
 
@@ -122,7 +129,7 @@ app.get(['/feed/google-merchant-center.xml', '/feed/gmc-products.xml'], (req: Re
       <g:id>DSG-${c.id.toUpperCase()}</g:id>
       <g:title>${cleanTitle}</g:title>
       <g:description>${cleanDesc}</g:description>
-      <g:link>https://driedseafoodglobal.com/#komoditas</g:link>
+      <g:link>https://www.driedseafoodglobal.com/#komoditas</g:link>
       <g:image_link>${c.imageUrl}</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in_stock</g:availability>
@@ -149,7 +156,7 @@ app.get(['/feed/google-merchant-center.xml', '/feed/gmc-products.xml'], (req: Re
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
     <title>PT Dried Seafood Global Indonesia - B2B Product Catalog Feed</title>
-    <link>https://driedseafoodglobal.com/</link>
+    <link>https://www.driedseafoodglobal.com/</link>
     <description>Google Merchant Center Official Feed for Indonesian High-Grade Dried Fish, Dried Squid, Salted Fish, and Fish Maw.</description>
     <lastBuildDate>${nowUtc}</lastBuildDate>
 ${itemsXml}

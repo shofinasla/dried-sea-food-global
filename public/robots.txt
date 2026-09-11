@@ -16,4 +16,4 @@ Allow: /#galeri
 Allow: /#blog
 
 # Sitemaps
-Sitemap: https://driedseafoodglobal.com/sitemap.xml
+Sitemap: https://www.driedseafoodglobal.com/sitemap.xml

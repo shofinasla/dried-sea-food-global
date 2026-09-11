@@ -1390,12 +1390,12 @@ export default function AdminCMSModal({
                     <div className="flex items-center justify-between text-xs bg-slate-900 p-2.5 rounded-xl border border-slate-850">
                       <div className="truncate pr-2">
                         <span className="text-[10px] text-slate-400 block font-semibold">Sitemap XML URL:</span>
-                        <code className="text-[11px] text-emerald-400 font-mono">https://driedseafoodglobal.com/sitemap.xml</code>
+                        <code className="text-[11px] text-emerald-400 font-mono">https://www.driedseafoodglobal.com/sitemap.xml</code>
                       </div>
                       <button
                         type="button"
                         onClick={() => {
-                          navigator.clipboard.writeText('https://driedseafoodglobal.com/sitemap.xml');
+                          navigator.clipboard.writeText('https://www.driedseafoodglobal.com/sitemap.xml');
                           setCopiedSitemap(true);
                           setTimeout(() => setCopiedSitemap(false), 2000);
                         }}
@@ -1466,7 +1466,7 @@ export default function AdminCMSModal({
                         <button
                           type="button"
                           onClick={() => {
-                            navigator.clipboard.writeText('https://driedseafoodglobal.com/feed/google-merchant-center.xml');
+                            navigator.clipboard.writeText('https://www.driedseafoodglobal.com/feed/google-merchant-center.xml');
                             setCopiedGmcFeed(true);
                             setTimeout(() => setCopiedGmcFeed(false), 2000);
                           }}
@@ -1578,7 +1578,7 @@ export default function AdminCMSModal({
                 </span>
                 <div className="bg-white text-slate-900 p-4 rounded-xl shadow-md space-y-1">
                   <div className="text-xs text-slate-600 flex items-center gap-1 font-mono">
-                    <span>https://driedseafoodglobal.com</span>
+                    <span>https://www.driedseafoodglobal.com</span>
                     <span>› id</span>
                   </div>
                   <h4 className="text-blue-700 text-lg font-medium hover:underline cursor-pointer line-clamp-1">

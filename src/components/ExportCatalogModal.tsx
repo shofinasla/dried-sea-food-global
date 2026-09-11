@@ -52,7 +52,7 @@ Supplier & Processor: Dried Seafood, Salted Fish, Fish Maw & Marine Products
 Legal: ${COMPANY_PROFILE.registrationNo} | Tax ID: ${COMPANY_PROFILE.taxId}
 HQ: ${COMPANY_PROFILE.headquarters}
 Hotline: ${COMPANY_PROFILE.hotline} | Email: ${COMPANY_PROFILE.salesEmail}
-Web: https://driedseafoodglobal.com | Quality Standard: HACCP Grade A & BKIPM
+Web: https://www.driedseafoodglobal.com | Quality Standard: HACCP Grade A & BKIPM
 ================================================================================
 
 CERTIFICATIONS:
