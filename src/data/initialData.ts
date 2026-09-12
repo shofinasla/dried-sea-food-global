@@ -137,7 +137,41 @@ export const LEADERSHIP_TEAM: CompanyLeader[] = [
     bio: 'Spesialis sistem pengeringan solar dome ramah lingkungan, penyimpanan dehumidified, dan pengapalan kontainer reefer/dry berkelembaban terkontrol.',
     imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80',
     linkedin: 'https://linkedin.com'
+  },
+  /*
+  {
+    id: 'c5',
+    name: 'Ah. Shofi Nasla, S.Kom.',
+    role: 'Director of Data Maining',
+    bio: 'Spesialis sistem pengeringan solar dome ramah lingkungan, penyimpanan dehumidified, dan pengapalan kontainer reefer/dry berkelembaban terkontrol.',
+    imageUrl: '/images/team/profil-shofinasla.png',
+    linkedin: 'https://linkedin.com/shofinasla'
+  },
+  {
+    id: 'c6',
+    name: 'Ah. Shofi Nasla, S.Kom.',
+    role: 'Director of Data Maining',
+    bio: 'Spesialis sistem pengeringan solar dome ramah lingkungan, penyimpanan dehumidified, dan pengapalan kontainer reefer/dry berkelembaban terkontrol.',
+    imageUrl: '/images/team/profil-shofinasla.png',
+    linkedin: 'https://linkedin.com/shofinasla'
+  },
+  {
+    id: 'c7',
+    name: 'Ah. Shofi Nasla, S.Kom.',
+    role: 'Director of Data Maining',
+    bio: 'Spesialis sistem pengeringan solar dome ramah lingkungan, penyimpanan dehumidified, dan pengapalan kontainer reefer/dry berkelembaban terkontrol.',
+    imageUrl: '/images/team/profil-shofinasla.png',
+    linkedin: 'https://linkedin.com/shofinasla'
+  },
+  {
+    id: 'c8',
+    name: 'M. Nailul Muhgist, S.E.',
+    role: 'Director of Maining Sectrtariat',
+    bio: 'Spesialis sistem pengeringan solar dome ramah lingkungan, penyimpanan dehumidified, dan pengapalan kontainer reefer/dry berkelembaban terkontrol.',
+    imageUrl: '/images/team/profil-mughist.png',
+    linkedin: 'https://linkedin.com/shofinasla'
   }
+  */
 ];
 
 export const SERVICES_LIST: ServiceItem[] = [
@@ -464,7 +498,7 @@ Setiap lot produksi diuji di laboratorium terakreditasi ISO 17025. Kami menjamin
     author: {
       name: 'Dr. Rina Kusuma, S.Pi.',
       role: 'Head of QA & Quarantine Compliance',
-      avatar: '/images/blog/standar-mutu-teri-nasi.png'
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80'
     },
     category: 'Industri',
     tags: ['Teri Nasi Super', 'Ekspor Ikan Kering', 'Standar Mutu', 'HACCP Grade A'],
@@ -489,17 +523,17 @@ Setiap lot produksi diuji di laboratorium terakreditasi ISO 17025. Kami menjamin
     excerpt: 'Langkah taktis pengurusan dokumen resmi Badan Karantina Ikan KKP (BKIPM), pengujian organoleptik, dan penerbitan Certificate of Origin untuk tarif preferensi 0%.',
     content: `Menghadapi regulasi ketat kepabeanan internasional, kelengkapan sertifikat karantina perikanan adalah syarat mutlak agar barang tidak tertahan di pelabuhan masuk (port of entry).
 
-### Dokumen Kunci yang Wajib Dimiliki:
-* **Health Certificate (HC) BKIPM:** Membuktikan produk ikan kering aman dari cemaran mikroba berbahaya dan layak konsumsi.
-* **Certificate of Analysis (COA):** Hasil uji lab independen atas parameter kadar air, histamin, dan bebas bahan pengawet ilegal.
-* **COO Form E & Form D:** Fasilitas bea masuk nol persen bagi importir di Tiongkok dan negara-negara ASEAN.
+    ### Dokumen Kunci yang Wajib Dimiliki:
+    * **Health Certificate (HC) BKIPM:** Membuktikan produk ikan kering aman dari cemaran mikroba berbahaya dan layak konsumsi.
+    * **Certificate of Analysis (COA):** Hasil uji lab independen atas parameter kadar air, histamin, dan bebas bahan pengawet ilegal.
+    * **COO Form E & Form D:** Fasilitas bea masuk nol persen bagi importir di Tiongkok dan negara-negara ASEAN.
 
-Hubungi tim spesialis ekspor Dried Seafood Global untuk mendapatkan konsultasi regulasi kepabeanan produk perikanan di negara Anda.`,
+    Hubungi tim spesialis ekspor Dried Seafood Global untuk mendapatkan konsultasi regulasi kepabeanan produk perikanan di negara Anda.`,
     coverImage: '/images/blog/panduan-karantina-ikan.png',
     author: {
       name: 'Ir. H. Bambang Priyono',
       role: 'CEO & Founder',
-      avatar: '/images/blog/panduan-karantina-ikan.png'
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80'
     },
     category: 'Teknologi',
     tags: ['Health Certificate', 'BKIPM KKP', 'Dokumen Ekspor', 'Kepatuhan Regulasi'],
@@ -516,12 +550,12 @@ Hubungi tim spesialis ekspor Dried Seafood Global untuk mendapatkan konsultasi r
     excerpt: 'Mengenal komoditas laut eksklusif bernilai tinggi, karakteristik Fish Maw Gulama dan Kakap, serta metode pengeringan alami untuk menjaga kandungan kolagen.',
     content: `Gelembung renang ikan atau dikenal secara internasional sebagai Fish Maw merupakan komoditas laut kering premium dengan nilai jual tinggi di pasar Tiongkok Raya dan Asia Timur. 
 
-Kualitas Fish Maw dinilai berdasarkan ketebalan dinding, kejernihan serat saat diterawang cahaya, dan ketiadaan bintik darah. Dried Seafood Global menyediakan Fish Maw kualitas ekspor dengan penyortiran manual oleh tenaga ahli berpengalaman puluhan tahun.`,
+    Kualitas Fish Maw dinilai berdasarkan ketebalan dinding, kejernihan serat saat diterawang cahaya, dan ketiadaan bintik darah. Dried Seafood Global menyediakan Fish Maw kualitas ekspor dengan penyortiran manual oleh tenaga ahli berpengalaman puluhan tahun.`,
     coverImage: '/images/blog/gelembung-ikan-fish-maw.png',
     author: {
       name: 'Kenneth Chen',
       role: 'Director of Asian Seafood Trade',
-      avatar: '/images/blog/gelembung-ikan-fish-maw.png'
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80'
     },
     category: 'Kasus Nyata',
     tags: ['Fish Maw', 'Gelembung Ikan', 'Komoditas Mewah', 'Perdagangan Asia'],
@@ -541,7 +575,7 @@ Kualitas Fish Maw dinilai berdasarkan ketebalan dinding, kejernihan serat saat d
     author: {
       name: 'Hendra Tanudjaja, S.T.',
       role: 'Director of Marine Logistics',
-      avatar: '/images/blog/pemberdayaan-nelayan-dan-keberlanjutan-seafood.png'
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80'
     },
     category: 'Sustainability',
     tags: ['Pemberdayaan Nelayan', 'Fair Trade', 'Keberlanjutan', 'Pesisir Indonesia'],
@@ -855,6 +889,32 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     ],
     description: 'Teripang hasil tangkapan nelayan selam tradisional dari dasar laut terumbu karang yang bersih. Diproses melalui perebusan higienis dan pengasapan/penjemuran cermat, memiliki rasio pembesaran (expansion ratio) di atas 6x saat direhidrasi.',
     featured: false
+  },
+  {
+    id: 'exp-teri-asin',
+    name: 'Ikan Teri Asin / Baby Fish Ikan Teri',
+    indonesianName: 'Ikan Teri Nasi Super Putih & Teri Medan Asli',
+    category: 'Ikan Teri & Asin',
+    hsCode: '0305.59.90',
+    origin: 'Belawan (Sumatera Utara), Tuban & Pasuruan (Jawa Timur)',
+    specification: {
+      grade: 'Super AAA Grade (Ukuran 1.5 - 2.5 cm, Utuh & Putih Bersih)',
+      moisture: '10% - 12% Max (Kadar Garam 2% - 4% Low Salt)',
+      packaging: '100g/250g/500g Vacuum Pouch / 10 Kg Master Carton Box',
+      moq: '500 Kg (LCL) / 1 x 20ft FCL (12 Metric Tons)',
+      shelfLife: '12 Bulan dalam suhu ruang kering / 24 Bulan chiller',
+      colorTexture: 'Putih Gading Alami, Renyah, Non-Formalin, Bebas Pemutih'
+    },
+    supplyCapacity: '80 Metrik Ton / Bulan',
+    certifications: ['HACCP Grade A', 'Health Certificate BKIPM', 'SKP KKP RI', 'Halal BPJPH', 'US FDA Registered'],
+    keyMarkets: ['Hong Kong', 'Singapura', 'Taiwan', 'Malaysia', 'Amerika Serikat (USA)'],
+    imageUrl: '/images/products/exp-teri-nasi-1.png',
+    galleryImages: [
+      '/images/products/exp-teri-nasi-1.png',
+      '/images/products/exp-teri-nasi-2.png'
+    ],
+    description: 'Ikan teri nasi kualitas super grade yang dikeringkan secara higienis menggunakan teknologi pengering modern. Berwarna putih gading alami tanpa bahan kimia pemutih, bercita rasa gurih renyah, dan sangat digemari pasar Asia Timur serta supermarket diaspora.',
+    featured: true
   },
   {
     id: 'exp-udang-ebi',

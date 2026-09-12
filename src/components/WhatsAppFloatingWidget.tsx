@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { MessageCircle, X, ExternalLink, ShieldCheck, Sparkles, Send } from 'lucide-react';
+import { MessageCircle, X, ExternalLink, ShieldCheck, Mail, ArrowUpRight } from 'lucide-react';
 import { useTranslation } from '../i18n/LanguageContext';
+import { COMPANY_PROFILE } from '../data/initialData';
 
 export default function WhatsAppFloatingWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,12 +55,17 @@ export default function WhatsAppFloatingWidget() {
   );
 
   const whatsappUrl = `https://wa.me/6288985582838?text=${defaultMessage}`;
+  const emailSubject = encodeURIComponent('Inquiry: Indonesian Dried Seafood Products');
+  const emailBody = encodeURIComponent(
+    'Hello Dried Seafood Global,\n\nI am interested in importing Indonesian dried seafood and salted fish commodities. Please share your catalog and trade terms.\n\nBest regards,'
+  );
+  const emailUrl = `mailto:${COMPANY_PROFILE.salesEmail}?subject=${emailSubject}&body=${emailBody}`;
 
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end">
       {/* Popover Bubble */}
       {isOpen && (
-        <div className="mb-3 w-80 sm:w-88 bg-white border border-slate-200 rounded-3xl shadow-2xl p-4 animate-fadeIn overflow-hidden">
+        <div className="mb-3 w-[calc(100vw-2rem)] max-w-sm bg-white border border-slate-200 rounded-3xl shadow-2xl p-4 animate-fadeIn overflow-hidden">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2.5">
               <div className="relative">
@@ -93,23 +99,40 @@ export default function WhatsAppFloatingWidget() {
             </div>
           </div>
 
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => {
-              fetch('/api/analytics/event', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ event: 'whatsapp_click', label: 'Floating Widget', path: window.location.pathname })
-              }).catch(() => {});
-            }}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span>Chat via WhatsApp</span>
-            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-          </a>
+          <div className="grid grid-cols-1 gap-2.5">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                fetch('/api/analytics/event', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ event: 'whatsapp_click', label: 'Floating Widget', path: window.location.pathname })
+                }).catch(() => {});
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Chat via WhatsApp</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+            </a>
+            <a
+              href={emailUrl}
+              onClick={() => {
+                fetch('/api/analytics/event', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ event: 'email_click', label: 'Floating Widget', path: window.location.pathname })
+                }).catch(() => {});
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs transition-all cursor-pointer"
+            >
+              <Mail className="w-4 h-4 text-[#009bb3]" />
+              <span>Email Trade Desk</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
+            </a>
+          </div>
         </div>
       )}
 

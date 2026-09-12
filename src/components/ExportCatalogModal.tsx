@@ -11,17 +11,20 @@ import {
   Printer,
   Sparkles
 } from 'lucide-react';
-import { EXPORT_COMMODITIES, COMPANY_PROFILE } from '../data/initialData';
+import { COMPANY_PROFILE } from '../data/initialData';
+import { ExportCommodity } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 
 interface ExportCatalogModalProps {
   isOpen: boolean;
+  products: ExportCommodity[];
   onClose: () => void;
   onSelectCommodityForQuote: (commodityName: string) => void;
 }
 
 export default function ExportCatalogModal({
   isOpen,
+  products,
   onClose,
   onSelectCommodityForQuote
 }: ExportCatalogModalProps) {
@@ -65,7 +68,7 @@ CERTIFICATIONS:
 ================================================================================
 FLAGSHIP PRODUCTS & SPECIFICATIONS
 ================================================================================
-${EXPORT_COMMODITIES.map((c, i) => `
+${products.map((c, i) => `
 [${i + 1}] ${c.name.toUpperCase()} (${c.indonesianName})
 Category: ${c.category}
 HS Code: ${c.hsCode}
@@ -162,7 +165,7 @@ PAYMENT TERMS:
             </h4>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {EXPORT_COMMODITIES.map((c, i) => (
+              {products.map((c, i) => (
                 <div key={i} className="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between shadow-2xs">
                   <div>
                     <span className="font-bold text-slate-900 block">{c.name}</span>

@@ -18,14 +18,41 @@ import NotFoundPage from './components/NotFoundPage';
 import CompanyPage from './components/CompanyPage';
 import PartnersPage from './components/PartnersPage';
 import StrategicPartners from './components/StrategicPartners';
-import { INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
-import { BlogPost, BlogComment, GalleryItem, ContactInquiry, SEOSettings } from './types';
+import WhatsAppFloatingWidget from './components/WhatsAppFloatingWidget';
+import { EXPORT_COMMODITIES, INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
+import { BlogPost, BlogComment, GalleryItem, ContactInquiry, SEOSettings, ExportCommodity } from './types';
 import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
 
 export default function App() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(INITIAL_BLOG_POSTS);
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(INITIAL_GALLERY);
   const [inquiries, setInquiries] = useState<ContactInquiry[]>(INITIAL_INQUIRIES);
+  const [products, setProducts] = useState<ExportCommodity[]>(() => {
+    try {
+      const savedProducts = localStorage.getItem('dried-seafood-products');
+      const storedProducts = savedProducts ? JSON.parse(savedProducts) : EXPORT_COMMODITIES;
+      if (!Array.isArray(storedProducts)) return EXPORT_COMMODITIES;
+
+      const usedIds = new Set<string>();
+      return storedProducts.map((product: ExportCommodity, index: number) => {
+        const baseId = String(product.id || `product-${index + 1}`);
+        let uniqueId = baseId;
+        let suffix = 2;
+        while (usedIds.has(uniqueId)) {
+          uniqueId = `${baseId}-${suffix}`;
+          suffix += 1;
+        }
+        usedIds.add(uniqueId);
+        return {
+          ...product,
+          id: uniqueId,
+          category: String(product.category || 'Uncategorized').trim()
+        };
+      });
+    } catch {
+      return EXPORT_COMMODITIES;
+    }
+  });
   const [seoSettings, setSeoSettings] = useState<SEOSettings>(INITIAL_SEO_SETTINGS);
   const [liveVisitors, setLiveVisitors] = useState<number>(46);
 
@@ -45,6 +72,10 @@ export default function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
     return typeof window !== 'undefined' ? window.location.pathname : '/';
   });
+
+  useEffect(() => {
+    localStorage.setItem('dried-seafood-products', JSON.stringify(products));
+  }, [products]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -258,6 +289,41 @@ export default function App() {
     }
   };
 
+  const handleSaveProduct = async (productData: Partial<ExportCommodity>) => {
+    const product: ExportCommodity = {
+      id: productData.id || `product-${Date.now()}`,
+      name: productData.name?.trim() || 'Unnamed Export Product',
+      indonesianName: productData.indonesianName?.trim() || productData.name?.trim() || 'Produk Hasil Laut',
+      category: productData.category?.trim() || 'Uncategorized',
+      hsCode: productData.hsCode?.trim() || 'N/A',
+      origin: productData.origin?.trim() || 'Indonesia',
+      specification: {
+        grade: productData.specification?.grade?.trim() || 'Standard Export Grade',
+        moisture: productData.specification?.moisture?.trim() || '',
+        packaging: productData.specification?.packaging?.trim() || 'Food-grade export packaging',
+        moq: productData.specification?.moq?.trim() || 'Contact us',
+        shelfLife: productData.specification?.shelfLife?.trim() || '',
+        colorTexture: productData.specification?.colorTexture?.trim() || ''
+      },
+      supplyCapacity: productData.supplyCapacity?.trim() || 'Available on request',
+      certifications: productData.certifications || [],
+      keyMarkets: productData.keyMarkets || [],
+      imageUrl: productData.imageUrl?.trim() || '/images/products/exp-teri-nasi-1.png',
+      galleryImages: productData.galleryImages || [productData.imageUrl?.trim() || '/images/products/exp-teri-nasi-1.png'],
+      description: productData.description?.trim() || 'Export-ready Indonesian dried seafood product.',
+      featured: productData.featured || false
+    };
+
+    setProducts(previous => productData.id
+      ? previous.map(item => item.id === product.id ? product : item)
+      : [product, ...previous]
+    );
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    setProducts(previous => previous.filter(product => product.id !== id));
+  };
+
   const handleAddBlogComment = (postId: string, comment: { author: string; email: string; content: string }) => {
     setBlogPosts(prev => prev.map(post => {
       if (post.id === postId) {
@@ -374,12 +440,15 @@ export default function App() {
           galleryItems={galleryItems}
           inquiries={inquiries}
           seoSettings={seoSettings}
+          products={products}
           onSaveBlogPost={handleSaveBlogPost}
           onDeleteBlogPost={handleDeleteBlogPost}
           onSaveGalleryItem={handleSaveGalleryItem}
           onDeleteGalleryItem={handleDeleteGalleryItem}
           onUpdateInquiryStatus={handleUpdateInquiryStatus}
           onSaveSEOSettings={handleSaveSEOSettings}
+          onSaveProduct={handleSaveProduct}
+          onDeleteProduct={handleDeleteProduct}
         />
 
         <SSLSecurityModal
@@ -389,9 +458,12 @@ export default function App() {
 
         <ExportCatalogModal
           isOpen={isCatalogModalOpen}
+          products={products}
           onClose={() => setIsCatalogModalOpen(false)}
           onSelectCommodityForQuote={handleSelectCommodityForQuote}
         />
+
+        <WhatsAppFloatingWidget />
       </div>
     );
   }
@@ -427,6 +499,7 @@ export default function App() {
 
         {/* 3. Indonesian High-Value Export Commodities Showcase (WebEkspor Collaboration) */}
         <ExportCommodities
+          products={products}
           onSelectCommodityForQuote={handleSelectCommodityForQuote}
           onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
         />
@@ -485,12 +558,15 @@ export default function App() {
         galleryItems={galleryItems}
         inquiries={inquiries}
         seoSettings={seoSettings}
+        products={products}
         onSaveBlogPost={handleSaveBlogPost}
         onDeleteBlogPost={handleDeleteBlogPost}
         onSaveGalleryItem={handleSaveGalleryItem}
         onDeleteGalleryItem={handleDeleteGalleryItem}
         onUpdateInquiryStatus={handleUpdateInquiryStatus}
         onSaveSEOSettings={handleSaveSEOSettings}
+        onSaveProduct={handleSaveProduct}
+        onDeleteProduct={handleDeleteProduct}
       />
 
       {/* SSL / TLS 1.3 Extended Validation Certificate Modal */}
@@ -502,9 +578,12 @@ export default function App() {
       {/* Export Commodity E-Catalog Download Modal */}
       <ExportCatalogModal
         isOpen={isCatalogModalOpen}
+        products={products}
         onClose={() => setIsCatalogModalOpen(false)}
         onSelectCommodityForQuote={handleSelectCommodityForQuote}
       />
+
+      <WhatsAppFloatingWidget />
 
     </div>
   );

@@ -26,7 +26,8 @@ import {
   Copy,
   User,
   LogOut,
-  KeyRound
+  KeyRound,
+  Package
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -42,13 +43,14 @@ import {
   Pie,
   Cell
 } from 'recharts';
-import { BlogPost, GalleryItem, ContactInquiry, SEOSettings, AnalyticsSummary } from '../types';
+import { BlogPost, GalleryItem, ContactInquiry, SEOSettings, AnalyticsSummary, ExportCommodity } from '../types';
 
 interface AdminCMSModalProps {
   isOpen: boolean;
   onClose: () => void;
   blogPosts: BlogPost[];
   galleryItems: GalleryItem[];
+  products: ExportCommodity[];
   inquiries: ContactInquiry[];
   seoSettings: SEOSettings;
   onSaveBlogPost: (post: Partial<BlogPost>) => Promise<void>;
@@ -57,6 +59,8 @@ interface AdminCMSModalProps {
   onDeleteGalleryItem: (id: string) => Promise<void>;
   onUpdateInquiryStatus: (id: string, status: string, notes?: string) => Promise<void>;
   onSaveSEOSettings: (settings: Partial<SEOSettings>) => Promise<void>;
+  onSaveProduct: (product: Partial<ExportCommodity>) => Promise<void>;
+  onDeleteProduct: (id: string) => Promise<void>;
 }
 
 export default function AdminCMSModal({
@@ -64,6 +68,7 @@ export default function AdminCMSModal({
   onClose,
   blogPosts,
   galleryItems,
+  products,
   inquiries,
   seoSettings,
   onSaveBlogPost,
@@ -71,9 +76,11 @@ export default function AdminCMSModal({
   onSaveGalleryItem,
   onDeleteGalleryItem,
   onUpdateInquiryStatus,
-  onSaveSEOSettings
+  onSaveSEOSettings,
+  onSaveProduct,
+  onDeleteProduct
 }: AdminCMSModalProps) {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'blog' | 'gallery' | 'inquiries' | 'analytics' | 'seo' | 'security'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'blog' | 'gallery' | 'products' | 'inquiries' | 'analytics' | 'seo' | 'security'>('dashboard');
 
   // Real-time analytics state
   const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(null);
@@ -97,6 +104,49 @@ export default function AdminCMSModal({
   const [galLocation, setGalLocation] = useState('');
   const [galDescription, setGalDescription] = useState('');
   const [galTags, setGalTags] = useState('');
+
+  // Product form state
+  const [productName, setProductName] = useState('');
+  const [productIndonesianName, setProductIndonesianName] = useState('');
+  const [productCategory, setProductCategory] = useState('');
+  const [productHsCode, setProductHsCode] = useState('');
+  const [productOrigin, setProductOrigin] = useState('');
+  const [productGrade, setProductGrade] = useState('');
+  const [productPackaging, setProductPackaging] = useState('');
+  const [productMoq, setProductMoq] = useState('');
+  const [productImageUrl, setProductImageUrl] = useState('');
+  const [productDescription, setProductDescription] = useState('');
+
+  const handleSaveProductForm = async (event: FormEvent) => {
+    event.preventDefault();
+    await onSaveProduct({
+      name: productName,
+      indonesianName: productIndonesianName,
+      category: productCategory,
+      hsCode: productHsCode,
+      origin: productOrigin,
+      imageUrl: productImageUrl,
+      description: productDescription,
+      specification: {
+        grade: productGrade,
+        packaging: productPackaging,
+        moq: productMoq
+      },
+      certifications: [],
+      keyMarkets: [],
+      supplyCapacity: 'Available on request'
+    });
+    setProductName('');
+    setProductIndonesianName('');
+    setProductCategory('');
+    setProductHsCode('');
+    setProductOrigin('');
+    setProductGrade('');
+    setProductPackaging('');
+    setProductMoq('');
+    setProductImageUrl('');
+    setProductDescription('');
+  };
 
   // SEO & Google Ecosystem Form state
   const [metaTitle, setMetaTitle] = useState(seoSettings.metaTitle);
@@ -533,6 +583,7 @@ export default function AdminCMSModal({
             { id: 'analytics', label: 'Analitik Real-time', icon: Activity, badge: analytics?.activeVisitorsNow },
             { id: 'blog', label: 'Kelola Blog & Berita', icon: BookOpen, count: blogPosts.length },
             { id: 'gallery', label: 'Kelola Galeri Foto', icon: ImageIcon, count: galleryItems.length },
+            { id: 'products', label: 'Kelola Produk', icon: Package, count: products.length },
             { id: 'inquiries', label: 'Kotak Masuk RFQ', icon: Mail, count: inquiries.length },
             { id: 'seo', label: 'SEO & Integrasi Google', icon: Globe2 },
             { id: 'security', label: 'Keamanan & SSL Hub', icon: ShieldCheck }
@@ -1171,7 +1222,89 @@ export default function AdminCMSModal({
           )}
 
           {/* ========================================================================= */}
-          {/* TAB 5: INQUIRIES CRM */}
+          {/* TAB 5: PRODUCTS */}
+          {/* ========================================================================= */}
+          {activeTab === 'products' && (
+            <div className="space-y-6 animate-fadeIn">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <Package className="w-5 h-5 text-amber-400" />
+                  <span>Kelola Produk Ekspor</span>
+                </h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  Kategori baru akan otomatis muncul di filter katalog setelah produk disimpan.
+                </p>
+              </div>
+
+              <form onSubmit={handleSaveProductForm} className="bg-slate-950 p-5 rounded-3xl border border-slate-800 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[
+                    ['Nama Produk (Inggris) *', productName, setProductName, 'Contoh: Premium Dried Scallop'],
+                    ['Nama Produk (Indonesia)', productIndonesianName, setProductIndonesianName, 'Contoh: Kerang Kering Premium'],
+                    ['Kategori Baru / Existing *', productCategory, setProductCategory, 'Contoh: Kerang Kering Premium'],
+                    ['HS Code', productHsCode, setProductHsCode, 'Contoh: 0305.59.90'],
+                    ['Asal Produk', productOrigin, setProductOrigin, 'Contoh: Makassar, Sulawesi'],
+                    ['Grade', productGrade, setProductGrade, 'Contoh: AAA Export Grade'],
+                    ['Kemasan Ekspor', productPackaging, setProductPackaging, 'Contoh: Vacuum pouch / master carton'],
+                    ['Minimum Order (MOQ)', productMoq, setProductMoq, 'Contoh: 500 Kg'],
+                    ['URL Gambar Produk', productImageUrl, setProductImageUrl, '/images/products/product-baru.png']
+                  ].map(([label, value, setter, placeholder]) => (
+                    <div key={label as string}>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">{label as string}</label>
+                      <input
+                        type="text"
+                        required={String(label).includes('*')}
+                        value={value as string}
+                        onChange={(event) => (setter as (value: string) => void)(event.target.value)}
+                        placeholder={placeholder as string}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:border-amber-500 focus:outline-none"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">Deskripsi Produk *</label>
+                  <textarea
+                    required
+                    rows={3}
+                    value={productDescription}
+                    onChange={(event) => setProductDescription(event.target.value)}
+                    placeholder="Deskripsi singkat produk untuk katalog ekspor"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:border-amber-500 focus:outline-none"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs">
+                    <Plus className="w-4 h-4" />
+                    Tambahkan Produk
+                  </button>
+                </div>
+              </form>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {products.map((product) => (
+                  <div key={product.id} className="flex items-start justify-between gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-800">
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-white truncate">{product.name}</p>
+                      <p className="text-[11px] text-amber-400 mt-1">{product.category}</p>
+                      <p className="text-[11px] text-slate-500 mt-1">HS {product.hsCode} • {product.origin}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onDeleteProduct(product.id)}
+                      className="shrink-0 p-2 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-300 hover:bg-rose-900"
+                      title="Hapus produk"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* TAB 6: INQUIRIES CRM */}
           {/* ========================================================================= */}
           {activeTab === 'inquiries' && (
             <div className="space-y-6 animate-fadeIn">

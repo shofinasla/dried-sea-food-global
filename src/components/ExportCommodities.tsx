@@ -16,16 +16,17 @@ import {
   ShieldCheck,
   Download
 } from 'lucide-react';
-import { EXPORT_COMMODITIES } from '../data/initialData';
 import { ExportCommodity } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 
 interface ExportCommoditiesProps {
+  products: ExportCommodity[];
   onSelectCommodityForQuote: (commodityName: string) => void;
   onOpenCatalogModal: () => void;
 }
 
 export default function ExportCommodities({ 
+  products,
   onSelectCommodityForQuote,
   onOpenCatalogModal 
 }: ExportCommoditiesProps) {
@@ -37,14 +38,13 @@ export default function ExportCommodities({
 
   const categories = [
     { id: 'all', label: t.commodities?.filterAll || 'All Products' },
-    { id: 'Ikan Kering & Asin', label: t.commodities?.filterFish || 'Dried & Salted Fish' },
-    { id: 'Cumi & Gurita Kering', label: t.commodities?.filterSquid || 'Dried Squid & Octopus' },
-    { id: 'Fish Maw & Mewah', label: t.commodities?.filterMaw || 'Fish Maw & Luxury' },
-    { id: 'Udang Kering & Ebi', label: t.commodities?.filterShrimp || 'Dried Shrimp & Ebi' }
+    ...Array.from(new Set(products.map(item => item.category.trim()).filter(Boolean)))
+      .sort((first, second) => first.localeCompare(second))
+      .map(category => ({ id: category, label: category }))
   ];
 
-  const filteredCommodities = EXPORT_COMMODITIES.filter(item => {
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+  const filteredCommodities = products.filter(item => {
+    const matchesCategory = selectedCategory === 'all' || item.category.trim() === selectedCategory.trim();
     const matchesSearch = searchQuery === '' || 
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.indonesianName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -130,7 +130,7 @@ export default function ExportCommodities({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCommodities.map((item) => (
             <div
-              key={item.id}
+              key={`${item.id}-${item.category}`}
               className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1"
             >
               <div>
