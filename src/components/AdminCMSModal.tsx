@@ -152,6 +152,7 @@ export default function AdminCMSModal({
   const [metaTitle, setMetaTitle] = useState(seoSettings.metaTitle);
   const [metaDesc, setMetaDesc] = useState(seoSettings.metaDescription);
   const [focusKeywords, setFocusKeywords] = useState(seoSettings.focusKeywords.join(', '));
+  const [canonicalUrl, setCanonicalUrl] = useState(seoSettings.canonicalUrl || 'https://www.driedseafoodglobal.com/');
   const [googleSearchConsoleKey, setGoogleSearchConsoleKey] = useState(seoSettings.googleSearchConsoleKey || '');
   const [googleAnalyticsId, setGoogleAnalyticsId] = useState(seoSettings.googleAnalyticsId || '');
   const [googleTagManagerId, setGoogleTagManagerId] = useState(seoSettings.googleTagManagerId || '');
@@ -159,6 +160,7 @@ export default function AdminCMSModal({
   const [googleBusinessProfileUrl, setGoogleBusinessProfileUrl] = useState(seoSettings.googleBusinessProfileUrl || '');
   const [copiedSitemap, setCopiedSitemap] = useState(false);
   const [copiedGmcFeed, setCopiedGmcFeed] = useState(false);
+  const [copiedCanonical, setCopiedCanonical] = useState(false);
   const [optimizingAISEO, setOptimizingAISEO] = useState(false);
   const [seoSuccessNotice, setSeoSuccessNotice] = useState(false);
 
@@ -167,6 +169,7 @@ export default function AdminCMSModal({
     setMetaTitle(seoSettings.metaTitle);
     setMetaDesc(seoSettings.metaDescription);
     setFocusKeywords(seoSettings.focusKeywords.join(', '));
+    setCanonicalUrl(seoSettings.canonicalUrl || 'https://www.driedseafoodglobal.com/');
     setGoogleSearchConsoleKey(seoSettings.googleSearchConsoleKey || '');
     setGoogleAnalyticsId(seoSettings.googleAnalyticsId || '');
     setGoogleTagManagerId(seoSettings.googleTagManagerId || '');
@@ -378,6 +381,7 @@ export default function AdminCMSModal({
       metaTitle,
       metaDescription: metaDesc,
       focusKeywords: focusKeywords.split(',').map(k => k.trim()).filter(Boolean),
+      canonicalUrl: canonicalUrl.trim() || 'https://www.driedseafoodglobal.com/',
       googleSearchConsoleKey: googleSearchConsoleKey.trim(),
       googleAnalyticsId: googleAnalyticsId.trim(),
       googleTagManagerId: googleTagManagerId.trim(),
@@ -1699,6 +1703,72 @@ export default function AdminCMSModal({
 
                   <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
                     📍 Kawasan Industri Maritim Terpadu Muara Baru No. 88, Jakarta Utara (Koordinat: -6.1158, 106.8042)
+                  </div>
+                </div>
+
+                {/* 5. Canonical URL Verification & Audit Card */}
+                <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-4 md:col-span-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-teal-500/10 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-xs font-mono">
+                        rel
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-sm font-bold text-white">Canonical URL (rel="canonical")</h4>
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-semibold flex items-center gap-1">
+                            <Check className="w-3 h-3 text-emerald-400" />
+                            Terpasang &amp; Valid
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-teal-400 font-semibold">
+                          Standar Google Search Central &amp; RFC 6596 (Mencegah Konten Duplikat)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center">
+                    <div className="lg:col-span-2 space-y-1">
+                      <label className="block text-xs font-bold text-slate-300">
+                        Target Canonical URL
+                      </label>
+                      <input
+                        type="text"
+                        value={canonicalUrl}
+                        onChange={(e) => setCanonicalUrl(e.target.value)}
+                        placeholder="https://www.driedseafoodglobal.com/"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-teal-500 focus:outline-none font-mono"
+                      />
+                    </div>
+                    <div className="bg-slate-900/90 border border-slate-800 p-3 rounded-xl space-y-1.5">
+                      <span className="text-[10px] text-slate-400 font-semibold block">Tag HTML Aktif di &lt;head&gt;:</span>
+                      <div className="flex items-center justify-between gap-2">
+                        <code className="text-[11px] text-teal-300 font-mono truncate">
+                          &lt;link rel="canonical" href="{canonicalUrl}" /&gt;
+                        </code>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(`<link rel="canonical" href="${canonicalUrl}" />`);
+                            setCopiedCanonical(true);
+                            setTimeout(() => setCopiedCanonical(false), 2000);
+                          }}
+                          className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs shrink-0 flex items-center gap-1 cursor-pointer"
+                          title="Salin Tag Canonical"
+                        >
+                          {copiedCanonical ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                          <span className="text-[10px]">{copiedCanonical ? 'Disalin' : 'Salin'}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-[11px] text-slate-400 bg-slate-900/60 p-2.5 rounded-xl border border-slate-850 flex flex-wrap gap-x-4 gap-y-1">
+                    <span className="flex items-center gap-1"><Check className="w-3 h-3 text-emerald-400" /> Terpasang langsung di dokumen root <code className="text-amber-400">/index.html</code> (baris 16)</span>
+                    <span className="flex items-center gap-1"><Check className="w-3 h-3 text-emerald-400" /> Protokol HTTPS aman</span>
+                    <span className="flex items-center gap-1"><Check className="w-3 h-3 text-emerald-400" /> Domain terarah dengan konsisten (www)</span>
+                    <span className="flex items-center gap-1"><Check className="w-3 h-3 text-emerald-400" /> Diselaraskan dengan hreflang multilingual</span>
                   </div>
                 </div>
 

@@ -185,6 +185,12 @@ export default function App() {
     if (seoSettings.googleTagManagerId) {
       initGoogleTagManager(seoSettings.googleTagManagerId);
     }
+
+    // Canonical Link verification & synchronization
+    const canonicalLink = document.getElementById('meta-canonical') || document.querySelector('link[rel="canonical"]');
+    if (canonicalLink) {
+      canonicalLink.setAttribute('href', seoSettings.canonicalUrl || 'https://www.driedseafoodglobal.com/');
+    }
   }, [seoSettings]);
 
   // Dynamic Scroll-Spy to highlight current active section in Navbar

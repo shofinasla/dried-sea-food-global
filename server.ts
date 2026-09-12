@@ -48,6 +48,9 @@ let recentVisitorEvents = [
 // Lazy Gemini AI helper
 let aiClient: GoogleGenAI | null = null;
 function getGeminiClient(): GoogleGenAI {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error('GEMINI_API_KEY environment variable is required');
+  }
   if (!aiClient) {
     aiClient = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY,

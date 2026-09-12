@@ -741,7 +741,7 @@ export const DEFAULT_SEO_SETTINGS: SEOSettings = {
   metaTitle: 'Dried Seafood Global - Eksportir Resmi Produk Ikan & Hasil Laut Khas Indonesia',
   metaDescription: 'Eksportir resmi terpercaya produk ikan asin, teri nasi super, cumi kering, gelembung ikan (fish maw), dan hasil laut Nusantara berstandar HACCP dan KKP ke 28+ negara.',
   focusKeywords: ['dried seafood global', 'ikan asin indonesia', 'teri medan indonesia', 'cumi kering indonesia', 'supplier fish maw', 'indonesian dried fish supplier', 'ikan asin jambal roti'],
-  canonicalUrl: 'https://www.driedseafoodglobal.com',
+  canonicalUrl: 'https://www.driedseafoodglobal.com/',
   ogImageUrl: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1200&q=80',
   structuredDataType: 'Corporation',
   robotsIndex: true,
