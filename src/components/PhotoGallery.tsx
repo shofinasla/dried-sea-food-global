@@ -12,6 +12,8 @@ import {
   Maximize2
 } from 'lucide-react';
 import { GalleryItem } from '../types';
+import { useTranslation } from '../i18n/LanguageContext';
+import { getAllCategoryLabel, getCategoryLabel } from '../i18n/categoryLabels';
 
 interface PhotoGalleryProps {
   items: GalleryItem[];
@@ -19,17 +21,18 @@ interface PhotoGalleryProps {
 }
 
 export default function PhotoGallery({ items, onOpenAdmin }: PhotoGalleryProps) {
+  const { currentLang } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
 
   const categories = [
-    { id: 'all', label: 'Semua Dokumentasi' },
-    { id: 'processing', label: 'Pengeringan & Solar Dome' },
-    { id: 'commodities', label: 'Produk Ikan Pilihan' },
-    { id: 'storage', label: 'Gudang & Lab Uji Mutu' },
-    { id: 'shipping', label: 'Pengepakan & Kontainer Ekspor' },
-    { id: 'sustainability', label: 'Kemitraan Nelayan Pesisir' }
+    { id: 'all', label: getAllCategoryLabel('gallery', currentLang) },
+    { id: 'processing', label: getCategoryLabel('gallery', 'processing', currentLang) },
+    { id: 'commodities', label: getCategoryLabel('gallery', 'commodities', currentLang) },
+    { id: 'storage', label: getCategoryLabel('gallery', 'storage', currentLang) },
+    { id: 'shipping', label: getCategoryLabel('gallery', 'shipping', currentLang) },
+    { id: 'sustainability', label: getCategoryLabel('gallery', 'sustainability', currentLang) }
   ];
 
   const filteredItems = selectedCategory === 'all'
@@ -116,7 +119,7 @@ export default function PhotoGallery({ items, onOpenAdmin }: PhotoGalleryProps) 
                 </div>
 
                 <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm border border-slate-200 text-[#009bb3] text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs">
-                  {item.category.toUpperCase()}
+                  {getCategoryLabel('gallery', item.category, currentLang).toUpperCase()}
                 </span>
               </div>
 
@@ -166,7 +169,7 @@ export default function PhotoGallery({ items, onOpenAdmin }: PhotoGalleryProps) 
                 <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
                   <div>
                     <span className="text-xs font-bold text-[#009bb3] px-2.5 py-1 rounded-full bg-teal-50 border border-teal-200">
-                      Kategori: {activeItem.category}
+                      Kategori: {getCategoryLabel('gallery', activeItem.category, currentLang)}
                     </span>
                     <h3 className="text-2xl font-black text-slate-950 mt-2">
                       {activeItem.title}

@@ -32,6 +32,19 @@ export const COMPANY_PROFILE = {
   sslVerification: 'DigiCert High-Assurance TLS 1.3 Extended Validation (EV) 256-Bit SHA-384',
 };
 
+export const OFFICIAL_COMPLIANCE_DOCUMENTS = {
+  nib: '1408230135849',
+  pirt: '5023315010556-31',
+  hsCodes: [
+    { country: 'Indonesia', flag: 'ID', code: '0305.59.21', description: 'Teri kering' },
+    { country: 'Jepang', flag: 'JP', code: '0305.59', description: 'Dried fish' },
+    { country: 'Arab Saudi', flag: 'SA', code: '0305.59', description: 'Other dried fish, not smoked' },
+    { country: 'Uni Emirat Arab', flag: 'AE', code: '0305.59', description: 'Other dried fish, not smoked' },
+    { country: 'Singapura', flag: 'SG', code: '0305.59 / 0305.59.20', description: 'Dried fish; marine fish' },
+    { country: 'Malaysia', flag: 'MY', code: '0305.54 / 0305.59', description: 'Spesies HS 2022' }
+  ]
+};
+
 export const STRATEGIC_PARTNERS = [
   {
     id: 'shrimora',

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { ExportCommodity } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
+import { getCategoryLabel } from '../i18n/categoryLabels';
 
 interface ExportCommoditiesProps {
   products: ExportCommodity[];
@@ -40,7 +41,7 @@ export default function ExportCommodities({
     { id: 'all', label: t.commodities?.filterAll || 'All Products' },
     ...Array.from(new Set(products.map(item => item.category.trim()).filter(Boolean)))
       .sort((first, second) => first.localeCompare(second))
-      .map(category => ({ id: category, label: category }))
+      .map(category => ({ id: category, label: getCategoryLabel('product', category, currentLang) }))
   ];
 
   const filteredCommodities = products.filter(item => {
@@ -148,7 +149,7 @@ export default function ExportCommodities({
                   {/* Category & Origin Tags */}
                   <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
                     <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 text-[10px] font-extrabold uppercase shadow-xs">
-                      {item.category}
+                      {getCategoryLabel('product', item.category, currentLang)}
                     </span>
                     {item.featured && (
                       <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white text-[10px] font-extrabold uppercase shadow-sm">
@@ -340,7 +341,7 @@ export default function ExportCommodities({
                       HS Code: {activeModalCommodity.hsCode}
                     </span>
                     <span className="text-xs text-slate-500 font-medium">
-                      Kategori: {activeModalCommodity.category}
+                      Kategori: {getCategoryLabel('product', activeModalCommodity.category, currentLang)}
                     </span>
                   </div>
 

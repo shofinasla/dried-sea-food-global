@@ -18,7 +18,7 @@ import {
   Linkedin,
   Sparkles
 } from 'lucide-react';
-import { COMPANY_PROFILE, SERVICES_LIST, LEADERSHIP_TEAM, CERTIFICATIONS } from '../data/initialData';
+import { COMPANY_PROFILE, SERVICES_LIST, LEADERSHIP_TEAM, CERTIFICATIONS, OFFICIAL_COMPLIANCE_DOCUMENTS } from '../data/initialData';
 import { ServiceItem } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 
@@ -396,22 +396,78 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
 
         {/* TAB 4: CERTIFICATIONS */}
         {activeTab === 'certifications' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-            {CERTIFICATIONS.map((cert, index) => (
-              <div
-                key={index}
-                className="bg-white border border-slate-200 p-6 rounded-3xl flex items-start gap-4 hover:border-[#009bb3] transition-all shadow-sm hover:shadow-md"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#009bb3] flex items-center justify-center shrink-0">
-                  <Award className="w-6 h-6" />
+          <div className="space-y-8 animate-fadeIn">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 rounded-2xl bg-teal-500/10 border border-teal-500/30 text-teal-300 flex items-center justify-center">
+                    <FileCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-white">Nomor Induk Berusaha (NIB)</h3>
+                    <p className="text-[11px] text-slate-400">Dokumen identitas legal usaha</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-base font-black text-slate-900 mb-1">{cert.name}</h4>
-                  <p className="text-xs font-bold text-[#519992] mb-2">Lembaga: {cert.issuer}</p>
-                  <p className="text-xs text-slate-600 leading-relaxed">{cert.desc}</p>
-                </div>
+                <p className="text-2xl font-black tracking-[0.12em] text-teal-300 font-mono">{OFFICIAL_COMPLIANCE_DOCUMENTS.nib}</p>
               </div>
-            ))}
+              <div className="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 flex items-center justify-center">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-white">P-IRT</h3>
+                    <p className="text-[11px] text-slate-400">Nomor izin edar pangan</p>
+                  </div>
+                </div>
+                <p className="text-2xl font-black tracking-[0.12em] text-amber-300 font-mono">{OFFICIAL_COMPLIANCE_DOCUMENTS.pirt}</p>
+              </div>
+            </div>
+
+            <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-6 border-b border-slate-200">
+                <h3 className="text-lg font-black text-slate-950">Legalitas & Spesifikasi HS Code Ekspor</h3>
+                <p className="mt-1 text-xs text-slate-500">Referensi klasifikasi komoditas hasil laut kering untuk pasar tujuan.</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[640px] text-left text-xs">
+                  <thead className="bg-slate-950 text-white">
+                    <tr>
+                      <th className="px-5 py-3 font-bold">Negara</th>
+                      <th className="px-5 py-3 font-bold">HS Code</th>
+                      <th className="px-5 py-3 font-bold">Deskripsi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {OFFICIAL_COMPLIANCE_DOCUMENTS.hsCodes.map((item) => (
+                      <tr key={item.country} className="border-b border-slate-100 last:border-0">
+                        <td className="px-5 py-3 font-bold text-slate-800">{item.flag} {item.country}</td>
+                        <td className="px-5 py-3 font-mono font-bold text-[#009bb3]">{item.code}</td>
+                        <td className="px-5 py-3 text-slate-600">{item.description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {CERTIFICATIONS.map((cert, index) => (
+                <div
+                  key={index}
+                  className="bg-white border border-slate-200 p-6 rounded-3xl flex items-start gap-4 hover:border-[#009bb3] transition-all shadow-sm hover:shadow-md"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#009bb3] flex items-center justify-center shrink-0">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-black text-slate-900 mb-1">{cert.name}</h4>
+                    <p className="text-xs font-bold text-[#519992] mb-2">Lembaga: {cert.issuer}</p>
+                    <p className="text-xs text-slate-600 leading-relaxed">{cert.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
-import { ArrowLeft, Building2, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowLeft, Building2, Mail, MapPin, Phone, FileCheck2, Award } from 'lucide-react';
+import { OFFICIAL_COMPLIANCE_DOCUMENTS } from '../data/initialData';
 
 interface CompanyPageProps {
   onBackToHome: () => void;
@@ -70,7 +71,28 @@ export default function CompanyPage({ onBackToHome }: CompanyPageProps) {
               <dt className="font-semibold text-slate-500">Nama website</dt>
               <dd className="mt-1 text-slate-800">Dried Seafood Global</dd>
             </div>
+            <div>
+              <dt className="font-semibold text-slate-500">Nomor Induk Berusaha (NIB)</dt>
+              <dd className="mt-1 font-mono font-bold text-[#009bb3]">{OFFICIAL_COMPLIANCE_DOCUMENTS.nib}</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-slate-500">Nomor P-IRT</dt>
+              <dd className="mt-1 font-mono font-bold text-[#009bb3]">{OFFICIAL_COMPLIANCE_DOCUMENTS.pirt}</dd>
+            </div>
           </dl>
+        </section>
+
+        <section className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="border border-teal-200 bg-teal-50 p-5 shadow-sm">
+            <FileCheck2 className="h-5 w-5 text-[#009bb3]" />
+            <h3 className="mt-4 text-sm font-bold text-slate-950">Dokumen NIB</h3>
+            <p className="mt-2 text-xs leading-5 text-slate-600">Nomor identitas legal usaha yang tercantum pada dokumen resmi perusahaan.</p>
+          </div>
+          <div className="border border-amber-200 bg-amber-50 p-5 shadow-sm">
+            <Award className="h-5 w-5 text-amber-600" />
+            <h3 className="mt-4 text-sm font-bold text-slate-950">Dokumen P-IRT</h3>
+            <p className="mt-2 text-xs leading-5 text-slate-600">Nomor izin edar pangan yang tercantum pada dokumen resmi perusahaan.</p>
+          </div>
         </section>
       </main>
     </div>

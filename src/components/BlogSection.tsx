@@ -16,6 +16,8 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { BlogPost } from '../types';
+import { useTranslation } from '../i18n/LanguageContext';
+import { getAllCategoryLabel, getCategoryLabel } from '../i18n/categoryLabels';
 
 interface BlogSectionProps {
   posts: BlogPost[];
@@ -24,6 +26,7 @@ interface BlogSectionProps {
 }
 
 export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSectionProps) {
+  const { currentLang } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
@@ -36,12 +39,12 @@ export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSe
   const [copiedLink, setCopiedLink] = useState(false);
 
   const categories = [
-    { id: 'all', label: 'Semua Artikel' },
-    { id: 'Ekspor & Pasar', label: 'Ekspor & Pasar Global' },
-    { id: 'Teknologi Pengolahan', label: 'Teknologi & Solar Dome' },
-    { id: 'Regulasi & Sertifikasi', label: 'Regulasi & Karantina KKP' },
-    { id: 'Kualitas & Higienitas', label: 'Standar Mutu & Higienitas' },
-    { id: 'Nelayan & Keberlanjutan', label: 'Kemitraan Nelayan & ESG' }
+    { id: 'all', label: getAllCategoryLabel('blog', currentLang) },
+    { id: 'Ekspor & Pasar', label: getCategoryLabel('blog', 'Ekspor & Pasar', currentLang) },
+    { id: 'Teknologi Pengolahan', label: getCategoryLabel('blog', 'Teknologi Pengolahan', currentLang) },
+    { id: 'Regulasi & Sertifikasi', label: getCategoryLabel('blog', 'Regulasi & Sertifikasi', currentLang) },
+    { id: 'Kualitas & Higienitas', label: getCategoryLabel('blog', 'Kualitas & Higienitas', currentLang) },
+    { id: 'Nelayan & Keberlanjutan', label: getCategoryLabel('blog', 'Nelayan & Keberlanjutan', currentLang) }
   ];
 
   const filteredPosts = posts.filter(post => {
@@ -160,7 +163,7 @@ export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSe
 
             <div className="lg:col-span-5 p-6 lg:p-8 space-y-4">
               <div className="flex items-center gap-3 text-xs text-slate-500">
-                <span className="text-[#009bb3] font-bold">{featuredPost.category}</span>
+                <span className="text-[#009bb3] font-bold">{getCategoryLabel('blog', featuredPost.category, currentLang)}</span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5" />
@@ -220,7 +223,7 @@ export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSe
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent" />
                   <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm border border-slate-200 text-[#009bb3] text-xs font-black px-2.5 py-0.5 rounded-full shadow-xs">
-                    {post.category}
+                    {getCategoryLabel('blog', post.category, currentLang)}
                   </span>
                 </div>
 
@@ -277,7 +280,7 @@ export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSe
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/20 to-transparent" />
                 <span className="absolute bottom-4 left-4 bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-bold text-xs px-3 py-1 rounded-full shadow-xs">
-                  {selectedPost.category}
+                  {getCategoryLabel('blog', selectedPost.category, currentLang)}
                 </span>
               </div>
 

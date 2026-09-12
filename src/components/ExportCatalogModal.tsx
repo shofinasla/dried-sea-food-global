@@ -14,6 +14,7 @@ import {
 import { COMPANY_PROFILE } from '../data/initialData';
 import { ExportCommodity } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
+import { getCategoryLabel } from '../i18n/categoryLabels';
 
 interface ExportCatalogModalProps {
   isOpen: boolean;
@@ -70,7 +71,7 @@ FLAGSHIP PRODUCTS & SPECIFICATIONS
 ================================================================================
 ${products.map((c, i) => `
 [${i + 1}] ${c.name.toUpperCase()} (${c.indonesianName})
-Category: ${c.category}
+Category: ${getCategoryLabel('product', c.category, currentLang)}
 HS Code: ${c.hsCode}
 Harvest Origin: ${c.origin}
 Quality Grade: ${c.specification.grade}
