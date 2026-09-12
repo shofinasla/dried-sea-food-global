@@ -16,12 +16,26 @@ import { BlogPost, GalleryItem, ContactInquiry, ShippingCalculationRequest, Ship
 const app = express();
 const PORT = 3000;
 
+app.set('trust proxy', 1);
 app.use(express.json());
 
+// Strict HTTPS, HSTS, and Canonical Domain Redirection Middleware
 app.use((req: Request, res: Response, next) => {
-  if (req.hostname.toLowerCase() === 'driedseafoodglobal.com') {
-    return res.redirect(301, `https://www.driedseafoodglobal.com${req.originalUrl}`);
+  // Set HSTS (HTTP Strict Transport Security) header for Google and all browsers
+  res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  const host = (req.hostname || '').toLowerCase();
+  const forwardedProto = req.headers['x-forwarded-proto'];
+  const isHttps = forwardedProto === 'https' || req.secure;
+
+  // Domain canonicalization: enforce https://www.driedseafoodglobal.com
+  if (host === 'driedseafoodglobal.com' || host === 'www.driedseafoodglobal.com') {
+    if (!isHttps || host !== 'www.driedseafoodglobal.com') {
+      return res.redirect(301, `https://www.driedseafoodglobal.com${req.originalUrl}`);
+    }
   }
+
   next();
 });
 

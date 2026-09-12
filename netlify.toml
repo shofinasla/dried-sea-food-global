@@ -2,8 +2,15 @@
   command = "npm run build"
   publish = "dist"
 
+# 1. Force HTTP to HTTPS & Apex domain to www
 [[redirects]]
-  from = "https://dried-sea-food-global.netlify.app/*"
+  from = "http://driedseafoodglobal.com/*"
+  to = "https://www.driedseafoodglobal.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.driedseafoodglobal.com/*"
   to = "https://www.driedseafoodglobal.com/:splat"
   status = 301
   force = true
@@ -13,3 +20,31 @@
   to = "https://www.driedseafoodglobal.com/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "http://dried-sea-food-global.netlify.app/*"
+  to = "https://www.driedseafoodglobal.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://dried-sea-food-global.netlify.app/*"
+  to = "https://www.driedseafoodglobal.com/:splat"
+  status = 301
+  force = true
+
+# SPA client-side routing fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 2. Strict Security & HSTS Headers for Google and Browsers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
