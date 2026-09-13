@@ -1,6 +1,5 @@
 import { 
   ShieldCheck, 
-  Globe2, 
   Ship, 
   Plane, 
   Warehouse, 
@@ -64,19 +63,23 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
           
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#009bb3] to-[#519992] flex items-center justify-center text-white font-black shadow-xs">
-                <Globe2 className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <span className="text-base font-black text-slate-900 tracking-tight block">
-                  DRIED SEAFOOD GLOBAL
-                </span>
-                <span className="text-[10px] text-[#009bb3] tracking-widest uppercase font-bold">
-                  INDONESIAN DRIED SEAFOOD SUPPLIER
-                </span>
-              </div>
-            </div>
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                onScrollTo('#hero');
+              }}
+              id="footer-brand-logo-link"
+              className="inline-block group cursor-pointer"
+              aria-label="Dried Seafood Global"
+            >
+              <img
+                src="/logo-dsg.png"
+                alt="Dried Seafood Global - Indonesian Dried Seafood Supplier"
+                className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                referrerPolicy="no-referrer"
+              />
+            </a>
 
             <p className="text-slate-600 text-xs leading-relaxed max-w-sm">
               {t.footer?.description || t.footer?.tagline || ''}
@@ -159,7 +162,7 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
               onClick={onOpenCompany}
               className="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-[#009bb3]"
             >
-              PT Samdura Bara Persada Indonesia
+              {COMPANY_PROFILE.legalName}
             </button>
             . {t.footer?.rightsReserved || 'All Rights Reserved'}.
           </p>
