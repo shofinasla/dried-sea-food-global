@@ -320,7 +320,7 @@ export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSe
               </div>
 
               {/* Article Content in Clean Typography */}
-              <div className="py-6 text-slate-700 text-sm sm:text-base leading-relaxed space-y-4 whitespace-pre-line font-normal">
+              <div className="py-6 text-slate-700 text-sm sm:text-base leading-relaxed space-y-4 whitespace-pre-line font-normal max-w-2xl">
                 {selectedPost.content}
               </div>
 

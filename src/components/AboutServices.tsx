@@ -44,8 +44,8 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
     <section id="tentang" className="py-20 bg-slate-50 text-slate-800 border-b border-slate-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Image 2 Inspiration: TENTANG KAMI */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
+        {/* Section Header with Inspiration: TENTANG KAMI */}
+        <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
             <Building2 className="w-3.5 h-3.5 text-[#009bb3]" />
             <span>TENTANG KAMI</span>
@@ -53,13 +53,13 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 uppercase font-sans">
             Solusi Ekspor Hasil Laut Berkualitas dari Indonesia
           </h2>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Menghubungkan sentra nelayan pesisir Nusantara dengan pasar kuliner & distributor internasional melalui standarisasi mutu kering higienis, legalitas resmi, dan rantai pasok terpercaya.
+          <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
+            Menghubungkan sentra nelayan pesisir Nusantara dengan pasar kuliner &amp; distributor internasional melalui standarisasi mutu kering higienis, legalitas resmi, dan rantai pasok terpercaya.
           </p>
         </div>
 
-        {/* MODERN PROCESSING FACILITY HERO BANNER (Direct from Image 2) */}
-        <div className="mb-14 relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/80 bg-white">
+        {/* MODERN PROCESSING FACILITY HERO BANNER */}
+        <div className="mb-14 relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 bg-white">
           <div className="relative h-64 sm:h-80 md:h-96 w-full">
             <img 
               src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=1600&q=85" 
@@ -67,25 +67,25 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
               className="w-full h-full object-cover object-center"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
             
             <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-white">
               <div className="max-w-xl">
-                <span className="inline-block px-3 py-1 rounded-full bg-teal-500/80 text-white font-bold text-xs uppercase tracking-wider mb-2 backdrop-blur-sm">
-                  HIGIENIS & STERIL
+                <span className="inline-block px-3 py-1 rounded-full bg-teal-500/90 text-white font-bold text-xs uppercase tracking-wider mb-2 backdrop-blur-sm">
+                  HIGIENIS &amp; STERIL
                 </span>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold">
-                  Standarisasi Pengolahan & Pengemasan Ekspor Internasional
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold leading-snug">
+                  Standarisasi Pengolahan &amp; Pengemasan Ekspor Internasional
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-200 mt-1 line-clamp-2">
+                <p className="text-xs sm:text-sm text-slate-200 mt-2 line-clamp-2 leading-relaxed">
                   Pekerja bersertifikasi dengan seragam steril dan meja stainless steel SUS-304 guna menjamin mutu ikan asin dan hasil laut kering bebas kontaminasi.
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1.5 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold whitespace-nowrap">
+                <span className="px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold whitespace-nowrap">
                   HACCP Grade A
                 </span>
-                <span className="px-3 py-1.5 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold whitespace-nowrap">
+                <span className="px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold whitespace-nowrap">
                   Zero Formalin
                 </span>
               </div>
@@ -93,71 +93,71 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
           </div>
         </div>
 
-        {/* 3 CORE PILLARS FROM IMAGE 2: TERPERCAYA, KOMPETITIF, EFISIEN */}
+        {/* 3 CORE PILLARS: TERPERCAYA, KOMPETITIF, EFISIEN */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {/* Card 1: Terpercaya */}
-          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-xs">
-                <ShieldCheck className="w-7 h-7" />
+              <div className="w-12 h-12 rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-xs">
+                <ShieldCheck className="w-6 h-6" />
               </div>
               <div className="inline-block text-[11px] font-extrabold text-[#009bb3] uppercase tracking-widest mb-1">
                 JAMINAN LEGALITAS
               </div>
-              <h3 className="text-xl font-black text-slate-900 uppercase mb-3">
+              <h3 className="text-xl font-black text-slate-950 uppercase mb-2.5">
                 TERPERCAYA
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
                 Mitra dagang resmi berizin ekspor terdaftar di KKP RI dengan sertifikasi kesehatan karantina, sertifikat halal BPJPH, serta standar Hazard Analysis Critical Control Point (HACCP Grade A).
               </p>
             </div>
-            <div className="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#519992]">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Full Trade Documentation & COA</span>
+            <div className="pt-5 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#519992]">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>Full Trade Documentation &amp; COA</span>
             </div>
           </div>
 
           {/* Card 2: Kompetitif */}
-          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-xs">
-                <Award className="w-7 h-7" />
+              <div className="w-12 h-12 rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-xs">
+                <Award className="w-6 h-6" />
               </div>
               <div className="inline-block text-[11px] font-extrabold text-[#009bb3] uppercase tracking-widest mb-1">
                 HARGA SENTRA PERTAMA
               </div>
-              <h3 className="text-xl font-black text-slate-900 uppercase mb-3">
+              <h3 className="text-xl font-black text-slate-950 uppercase mb-2.5">
                 KOMPETITIF
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
                 Pasokan langsung dari sentra nelayan pesisir Jawa, Sumatra, dan Kalimantan tanpa mata rantai tengkulak berlebih, memberikan margin terbaik dan stabilitas harga jangka panjang bagi importir.
               </p>
             </div>
-            <div className="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#519992]">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Direct Sourcing & Fair Trade</span>
+            <div className="pt-5 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#519992]">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>Direct Sourcing &amp; Fair Trade</span>
             </div>
           </div>
 
           {/* Card 3: Efisien */}
-          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-xs">
-                <Ship className="w-7 h-7" />
+              <div className="w-12 h-12 rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-xs">
+                <Ship className="w-6 h-6" />
               </div>
               <div className="inline-block text-[11px] font-extrabold text-[#009bb3] uppercase tracking-widest mb-1">
                 DISTRIBUSI CEPAT
               </div>
-              <h3 className="text-xl font-black text-slate-900 uppercase mb-3">
+              <h3 className="text-xl font-black text-slate-950 uppercase mb-2.5">
                 EFISIEN
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
                 Manajemen logistik multimoda via kapal laut (FCL/LCL) dan kargo udara ekspres dari pelabuhan utama Indonesia, didukung sistem monitoring kelembaban kontainer hingga ke dermaga tujuan.
               </p>
             </div>
-            <div className="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#519992]">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Ocean & Air Freight Global Logistics</span>
+            <div className="pt-5 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#519992]">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>Ocean &amp; Air Freight Global Logistics</span>
             </div>
           </div>
         </div>
