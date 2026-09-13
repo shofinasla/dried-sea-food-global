@@ -28,7 +28,7 @@ interface FooterProps {
 }
 
 export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOpenSSLModal, onOpenAdmin, onOpen404 }: FooterProps) {
-  const { t, currentLang } = useTranslation();
+  const { t, currentLang, setLanguage } = useTranslation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -70,15 +70,17 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
                 onScrollTo('#hero');
               }}
               id="footer-brand-logo-link"
-              className="inline-block group cursor-pointer"
+              className="inline-flex items-center gap-3 group cursor-pointer"
               aria-label="Dried Seafood Global"
             >
-              <img
-                src="/logo-dsg.png"
-                alt="Dried Seafood Global - Indonesian Dried Seafood Supplier"
-                className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
-                referrerPolicy="no-referrer"
-              />
+              <div className="p-2 rounded-xl bg-white border border-slate-200 shadow-2xs group-hover:border-teal-400 transition-all">
+                <img
+                  src="/logo-dsg.png"
+                  alt="Dried Seafood Global - PT Samdura Bara Persada"
+                  className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
             </a>
 
             <p className="text-slate-600 text-xs leading-relaxed max-w-sm">
@@ -149,6 +151,59 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
                 <span>Back to Top</span>
               </button>
             </div>
+          </div>
+
+          {/* Col 5: Multilingual Regional Portals */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">{t.footer?.regionalPortals || 'Regional Portals'}</h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <a 
+                  href="/" 
+                  onClick={(e) => { e.preventDefault(); setLanguage('en'); onScrollTo('#hero'); }}
+                  className={`flex items-center justify-between transition-colors ${currentLang === 'en' ? 'text-teal-700 font-bold' : 'text-slate-600 hover:text-[#009bb3]'}`}
+                >
+                  <span>Global (English)</span>
+                  <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-500">/</span>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/id/" 
+                  onClick={(e) => { e.preventDefault(); setLanguage('id'); onScrollTo('#hero'); }}
+                  className={`flex items-center justify-between transition-colors ${currentLang === 'id' ? 'text-teal-700 font-bold' : 'text-slate-600 hover:text-[#009bb3]'}`}
+                >
+                  <span>Indonesia (Bahasa)</span>
+                  <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-500">/id/</span>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/ar/" 
+                  onClick={(e) => { e.preventDefault(); setLanguage('ar'); onScrollTo('#hero'); }}
+                  className={`flex items-center justify-between transition-colors ${currentLang === 'ar' ? 'text-teal-700 font-bold' : 'text-slate-600 hover:text-[#009bb3]'}`}
+                >
+                  <span>الشرق الأوسط (العربية)</span>
+                  <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-500">/ar/</span>
+                </a>
+              </li>
+              <li className="pt-2 border-t border-slate-200">
+                <button 
+                  onClick={onOpenCompany}
+                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left block"
+                >
+                  {currentLang === 'ar' ? 'الملف التعريفي للشركة' : currentLang === 'id' ? 'Profil Legal Perusahaan' : 'Corporate Legal Profile'}
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={onOpenPartners}
+                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left block"
+                >
+                  {currentLang === 'ar' ? 'الشركاء الاستراتيجيون' : currentLang === 'id' ? 'Mitra Strategis & Jaringan' : 'Strategic Export Partners'}
+                </button>
+              </li>
+            </ul>
           </div>
 
         </div>

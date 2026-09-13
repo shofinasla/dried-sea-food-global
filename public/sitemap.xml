@@ -3,130 +3,130 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-  <!-- Primary Homepage - English (Default International) -->
+  <!-- ============================================== -->
+  <!-- HOMEPAGE - Primary English (Global / x-default) -->
+  <!-- ============================================== -->
   <url>
     <loc>https://www.driedseafoodglobal.com/</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/?lang=id" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.driedseafoodglobal.com/?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.driedseafoodglobal.com/?lang=ja" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/" />
     <image:image>
-      <image:loc>https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&amp;w=1200&amp;auto=format&amp;fit=crop</image:loc>
-      <image:title>Indonesian Certified Dried Seafood Trade</image:title>
+      <image:loc>https://www.driedseafoodglobal.com/images/hero/tempat-penjemuran-ikan.png</image:loc>
+      <image:title>Indonesian Certified Dried Seafood Export Facility</image:title>
     </image:image>
   </url>
 
-  <!-- Indonesian Locale -->
+  <!-- ============================================== -->
+  <!-- HOMEPAGE - Bahasa Indonesia (Domestik / Produsen) -->
+  <!-- ============================================== -->
   <url>
-    <loc>https://www.driedseafoodglobal.com/?lang=id</loc>
-    <lastmod>2026-03-09</lastmod>
+    <loc>https://www.driedseafoodglobal.com/id/</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/?lang=id" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.driedseafoodglobal.com/?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.driedseafoodglobal.com/?lang=ja" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/?lang=ar" />
-  </url>
-
-  <!-- Chinese Simplified Locale -->
-  <url>
-    <loc>https://www.driedseafoodglobal.com/?lang=zh</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/?lang=id" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.driedseafoodglobal.com/?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.driedseafoodglobal.com/?lang=ja" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/?lang=ar" />
-  </url>
-
-  <!-- Japanese Locale -->
-  <url>
-    <loc>https://www.driedseafoodglobal.com/?lang=ja</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/?lang=id" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.driedseafoodglobal.com/?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.driedseafoodglobal.com/?lang=ja" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/?lang=ar" />
-  </url>
-
-  <!-- Arabic Locale -->
-  <url>
-    <loc>https://www.driedseafoodglobal.com/?lang=ar</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/?lang=id" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.driedseafoodglobal.com/?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.driedseafoodglobal.com/?lang=ja" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/?lang=ar" />
-  </url>
-
-  <!-- Commodities Catalog Section -->
-  <url>
-    <loc>https://www.driedseafoodglobal.com/#komoditas</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/" />
     <image:image>
-      <image:loc>https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
-      <image:title>Super White Anchovy Teri Nasi</image:title>
+      <image:loc>https://www.driedseafoodglobal.com/images/hero/tempat-penjemuran-ikan.png</image:loc>
+      <image:title>Fasilitas Penjemuran dan Pengolahan Ikan Asin Indonesia</image:title>
     </image:image>
   </url>
 
-  <!-- International Shipping Calculator -->
+  <!-- ============================================== -->
+  <!-- HOMEPAGE - العربية (Middle East & GCC Markets) -->
+  <!-- ============================================== -->
   <url>
-    <loc>https://www.driedseafoodglobal.com/#kalkulator</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <loc>https://www.driedseafoodglobal.com/ar/</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/" />
+    <image:image>
+      <image:loc>https://www.driedseafoodglobal.com/images/hero/tempat-penjemuran-ikan.png</image:loc>
+      <image:title>منشأة تصدير الأسماك والمأكولات البحرية المجففة الإندونيسية</image:title>
+    </image:image>
   </url>
 
-  <!-- Trade Workflow & HACCP Quality -->
+  <!-- ============================================== -->
+  <!-- CORPORATE PROFILE PAGES (PT Samdura Bara Persada) -->
+  <!-- ============================================== -->
   <url>
-    <loc>https://www.driedseafoodglobal.com/#alur-ekspor</loc>
-    <lastmod>2026-03-09</lastmod>
+    <loc>https://www.driedseafoodglobal.com/company</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/company" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/company" />
   </url>
 
-  <!-- Gallery & Hub Inspection Facilities -->
   <url>
-    <loc>https://www.driedseafoodglobal.com/#galeri</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <!-- Blog & Fisheries Trade Insights -->
-  <url>
-    <loc>https://www.driedseafoodglobal.com/#blog</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- Contact & RFQ Submission -->
-  <url>
-    <loc>https://www.driedseafoodglobal.com/#kontak</loc>
-    <lastmod>2026-03-09</lastmod>
+    <loc>https://www.driedseafoodglobal.com/id/company</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/company" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/company" />
+  </url>
+
+  <url>
+    <loc>https://www.driedseafoodglobal.com/ar/company</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/company" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/company" />
+  </url>
+
+  <!-- ============================================== -->
+  <!-- STRATEGIC PARTNERS PAGES                       -->
+  <!-- ============================================== -->
+  <url>
+    <loc>https://www.driedseafoodglobal.com/partners</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/partners" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/partners" />
+  </url>
+
+  <url>
+    <loc>https://www.driedseafoodglobal.com/id/partners</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/partners" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/partners" />
+  </url>
+
+  <url>
+    <loc>https://www.driedseafoodglobal.com/ar/partners</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/partners" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/partners" />
   </url>
 
 </urlset>

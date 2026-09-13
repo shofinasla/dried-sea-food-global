@@ -1,19 +1,20 @@
-# Robots.txt for Dried Seafood Global
+# Robots.txt for Dried Seafood Global (PT Samdura Bara Persada)
 User-agent: *
 Allow: /
+Allow: /id/
+Allow: /ar/
+Allow: /company
+Allow: /partners
 Disallow: /api/admin/
 Disallow: /api/cms/
 
 # Googlebot specific directives
 User-agent: Googlebot
 Allow: /
-Allow: /#komoditas
-Allow: /#tentang
-Allow: /#kalkulator
-Allow: /#kontak
-Allow: /#alur-ekspor
-Allow: /#galeri
-Allow: /#blog
+Allow: /id/
+Allow: /ar/
+Allow: /company
+Allow: /partners
 
 # Sitemaps
 Sitemap: https://www.driedseafoodglobal.com/sitemap.xml

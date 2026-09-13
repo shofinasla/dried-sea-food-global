@@ -3,26 +3,64 @@ import {
   Star, 
   Quote, 
   CheckCircle2, 
-  Globe2, 
-  ShieldCheck, 
-  TrendingUp, 
   Building,
   Award,
   Sparkles
 } from 'lucide-react';
 import { BUYER_TESTIMONIALS } from '../data/initialData';
+import { useTranslation } from '../i18n/LanguageContext';
+import { getLocalizedTestimonial } from '../utils/localizedData';
 
 export default function BuyerTestimonials() {
+  const { t, currentLang } = useTranslation();
   const [activeTab, setActiveTab] = useState<'all' | 'verified'>('all');
 
-  const globalDestinations = [
-    { country: 'Amerika Serikat', flag: '🇺🇸', ports: 'Long Beach & New York', volume: '1.200+ TEUs/Thn' },
-    { country: 'Jerman & Eropa', flag: '🇩🇪', ports: 'Hamburg & Rotterdam', volume: '950+ TEUs/Thn' },
-    { country: 'Uni Emirat Arab', flag: '🇦🇪', ports: 'Jebel Ali Port (Dubai)', volume: '800+ TEUs/Thn' },
-    { country: 'Jepang & Asia Timur', flag: '🇯🇵', ports: 'Yokohama & Tokyo Port', volume: '650+ TEUs/Thn' },
-    { country: 'Australia & NZ', flag: '🇦🇺', ports: 'Sydney & Melbourne', volume: '420+ TEUs/Thn' },
-    { country: 'Prancis & Swiss', flag: '🇫🇷', ports: 'Le Havre & Marseille', volume: '380+ TEUs/Thn' }
-  ];
+  const isIndonesian = currentLang === 'id';
+  const isArabic = currentLang === 'ar';
+
+  const getGlobalDestinations = () => {
+    if (isIndonesian) {
+      return [
+        { country: 'Amerika Serikat', flag: '🇺🇸', ports: 'Long Beach & New York', volume: '1.200+ TEUs/Thn' },
+        { country: 'Jerman & Eropa', flag: '🇩🇪', ports: 'Hamburg & Rotterdam', volume: '950+ TEUs/Thn' },
+        { country: 'Uni Emirat Arab', flag: '🇦🇪', ports: 'Jebel Ali Port (Dubai)', volume: '800+ TEUs/Thn' },
+        { country: 'Jepang & Asia Timur', flag: '🇯🇵', ports: 'Yokohama & Tokyo Port', volume: '650+ TEUs/Thn' },
+        { country: 'Australia & NZ', flag: '🇦🇺', ports: 'Sydney & Melbourne', volume: '420+ TEUs/Thn' },
+        { country: 'Prancis & Swiss', flag: '🇫🇷', ports: 'Le Havre & Marseille', volume: '380+ TEUs/Thn' }
+      ];
+    }
+    if (isArabic) {
+      return [
+        { country: 'الولايات المتحدة', flag: '🇺🇸', ports: 'لونغ بيتش ونيويورك', volume: '+1,200 حاوية/سنة' },
+        { country: 'ألمانيا وأوروبا', flag: '🇩🇪', ports: 'هامبورغ وروتردام', volume: '+950 حاوية/سنة' },
+        { country: 'الإمارات العربية المتحدة', flag: '🇦🇪', ports: 'ميناء جبل علي (دبي)', volume: '+800 حاوية/سنة' },
+        { country: 'اليابان وشرق آسيا', flag: '🇯🇵', ports: 'يوكوهاما وطوكيو', volume: '+650 حاوية/سنة' },
+        { country: 'أستراليا ونيوزيلندا', flag: '🇦🇺', ports: 'سيدني وملبورن', volume: '+420 حاوية/سنة' },
+        { country: 'فرنسا وسويسرا', flag: '🇫🇷', ports: 'لو هافر ومارسيليا', volume: '+380 حاوية/سنة' }
+      ];
+    }
+    return [
+      { country: 'United States', flag: '🇺🇸', ports: 'Long Beach & New York', volume: '1,200+ TEUs/Yr' },
+      { country: 'Germany & Europe', flag: '🇩🇪', ports: 'Hamburg & Rotterdam', volume: '950+ TEUs/Yr' },
+      { country: 'United Arab Emirates', flag: '🇦🇪', ports: 'Jebel Ali Port (Dubai)', volume: '800+ TEUs/Yr' },
+      { country: 'Japan & East Asia', flag: '🇯🇵', ports: 'Yokohama & Tokyo Port', volume: '650+ TEUs/Yr' },
+      { country: 'Australia & NZ', flag: '🇦🇺', ports: 'Sydney & Melbourne', volume: '420+ TEUs/Yr' },
+      { country: 'France & Switzerland', flag: '🇫🇷', ports: 'Le Havre & Marseille', volume: '380+ TEUs/Yr' }
+    ];
+  };
+
+  const globalDestinations = getGlobalDestinations();
+
+  const labels = {
+    verifiedBuyer: isArabic ? 'مستورد ومشتري معتمد' : isIndonesian ? 'Verified Importer / Buyer' : 'Verified Importer / Buyer',
+    commodityPurchased: isArabic ? 'السلعة المشتراة:' : isIndonesian ? 'Komoditas Dibeli:' : 'Commodity Purchased:',
+    annualVolume: isArabic ? 'حجم التعاقد الدوري:' : isIndonesian ? 'Volume Kontrak Rutin:' : 'Contracted Volume:',
+    bannerTitle: isArabic ? 'هل ترغب في أن تصبح مستورداً أو شريكاً رسمياً لنا؟' : isIndonesian ? 'Ingin Menjadi Mitra Importir atau Pembeli Resmi Kami?' : 'Become an Official Importer or Buying Partner',
+    bannerDesc: isArabic ? 'استشر فريق التجارة الدولية حول مواصفات الشحنات وعينات المختبر وخيارات الدفع عبر الاعتماد المستندي (L/C).' : isIndonesian ? 'Konsultasikan spesifikasi kargo, sampel uji laboratorium, dan skema pembayaran L/C dengan divisi perdagangan ekspor.' : 'Consult cargo specifications, laboratory test samples, and L/C payment structures directly with our export division.',
+    bannerCta: isArabic ? 'تواصل مع فريق التصدير' : isIndonesian ? 'Hubungi Tim Ekspor' : 'Contact Export Team'
+  };
+
+  const localizedTestimonials = BUYER_TESTIMONIALS.map(item => getLocalizedTestimonial(item, currentLang));
 
   return (
     <section id="testimoni" className="py-24 bg-slate-50 relative border-t border-slate-200 overflow-hidden">
@@ -32,13 +70,13 @@ export default function BuyerTestimonials() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
-            <span>KEMITRAAN GLOBAL & KEPERCAYAAN IMPORTIR</span>
+            <span>{t.testimonials?.badge || (isArabic ? 'آراء شركائنا الموثوقين' : isIndonesian ? 'KEMITRAAN GLOBAL & KEPERCAYAAN IMPORTIR' : 'GLOBAL PARTNERSHIPS & BUYER TRUST')}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight uppercase font-sans">
-            Dipercaya oleh Ratusan Importir & Distributor Pasar Global
+            {t.testimonials?.title || (isArabic ? 'ماذا يقول المستوردون الدوليون عن جودتنا' : isIndonesian ? 'Dipercaya oleh Ratusan Importir & Distributor Pasar Global' : 'Trusted by Importers & Distributors Worldwide')}
           </h2>
           <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Transparansi mutu komoditas, keandalan jadwal pelayaran, serta jaminan perlindungan kontrak dagang internasional dengan kepatuhan Letter of Credit (L/C).
+            {t.testimonials?.subtitle || (isArabic ? 'تقييمات واقعية وموثقة من مديري المشتريات ومستوردي الأغذية في الشرق الأوسط، آسيا، وأمريكا الشمالية.' : isIndonesian ? 'Transparansi mutu komoditas, keandalan jadwal pelayaran, serta jaminan perlindungan kontrak dagang internasional dengan kepatuhan Letter of Credit (L/C).' : 'Commodity quality transparency, reliable sailing schedules, and verified international trade contracts with Letter of Credit (L/C) compliance.')}
           </p>
         </div>
 
@@ -61,7 +99,7 @@ export default function BuyerTestimonials() {
 
         {/* Testimonial Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {BUYER_TESTIMONIALS.map((test) => (
+          {localizedTestimonials.map((test) => (
             <div
               key={test.id}
               className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-[#009bb3]/40 transition-all duration-300 shadow-xs relative group"
@@ -80,7 +118,7 @@ export default function BuyerTestimonials() {
                   {test.verifiedTransaction && (
                     <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-black flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                      <span>Verified Importer / Buyer</span>
+                      <span>{labels.verifiedBuyer}</span>
                     </span>
                   )}
                 </div>
@@ -93,11 +131,11 @@ export default function BuyerTestimonials() {
                 {/* Commodity & Volume Metric */}
                 <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs mb-6">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Komoditas Dibeli:</span>
+                    <span className="text-slate-500">{labels.commodityPurchased}</span>
                     <span className="text-[#009bb3] font-bold text-right max-w-[200px] truncate">{test.commodityPurchased}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Volume Kontrak Rutin:</span>
+                    <span className="text-slate-500">{labels.annualVolume}</span>
                     <span className="text-slate-800 font-bold">{test.volumeAnnually}</span>
                   </div>
                 </div>
@@ -137,15 +175,15 @@ export default function BuyerTestimonials() {
               <Award className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900">Ingin Menjadi Mitra Importir atau Pembeli Resmi Kami?</h4>
-              <p className="text-xs text-slate-600">Konsultasikan spesifikasi kargo, sampel uji laboratorium, dan skema pembayaran L/C dengan divisi perdagangan ekspor.</p>
+              <h4 className="text-sm font-bold text-slate-900">{labels.bannerTitle}</h4>
+              <p className="text-xs text-slate-600">{labels.bannerDesc}</p>
             </div>
           </div>
           <a
             href="#kontak"
             className="px-6 py-3 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-black text-xs whitespace-nowrap transition-all shadow-md shadow-teal-500/20"
           >
-            Hubungi Tim Ekspor
+            {labels.bannerCta}
           </a>
         </div>
 

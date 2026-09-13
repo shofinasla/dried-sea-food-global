@@ -20,6 +20,8 @@ export interface StrategicPartner {
   name: string;
   category: string;
   description: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   logoUrl?: string;
   initials: string;
 }
@@ -27,10 +29,18 @@ export interface StrategicPartner {
 export interface ServiceItem {
   id: string;
   title: string;
+  titleEn?: string;
+  titleAr?: string;
   category: string;
+  categoryEn?: string;
+  categoryAr?: string;
   icon: string;
   summary: string;
+  summaryEn?: string;
+  summaryAr?: string;
   description: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   features: string[];
   metrics: { label: string; value: string }[];
   imageUrl: string;
@@ -39,11 +49,19 @@ export interface ServiceItem {
 export interface GalleryItem {
   id: string;
   title: string;
+  titleEn?: string;
+  titleAr?: string;
   category: 'facilities' | 'fleet' | 'operations' | 'team' | 'projects' | 'processing' | 'storage' | 'commodities' | 'shipping' | 'sustainability';
   imageUrl: string;
   location: string;
+  locationEn?: string;
+  locationAr?: string;
   date: string;
+  dateEn?: string;
+  dateAr?: string;
   description: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   tags: string[];
   dimensions?: string;
 }
@@ -59,19 +77,31 @@ export interface BlogComment {
 export interface BlogPost {
   id: string;
   title: string;
+  titleEn?: string;
+  titleAr?: string;
   slug: string;
   excerpt: string;
+  excerptEn?: string;
+  excerptAr?: string;
   content: string;
+  contentEn?: string;
+  contentAr?: string;
   coverImage: string;
   author: {
     name: string;
     role: string;
+    roleEn?: string;
+    roleAr?: string;
     avatar: string;
   };
   category: 'Industri' | 'Teknologi' | 'Sustainability' | 'Kasus Nyata' | 'Update Korporat' | 'Ekspor & Pasar' | 'Kualitas & Higienitas' | 'Regulasi & Karantina' | 'Nelayan & Mutu';
   tags: string[];
   readTime: string;
+  readTimeEn?: string;
+  readTimeAr?: string;
   publishedAt: string;
+  publishedAtEn?: string;
+  publishedAtAr?: string;
   featured?: boolean;
   comments: BlogComment[];
   seoKeywords?: string[];
@@ -211,6 +241,8 @@ export interface SEOSettings {
 export interface ExportCommodity {
   id: string;
   name: string;
+  nameAr?: string;
+  nameZh?: string;
   indonesianName: string;
   category: 
     | 'Ikan Teri & Bilis Kering' 
@@ -222,45 +254,77 @@ export interface ExportCommodity {
     | string;
   hsCode: string;
   origin: string;
+  originEn?: string;
+  originAr?: string;
   specification: {
     grade: string;
+    gradeEn?: string;
+    gradeAr?: string;
     moisture?: string;
     packaging: string;
+    packagingEn?: string;
+    packagingAr?: string;
     moq: string;
     shelfLife?: string;
     colorTexture?: string;
+    colorTextureEn?: string;
+    colorTextureAr?: string;
   };
   supplyCapacity: string;
+  supplyCapacityEn?: string;
+  supplyCapacityAr?: string;
   certifications: string[];
   keyMarkets: string[];
   imageUrl: string;
   galleryImages: string[];
   description: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   featured?: boolean;
 }
 
 export interface ExportWorkflowStep {
   stepNumber: string;
   title: string;
+  titleEn?: string;
+  titleAr?: string;
   subtitle: string;
+  subtitleEn?: string;
+  subtitleAr?: string;
   description: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   imageUrl: string;
   keyAction: string;
+  keyActionEn?: string;
+  keyActionAr?: string;
   complianceDoc: string;
+  complianceDocEn?: string;
+  complianceDocAr?: string;
 }
 
 export interface BuyerTestimonial {
   id: string;
   buyerName: string;
   buyerRole: string;
+  buyerRoleEn?: string;
+  buyerRoleAr?: string;
   companyName: string;
   country: string;
+  countryEn?: string;
+  countryAr?: string;
   flag: string;
   avatarUrl: string;
   commodityPurchased: string;
+  commodityPurchasedEn?: string;
+  commodityPurchasedAr?: string;
   volumeAnnually: string;
+  volumeAnnuallyEn?: string;
+  volumeAnnuallyAr?: string;
   rating: number;
   comment: string;
+  commentEn?: string;
+  commentAr?: string;
   verifiedTransaction: boolean;
 }
 

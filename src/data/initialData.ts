@@ -50,7 +50,11 @@ export const STRATEGIC_PARTNERS = [
     id: 'shrimora',
     name: 'Shrimora',
     category: 'Brand & Produk Hasil Laut',
+    categoryEn: 'Marine Products Brand & OEM',
+    categoryAr: 'العلامات التجارية والتعبئة البحرية',
     description: 'Mitra brand untuk pengembangan dan pengemasan produk hasil laut berkualitas.',
+    descriptionEn: 'Strategic brand and packaging partner for premium value-added marine products.',
+    descriptionAr: 'شريك استراتيجي لتطوير وتعبئة المنتجات والمأكولات البحرية المجففة الفاخرة.',
     logoUrl: '/logo-shrimora.png',
     initials: 'S'
   },
@@ -58,7 +62,11 @@ export const STRATEGIC_PARTNERS = [
     id: 'dapur-ikan-nusantara',
     name: 'Dapur Ikan Nusantara',
     category: 'Kuliner & Distribusi',
+    categoryEn: 'Culinary Supply & Distribution',
+    categoryAr: 'توريد المطاعم والتوزيع الغذائي',
     description: 'Mitra kolaborasi untuk memperluas akses produk ikan Nusantara ke pasar yang lebih luas.',
+    descriptionEn: 'Collaborative partner expanding Indonesian traditional dried fish distribution to international and culinary markets.',
+    descriptionAr: 'شريك توزيع وتوريد لسلاسل المطاعم والأسواق لترويج الأسماك الإندونيسية المجففة عالمياً.',
     logoUrl: '/logo-dapur-ikan-nusantara.png',
     initials: 'DIN'
   }

@@ -47,29 +47,29 @@ export default function NotFoundPage({
   // Quick directory topics to assist lost visitors
   const helpfulDestinations = [
     {
-      title: currentLang === 'id' ? 'Katalog Komoditas Global' : 'Global Product Catalog',
-      desc: currentLang === 'id' ? 'Teri Nasi Medan, Jambal Roti, Cumi Kering & Fish Maw Grade AAA.' : 'Premium dried whitebait, salted catfish, sun-dried squid & fish maw.',
+      title: currentLang === 'ar' ? 'كتالوج المنتجات والمصائد البحرية' : currentLang === 'id' ? 'Katalog Komoditas Global' : 'Global Product Catalog',
+      desc: currentLang === 'ar' ? 'أنشوجة بيضاء مجففة، أسماك مملحة، حبار مجفف، وحويصلات الأسماك.' : currentLang === 'id' ? 'Teri Nasi Medan, Jambal Roti, Cumi Kering & Fish Maw Grade AAA.' : 'Premium dried whitebait, salted catfish, sun-dried squid & fish maw.',
       icon: Package,
       badge: 'Grade AAA',
       action: () => onScrollToSection('#komoditas')
     },
     {
-      title: currentLang === 'id' ? 'Kalkulator Biaya Kontainer' : 'Shipping Freight Calculator',
-      desc: currentLang === 'id' ? 'Simulasi tarif pengiriman Reefer FCL & LCL Port-to-Port global.' : 'Instant freight cost estimation for ocean and air cargo.',
+      title: currentLang === 'ar' ? 'حاسبة الشحن البحري والجوي' : currentLang === 'id' ? 'Kalkulator Biaya Kontainer' : 'Shipping Freight Calculator',
+      desc: currentLang === 'ar' ? 'محاكاة تكاليف شحن الحاويات المبردة FCL و LCL بين الموانئ العالمية.' : currentLang === 'id' ? 'Simulasi tarif pengiriman Reefer FCL & LCL Port-to-Port global.' : 'Instant freight cost estimation for ocean and air cargo.',
       icon: Calculator,
       badge: 'Instant Quote',
       action: () => onScrollToSection('#kalkulator')
     },
     {
-      title: currentLang === 'id' ? 'Sertifikasi Karantina & Mutu' : 'Official Certifications',
-      desc: currentLang === 'id' ? 'Sertifikat Karantina BKIPM, HACCP Grade A, dan Health Certificate.' : 'BKIPM quarantine health certificate and HACCP Grade A accreditations.',
+      title: currentLang === 'ar' ? 'شهادات الجودة والفحص البيطري' : currentLang === 'id' ? 'Sertifikasi Karantina & Mutu' : 'Official Certifications',
+      desc: currentLang === 'ar' ? 'شهادات الحجر الصحي BKIPM ومعايير HACCP فئة A وشهادات التصدير الرسمية.' : currentLang === 'id' ? 'Sertifikat Karantina BKIPM, HACCP Grade A, dan Health Certificate.' : 'BKIPM quarantine health certificate and HACCP Grade A accreditations.',
       icon: FileCheck2,
       badge: 'HACCP Grade A',
       action: () => onScrollToSection('#alur-ekspor')
     },
     {
-      title: currentLang === 'id' ? 'Permintaan Penawaran (RFQ)' : 'Request for Quotation (RFQ)',
-      desc: currentLang === 'id' ? 'Kirim spesifikasi pesanan B2B langsung ke tim trade desk kami.' : 'Submit institutional purchase inquiries directly to our trade managers.',
+      title: currentLang === 'ar' ? 'طلب عرض أسعار رسمي (RFQ)' : currentLang === 'id' ? 'Permintaan Penawaran (RFQ)' : 'Request for Quotation (RFQ)',
+      desc: currentLang === 'ar' ? 'أرسل مواصفات طلبك التجاري مباشرة إلى فريق إدارة التصدير والصفقات.' : currentLang === 'id' ? 'Kirim spesifikasi pesanan B2B langsung ke tim trade desk kami.' : 'Submit institutional purchase inquiries directly to our trade managers.',
       icon: Mail,
       badge: '24h Response',
       action: () => onScrollToSection('#kontak')
@@ -138,7 +138,7 @@ export default function NotFoundPage({
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
           </span>
-          <span>HTTP 404 • {currentLang === 'id' ? 'Rute Navigasi Terputus' : 'Route Not Located'}</span>
+          <span>HTTP 404 • {currentLang === 'ar' ? 'الصفحة غير متوفرة' : currentLang === 'id' ? 'Rute Navigasi Terputus' : 'Route Not Located'}</span>
         </div>
 
         {/* Large Aesthetic 404 Visual Display */}
@@ -153,15 +153,19 @@ export default function NotFoundPage({
 
         {/* Primary Message Headings */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight max-w-2xl mb-4 font-serif-display">
-          {currentLang === 'id' 
-            ? 'Koordinat Halaman Tidak Ditemukan' 
-            : 'Trade Resource Coordinates Not Found'}
+          {currentLang === 'ar'
+            ? 'لم يتم العثور على الصفحة المطلوبة'
+            : currentLang === 'id' 
+              ? 'Koordinat Halaman Tidak Ditemukan' 
+              : 'Trade Resource Coordinates Not Found'}
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed mb-8">
-          {currentLang === 'id'
-            ? 'Tautan dokumen, katalog spesifik, atau halaman yang Anda tuju telah dipindahkan ke direktori baru, diperbarui demi kepatuhan regulasi ekspor, atau alamat URL yang dimasukkan kurang tepat.'
-            : 'The document link or trade directory you are looking for might have been updated, relocated under international standards, or the URL address was misspelled.'}
+          {currentLang === 'ar'
+            ? 'ربما تم نقل رابط المستند أو الكتالوج إلى مسار جديد، أو تم تحديثه بما يتوافق مع المعايير التصديرية، أو أن العنوان الذي تم إدخاله غير صحيح.'
+            : currentLang === 'id'
+              ? 'Tautan dokumen, katalog spesifik, atau halaman yang Anda tuju telah dipindahkan ke direktori baru, diperbarui demi kepatuhan regulasi ekspor, atau alamat URL yang dimasukkan kurang tepat.'
+              : 'The document link or trade directory you are looking for might have been updated, relocated under international standards, or the URL address was misspelled.'}
         </p>
 
         {/* Primary Interactive Search Bar */}

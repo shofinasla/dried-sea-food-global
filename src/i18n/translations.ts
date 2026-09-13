@@ -60,6 +60,7 @@ export interface TranslationSchema {
     requestRfqBtn: string;
     hotline24h: string;
     adminOpen: string;
+    selectLanguage?: string;
   };
   // Hero
   hero: {
@@ -268,6 +269,7 @@ export interface TranslationSchema {
     productsTitle: string;
     complianceTitle: string;
     rightsReserved: string;
+    regionalPortals?: string;
   };
 }
 

@@ -39,6 +39,78 @@ app.use((req: Request, res: Response, next) => {
   next();
 });
 
+// ----------------------------------------------------
+// MULTILINGUAL INTERNATIONAL SEO 301 REDIRECTION MIDDLEWARE
+// Safe migration from ?lang= query params to /id/ and /ar/ subdirectories
+// ----------------------------------------------------
+app.use((req: Request, res: Response, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    return next();
+  }
+
+  const reqPath = req.path;
+
+  // Skip APIs, assets, RSS feeds, vite internal endpoints
+  if (
+    reqPath.startsWith('/api/') ||
+    reqPath.startsWith('/feed/') ||
+    reqPath.startsWith('/@') ||
+    reqPath.startsWith('/src/') ||
+    reqPath.startsWith('/node_modules/') ||
+    reqPath.includes('.')
+  ) {
+    return next();
+  }
+
+  // 1. Query parameter migration: ?lang=ar, ?lang=id, ?lang=en, etc.
+  const langQuery = req.query.lang as string | undefined;
+  if (langQuery) {
+    const cleanQuery = { ...req.query };
+    delete cleanQuery.lang;
+    const remainingQueryString = new URLSearchParams(cleanQuery as Record<string, string>).toString();
+    const querySuffix = remainingQueryString ? `?${remainingQueryString}` : '';
+
+    // Extract subpath without existing language prefixes
+    let cleanSubPath = reqPath.replace(/^\/(ar|id|en)(\/|$)/, '/');
+    if (cleanSubPath === '/') cleanSubPath = '';
+
+    if (langQuery === 'ar') {
+      return res.redirect(301, `/ar${cleanSubPath ? cleanSubPath : '/'}${querySuffix}`);
+    }
+    if (langQuery === 'id') {
+      return res.redirect(301, `/id${cleanSubPath ? cleanSubPath : '/'}${querySuffix}`);
+    }
+    if (langQuery === 'en') {
+      return res.redirect(301, `/${cleanSubPath ? cleanSubPath.replace(/^\//, '') : ''}${querySuffix}`);
+    }
+    // Future / unsupported query parameters clean back to clean path without lang
+    return res.redirect(301, `${reqPath}${querySuffix}`);
+  }
+
+  // 2. Trailing slash normalization for language roots: /ar -> /ar/, /id -> /id/
+  if (reqPath === '/ar') {
+    const qs = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    return res.redirect(301, `/ar/${qs}`);
+  }
+  if (reqPath === '/id') {
+    const qs = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    return res.redirect(301, `/id/${qs}`);
+  }
+
+  // 3. Normalize /en or /en/ prefix to root domain
+  if (reqPath === '/en' || reqPath === '/en/') {
+    const qs = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    return res.redirect(301, `/${qs}`);
+  }
+  if (reqPath.startsWith('/en/')) {
+    const cleanSub = reqPath.slice(3); // removes /en
+    const qs = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    return res.redirect(301, `${cleanSub}${qs}`);
+  }
+
+  next();
+});
+
 // In-memory persistent state during runtime
 let blogPosts: BlogPost[] = [...INITIAL_BLOG_POSTS];
 let galleryItems: GalleryItem[] = [...GALLERY_ITEMS];
@@ -85,8 +157,19 @@ app.get('/robots.txt', (req: Request, res: Response) => {
   res.type('text/plain');
   res.send(`User-agent: *
 Allow: /
+Allow: /id/
+Allow: /ar/
+Allow: /company
+Allow: /partners
 Disallow: /api/admin/
 Disallow: /api/cms/
+
+User-agent: Googlebot
+Allow: /
+Allow: /id/
+Allow: /ar/
+Allow: /company
+Allow: /partners
 
 Sitemap: https://www.driedseafoodglobal.com/sitemap.xml
 `);
@@ -95,36 +178,111 @@ Sitemap: https://www.driedseafoodglobal.com/sitemap.xml
 app.get('/sitemap.xml', (req: Request, res: Response) => {
   res.type('application/xml');
   const lastMod = new Date().toISOString().split('T')[0];
-  const languages = ['en', 'id', 'zh', 'ja', 'ar'];
-  const sections = ['', 'products', 'quality', 'workflow', 'calculator', 'gallery', 'rfq'];
-
-  let urlsXml = '';
-
-  // Main multilingual root pages
-  for (const lang of languages) {
-    const isDefault = lang === 'en';
-    const loc = isDefault ? 'https://www.driedseafoodglobal.com/' : `https://www.driedseafoodglobal.com/?lang=${lang}`;
-    const priority = isDefault ? '1.0' : '0.9';
-
-    urlsXml += `
-  <url>
-    <loc>${loc}</loc>
-    <lastmod>${lastMod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>${priority}</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/?lang=id" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.driedseafoodglobal.com/?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.driedseafoodglobal.com/?lang=ja" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/?lang=ar" />
-  </url>`;
-  }
 
   const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${urlsXml}
+
+  <!-- Primary English Homepage (Global / Default) -->
+  <url>
+    <loc>https://www.driedseafoodglobal.com/</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/" />
+  </url>
+
+  <!-- Indonesian Homepage (Domestik / Produsen) -->
+  <url>
+    <loc>https://www.driedseafoodglobal.com/id/</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/" />
+  </url>
+
+  <!-- Arabic Homepage (Middle East & GCC) -->
+  <url>
+    <loc>https://www.driedseafoodglobal.com/ar/</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/" />
+  </url>
+
+  <!-- Corporate Profile Pages -->
+  <url>
+    <loc>https://www.driedseafoodglobal.com/company</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/company" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/company" />
+  </url>
+  <url>
+    <loc>https://www.driedseafoodglobal.com/id/company</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/company" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/company" />
+  </url>
+  <url>
+    <loc>https://www.driedseafoodglobal.com/ar/company</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/company" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/company" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/company" />
+  </url>
+
+  <!-- Strategic Partners Pages -->
+  <url>
+    <loc>https://www.driedseafoodglobal.com/partners</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/partners" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/partners" />
+  </url>
+  <url>
+    <loc>https://www.driedseafoodglobal.com/id/partners</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/partners" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/partners" />
+  </url>
+  <url>
+    <loc>https://www.driedseafoodglobal.com/ar/partners</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/partners" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://www.driedseafoodglobal.com/id/partners" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.driedseafoodglobal.com/ar/partners" />
+  </url>
+
 </urlset>`;
 
   res.send(sitemapContent);

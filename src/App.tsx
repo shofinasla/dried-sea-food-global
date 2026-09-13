@@ -90,11 +90,30 @@ export default function App() {
       window.history.pushState({}, '', path);
       setCurrentPath(path);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
   };
 
-  const normalizedPath = currentPath.replace(/\/$/, '') || '/';
-  const is404 = normalizedPath !== '/' && normalizedPath !== '/index.html';
+  // Route Parser: Extracts language subdirectory and page subpath
+  // Supports: /, /id/, /ar/, /company, /id/company, /ar/company, /partners, /id/partners, /ar/partners
+  const normalizedRaw = currentPath.toLowerCase().replace(/\/+$/, '') || '/';
+  
+  let currentLangPrefix = '';
+  let subPath = normalizedRaw;
+
+  if (normalizedRaw === '/id' || normalizedRaw.startsWith('/id/')) {
+    currentLangPrefix = '/id';
+    subPath = normalizedRaw.slice(3) || '/';
+  } else if (normalizedRaw === '/ar' || normalizedRaw.startsWith('/ar/')) {
+    currentLangPrefix = '/ar';
+    subPath = normalizedRaw.slice(3) || '/';
+  }
+
+  const isHome = subPath === '/' || subPath === '/index.html';
+  const isCompany = subPath === '/company';
+  const isPartners = subPath === '/partners';
+  const is404 = !isHome && !isCompany && !isPartners;
+  const homeUrl = currentLangPrefix ? `${currentLangPrefix}/` : '/';
 
   // Fetch initial data from server APIs
   useEffect(() => {
@@ -406,16 +425,16 @@ export default function App() {
     }
   };
 
-  if (normalizedPath === '/company') {
-    return <CompanyPage onBackToHome={() => navigateTo('/')} />;
+  if (isCompany) {
+    return <CompanyPage onBackToHome={() => navigateTo(homeUrl)} />;
   }
 
-  if (normalizedPath === '/partners') {
+  if (isPartners) {
     return (
       <PartnersPage
-        onBackToHome={() => navigateTo('/')}
+        onBackToHome={() => navigateTo(homeUrl)}
         onOpenContact={() => {
-          navigateTo('/');
+          navigateTo(homeUrl);
           setTimeout(() => handleScrollTo('#kontak'), 120);
         }}
       />
@@ -426,9 +445,9 @@ export default function App() {
     return (
       <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
         <NotFoundPage
-          onBackToHome={() => navigateTo('/')}
+          onBackToHome={() => navigateTo(homeUrl)}
           onScrollToSection={(sectionId) => {
-            navigateTo('/');
+            navigateTo(homeUrl);
             setTimeout(() => {
               handleScrollTo(sectionId);
             }, 120);
@@ -501,7 +520,7 @@ export default function App() {
           onSelectServiceForQuote={handleSelectServiceForQuote}
         />
 
-        <StrategicPartners onOpenPartners={() => navigateTo('/partners')} />
+        <StrategicPartners onOpenPartners={() => navigateTo(currentLangPrefix ? `${currentLangPrefix}/partners` : '/partners')} />
 
         {/* 3. Indonesian High-Value Export Commodities Showcase (WebEkspor Collaboration) */}
         <ExportCommodities

@@ -11,30 +11,113 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
   const { t, currentLang } = useTranslation();
 
   const isIndonesian = currentLang === 'id';
+  const isArabic = currentLang === 'ar';
 
   // Factual trust points backed strictly by verified company data
-  const trustPoints = [
-    {
-      label: isIndonesian ? 'ASAL' : 'ORIGIN',
-      value: 'Indonesia',
-      desc: isIndonesian ? 'Sentra Sourcing Pesisir Nusantara' : 'Direct Coastal Fishery Sourcing'
-    },
-    {
-      label: isIndonesian ? 'FOKUS BISNIS' : 'BUSINESS FOCUS',
-      value: isIndonesian ? 'Ekspor B2B' : 'B2B Export Supply',
-      desc: isIndonesian ? 'Importir, Distributor & Industri' : 'Importers, Wholesalers & Industry'
-    },
-    {
-      label: isIndonesian ? 'KOMODITAS' : 'PRODUCT FOCUS',
-      value: isIndonesian ? 'Hasil Laut Kering' : 'Dried Seafood',
-      desc: isIndonesian ? 'Ikan Asin, Teri Nasi, Cumi & Fish Maw' : 'Salted Fish, Anchovy, Squid & Maw'
-    },
-    {
-      label: isIndonesian ? 'KEPATUHAN' : 'COMPLIANCE',
-      value: 'NIB & BKIPM Resmi',
-      desc: isIndonesian ? 'Health Certificate & Sertifikasi Karantina' : 'Official Quarantine Health Certificate'
+  const getTrustPoints = () => {
+    if (isIndonesian) {
+      return [
+        {
+          label: 'ASAL',
+          value: 'Indonesia',
+          desc: 'Sentra Sourcing Pesisir Nusantara'
+        },
+        {
+          label: 'FOKUS BISNIS',
+          value: 'Ekspor B2B',
+          desc: 'Importir, Distributor & Industri'
+        },
+        {
+          label: 'KOMODITAS',
+          value: 'Hasil Laut Kering',
+          desc: 'Ikan Asin, Teri Nasi, Cumi & Fish Maw'
+        },
+        {
+          label: 'KEPATUHAN',
+          value: 'NIB & BKIPM Resmi',
+          desc: 'Health Certificate & Sertifikasi Karantina'
+        }
+      ];
     }
-  ];
+    if (isArabic) {
+      return [
+        {
+          label: 'ميناء المنشأ',
+          value: 'إندونيسيا',
+          desc: 'توريد مباشر من موانئ الصيد الساحلية'
+        },
+        {
+          label: 'التركيز التجاري',
+          value: 'تصدير B2B دولي',
+          desc: 'المستوردون والموزعون والمصانع'
+        },
+        {
+          label: 'المنتجات البحرية',
+          value: 'مأكولات بحرية مجففة',
+          desc: 'أسماك مملحة، أنشوجة بيضاء، حبار، وفيش ماو'
+        },
+        {
+          label: 'الامتثال القانوني',
+          value: 'تراخيص BKIPM رسمية',
+          desc: 'شهادة صحية بيطرية وتخليص جمركي فوري'
+        }
+      ];
+    }
+    return [
+      {
+        label: 'ORIGIN',
+        value: 'Indonesia',
+        desc: 'Direct Coastal Fishery Sourcing'
+      },
+      {
+        label: 'BUSINESS FOCUS',
+        value: 'B2B Export Supply',
+        desc: 'Importers, Wholesalers & Industry'
+      },
+      {
+        label: 'PRODUCT FOCUS',
+        value: 'Dried Seafood',
+        desc: 'Salted Fish, Anchovy, Squid & Maw'
+      },
+      {
+        label: 'COMPLIANCE',
+        value: 'Official NIB & BKIPM',
+        desc: 'Quarantine Veterinary Health Certificate'
+      }
+    ];
+  };
+
+  const trustPoints = getTrustPoints();
+
+  const getHeroCaptions = () => {
+    if (isIndonesian) {
+      return {
+        tag: 'Sentra Pengeringan Alami Nusantara',
+        sub: 'Penjemuran Surya Alami & Higienitas Terkontrol',
+        badge: '100% Alami',
+        mobileTitle: 'Sentra Pengeringan Pesisir Indonesia',
+        mobileSub: 'Kadar Air Terstandarisasi'
+      };
+    }
+    if (isArabic) {
+      return {
+        tag: 'مراكز التجفيف الشمسي الساحلي بإندونيسيا',
+        sub: 'تجفيف شمسي طبيعي ورطوبة مراقبة بدقة',
+        badge: 'طبيعي 100%',
+        mobileTitle: 'مراكز التجفيف الساحلي بإندونيسيا',
+        mobileSub: 'نسبة رطوبة مضبوطة ومعتمدة'
+      };
+    }
+    return {
+      tag: 'Indonesian Coastal Drying Center',
+      sub: 'Natural Sun-Drying & Controlled Moisture',
+      badge: '100% Natural',
+      mobileTitle: 'Indonesian Coastal Drying Center',
+      mobileSub: 'Standardized Moisture'
+    };
+  };
+
+  const captions = getHeroCaptions();
 
   return (
     <section id="hero" className="relative bg-white border-b border-slate-200 pt-8 pb-14 lg:pt-14 lg:pb-16 overflow-hidden">
@@ -119,14 +202,14 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
               <div className="absolute bottom-3.5 left-3.5 right-3.5 px-4 py-2.5 rounded-xl bg-white/95 backdrop-blur-xs border border-slate-200/90 text-slate-800 flex items-center justify-between shadow-2xs">
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-wider text-[#009bb3]">
-                    {isIndonesian ? 'Sentra Pengeringan Alami Nusantara' : 'Indonesian Coastal Drying Center'}
+                    {captions.tag}
                   </div>
                   <div className="text-xs font-extrabold text-slate-900 mt-0.5">
-                    {isIndonesian ? 'Penjemuran Surya Alami & Higienitas Terkontrol' : 'Natural Sun-Drying & Controlled Moisture'}
+                    {captions.sub}
                   </div>
                 </div>
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
-                  {isIndonesian ? '100% Alami' : '100% Natural'}
+                  {captions.badge}
                 </span>
               </div>
             </div>
@@ -189,10 +272,10 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
             />
             <div className="p-3 bg-white border-t border-slate-200 flex items-center justify-between text-xs">
               <span className="font-bold text-slate-900 text-[11px] truncate">
-                {isIndonesian ? 'Sentra Pengeringan Pesisir Indonesia' : 'Indonesian Coastal Drying Center'}
+                {captions.mobileTitle}
               </span>
               <span className="text-[10px] text-slate-500 font-medium shrink-0 ml-2">
-                {isIndonesian ? 'Kadar Air Terstandarisasi' : 'Standardized Moisture'}
+                {captions.mobileSub}
               </span>
             </div>
           </div>

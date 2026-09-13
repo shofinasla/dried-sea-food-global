@@ -19,6 +19,7 @@ import {
 import { ExportCommodity } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 import { getCategoryLabel } from '../i18n/categoryLabels';
+import { getLocalizedCommodity } from '../utils/localizedData';
 
 interface ExportCommoditiesProps {
   products: ExportCommodity[];
@@ -37,14 +38,16 @@ export default function ExportCommodities({
   const [activeModalCommodity, setActiveModalCommodity] = useState<ExportCommodity | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
+  const localizedProducts = products.map(item => getLocalizedCommodity(item, currentLang));
+
   const categories = [
     { id: 'all', label: t.commodities?.filterAll || 'All Products' },
-    ...Array.from(new Set(products.map(item => item.category.trim()).filter(Boolean)))
+    ...Array.from(new Set(localizedProducts.map(item => item.category.trim()).filter(Boolean)))
       .sort((first, second) => first.localeCompare(second))
       .map(category => ({ id: category, label: getCategoryLabel('product', category, currentLang) }))
   ];
 
-  const filteredCommodities = products.filter(item => {
+  const filteredCommodities = localizedProducts.filter(item => {
     const matchesCategory = selectedCategory === 'all' || item.category.trim() === selectedCategory.trim();
     const matchesSearch = searchQuery === '' || 
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -53,6 +56,31 @@ export default function ExportCommodities({
       item.origin.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const uiTexts = {
+    topProduct: currentLang === 'id' ? 'Produk Unggulan' : currentLang === 'ar' ? 'منتج رئيسي' : 'Top Product',
+    viewSpecs: currentLang === 'id' ? 'Lihat Foto & Spek' : currentLang === 'ar' ? 'عرض الصور والمواصفات' : 'View Photos & Specs',
+    viewDetails: currentLang === 'id' ? 'Detail Produk' : currentLang === 'ar' ? 'تفاصيل المنتج' : 'View Details',
+    requestQuote: currentLang === 'id' ? 'Minta Penawaran' : currentLang === 'ar' ? 'طلب تسعير' : 'Request Quote',
+    photoCount: (current: number, total: number) => {
+      if (currentLang === 'ar') return `صورة ${current} من ${total}`;
+      if (currentLang === 'id') return `Foto ${current} dari ${total}`;
+      return `Photo ${current} of ${total}`;
+    },
+    destinations: currentLang === 'id' ? 'Destinasi Utama Ekspor Komoditas Ini:' : currentLang === 'ar' ? 'وجهات التصدير الرئيسية لهذه السلعة:' : 'Key Export Destinations for this Commodity:',
+    category: currentLang === 'id' ? 'Kategori:' : currentLang === 'ar' ? 'التصنيف:' : 'Category:',
+    specSheet: currentLang === 'id' ? 'Lembar Spesifikasi Mutu Ekspor:' : currentLang === 'ar' ? 'ورقة المواصفات الفنية للتصدير:' : 'Export Quality Specification Sheet:',
+    origin: currentLang === 'id' ? 'Wilayah Asal:' : currentLang === 'ar' ? 'ميناء المنشأ:' : 'Origin Region:',
+    grade: currentLang === 'id' ? 'Standar Grade:' : currentLang === 'ar' ? 'معيار الجودة:' : 'Grade Standard:',
+    moisture: currentLang === 'id' ? 'Kadar Air (Moisture):' : currentLang === 'ar' ? 'نسبة الرطوبة:' : 'Moisture Content:',
+    packaging: currentLang === 'id' ? 'Standar Kemasan:' : currentLang === 'ar' ? 'طريقة التعبئة والتغليف:' : 'Packaging Standard:',
+    moq: currentLang === 'id' ? 'Minimum Order (MOQ):' : currentLang === 'ar' ? 'الحد الأدنى للطلب (MOQ):' : 'Minimum Order (MOQ):',
+    supplyCapacity: currentLang === 'id' ? 'Kapasitas Pasokan:' : currentLang === 'ar' ? 'طاقة الإمداد:' : 'Supply Capacity:',
+    characteristics: currentLang === 'id' ? 'Karakteristik Fisik:' : currentLang === 'ar' ? 'الخصائص الفيزيائية:' : 'Physical Characteristics:',
+    certifications: currentLang === 'id' ? 'Sertifikat & Izin Laboratorium Tersedia:' : currentLang === 'ar' ? 'الشهادات والتحاليل المخبرية المتوفرة:' : 'Available Certificates & Lab Permits:',
+    modalRfq: currentLang === 'id' ? 'Minta Penawaran Harga (FOB / CIF / CFR)' : currentLang === 'ar' ? 'طلب عرض أسعار رسمي (FOB / CIF / CFR)' : 'Request Price Quotation (FOB / CIF / CFR)',
+    close: currentLang === 'id' ? 'Tutup' : currentLang === 'ar' ? 'إغلاق' : 'Close'
+  };
 
   const openCommodityDetail = (commodity: ExportCommodity) => {
     setActiveModalCommodity(commodity);
@@ -153,7 +181,7 @@ export default function ExportCommodities({
                     </span>
                     {item.featured && (
                       <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white text-[10px] font-extrabold uppercase shadow-sm">
-                        Top Product
+                        {uiTexts.topProduct}
                       </span>
                     )}
                   </div>
@@ -168,7 +196,7 @@ export default function ExportCommodities({
                   <button
                     onClick={() => openCommodityDetail(item)}
                     className="absolute bottom-3 right-3 p-2 rounded-xl bg-white/95 hover:bg-[#009bb3] text-slate-800 hover:text-white transition-colors shadow-sm flex items-center justify-center cursor-pointer"
-                    title={currentLang === 'id' ? 'Lihat Foto & Spek' : 'View Photos & Specs'}
+                    title={uiTexts.viewSpecs}
                   >
                     <Eye className="w-4 h-4" />
                   </button>
@@ -190,19 +218,19 @@ export default function ExportCommodities({
                   {/* Specs Quick Matrix */}
                   <div className="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 space-y-2 mb-4 text-[11px]">
                     <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.origin || 'Asal Perairan:'}</span>
+                      <span>{t.commodities?.origin || (currentLang === 'ar' ? 'ميناء المنشأ:' : 'Asal Perairan:')}</span>
                       <span className="text-slate-800 font-semibold text-right max-w-[180px] truncate">{item.origin}</span>
                     </div>
                     <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.grade || 'Standar Grade:'}</span>
+                      <span>{t.commodities?.grade || (currentLang === 'ar' ? 'معيار الجودة:' : 'Standar Grade:')}</span>
                       <span className="text-[#009bb3] font-black">{item.specification.grade}</span>
                     </div>
                     <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.moq || 'Min. Order (MOQ):'}</span>
+                      <span>{t.commodities?.moq || (currentLang === 'ar' ? 'الحد الأدنى للطلب (MOQ):' : 'Min. Order (MOQ):')}</span>
                       <span className="text-slate-800 font-bold">{item.specification.moq}</span>
                     </div>
                     <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.supplyCapacity || 'Kapasitas Pasokan:'}</span>
+                      <span>{t.commodities?.supplyCapacity || (currentLang === 'ar' ? 'طاقة الإمداد:' : 'Kapasitas Pasokan:')}</span>
                       <span className="text-[#519992] font-black">{item.supplyCapacity}</span>
                     </div>
                   </div>
@@ -210,7 +238,7 @@ export default function ExportCommodities({
                   {/* Certifications badges */}
                   <div className="space-y-1.5">
                     <span className="text-[10px] text-slate-500 uppercase tracking-wider font-extrabold block">
-                      {t.commodities?.certifications || 'Sertifikasi Mutu:'}
+                      {t.commodities?.certifications || (currentLang === 'ar' ? 'شهادات الجودة:' : 'Sertifikasi Mutu:')}
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {item.certifications.slice(0, 3).map((cert, idx) => (
@@ -239,15 +267,15 @@ export default function ExportCommodities({
                   onClick={() => openCommodityDetail(item)}
                   className="flex-1 py-2.5 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors text-center cursor-pointer"
                 >
-                  {currentLang === 'id' ? 'Detail Produk' : 'View Details'}
+                  {uiTexts.viewDetails}
                 </button>
                 <button
                   type="button"
                   onClick={() => onSelectCommodityForQuote(item.name)}
                   className="flex-1 py-2.5 px-3 rounded-lg bg-[#009bb3] hover:bg-[#008399] text-white text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-2xs hover:shadow-sm cursor-pointer"
                 >
-                  <span>{currentLang === 'id' ? 'Minta Penawaran' : 'Request Quote'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>{uiTexts.requestQuote}</span>
+                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
                 </button>
               </div>
 
@@ -283,7 +311,7 @@ export default function ExportCommodities({
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-sm text-[11px] font-mono text-white">
-                      Foto {activeImageIndex + 1} dari {activeModalCommodity.galleryImages.length}
+                      {uiTexts.photoCount(activeImageIndex + 1, activeModalCommodity.galleryImages.length)}
                     </div>
                   </div>
 
@@ -306,7 +334,7 @@ export default function ExportCommodities({
                 {/* Country Trade Highlights */}
                 <div className="mt-6 pt-4 border-t border-slate-200 text-xs">
                   <span className="text-slate-500 block mb-2 font-extrabold uppercase tracking-wider text-[10px]">
-                    Destinasi Utama Ekspor Komoditas Ini:
+                    {uiTexts.destinations}
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {activeModalCommodity.keyMarkets.map((market, idx) => (
@@ -327,7 +355,7 @@ export default function ExportCommodities({
                       HS Code: {activeModalCommodity.hsCode}
                     </span>
                     <span className="text-xs text-slate-500 font-medium">
-                      Kategori: {getCategoryLabel('product', activeModalCommodity.category, currentLang)}
+                      {uiTexts.category} {getCategoryLabel('product', activeModalCommodity.category, currentLang)}
                     </span>
                   </div>
 
@@ -344,38 +372,38 @@ export default function ExportCommodities({
 
                   {/* Detailed Spec Sheet Table */}
                   <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-2.5">
-                    Lembar Spesifikasi Mutu Ekspor:
+                    {uiTexts.specSheet}
                   </h4>
                   <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2 text-xs">
                     <div className="grid grid-cols-3 py-1 border-b border-slate-200">
-                      <span className="text-slate-500">Wilayah Asal:</span>
+                      <span className="text-slate-500">{uiTexts.origin}</span>
                       <span className="col-span-2 text-slate-900 font-semibold">{activeModalCommodity.origin}</span>
                     </div>
                     <div className="grid grid-cols-3 py-1 border-b border-slate-200">
-                      <span className="text-slate-500">Standar Grade:</span>
+                      <span className="text-slate-500">{uiTexts.grade}</span>
                       <span className="col-span-2 text-[#009bb3] font-black">{activeModalCommodity.specification.grade}</span>
                     </div>
                     {activeModalCommodity.specification.moisture && (
                       <div className="grid grid-cols-3 py-1 border-b border-slate-200">
-                        <span className="text-slate-500">Kadar Air (Moisture):</span>
+                        <span className="text-slate-500">{uiTexts.moisture}</span>
                         <span className="col-span-2 text-slate-800">{activeModalCommodity.specification.moisture}</span>
                       </div>
                     )}
                     <div className="grid grid-cols-3 py-1 border-b border-slate-200">
-                      <span className="text-slate-500">Standar Kemasan:</span>
+                      <span className="text-slate-500">{uiTexts.packaging}</span>
                       <span className="col-span-2 text-slate-800">{activeModalCommodity.specification.packaging}</span>
                     </div>
                     <div className="grid grid-cols-3 py-1 border-b border-slate-200">
-                      <span className="text-slate-500">Minimum Order (MOQ):</span>
+                      <span className="text-slate-500">{uiTexts.moq}</span>
                       <span className="col-span-2 text-[#519992] font-black">{activeModalCommodity.specification.moq}</span>
                     </div>
                     <div className="grid grid-cols-3 py-1 border-b border-slate-200">
-                      <span className="text-slate-500">Kapasitas Pasokan:</span>
+                      <span className="text-slate-500">{uiTexts.supplyCapacity}</span>
                       <span className="col-span-2 text-slate-800">{activeModalCommodity.supplyCapacity}</span>
                     </div>
                     {activeModalCommodity.specification.colorTexture && (
                       <div className="grid grid-cols-3 py-1">
-                        <span className="text-slate-500">Karakteristik Fisik:</span>
+                        <span className="text-slate-500">{uiTexts.characteristics}</span>
                         <span className="col-span-2 text-slate-700">{activeModalCommodity.specification.colorTexture}</span>
                       </div>
                     )}
@@ -384,7 +412,7 @@ export default function ExportCommodities({
                   {/* Certifications Row */}
                   <div className="mt-4 space-y-1.5">
                     <span className="text-[10px] text-slate-500 uppercase tracking-wider font-extrabold block">
-                      Sertifikat & Izin Laboratorium Tersedia:
+                      {uiTexts.certifications}
                     </span>
                     <div className="flex flex-wrap gap-2">
                       {activeModalCommodity.certifications.map((c, i) => (
@@ -407,13 +435,13 @@ export default function ExportCommodities({
                     className="flex-1 py-3 px-5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-md shadow-teal-500/20 cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
-                    <span>Minta Penawaran Harga (FOB / CIF / CFR)</span>
+                    <span>{uiTexts.modalRfq}</span>
                   </button>
                   <button
                     onClick={() => setActiveModalCommodity(null)}
                     className="py-3 px-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
                   >
-                    Tutup
+                    {uiTexts.close}
                   </button>
                 </div>
 
