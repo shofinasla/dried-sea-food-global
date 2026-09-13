@@ -16,7 +16,7 @@ import {
 
 export const COMPANY_PROFILE = {
   name: 'Dried Seafood Global',
-  legalName: 'PT Dried Seafood Global Indonesia',
+  legalName: 'PT Samdura Bara Persada',
   shortName: 'Dried Seafood Global',
   tagline: 'Supplying Indonesia\'s Finest Dried Seafood & Heritage Marine Products Worldwide',
   description: 'Perusahaan eksportir terkemuka produk ikan asin, teri nasi super, cumi kering, gelembung ikan (fish maw), dan hasil laut kering khas Nusantara dengan sertifikasi HACCP, KKP, dan standar karantina perikanan internasional.',

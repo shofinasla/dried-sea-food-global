@@ -44,52 +44,91 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
     <section id="tentang" className="py-20 bg-slate-50 text-slate-800 border-b border-slate-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Inspiration: TENTANG KAMI */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
-            <Building2 className="w-3.5 h-3.5 text-[#009bb3]" />
-            <span>TENTANG KAMI</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 uppercase font-sans">
-            Solusi Ekspor Hasil Laut Berkualitas dari Indonesia
-          </h2>
-          <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Menghubungkan sentra nelayan pesisir Nusantara dengan pasar kuliner &amp; distributor internasional melalui standarisasi mutu kering higienis, legalitas resmi, dan rantai pasok terpercaya.
-          </p>
-        </div>
-
-        {/* MODERN PROCESSING FACILITY HERO BANNER */}
-        <div className="mb-14 relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 bg-white">
-          <div className="relative h-64 sm:h-80 md:h-96 w-full">
-            <img 
-              src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=1600&q=85" 
-              alt="Fasilitas Pengolahan dan Sortasi Higienis Shrimora"
-              className="w-full h-full object-cover object-center"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
-            
-            <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-white">
-              <div className="max-w-xl">
-                <span className="inline-block px-3 py-1 rounded-full bg-teal-500/90 text-white font-bold text-xs uppercase tracking-wider mb-2 backdrop-blur-sm">
-                  HIGIENIS &amp; STERIL
-                </span>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold leading-snug">
-                  Standarisasi Pengolahan &amp; Pengemasan Ekspor Internasional
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-200 mt-2 line-clamp-2 leading-relaxed">
-                  Pekerja bersertifikasi dengan seragam steril dan meja stainless steel SUS-304 guna menjamin mutu ikan asin dan hasil laut kering bebas kontaminasi.
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold whitespace-nowrap">
-                  HACCP Grade A
-                </span>
-                <span className="px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold whitespace-nowrap">
-                  Zero Formalin
-                </span>
-              </div>
+        {/* SHORT COMPANY INTRODUCTION (Dried Seafood Global & PT Samdura Bara Persada) */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-14 shadow-xs">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider mb-4">
+              <Building2 className="w-3.5 h-3.5 text-[#009bb3]" />
+              <span>{currentLang === 'id' ? 'PROFIL PERUSAHAAN' : 'CORPORATE INTRODUCTION'}</span>
             </div>
+            
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight leading-tight">
+              {currentLang === 'id' 
+                ? 'Dried Seafood Global — Dioperasikan oleh PT Samdura Bara Persada'
+                : 'Dried Seafood Global — Operated by PT Samdura Bara Persada'}
+            </h2>
+            
+            <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
+              {currentLang === 'id'
+                ? 'Platform dan perusahaan ekspor hasil laut kering asal Indonesia yang berfokus melayani importir internasional, distributor grosir, dan industri pengolahan pangan melalui rantai pasok terstandarisasi, kadar air terkontrol, serta kepatuhan karantina resmi.'
+                : 'A dedicated Indonesian dried seafood export platform operated by PT Samdura Bara Persada, supplying international importers, wholesalers, and food manufacturers with standardized quality, controlled moisture, and official quarantine clearance.'}
+            </p>
+          </div>
+
+          {/* 3 Key Verified Facts */}
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-6 border-t border-slate-100">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <div className="text-[10px] font-bold text-[#009bb3] uppercase tracking-wider mb-1">
+                {currentLang === 'id' ? 'FAKTA 1 • SOURCING PESISIR' : 'FACT 1 • COASTAL SOURCING'}
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 mb-1">
+                {currentLang === 'id' ? 'Kemitraan 1.200+ Nelayan' : '1,200+ Partner Fishermen'}
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                {currentLang === 'id'
+                  ? 'Pasokan langsung dari sentra nelayan pesisir Pantura Jawa, Sumatra, dan Sulawesi dengan metode tangkap selektif.'
+                  : 'Direct coastal sourcing across Java, Sumatra, and Sulawesi with selective artisanal fishing practices.'}
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <div className="text-[10px] font-bold text-[#009bb3] uppercase tracking-wider mb-1">
+                {currentLang === 'id' ? 'FAKTA 2 • MUTU & HIGIENITAS' : 'FACT 2 • QUALITY & HYGIENE'}
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 mb-1">
+                {currentLang === 'id' ? '100% Bebas Bahan Kimia' : '100% Zero Formalin / Additives'}
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                {currentLang === 'id'
+                  ? 'Pengeringan surya alami dan kubah tertutup dengan kadar air terstandarisasi ≤ 12-18% dan garam laut murni.'
+                  : 'Natural sun-drying & enclosed solar domes with moisture controlled ≤ 12-18% using pure sea salt.'}
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+              <div className="text-[10px] font-bold text-[#009bb3] uppercase tracking-wider mb-1">
+                {currentLang === 'id' ? 'FAKTA 3 • LEGALITAS RESMI' : 'FACT 3 • OFFICIAL COMPLIANCE'}
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 mb-1">
+                {currentLang === 'id' ? 'NIB & Karantina BKIPM' : 'NIB & Quarantine Certified'}
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                {currentLang === 'id'
+                  ? 'Terdaftar resmi NIB 1408230135849 dengan Health Certificate resmi dari BKIPM KKP untuk setiap pengiriman.'
+                  : 'Registered NIB 1408230135849 with official Health Certificates issued by BKIPM Marine Fisheries.'}
+              </p>
+            </div>
+          </div>
+
+          {/* Learn More Action Button */}
+          <div className="mt-6 flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-slate-100">
+            <span className="text-xs text-slate-500">
+              {currentLang === 'id' ? 'Badan Hukum Resmi: PT Samdura Bara Persada' : 'Official Operating Entity: PT Samdura Bara Persada'}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('profile');
+                const tabsElement = document.getElementById('about-tabs-container');
+                if (tabsElement) {
+                  tabsElement.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#009bb3] hover:text-[#008399] transition-colors cursor-pointer"
+            >
+              <span>{currentLang === 'id' ? 'Pelajari Profil Lengkap & Legalitas' : 'Learn More About Corporate Profile'}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
@@ -163,7 +202,7 @@ export default function AboutServices({ onSelectServiceForQuote }: AboutServices
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex justify-center mb-12">
+        <div id="about-tabs-container" className="flex justify-center mb-12">
           <div className="inline-flex p-1.5 rounded-2xl bg-white border border-slate-200 shadow-sm flex-wrap gap-1 justify-center max-w-full">
             <button
               onClick={() => setActiveTab('services')}
