@@ -22,7 +22,7 @@ import { useTranslation } from '../i18n/LanguageContext';
 import { SupportedLanguage } from '../i18n/translations';
 
 interface NavbarProps {
-  onOpenAdmin: () => void;
+  onOpenAdmin?: () => void;
   onOpenSSLModal: () => void;
   onOpenCatalogModal?: () => void;
   onScrollTo?: (id: string) => void;
@@ -31,7 +31,6 @@ interface NavbarProps {
 }
 
 export default function Navbar({ 
-  onOpenAdmin, 
   onOpenSSLModal, 
   onOpenCatalogModal,
   onScrollTo, 
@@ -167,18 +166,17 @@ export default function Navbar({
             <span className="text-slate-300 hidden md:inline">|</span>
 
             {/* Live Global Activity Indicator */}
-            <button
-              onClick={onOpenAdmin}
-              id="top-bar-live-analytics-btn"
-              title="Lihat Telemetri & Aktivitas Buyer Global Real-Time"
-              className="hidden md:inline-flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-slate-900 transition-colors cursor-pointer shrink-0"
+            <div
+              id="top-bar-live-analytics-badge"
+              title="Live Active Buyers Telemetry"
+              className="hidden md:inline-flex items-center gap-1.5 text-[11px] text-slate-600 shrink-0 select-none"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
               </span>
               <span><strong className="text-teal-700 font-mono font-bold">{activeVisitors}</strong> {t.topBar.buyersOnline}</span>
-            </button>
+            </div>
           </div>
 
           {/* Right: Hotline, Multilingual Selector & Admin Portal */}
@@ -286,18 +284,6 @@ export default function Navbar({
                 </div>
               )}
             </div>
-
-            {/* Admin Portal Button */}
-            <button 
-              onClick={onOpenAdmin}
-              id="btn-open-admin-top"
-              title="Buka Portal Manajemen Ekspor & CMS"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-teal-700 bg-white hover:bg-slate-100 border border-slate-200 hover:border-slate-300 px-2.5 py-1 rounded-md transition-all shadow-2xs cursor-pointer"
-            >
-              <Lock className="w-3 h-3 text-teal-600" />
-              <span className="hidden sm:inline">{t.topBar.adminPortal}</span>
-              <span className="sm:hidden font-bold">Admin</span>
-            </button>
           </div>
         </div>
       </div>
@@ -575,14 +561,6 @@ export default function Navbar({
             >
               <Calculator className="w-4 h-4 text-[#009bb3]" />
               <span>{t.nav.shippingCalc}</span>
-            </button>
-            <button
-              onClick={() => { setMobileMenuOpen(false); onOpenAdmin(); }}
-              id="mobile-btn-admin-open"
-              className="w-full inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-600 font-medium py-2 rounded-xl text-xs hover:bg-slate-100"
-            >
-              <Lock className="w-3.5 h-3.5 text-[#009bb3]" />
-              <span>{t.nav.adminOpen}</span>
             </button>
           </div>
 

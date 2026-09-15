@@ -89,9 +89,7 @@ export default function PartnersPage({ onBackToHome, onOpenContact }: PartnersPa
                   )}
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#009bb3]">
-                    {isAr ? partner.categoryAr || partner.category : isId ? partner.category : partner.categoryEn || partner.category}
-                  </p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#009bb3]">{partner.category}</p>
                   <h3 className="mt-2 text-xl font-black text-slate-950">{partner.name}</h3>
                 </div>
               </div>

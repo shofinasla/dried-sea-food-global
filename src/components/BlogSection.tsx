@@ -21,11 +21,11 @@ import { getAllCategoryLabel, getCategoryLabel } from '../i18n/categoryLabels';
 
 interface BlogSectionProps {
   posts: BlogPost[];
-  onOpenAdmin: () => void;
+  onOpenAdmin?: () => void;
   onAddComment: (postId: string, comment: { author: string; email: string; content: string }) => void;
 }
 
-export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSectionProps) {
+export default function BlogSection({ posts, onAddComment }: BlogSectionProps) {
   const { currentLang } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -99,15 +99,6 @@ export default function BlogSection({ posts, onOpenAdmin, onAddComment }: BlogSe
               Panduan mendalam mengenai standar kualitas ekspor ikan asin, kepatuhan karantina internasional BKIPM, teknologi pengeringan higienis, serta peluang pasar diaspora di Asia & Amerika.
             </p>
           </div>
-
-          <button
-            onClick={onOpenAdmin}
-            id="btn-admin-blog-shortcut"
-            className="self-start md:self-auto inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-200 text-[#009bb3] text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
-            <span>Tulis Artikel Baru (Admin CMS)</span>
-          </button>
         </div>
 
         {/* Search & Category Filter Controls */}

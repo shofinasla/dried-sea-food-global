@@ -23,11 +23,11 @@ interface FooterProps {
   onOpenCompany: () => void;
   onOpenPartners: () => void;
   onOpenSSLModal: () => void;
-  onOpenAdmin: () => void;
+  onOpenAdmin?: () => void;
   onOpen404?: () => void;
 }
 
-export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOpenSSLModal, onOpenAdmin, onOpen404 }: FooterProps) {
+export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOpenSSLModal, onOpen404 }: FooterProps) {
   const { t, currentLang, setLanguage } = useTranslation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -131,11 +131,10 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
             </ul>
           </div>
 
-          {/* Col 4: Portals & Admin */}
+          {/* Col 4: Compliance & Certifications */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">{t.footer?.complianceTitle || 'Compliance & Ports'}</h4>
             <ul className="space-y-2">
-              <li><button onClick={onOpenAdmin} className="text-[#009bb3] hover:underline font-bold cursor-pointer">{t.topBar?.adminPortal || 'Admin'}</button></li>
               <li><button onClick={onOpenSSLModal} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">TLS 1.3 EV SSL Certificate</button></li>
               <li><span className="text-slate-400">HACCP Grade A Certified</span></li>
               <li><span className="text-slate-400">BPJPH Halal Indonesia</span></li>
@@ -225,8 +224,6 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
             <button onClick={onOpenSSLModal} className="hover:text-[#009bb3] cursor-pointer">TLS 1.3 Verified</button>
             <span>•</span>
             <button onClick={() => onScrollTo('#kontak')} className="hover:text-[#009bb3] cursor-pointer">Contact & RFQ</button>
-            <span>•</span>
-            <button onClick={onOpenAdmin} className="text-[#009bb3] font-semibold hover:underline cursor-pointer">Admin CMS</button>
             {onOpen404 && (
               <>
                 <span>•</span>

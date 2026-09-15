@@ -2,18 +2,15 @@ import { useState, useEffect } from 'react';
 import { 
   Home, 
   Search, 
-  ArrowLeft, 
   Package, 
   Calculator, 
   FileCheck2, 
-  PhoneCall, 
   Mail, 
   ShieldCheck, 
   Compass, 
   Globe2, 
   ArrowRight,
-  ExternalLink,
-  Lock
+  PhoneCall
 } from 'lucide-react';
 import { COMPANY_PROFILE } from '../data/initialData';
 import { useTranslation } from '../i18n/LanguageContext';
@@ -21,7 +18,6 @@ import { useTranslation } from '../i18n/LanguageContext';
 interface NotFoundPageProps {
   onBackToHome: () => void;
   onScrollToSection: (sectionId: string) => void;
-  onOpenAdmin: () => void;
   onOpenSSLModal: () => void;
   onOpenCatalogModal?: () => void;
 }
@@ -29,9 +25,7 @@ interface NotFoundPageProps {
 export default function NotFoundPage({
   onBackToHome,
   onScrollToSection,
-  onOpenAdmin,
-  onOpenSSLModal,
-  onOpenCatalogModal
+  onOpenSSLModal
 }: NotFoundPageProps) {
   const { t, currentLang } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
@@ -116,14 +110,6 @@ export default function NotFoundPage({
             >
               <Home className="w-3.5 h-3.5" />
               <span>{currentLang === 'id' ? 'Beranda' : 'Home'}</span>
-            </button>
-
-            <button
-              onClick={onOpenAdmin}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-50 text-[#009bb3] hover:bg-teal-100 border border-teal-200 text-xs font-semibold transition-all cursor-pointer"
-            >
-              <Lock className="w-3.5 h-3.5" />
-              <span>Admin</span>
             </button>
           </div>
         </div>

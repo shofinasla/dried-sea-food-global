@@ -11,7 +11,6 @@ import LocationMap from './components/LocationMap';
 import BlogSection from './components/BlogSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import AdminCMSModal from './components/AdminCMSModal';
 import SSLSecurityModal from './components/SSLSecurityModal';
 import ExportCatalogModal from './components/ExportCatalogModal';
 import NotFoundPage from './components/NotFoundPage';
@@ -19,6 +18,8 @@ import CompanyPage from './components/CompanyPage';
 import PartnersPage from './components/PartnersPage';
 import StrategicPartners from './components/StrategicPartners';
 import WhatsAppFloatingWidget from './components/WhatsAppFloatingWidget';
+import AdminLayout from './components/admin/AdminLayout';
+import AdminLogin from './components/admin/AdminLogin';
 import { EXPORT_COMMODITIES, INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
 import { BlogPost, BlogComment, GalleryItem, ContactInquiry, SEOSettings, ExportCommodity } from './types';
 import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
@@ -56,7 +57,10 @@ export default function App() {
   const [seoSettings, setSeoSettings] = useState<SEOSettings>(INITIAL_SEO_SETTINGS);
   const [liveVisitors, setLiveVisitors] = useState<number>(46);
 
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  // Admin Auth State
+  const [adminUser, setAdminUser] = useState<{ id: string; username: string; name: string; role: string } | null>(null);
+  const [checkingAdminAuth, setCheckingAdminAuth] = useState(true);
+
   const [isSSLModalOpen, setIsSSLModalOpen] = useState(false);
   const [isCatalogModalOpen, setIsCatalogModalOpen] = useState(false);
   const [prefilledService, setPrefilledService] = useState<string>('');
@@ -68,7 +72,7 @@ export default function App() {
     estimatedPriceUSD: number;
   } | null>(null);
 
-  // Client-side route detection (supporting /404 and unknown routes)
+  // Client-side route detection (supporting /admin, /company, /partners, /404, etc.)
   const [currentPath, setCurrentPath] = useState<string>(() => {
     return typeof window !== 'undefined' ? window.location.pathname : '/';
   });
@@ -94,8 +98,23 @@ export default function App() {
     }
   };
 
+  // Check admin session with backend on mount
+  useEffect(() => {
+    fetch('/api/admin/me', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.authenticated && data.user) {
+          setAdminUser(data.user);
+        } else {
+          setAdminUser(null);
+        }
+      })
+      .catch(() => setAdminUser(null))
+      .finally(() => setCheckingAdminAuth(false));
+  }, []);
+
   // Route Parser: Extracts language subdirectory and page subpath
-  // Supports: /, /id/, /ar/, /company, /id/company, /ar/company, /partners, /id/partners, /ar/partners
+  // Supports: /, /id/, /ar/, /admin, /company, /partners
   const normalizedRaw = currentPath.toLowerCase().replace(/\/+$/, '') || '/';
   
   let currentLangPrefix = '';
@@ -112,11 +131,14 @@ export default function App() {
   const isHome = subPath === '/' || subPath === '/index.html';
   const isCompany = subPath === '/company';
   const isPartners = subPath === '/partners';
-  const is404 = !isHome && !isCompany && !isPartners;
+  const isAdminRoute = subPath === '/admin' || normalizedRaw === '/admin' || normalizedRaw.startsWith('/admin/');
+  const is404 = !isHome && !isCompany && !isPartners && !isAdminRoute;
   const homeUrl = currentLangPrefix ? `${currentLangPrefix}/` : '/';
 
-  // Fetch initial data from server APIs
+  // Fetch initial public data from server APIs
   useEffect(() => {
+    if (isAdminRoute) return;
+
     // 1. Fetch Blog Posts
     fetch('/api/blog')
       .then(res => res.json())
@@ -141,7 +163,7 @@ export default function App() {
       })
       .catch(err => console.log('API gallery load fallback to memory', err));
 
-    // 3. Fetch Inquiries for Admin CMS
+    // 3. Fetch Inquiries
     fetch('/api/contact/messages')
       .then(res => res.json())
       .then(data => {
@@ -159,7 +181,7 @@ export default function App() {
       })
       .catch(err => console.log('API SEO fallback to memory', err));
 
-    // 4. Real-time Telemetry Ping & Active Visitor counter
+    // 5. Real-time Telemetry Ping & Active Visitor counter
     pingVisitorPresence();
     fetch('/api/analytics/realtime')
       .then(res => res.json())
@@ -184,7 +206,7 @@ export default function App() {
     }, 20000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isAdminRoute]);
 
   // Keep analytics and verification settings in sync with the admin panel.
   // LanguageContext owns translated title and description metadata.
@@ -425,6 +447,36 @@ export default function App() {
     }
   };
 
+  // Admin Route: completely isolated from public pages
+  if (isAdminRoute) {
+    if (checkingAdminAuth) {
+      return (
+        <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center gap-3">
+          <div className="w-10 h-10 border-2 border-teal-500/30 border-t-teal-500 rounded-full animate-spin" />
+          <div className="text-xs font-mono text-slate-400">Verifying security credentials...</div>
+        </div>
+      );
+    }
+
+    if (!adminUser) {
+      return (
+        <AdminLogin 
+          onLoginSuccess={(user) => setAdminUser(user)} 
+        />
+      );
+    }
+
+    return (
+      <AdminLayout 
+        currentUser={adminUser} 
+        onLogout={() => {
+          setAdminUser(null);
+          navigateTo('/');
+        }} 
+      />
+    );
+  }
+
   if (isCompany) {
     return <CompanyPage onBackToHome={() => navigateTo(homeUrl)} />;
   }
@@ -452,28 +504,8 @@ export default function App() {
               handleScrollTo(sectionId);
             }, 120);
           }}
-          onOpenAdmin={() => setIsAdminOpen(true)}
           onOpenSSLModal={() => setIsSSLModalOpen(true)}
           onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
-        />
-
-        {/* Modals accessible from 404 page */}
-        <AdminCMSModal
-          isOpen={isAdminOpen}
-          onClose={() => setIsAdminOpen(false)}
-          blogPosts={blogPosts}
-          galleryItems={galleryItems}
-          inquiries={inquiries}
-          seoSettings={seoSettings}
-          products={products}
-          onSaveBlogPost={handleSaveBlogPost}
-          onDeleteBlogPost={handleDeleteBlogPost}
-          onSaveGalleryItem={handleSaveGalleryItem}
-          onDeleteGalleryItem={handleDeleteGalleryItem}
-          onUpdateInquiryStatus={handleUpdateInquiryStatus}
-          onSaveSEOSettings={handleSaveSEOSettings}
-          onSaveProduct={handleSaveProduct}
-          onDeleteProduct={handleDeleteProduct}
         />
 
         <SSLSecurityModal
@@ -498,7 +530,6 @@ export default function App() {
       
       {/* Top Fixed Header Navbar */}
       <Navbar
-        onOpenAdmin={() => setIsAdminOpen(true)}
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
         onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
         onScrollTo={handleScrollTo}
@@ -540,7 +571,6 @@ export default function App() {
         {/* 6. High-Resolution Responsive Photo Gallery with Lightbox */}
         <PhotoGallery
           items={galleryItems}
-          onOpenAdmin={() => setIsAdminOpen(true)}
         />
 
         {/* 7. Verified Global Importer & Buyer Testimonials */}
@@ -552,7 +582,6 @@ export default function App() {
         {/* 9. Blog & Industrial Intelligence Reader with Comments */}
         <BlogSection
           posts={blogPosts}
-          onOpenAdmin={() => setIsAdminOpen(true)}
           onAddComment={handleAddBlogComment}
         />
 
@@ -571,27 +600,7 @@ export default function App() {
         onOpenCompany={() => navigateTo('/company')}
         onOpenPartners={() => navigateTo('/partners')}
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
-        onOpenAdmin={() => setIsAdminOpen(true)}
         onOpen404={() => navigateTo('/404')}
-      />
-
-      {/* Admin Content Management System (CMS) & Analytics Portal */}
-      <AdminCMSModal
-        isOpen={isAdminOpen}
-        onClose={() => setIsAdminOpen(false)}
-        blogPosts={blogPosts}
-        galleryItems={galleryItems}
-        inquiries={inquiries}
-        seoSettings={seoSettings}
-        products={products}
-        onSaveBlogPost={handleSaveBlogPost}
-        onDeleteBlogPost={handleDeleteBlogPost}
-        onSaveGalleryItem={handleSaveGalleryItem}
-        onDeleteGalleryItem={handleDeleteGalleryItem}
-        onUpdateInquiryStatus={handleUpdateInquiryStatus}
-        onSaveSEOSettings={handleSaveSEOSettings}
-        onSaveProduct={handleSaveProduct}
-        onDeleteProduct={handleDeleteProduct}
       />
 
       {/* SSL / TLS 1.3 Extended Validation Certificate Modal */}

@@ -26,6 +26,20 @@ export interface StrategicPartner {
   initials: string;
 }
 
+export interface AdminStats {
+  totalProducts: number;
+  activeProducts: number;
+  totalArticles: number;
+  publishedArticles: number;
+  totalInquiries: number;
+  newInquiries: number;
+  totalGallery: number;
+  activeVisitors: number;
+}
+
+export type ExportInquiry = ContactInquiry;
+export type SeoConfig = SEOSettings;
+
 export interface ServiceItem {
   id: string;
   title: string;
@@ -66,6 +80,22 @@ export interface GalleryItem {
   dimensions?: string;
 }
 
+export interface AdminUser {
+  id: string;
+  username: string;
+  name: string;
+  role: 'admin' | 'editor' | 'author';
+  email?: string;
+  avatarUrl?: string;
+  lastLogin?: string;
+}
+
+export interface AdminAuthSession {
+  token: string;
+  user: AdminUser;
+  expiresAt: number;
+}
+
 export interface BlogComment {
   id: string;
   author: string;
@@ -94,7 +124,7 @@ export interface BlogPost {
     roleAr?: string;
     avatar: string;
   };
-  category: 'Industri' | 'Teknologi' | 'Sustainability' | 'Kasus Nyata' | 'Update Korporat' | 'Ekspor & Pasar' | 'Kualitas & Higienitas' | 'Regulasi & Karantina' | 'Nelayan & Mutu';
+  category: 'Industri' | 'Teknologi' | 'Sustainability' | 'Kasus Nyata' | 'Update Korporat' | 'Ekspor & Pasar' | 'Kualitas & Higienitas' | 'Regulasi & Karantina' | 'Nelayan & Mutu' | string;
   tags: string[];
   readTime: string;
   readTimeEn?: string;
@@ -102,9 +132,16 @@ export interface BlogPost {
   publishedAt: string;
   publishedAtEn?: string;
   publishedAtAr?: string;
+  status?: 'published' | 'draft';
   featured?: boolean;
   comments: BlogComment[];
   seoKeywords?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
+  canonicalUrl?: string;
+  ogImageUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface OfficeLocation {
@@ -127,19 +164,25 @@ export interface OfficeLocation {
 export interface ContactInquiry {
   id: string;
   name: string;
+  contactPerson?: string;
   email: string;
   phone: string;
   companyName: string;
-  inquiryType: 'Permintaan Penawaran (RFQ)' | 'Kemitraan Strategis' | 'Dukungan Logistik' | 'Konsultasi Ekspor-Impor' | 'Lainnya';
+  inquiryType?: 'Permintaan Penawaran (RFQ)' | 'Kemitraan Strategis' | 'Dukungan Logistik' | 'Konsultasi Ekspor-Impor' | 'Lainnya' | string;
   message: string;
+  commodity?: string;
+  volumeTons?: number;
+  shippingTerms?: string;
+  notes?: string;
+  submittedAt?: string;
   originCountry?: string;
   destinationCountry?: string;
   estimatedWeight?: number;
   createdAt: string;
-  status: 'new' | 'reviewed' | 'responded' | 'archived';
+  status: 'new' | 'reviewed' | 'responded' | 'archived' | 'quoted' | 'closed' | 'in_review';
   replyNotes?: string;
   ipLocation?: string;
-  sslEncrypted: boolean;
+  sslEncrypted?: boolean;
 }
 
 export interface CountryInfo {
@@ -221,10 +264,13 @@ export interface AnalyticsSummary {
 
 export interface SEOSettings {
   metaTitle: string;
+  siteTitle?: string;
   metaDescription: string;
+  keywords?: string[];
   focusKeywords: string[];
   canonicalUrl: string;
   ogImageUrl: string;
+  author?: string;
   structuredDataType: 'Organization' | 'LogisticsService' | 'Corporation';
   robotsIndex: boolean;
   robotsFollow: boolean;
@@ -243,6 +289,7 @@ export interface ExportCommodity {
   name: string;
   nameAr?: string;
   nameZh?: string;
+  latinName?: string;
   indonesianName: string;
   category: 
     | 'Ikan Teri & Bilis Kering' 
@@ -256,31 +303,59 @@ export interface ExportCommodity {
   origin: string;
   originEn?: string;
   originAr?: string;
-  specification: {
-    grade: string;
+  specification?: {
+    grade?: string;
     gradeEn?: string;
     gradeAr?: string;
     moisture?: string;
-    packaging: string;
+    packaging?: string;
     packagingEn?: string;
     packagingAr?: string;
-    moq: string;
+    moq?: string;
     shelfLife?: string;
     colorTexture?: string;
     colorTextureEn?: string;
     colorTextureAr?: string;
   };
-  supplyCapacity: string;
+  specifications?: {
+    grade?: string;
+    moisture?: string;
+    packaging?: string;
+    shelfLife?: string;
+    [key: string]: any;
+  };
+  supplyCapacity?: string;
   supplyCapacityEn?: string;
   supplyCapacityAr?: string;
-  certifications: string[];
-  keyMarkets: string[];
-  imageUrl: string;
-  galleryImages: string[];
+  certifications?: string[];
+  keyMarkets?: string[];
+  imageUrl?: string;
+  image?: string;
+  galleryImages?: string[];
   description: string;
   descriptionEn?: string;
   descriptionAr?: string;
+  shortDescription?: string;
+  slug?: string;
+  sku?: string;
+  price?: number;
+  priceUSDPerKg?: number;
+  priceIDRPerKg?: number;
+  moqKg?: number;
+  comparePrice?: number;
+  stock?: number;
+  unit?: string;
+  brand?: string;
+  packaging?: string;
+  status?: 'published' | 'draft' | 'archived';
+  isPublished?: boolean;
   featured?: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+  canonicalUrl?: string;
+  ogImageUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ExportWorkflowStep {

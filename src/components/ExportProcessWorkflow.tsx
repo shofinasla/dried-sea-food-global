@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { EXPORT_WORKFLOW_STEPS } from '../data/initialData';
 import { useTranslation } from '../i18n/LanguageContext';
-import { getLocalizedWorkflowStep } from '../utils/localizedData';
 
 export default function ExportProcessWorkflow() {
   const { currentLang } = useTranslation();
@@ -88,7 +87,6 @@ export default function ExportProcessWorkflow() {
   };
 
   const texts = getWorkflowTexts();
-  const localizedSteps = EXPORT_WORKFLOW_STEPS.map(step => getLocalizedWorkflowStep(step, currentLang));
 
   return (
     <section id="alur-ekspor" className="py-24 bg-slate-50 relative border-t border-b border-slate-200 overflow-hidden">
@@ -113,7 +111,7 @@ export default function ExportProcessWorkflow() {
 
         {/* Step Navigation Pill Selector (Desktop / Tablet) */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-10">
-          {localizedSteps.map((step, idx) => (
+          {EXPORT_WORKFLOW_STEPS.map((step, idx) => (
             <button
               key={step.stepNumber}
               onClick={() => setActiveStepIndex(idx)}
@@ -146,7 +144,7 @@ export default function ExportProcessWorkflow() {
 
         {/* Active Step Feature Highlight Showcase Card */}
         {(() => {
-          const currentStep = localizedSteps[activeStepIndex];
+          const currentStep = EXPORT_WORKFLOW_STEPS[activeStepIndex];
           return (
             <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all p-6 sm:p-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -162,7 +160,7 @@ export default function ExportProcessWorkflow() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
                   
                   <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white text-xs font-black tracking-wider uppercase shadow-md">
-                    {texts.stepLabel} {currentStep.stepNumber} / {localizedSteps.length}
+                    {texts.stepLabel} {currentStep.stepNumber} / {EXPORT_WORKFLOW_STEPS.length}
                   </div>
 
                   <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 text-xs shadow-sm">
@@ -207,12 +205,12 @@ export default function ExportProcessWorkflow() {
                     </button>
 
                     <span className="text-xs text-slate-400 font-mono font-bold">
-                      {activeStepIndex + 1} / {localizedSteps.length}
+                      {activeStepIndex + 1} / {EXPORT_WORKFLOW_STEPS.length}
                     </span>
 
                     <button
-                      disabled={activeStepIndex === localizedSteps.length - 1}
-                      onClick={() => setActiveStepIndex(prev => Math.min(localizedSteps.length - 1, prev + 1))}
+                      disabled={activeStepIndex === EXPORT_WORKFLOW_STEPS.length - 1}
+                      onClick={() => setActiveStepIndex(prev => Math.min(EXPORT_WORKFLOW_STEPS.length - 1, prev + 1))}
                       className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 disabled:opacity-30 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md shadow-teal-500/20 cursor-pointer"
                     >
                       <span>{texts.nextBtn}</span>

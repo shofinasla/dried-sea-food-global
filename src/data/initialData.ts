@@ -11,7 +11,8 @@ import {
   ContactInquiry,
   ExportCommodity,
   ExportWorkflowStep,
-  BuyerTestimonial
+  BuyerTestimonial,
+  StrategicPartner
 } from '../types';
 
 export const COMPANY_PROFILE = {
@@ -45,16 +46,14 @@ export const OFFICIAL_COMPLIANCE_DOCUMENTS = {
   ]
 };
 
-export const STRATEGIC_PARTNERS = [
+export const STRATEGIC_PARTNERS: StrategicPartner[] = [
   {
     id: 'shrimora',
     name: 'Shrimora',
     category: 'Brand & Produk Hasil Laut',
-    categoryEn: 'Marine Products Brand & OEM',
-    categoryAr: 'العلامات التجارية والتعبئة البحرية',
     description: 'Mitra brand untuk pengembangan dan pengemasan produk hasil laut berkualitas.',
-    descriptionEn: 'Strategic brand and packaging partner for premium value-added marine products.',
-    descriptionAr: 'شريك استراتيجي لتطوير وتعبئة المنتجات والمأكولات البحرية المجففة الفاخرة.',
+    descriptionEn: 'Brand partner for premium seafood product development, vacuum packaging, and private label international retail.',
+    descriptionAr: 'شريك العلامة التجارية لتطوير وتغليف المنتجات البحرية الفاخرة بأعلى معايير التجزئة العالمية.',
     logoUrl: '/logo-shrimora.png',
     initials: 'S'
   },
@@ -62,11 +61,9 @@ export const STRATEGIC_PARTNERS = [
     id: 'dapur-ikan-nusantara',
     name: 'Dapur Ikan Nusantara',
     category: 'Kuliner & Distribusi',
-    categoryEn: 'Culinary Supply & Distribution',
-    categoryAr: 'توريد المطاعم والتوزيع الغذائي',
     description: 'Mitra kolaborasi untuk memperluas akses produk ikan Nusantara ke pasar yang lebih luas.',
-    descriptionEn: 'Collaborative partner expanding Indonesian traditional dried fish distribution to international and culinary markets.',
-    descriptionAr: 'شريك توزيع وتوريد لسلاسل المطاعم والأسواق لترويج الأسماك الإندونيسية المجففة عالمياً.',
+    descriptionEn: 'Strategic partner expanding Indonesian marine heritage commodities and culinary distribution channels globally.',
+    descriptionAr: 'شريك استراتيجي لتوسيع قنوات توزيع المأكولات البحرية الإندونيسية التراثية في الأسواق الدولية.',
     logoUrl: '/logo-dapur-ikan-nusantara.png',
     initials: 'DIN'
   }

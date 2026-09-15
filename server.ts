@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
+import crypto from 'crypto';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 import { 
@@ -11,7 +12,7 @@ import {
   DEFAULT_SEO_SETTINGS,
   EXPORT_COMMODITIES
 } from './src/data/initialData';
-import { BlogPost, GalleryItem, ContactInquiry, ShippingCalculationRequest, ShippingCalculationResult } from './src/types';
+import { BlogPost, GalleryItem, ContactInquiry, ShippingCalculationRequest, ShippingCalculationResult, ExportCommodity, SEOSettings, AdminUser, AdminAuthSession } from './src/types';
 
 const app = express();
 const PORT = 3000;
@@ -50,9 +51,10 @@ app.use((req: Request, res: Response, next) => {
 
   const reqPath = req.path;
 
-  // Skip APIs, assets, RSS feeds, vite internal endpoints
+  // Skip APIs, admin routes, assets, RSS feeds, vite internal endpoints
   if (
     reqPath.startsWith('/api/') ||
+    reqPath.startsWith('/admin') ||
     reqPath.startsWith('/feed/') ||
     reqPath.startsWith('/@') ||
     reqPath.startsWith('/src/') ||
@@ -111,8 +113,120 @@ app.use((req: Request, res: Response, next) => {
   next();
 });
 
+// ----------------------------------------------------
+// SECURE ADMIN AUTHENTICATION & DATA STORES
+// ----------------------------------------------------
+const adminSalt = crypto.randomBytes(16).toString('hex');
+const initialAdminUsername = process.env.ADMIN_USERNAME || 'sayaadmin';
+const initialAdminPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Passdemak@1';
+const initialAdminHash = crypto.scryptSync(initialAdminPassword, adminSalt, 64).toString('hex');
+
+interface AdminUserData {
+  id: string;
+  username: string;
+  passwordHash: string;
+  salt: string;
+  name: string;
+  role: 'admin' | 'editor' | 'author';
+  email: string;
+  avatarUrl: string;
+  lastLogin: string;
+}
+
+let adminUsers: AdminUserData[] = [
+  {
+    id: 'admin-1',
+    username: initialAdminUsername,
+    passwordHash: initialAdminHash,
+    salt: adminSalt,
+    name: 'Admin Utama Shrimora & Direksi',
+    role: 'admin',
+    email: 'admin@driedseafoodglobal.com',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    lastLogin: new Date().toISOString()
+  }
+];
+
+const activeAdminSessions = new Map<string, {
+  token: string;
+  username: string;
+  role: 'admin' | 'editor' | 'author';
+  name: string;
+  email: string;
+  expiresAt: number;
+  createdAt: number;
+}>();
+
+function verifyPassword(password: string, hash: string, salt: string): boolean {
+  try {
+    const computedHash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return crypto.timingSafeEqual(Buffer.from(computedHash, 'hex'), Buffer.from(hash, 'hex'));
+  } catch {
+    return false;
+  }
+}
+
+function getSessionFromRequest(req: Request) {
+  let token = '';
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.slice(7).trim();
+  }
+  if (!token && req.headers.cookie) {
+    const cookies = req.headers.cookie.split(';').map(c => c.trim());
+    const sessionCookie = cookies.find(c => c.startsWith('admin_session='));
+    if (sessionCookie) {
+      token = sessionCookie.split('=')[1];
+    }
+  }
+  if (!token) return null;
+  const session = activeAdminSessions.get(token);
+  if (!session) return null;
+  if (Date.now() > session.expiresAt) {
+    activeAdminSessions.delete(token);
+    return null;
+  }
+  return session;
+}
+
+function requireAdminAuth(req: Request, res: Response, next: express.NextFunction) {
+  const session = getSessionFromRequest(req);
+  if (!session) {
+    return res.status(401).json({
+      success: false,
+      error: 'Unauthorized. Silakan login terlebih dahulu untuk mengakses area admin.'
+    });
+  }
+  (req as any).adminSession = session;
+  next();
+}
+
 // In-memory persistent state during runtime
-let blogPosts: BlogPost[] = [...INITIAL_BLOG_POSTS];
+let commodities: ExportCommodity[] = EXPORT_COMMODITIES.map((c, idx) => ({
+  ...c,
+  status: c.status || 'published',
+  slug: c.slug || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+  sku: c.sku || `DSG-${c.id.toUpperCase().replace(/^EXP-/, '') || `00${idx + 1}`}`,
+  price: c.price || (idx === 0 ? 14.5 : idx === 1 ? 11.2 : idx === 2 ? 16.8 : idx === 3 ? 240.0 : 18.0),
+  stock: c.stock || 5000,
+  unit: c.unit || 'Kg',
+  brand: c.brand || 'Dried Seafood Global',
+  metaTitle: c.metaTitle || `${c.name} (${c.indonesianName}) | Supplier Ekspor Resmi Indonesia`,
+  metaDescription: c.metaDescription || (c.description ? c.description.slice(0, 160) : `Supplier ekspor ${c.name} dari Indonesia bersertifikat HACCP & KKP.`),
+  createdAt: new Date(Date.now() - (idx + 1) * 86400000 * 5).toISOString(),
+  updatedAt: new Date().toISOString()
+}));
+
+let blogPosts: BlogPost[] = INITIAL_BLOG_POSTS.map((p, idx) => ({
+  ...p,
+  status: p.status || 'published',
+  slug: p.slug || p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+  metaTitle: p.metaTitle || `${p.title} | Dried Seafood Global Intelligence`,
+  metaDescription: p.metaDescription || p.excerpt.slice(0, 160),
+  createdAt: new Date(Date.now() - (idx + 1) * 86400000 * 3).toISOString(),
+  updatedAt: new Date().toISOString()
+}));
+
 let galleryItems: GalleryItem[] = [...GALLERY_ITEMS];
 let contactInquiries: ContactInquiry[] = [...INITIAL_INQUIRIES];
 let seoSettings = { ...DEFAULT_SEO_SETTINGS };
@@ -161,6 +275,8 @@ Allow: /id/
 Allow: /ar/
 Allow: /company
 Allow: /partners
+Disallow: /admin
+Disallow: /admin/
 Disallow: /api/admin/
 Disallow: /api/cms/
 
@@ -170,6 +286,10 @@ Allow: /id/
 Allow: /ar/
 Allow: /company
 Allow: /partners
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /api/cms/
 
 Sitemap: https://www.driedseafoodglobal.com/sitemap.xml
 `);
@@ -418,24 +538,746 @@ app.patch('/api/contact/messages/:id', (req: Request, res: Response) => {
 });
 
 // ----------------------------------------------------
-// 2.1 ADMIN AUTHENTICATION API
+// 2.1 ADMIN AUTHENTICATION API (SECURE SESSIONS & HASHING)
 // ----------------------------------------------------
-app.post('/api/admin/login', (req: Request, res: Response) => {
+app.post('/api/admin/auth/login', (req: Request, res: Response) => {
   const { username, password } = req.body || {};
-  if (username === 'sayaadmin' && password === 'Passdemak@1') {
-    return res.json({
-      success: true,
-      user: {
-        username: 'sayaadmin',
-        role: 'Administrator Ekspor & Direksi',
-        name: 'Admin Utama Shrimora'
-      },
-      message: 'Autentikasi berhasil. Selamat datang di Portal Admin Shrimora.'
+  if (!username || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Username dan password wajib diisi.'
     });
   }
-  return res.status(401).json({
-    success: false,
-    message: 'Username atau password tidak sesuai. Akses ditolak.'
+
+  const user = adminUsers.find(u => u.username.toLowerCase() === String(username).trim().toLowerCase());
+  if (!user || !verifyPassword(String(password), user.passwordHash, user.salt)) {
+    return res.status(401).json({
+      success: false,
+      message: 'Username atau password salah.'
+    });
+  }
+
+  // Generate cryptographically random session token
+  const token = crypto.randomBytes(32).toString('hex');
+  const sessionDurationMs = 24 * 60 * 60 * 1000; // 24 hours
+  const expiresAt = Date.now() + sessionDurationMs;
+
+  activeAdminSessions.set(token, {
+    token,
+    username: user.username,
+    role: user.role,
+    name: user.name,
+    email: user.email,
+    expiresAt,
+    createdAt: Date.now()
+  });
+
+  user.lastLogin = new Date().toISOString();
+
+  // Set secure HttpOnly cookie
+  const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
+  res.setHeader(
+    'Set-Cookie',
+    `admin_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400${isSecure ? '; Secure' : ''}`
+  );
+
+  return res.json({
+    success: true,
+    token,
+    user: {
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      role: user.role,
+      email: user.email,
+      avatarUrl: user.avatarUrl,
+      lastLogin: user.lastLogin
+    },
+    message: 'Autentikasi berhasil. Selamat datang di Portal Admin.'
+  });
+});
+
+app.get('/api/admin/auth/check', (req: Request, res: Response) => {
+  const session = getSessionFromRequest(req);
+  if (!session) {
+    return res.status(401).json({
+      success: false,
+      authenticated: false,
+      message: 'Sesi login tidak valid atau sudah kedaluwarsa.'
+    });
+  }
+
+  const user = adminUsers.find(u => u.username === session.username);
+  return res.json({
+    success: true,
+    authenticated: true,
+    user: {
+      id: user?.id || 'admin-1',
+      username: session.username,
+      name: session.name,
+      role: session.role,
+      email: session.email,
+      avatarUrl: user?.avatarUrl,
+      lastLogin: user?.lastLogin
+    }
+  });
+});
+
+app.post('/api/admin/auth/logout', (req: Request, res: Response) => {
+  const session = getSessionFromRequest(req);
+  if (session) {
+    activeAdminSessions.delete(session.token);
+  }
+  res.setHeader('Set-Cookie', 'admin_session=; Path=/; HttpOnly; Max-Age=0');
+  return res.json({
+    success: true,
+    message: 'Logout berhasil.'
+  });
+});
+
+// Legacy backward-compat login route redirecting to new auth handler
+app.post('/api/admin/login', (req: Request, res: Response) => {
+  const { username, password } = req.body || {};
+  const user = adminUsers.find(u => u.username.toLowerCase() === String(username).trim().toLowerCase());
+  if (!user || !verifyPassword(String(password), user.passwordHash, user.salt)) {
+    return res.status(401).json({
+      success: false,
+      message: 'Username atau password salah.'
+    });
+  }
+
+  const token = crypto.randomBytes(32).toString('hex');
+  activeAdminSessions.set(token, {
+    token,
+    username: user.username,
+    role: user.role,
+    name: user.name,
+    email: user.email,
+    expiresAt: Date.now() + 86400000,
+    createdAt: Date.now()
+  });
+
+  res.setHeader('Set-Cookie', `admin_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`);
+  return res.json({
+    success: true,
+    token,
+    user: {
+      username: user.username,
+      name: user.name,
+      role: user.role
+    }
+  });
+});
+
+// ----------------------------------------------------
+// 2.2 ADMIN DASHBOARD STATS API
+// ----------------------------------------------------
+app.get('/api/admin/dashboard/stats', requireAdminAuth, (req: Request, res: Response) => {
+  const totalProducts = commodities.length;
+  const publishedProducts = commodities.filter(c => c.status === 'published' || !c.status).length;
+  const draftProducts = commodities.filter(c => c.status === 'draft').length;
+  const archivedProducts = commodities.filter(c => c.status === 'archived').length;
+
+  const totalArticles = blogPosts.length;
+  const publishedArticles = blogPosts.filter(p => p.status === 'published' || !p.status).length;
+  const draftArticles = blogPosts.filter(p => p.status === 'draft').length;
+
+  const totalInquiries = contactInquiries.length;
+  const newInquiries = contactInquiries.filter(i => i.status === 'new').length;
+
+  return res.json({
+    success: true,
+    stats: {
+      totalProducts,
+      publishedProducts,
+      draftProducts,
+      archivedProducts,
+      totalArticles,
+      publishedArticles,
+      draftArticles,
+      totalInquiries,
+      newInquiries,
+      liveVisitors: liveVisitorCount,
+      totalPageViews,
+      recentEvents: recentVisitorEvents.slice(0, 8),
+      recentInquiries: contactInquiries.slice(0, 5),
+      recentProducts: commodities.slice(0, 5),
+      recentArticles: blogPosts.slice(0, 5)
+    }
+  });
+});
+
+// ----------------------------------------------------
+// 2.3 PRODUCT MANAGEMENT APIS (PUBLIC & PROTECTED ADMIN)
+// ----------------------------------------------------
+// Public list: only published commodities
+app.get('/api/products', (req: Request, res: Response) => {
+  const { category, search } = req.query;
+  let list = commodities.filter(c => c.status !== 'draft' && c.status !== 'archived');
+
+  if (category && category !== 'all') {
+    list = list.filter(c => c.category === category);
+  }
+
+  if (search) {
+    const q = String(search).toLowerCase();
+    list = list.filter(c => 
+      c.name.toLowerCase().includes(q) ||
+      c.indonesianName.toLowerCase().includes(q) ||
+      c.origin.toLowerCase().includes(q) ||
+      (c.sku && c.sku.toLowerCase().includes(q))
+    );
+  }
+
+  return res.json({ products: list });
+});
+
+// Public single product by ID or Slug
+app.get('/api/products/:idOrSlug', (req: Request, res: Response) => {
+  const { idOrSlug } = req.params;
+  const product = commodities.find(c => 
+    (c.id === idOrSlug || c.slug === idOrSlug) && 
+    c.status !== 'draft' && 
+    c.status !== 'archived'
+  );
+  if (!product) {
+    return res.status(404).json({ error: 'Produk tidak ditemukan atau belum dipublikasikan.' });
+  }
+  return res.json({ product });
+});
+
+// Admin list: all products with filter & pagination
+app.get('/api/admin/products', requireAdminAuth, (req: Request, res: Response) => {
+  const { search, category, status, page = '1', limit = '50' } = req.query;
+  let filtered = [...commodities];
+
+  if (status && status !== 'all') {
+    filtered = filtered.filter(c => (c.status || 'published') === status);
+  }
+
+  if (category && category !== 'all') {
+    filtered = filtered.filter(c => c.category === category);
+  }
+
+  if (search) {
+    const q = String(search).toLowerCase();
+    filtered = filtered.filter(c => 
+      c.name.toLowerCase().includes(q) ||
+      c.indonesianName.toLowerCase().includes(q) ||
+      (c.sku && c.sku.toLowerCase().includes(q)) ||
+      c.origin.toLowerCase().includes(q) ||
+      (c.hsCode && c.hsCode.toLowerCase().includes(q))
+    );
+  }
+
+  const p = Math.max(1, parseInt(String(page), 10) || 1);
+  const l = Math.max(1, parseInt(String(limit), 10) || 50);
+  const total = filtered.length;
+  const totalPages = Math.ceil(total / l);
+  const paginated = filtered.slice((p - 1) * l, p * l);
+
+  return res.json({
+    success: true,
+    products: paginated,
+    total,
+    page: p,
+    limit: l,
+    totalPages
+  });
+});
+
+// Admin single product by ID
+app.get('/api/admin/products/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const product = commodities.find(c => c.id === id);
+  if (!product) {
+    return res.status(404).json({ error: 'Produk tidak ditemukan.' });
+  }
+  return res.json({ success: true, product });
+});
+
+// Admin Create Product
+app.post('/api/admin/products', requireAdminAuth, (req: Request, res: Response) => {
+  const body = req.body || {};
+  const { 
+    name, 
+    indonesianName, 
+    category, 
+    description, 
+    shortDescription,
+    hsCode, 
+    origin, 
+    specification, 
+    supplyCapacity, 
+    certifications, 
+    keyMarkets, 
+    imageUrl, 
+    galleryImages,
+    status = 'published',
+    featured = false,
+    price,
+    comparePrice,
+    stock,
+    unit = 'Kg',
+    brand = 'Dried Seafood Global',
+    sku,
+    slug,
+    metaTitle,
+    metaDescription,
+    canonicalUrl,
+    ogImageUrl
+  } = body;
+
+  if (!name || !indonesianName || !category) {
+    return res.status(400).json({
+      error: 'Nama produk (EN), nama produk (ID), dan kategori wajib diisi.'
+    });
+  }
+
+  const generatedId = `exp-prod-${Date.now()}`;
+  const generatedSlug = (slug || name)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+  const newProduct: ExportCommodity = {
+    id: generatedId,
+    name: String(name).trim(),
+    indonesianName: String(indonesianName).trim(),
+    slug: generatedSlug,
+    sku: sku ? String(sku).trim() : `DSG-${Math.floor(1000 + Math.random() * 9000)}`,
+    category,
+    hsCode: hsCode || '0305.59.21',
+    origin: origin || 'Jawa Tengah & Perairan Indonesia',
+    specification: {
+      grade: specification?.grade || 'Grade AAA',
+      moisture: specification?.moisture || '18% - 22% (Ekspor Standar)',
+      packaging: specification?.packaging || 'Master Carton 10kg Inner Polybag Vacuum',
+      moq: specification?.moq || '1 Ton (FCL / LCL Reefer)',
+      shelfLife: specification?.shelfLife || '12 Bulan pada Suhu Kering Terkontrol',
+      colorTexture: specification?.colorTexture || 'Alami Kering Bersih'
+    },
+    supplyCapacity: supplyCapacity || '25 Ton / Bulan',
+    certifications: Array.isArray(certifications) && certifications.length > 0 ? certifications : ['HACCP Grade A', 'Health Certificate KKP', 'Halal Indonesia'],
+    keyMarkets: Array.isArray(keyMarkets) && keyMarkets.length > 0 ? keyMarkets : ['Malaysia', 'Singapura', 'Taiwan', 'Arab Saudi', 'Amerika Serikat'],
+    imageUrl: imageUrl || 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: Array.isArray(galleryImages) ? galleryImages : [],
+    description: description || 'Komoditas perikanan hasil laut kering mutu ekspor internasional langsung dari sentra nelayan binaan.',
+    shortDescription: shortDescription || '',
+    price: price !== undefined ? Number(price) : undefined,
+    comparePrice: comparePrice !== undefined ? Number(comparePrice) : undefined,
+    stock: stock !== undefined ? Number(stock) : 5000,
+    unit: unit || 'Kg',
+    brand: brand || 'Dried Seafood Global',
+    status: status === 'draft' || status === 'archived' ? status : 'published',
+    featured: Boolean(featured),
+    metaTitle: metaTitle || `${name} (${indonesianName}) | Supplier Ekspor Resmi Indonesia`,
+    metaDescription: metaDescription || (description ? description.slice(0, 160) : `Supplier ekspor ${name} dari Indonesia.`),
+    canonicalUrl: canonicalUrl || `https://www.driedseafoodglobal.com/products/${generatedSlug}`,
+    ogImageUrl: ogImageUrl || imageUrl,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+
+  commodities.unshift(newProduct);
+  return res.status(201).json({
+    success: true,
+    product: newProduct,
+    message: 'Produk berhasil ditambahkan ke katalog ekspor.'
+  });
+});
+
+// Admin Update Product
+app.put('/api/admin/products/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const index = commodities.findIndex(c => c.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Produk tidak ditemukan.' });
+  }
+
+  const existing = commodities[index];
+  const body = req.body || {};
+
+  const updatedSlug = body.slug 
+    ? String(body.slug).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    : body.name 
+      ? String(body.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+      : existing.slug;
+
+  const updatedProduct: ExportCommodity = {
+    ...existing,
+    ...body,
+    specification: {
+      ...existing.specification,
+      ...(body.specification || {})
+    },
+    slug: updatedSlug,
+    updatedAt: new Date().toISOString()
+  };
+
+  commodities[index] = updatedProduct;
+  return res.json({
+    success: true,
+    product: updatedProduct,
+    message: 'Produk berhasil diperbarui.'
+  });
+});
+
+// Admin Delete Product (with Soft Delete / Archive or Permanent Hard Delete)
+app.delete('/api/admin/products/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const permanent = req.query.permanent === 'true';
+  const index = commodities.findIndex(c => c.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Produk tidak ditemukan.' });
+  }
+
+  if (permanent) {
+    commodities.splice(index, 1);
+    return res.json({ success: true, message: 'Produk berhasil dihapus permanen.' });
+  } else {
+    // Soft delete / archive
+    commodities[index].status = 'archived';
+    commodities[index].updatedAt = new Date().toISOString();
+    return res.json({ success: true, message: 'Produk berhasil diarsipkan.' });
+  }
+});
+
+// ----------------------------------------------------
+// 2.4 ARTICLE / BLOG CMS APIS (PUBLIC & PROTECTED ADMIN)
+// ----------------------------------------------------
+// Public list: only published articles
+app.get('/api/blog', (req: Request, res: Response) => {
+  const { category, search } = req.query;
+  let list = blogPosts.filter(p => p.status === 'published' || !p.status);
+
+  if (category && category !== 'all') {
+    list = list.filter(p => p.category === category);
+  }
+
+  if (search) {
+    const q = String(search).toLowerCase();
+    list = list.filter(p => 
+      p.title.toLowerCase().includes(q) ||
+      p.excerpt.toLowerCase().includes(q) ||
+      (p.tags && p.tags.some(t => t.toLowerCase().includes(q)))
+    );
+  }
+
+  return res.json({ posts: list });
+});
+
+// Public single article
+app.get('/api/blog/:idOrSlug', (req: Request, res: Response) => {
+  const { idOrSlug } = req.params;
+  const post = blogPosts.find(p => (p.id === idOrSlug || p.slug === idOrSlug) && (p.status === 'published' || !p.status));
+  if (!post) {
+    return res.status(404).json({ error: 'Artikel tidak ditemukan atau belum dipublikasikan.' });
+  }
+  return res.json({ post });
+});
+
+// Admin list: all articles (published & draft) with filter & pagination
+app.get('/api/admin/articles', requireAdminAuth, (req: Request, res: Response) => {
+  const { search, category, status, page = '1', limit = '50' } = req.query;
+  let filtered = [...blogPosts];
+
+  if (status && status !== 'all') {
+    filtered = filtered.filter(p => (p.status || 'published') === status);
+  }
+
+  if (category && category !== 'all') {
+    filtered = filtered.filter(p => p.category === category);
+  }
+
+  if (search) {
+    const q = String(search).toLowerCase();
+    filtered = filtered.filter(p => 
+      p.title.toLowerCase().includes(q) ||
+      p.excerpt.toLowerCase().includes(q) ||
+      (p.tags && p.tags.some(t => t.toLowerCase().includes(q))) ||
+      (p.author && p.author.name.toLowerCase().includes(q))
+    );
+  }
+
+  const p = Math.max(1, parseInt(String(page), 10) || 1);
+  const l = Math.max(1, parseInt(String(limit), 10) || 50);
+  const total = filtered.length;
+  const totalPages = Math.ceil(total / l);
+  const paginated = filtered.slice((p - 1) * l, p * l);
+
+  return res.json({
+    success: true,
+    articles: paginated,
+    total,
+    page: p,
+    limit: l,
+    totalPages
+  });
+});
+
+// Admin single article by ID
+app.get('/api/admin/articles/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const article = blogPosts.find(p => p.id === id);
+  if (!article) {
+    return res.status(404).json({ error: 'Artikel tidak ditemukan.' });
+  }
+  return res.json({ success: true, article });
+});
+
+// Admin Create Article
+app.post('/api/admin/articles', requireAdminAuth, (req: Request, res: Response) => {
+  const { 
+    title, 
+    slug, 
+    excerpt, 
+    content, 
+    coverImage, 
+    author, 
+    category, 
+    tags, 
+    readTime, 
+    status = 'published',
+    featured = false,
+    metaTitle,
+    metaDescription,
+    canonicalUrl,
+    ogImageUrl
+  } = req.body;
+
+  if (!title || !content) {
+    return res.status(400).json({ error: 'Judul dan konten artikel wajib diisi.' });
+  }
+
+  const generatedId = `blog-${Date.now()}`;
+  const generatedSlug = (slug || title)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+  const newPost: BlogPost = {
+    id: generatedId,
+    title: String(title).trim(),
+    slug: generatedSlug,
+    excerpt: excerpt || content.substring(0, 160).replace(/[#*`_]/g, '') + '...',
+    content,
+    coverImage: coverImage || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+    author: author || {
+      name: (req as any).adminSession?.name || 'Tim Redaksi Dried Seafood Global',
+      role: 'Fisheries & Trade Intelligence Desk',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
+    },
+    category: category || 'Ekspor & Pasar',
+    tags: Array.isArray(tags) && tags.length > 0 ? tags : ['Dried Seafood', 'Ekspor Perikanan', 'Kualitas Mutu'],
+    readTime: readTime || `${Math.max(2, Math.ceil(content.split(' ').length / 200))} menit baca`,
+    publishedAt: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }),
+    status: status === 'draft' ? 'draft' : 'published',
+    featured: Boolean(featured),
+    comments: [],
+    metaTitle: metaTitle || `${title} | Dried Seafood Global Intelligence`,
+    metaDescription: metaDescription || (excerpt ? excerpt.slice(0, 160) : content.slice(0, 160)),
+    canonicalUrl: canonicalUrl || `https://www.driedseafoodglobal.com/blog/${generatedSlug}`,
+    ogImageUrl: ogImageUrl || coverImage,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+
+  blogPosts.unshift(newPost);
+  return res.status(201).json({
+    success: true,
+    article: newPost,
+    message: 'Artikel berhasil disimpan.'
+  });
+});
+
+// Admin Update Article
+app.put('/api/admin/articles/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const index = blogPosts.findIndex(p => p.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Artikel tidak ditemukan.' });
+  }
+
+  const existing = blogPosts[index];
+  const body = req.body || {};
+
+  const updatedSlug = body.slug 
+    ? String(body.slug).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    : body.title 
+      ? String(body.title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+      : existing.slug;
+
+  const updatedArticle: BlogPost = {
+    ...existing,
+    ...body,
+    slug: updatedSlug,
+    updatedAt: new Date().toISOString()
+  };
+
+  blogPosts[index] = updatedArticle;
+  return res.json({
+    success: true,
+    article: updatedArticle,
+    message: 'Artikel berhasil diperbarui.'
+  });
+});
+
+// Admin Toggle Article Status (Publish / Draft)
+app.patch('/api/admin/articles/:id/status', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const target = blogPosts.find(p => p.id === id);
+  if (!target) {
+    return res.status(404).json({ error: 'Artikel tidak ditemukan.' });
+  }
+
+  target.status = status === 'draft' ? 'draft' : 'published';
+  target.updatedAt = new Date().toISOString();
+  return res.json({
+    success: true,
+    article: target,
+    message: `Status artikel berhasil diubah menjadi ${target.status}.`
+  });
+});
+
+// Admin Delete Article
+app.delete('/api/admin/articles/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const index = blogPosts.findIndex(p => p.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Artikel tidak ditemukan.' });
+  }
+  blogPosts.splice(index, 1);
+  return res.json({ success: true, message: 'Artikel berhasil dihapus.' });
+});
+
+// ----------------------------------------------------
+// 2.5 PROTECTED INQUIRY MANAGEMENT APIS
+// ----------------------------------------------------
+app.get('/api/admin/inquiries', requireAdminAuth, (req: Request, res: Response) => {
+  const { status, search } = req.query;
+  let list = [...contactInquiries];
+
+  if (status && status !== 'all') {
+    list = list.filter(i => i.status === status);
+  }
+
+  if (search) {
+    const q = String(search).toLowerCase();
+    list = list.filter(i => 
+      i.name.toLowerCase().includes(q) ||
+      i.email.toLowerCase().includes(q) ||
+      i.companyName.toLowerCase().includes(q) ||
+      i.message.toLowerCase().includes(q)
+    );
+  }
+
+  return res.json({ success: true, inquiries: list });
+});
+
+app.patch('/api/admin/inquiries/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status, replyNotes } = req.body;
+  const target = contactInquiries.find(inq => inq.id === id);
+  if (!target) {
+    return res.status(404).json({ error: 'Inquiry not found' });
+  }
+  if (status) target.status = status;
+  if (replyNotes !== undefined) target.replyNotes = replyNotes;
+  return res.json({ success: true, inquiry: target });
+});
+
+app.delete('/api/admin/inquiries/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const index = contactInquiries.findIndex(i => i.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Inquiry not found' });
+  }
+  contactInquiries.splice(index, 1);
+  return res.json({ success: true, message: 'Inquiry berhasil dihapus.' });
+});
+
+// ----------------------------------------------------
+// 2.6 PROTECTED GALLERY MANAGEMENT APIS
+// ----------------------------------------------------
+app.get('/api/admin/gallery', requireAdminAuth, (req: Request, res: Response) => {
+  return res.json({ success: true, items: galleryItems });
+});
+
+app.post('/api/admin/gallery', requireAdminAuth, (req: Request, res: Response) => {
+  const { title, category, imageUrl, location, description, tags } = req.body;
+  if (!title || !imageUrl) return res.status(400).json({ error: 'Judul dan URL Foto wajib diisi.' });
+
+  const newItem: GalleryItem = {
+    id: `gal-${Date.now()}`,
+    title,
+    category: category || 'operations',
+    imageUrl,
+    location: location || 'Sentra Produksi Jawa Tengah',
+    date: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }),
+    description: description || '',
+    tags: Array.isArray(tags) ? tags : ['Hasil Laut', 'Ekspor']
+  };
+
+  galleryItems.unshift(newItem);
+  return res.status(201).json({ success: true, item: newItem });
+});
+
+app.put('/api/admin/gallery/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  const index = galleryItems.findIndex(item => item.id === id);
+  if (index === -1) return res.status(404).json({ error: 'Item galeri tidak ditemukan.' });
+
+  galleryItems[index] = { ...galleryItems[index], ...req.body };
+  return res.json({ success: true, item: galleryItems[index] });
+});
+
+app.delete('/api/admin/gallery/:id', requireAdminAuth, (req: Request, res: Response) => {
+  const { id } = req.params;
+  galleryItems = galleryItems.filter(item => item.id !== id);
+  return res.json({ success: true, message: 'Item galeri berhasil dihapus.' });
+});
+
+// ----------------------------------------------------
+// 2.7 PROTECTED SEO SETTINGS API
+// ----------------------------------------------------
+app.get('/api/admin/seo', requireAdminAuth, (req: Request, res: Response) => {
+  return res.json({ success: true, settings: seoSettings });
+});
+
+app.post('/api/admin/seo', requireAdminAuth, (req: Request, res: Response) => {
+  seoSettings = { ...seoSettings, ...req.body };
+  return res.json({ success: true, settings: seoSettings });
+});
+
+// ----------------------------------------------------
+// 2.8 PROTECTED MEDIA / IMAGE UPLOAD API
+// ----------------------------------------------------
+app.post('/api/admin/upload', requireAdminAuth, (req: Request, res: Response) => {
+  const { dataUrl, filename } = req.body || {};
+  if (!dataUrl || typeof dataUrl !== 'string') {
+    return res.status(400).json({ error: 'Format data gambar tidak valid.' });
+  }
+
+  // Check valid base64 image data URL
+  const match = dataUrl.match(/^data:(image\/(jpeg|png|webp|gif));base64,/);
+  if (!match) {
+    return res.status(400).json({ error: 'Format file harus berupa gambar (JPG, PNG, WebP, GIF).' });
+  }
+
+  // Size limit check (max 6MB base64 = ~4.5MB binary)
+  if (dataUrl.length > 8 * 1024 * 1024) {
+    return res.status(400).json({ error: 'Ukuran file gambar maksimal 5 MB.' });
+  }
+
+  // In this server environment, data URLs can be used directly as image sources securely
+  return res.json({
+    success: true,
+    url: dataUrl,
+    filename: filename || `upload-${Date.now()}.webp`,
+    message: 'Gambar berhasil diproses.'
   });
 });
 
@@ -686,57 +1528,8 @@ app.post('/api/analytics/event', (req: Request, res: Response) => {
 });
 
 // ----------------------------------------------------
-// 5. BLOG CMS API
+// 5. PUBLIC BLOG COMMENTS API
 // ----------------------------------------------------
-app.get('/api/blog', (req: Request, res: Response) => {
-  res.json({ posts: blogPosts });
-});
-
-app.post('/api/blog', (req: Request, res: Response) => {
-  const { title, excerpt, content, coverImage, author, category, tags, readTime } = req.body;
-  if (!title || !content) {
-    return res.status(400).json({ error: 'Judul dan konten artikel wajib diisi.' });
-  }
-
-  const newPost: BlogPost = {
-    id: `blog-${Date.now()}`,
-    title,
-    slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
-    excerpt: excerpt || content.substring(0, 160) + '...',
-    content,
-    coverImage: coverImage || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
-    author: author || {
-      name: 'Tim Redaksi Dried Seafood Global',
-      role: 'Fisheries & Trade Intelligence',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
-    },
-    category: category || 'Ekspor & Pasar',
-    tags: Array.isArray(tags) ? tags : ['Dried Seafood', 'Indonesia Trade', 'Perikanan'],
-    readTime: readTime || '4 menit baca',
-    publishedAt: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }),
-    featured: false,
-    comments: []
-  };
-
-  blogPosts.unshift(newPost);
-  res.status(201).json({ success: true, post: newPost });
-});
-
-app.put('/api/blog/:id', (req: Request, res: Response) => {
-  const { id } = req.params;
-  const index = blogPosts.findIndex(p => p.id === id);
-  if (index === -1) return res.status(404).json({ error: 'Post not found' });
-  
-  blogPosts[index] = { ...blogPosts[index], ...req.body };
-  res.json({ success: true, post: blogPosts[index] });
-});
-
-app.delete('/api/blog/:id', (req: Request, res: Response) => {
-  const { id } = req.params;
-  blogPosts = blogPosts.filter(p => p.id !== id);
-  res.json({ success: true });
-});
-
 app.post('/api/blog/:id/comments', (req: Request, res: Response) => {
   const { id } = req.params;
   const { author, email, content } = req.body;
@@ -745,7 +1538,7 @@ app.post('/api/blog/:id/comments', (req: Request, res: Response) => {
 
   const newComment = {
     id: `c-${Date.now()}`,
-    author: author || 'Pengunjung Anonim',
+    author: author || 'Pengunjung B2B',
     email: email || '',
     content,
     createdAt: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
@@ -756,47 +1549,14 @@ app.post('/api/blog/:id/comments', (req: Request, res: Response) => {
 });
 
 // ----------------------------------------------------
-// 6. GALLERY CMS API
+// 6. PUBLIC GALLERY & SEO GET APIS
 // ----------------------------------------------------
 app.get('/api/gallery', (req: Request, res: Response) => {
   res.json({ items: galleryItems });
 });
 
-app.post('/api/gallery', (req: Request, res: Response) => {
-  const { title, category, imageUrl, location, description, tags } = req.body;
-  if (!title || !imageUrl) return res.status(400).json({ error: 'Judul dan URL Foto wajib diisi.' });
-
-  const newItem: GalleryItem = {
-    id: `gal-${Date.now()}`,
-    title,
-    category: category || 'operations',
-    imageUrl,
-    location: location || 'Jakarta Hub',
-    date: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }),
-    description: description || '',
-    tags: Array.isArray(tags) ? tags : ['Logistics']
-  };
-
-  galleryItems.unshift(newItem);
-  res.status(201).json({ success: true, item: newItem });
-});
-
-app.delete('/api/gallery/:id', (req: Request, res: Response) => {
-  const { id } = req.params;
-  galleryItems = galleryItems.filter(item => item.id !== id);
-  res.json({ success: true });
-});
-
-// ----------------------------------------------------
-// 7. SEO SETTINGS API
-// ----------------------------------------------------
 app.get('/api/seo', (req: Request, res: Response) => {
   res.json(seoSettings);
-});
-
-app.post('/api/seo', (req: Request, res: Response) => {
-  seoSettings = { ...seoSettings, ...req.body };
-  res.json({ success: true, settings: seoSettings });
 });
 
 // ----------------------------------------------------

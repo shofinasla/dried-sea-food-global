@@ -17,10 +17,10 @@ import { getAllCategoryLabel, getCategoryLabel } from '../i18n/categoryLabels';
 
 interface PhotoGalleryProps {
   items: GalleryItem[];
-  onOpenAdmin: () => void;
+  onOpenAdmin?: () => void;
 }
 
-export default function PhotoGallery({ items, onOpenAdmin }: PhotoGalleryProps) {
+export default function PhotoGallery({ items }: PhotoGalleryProps) {
   const { currentLang } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
@@ -63,15 +63,6 @@ export default function PhotoGallery({ items, onOpenAdmin }: PhotoGalleryProps) 
               Dokumentasi autentik fasilitas Solar Dome Dryer higienis, seleksi mutu ikan asin, gudang kelembaban rendah, serta pemuatan kontainer ekspor berpendingin.
             </p>
           </div>
-
-          <button
-            onClick={onOpenAdmin}
-            id="btn-admin-gallery-shortcut"
-            className="self-start md:self-auto inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-200 text-[#009bb3] text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
-            <span>Kelola Galeri (Admin CMS)</span>
-          </button>
         </div>
 
         {/* Category Filters */}
