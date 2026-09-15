@@ -6,6 +6,8 @@ export interface Env {
   ASSETS?: {
     fetch(request: Request | string): Promise<Response>;
   };
+  DB?: any;
+  MEDIA_BUCKET?: any;
   ADMIN_USERNAME?: string | SecretsStoreSecret;
   ADMIN_INITIAL_PASSWORD?: string | SecretsStoreSecret;
   SESSION_SECRET?: string | SecretsStoreSecret;

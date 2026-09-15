@@ -19,6 +19,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { BlogPost } from '../../types';
+import { normalizeBlogCategory } from '../../i18n/categoryLabels';
 
 interface AdminArticlesTabProps {
   blogPosts: BlogPost[];
@@ -45,7 +46,7 @@ export default function AdminArticlesTab({ blogPosts, onRefresh }: AdminArticles
   const [formExcerpt, setFormExcerpt] = useState('');
   const [formContent, setFormContent] = useState('');
   const [formCoverImage, setFormCoverImage] = useState('');
-  const [formCategory, setFormCategory] = useState('Ekspor & Pasar');
+  const [formCategory, setFormCategory] = useState('ekspor-pasar');
   const [formAuthorName, setFormAuthorName] = useState('Tim Riset Dried Seafood Global');
   const [formAuthorRole, setFormAuthorRole] = useState('Fisheries Trade Analyst');
   const [formTags, setFormTags] = useState('Dried Seafood, Ekspor Ikan Asin, HACCP, BKIPM');
@@ -57,19 +58,21 @@ export default function AdminArticlesTab({ blogPosts, onRefresh }: AdminArticles
 
   const categories = [
     { id: 'all', label: 'Semua Kategori' },
-    { id: 'Ekspor & Pasar', label: 'Ekspor & Pasar' },
-    { id: 'Teknologi Pengolahan', label: 'Teknologi Pengolahan' },
-    { id: 'Regulasi & Sertifikasi', label: 'Regulasi & Sertifikasi' },
-    { id: 'Kualitas & Higienitas', label: 'Kualitas & Higienitas' },
-    { id: 'Nelayan & Keberlanjutan', label: 'Nelayan & Keberlanjutan' }
+    { id: 'ekspor-pasar', label: 'Ekspor & Pasar' },
+    { id: 'teknologi-pengolahan', label: 'Teknologi Pengolahan' },
+    { id: 'regulasi-sertifikasi', label: 'Regulasi & Sertifikasi' },
+    { id: 'kualitas-higienitas', label: 'Kualitas & Higienitas' },
+    { id: 'nelayan-keberlanjutan', label: 'Nelayan & Keberlanjutan' }
   ];
 
   const filteredPosts = blogPosts.filter(post => {
-    const matchesCat = selectedCategory === 'all' || post.category === selectedCategory;
+    const postNorm = normalizeBlogCategory(post.category);
+    const selNorm = selectedCategory === 'all' ? null : normalizeBlogCategory(selectedCategory);
+    const matchesCat = selectedCategory === 'all' || post.category === selectedCategory || (selNorm && postNorm.slug === selNorm.slug);
     const matchesSearch = searchQuery === '' ||
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      (Array.isArray(post.tags) && post.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
     return matchesCat && matchesSearch;
   });
 
@@ -99,7 +102,7 @@ Dalam lanskap perdagangan hasil laut internasional, sertifikasi higienis dan kon
 * Memenuhi batas uji mikrobiologi bebas Salmonella dan E. coli.
 * Sertifikasi Health Certificate resmi BKIPM KKP RI.`);
     setFormCoverImage('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80');
-    setFormCategory('Ekspor & Pasar');
+    setFormCategory('ekspor-pasar');
     setFormAuthorName('Tim Redaksi Dried Seafood Global');
     setFormAuthorRole('Fisheries & Export Intelligence');
     setFormTags('Ekspor Ikan Asin, Solar Dome Dryer, HACCP, Pasar B2B');
@@ -120,7 +123,7 @@ Dalam lanskap perdagangan hasil laut internasional, sertifikasi higienis dan kon
     setFormExcerpt(post.excerpt);
     setFormContent(post.content);
     setFormCoverImage(post.coverImage);
-    setFormCategory(post.category);
+    setFormCategory(normalizeBlogCategory(post.category).slug || 'ekspor-pasar');
     setFormAuthorName(post.author.name);
     setFormAuthorRole(post.author.role);
     setFormTags(post.tags.join(', '));
@@ -440,7 +443,9 @@ Dalam lanskap perdagangan hasil laut internasional, sertifikasi higienis dan kon
 
                     {/* Category & Tags */}
                     <td className="py-3.5 px-4">
-                      <div className="font-semibold text-sky-400 text-[11px] mb-1">{post.category}</div>
+                      <div className="font-semibold text-sky-400 text-[11px] mb-1">
+                        {normalizeBlogCategory(post.category).label}
+                      </div>
                       <div className="flex flex-wrap gap-1">
                         {post.tags.slice(0, 2).map((t, idx) => (
                           <span key={idx} className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
@@ -577,11 +582,11 @@ Dalam lanskap perdagangan hasil laut internasional, sertifikasi higienis dan kon
                     onChange={(e) => setFormCategory(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500 cursor-pointer"
                   >
-                    <option value="Ekspor & Pasar">Ekspor & Pasar</option>
-                    <option value="Teknologi Pengolahan">Teknologi Pengolahan</option>
-                    <option value="Regulasi & Sertifikasi">Regulasi & Sertifikasi</option>
-                    <option value="Kualitas & Higienitas">Kualitas & Higienitas</option>
-                    <option value="Nelayan & Keberlanjutan">Nelayan & Keberlanjutan</option>
+                    <option value="ekspor-pasar">Ekspor & Pasar</option>
+                    <option value="teknologi-pengolahan">Teknologi Pengolahan</option>
+                    <option value="regulasi-sertifikasi">Regulasi & Sertifikasi</option>
+                    <option value="kualitas-higienitas">Kualitas & Higienitas</option>
+                    <option value="nelayan-keberlanjutan">Nelayan & Keberlanjutan</option>
                   </select>
                 </div>
                 <div>

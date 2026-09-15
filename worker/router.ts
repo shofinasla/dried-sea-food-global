@@ -7,14 +7,32 @@ import {
   createClearSessionCookie
 } from './auth';
 import {
-  workerCommodities,
-  workerBlogPosts,
-  workerGalleryItems,
-  workerInquiries,
-  workerSeoSettings,
   workerCountries,
   workerCouriers
 } from './data';
+import {
+  getProducts,
+  getProductByIdOrSlug,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  getArticles,
+  getArticleByIdOrSlug,
+  createArticle,
+  updateArticle,
+  deleteArticle,
+  addArticleComment,
+  getInquiries,
+  createInquiry,
+  updateInquiryStatus,
+  deleteInquiry,
+  getGalleryItems,
+  createGalleryItem,
+  updateGalleryItem,
+  deleteGalleryItem,
+  getSeoSettings,
+  saveSeoSettings
+} from './d1';
 import { ExportCommodity, BlogPost, GalleryItem, ContactInquiry } from '../src/types';
 import { GoogleGenAI } from '@google/genai';
 
@@ -226,17 +244,21 @@ export async function handleApiRequest(
       return jsonResponse({ success: false, error: 'Unauthorized' }, 401);
     }
 
-    const totalProducts = workerCommodities.length;
-    const publishedProducts = workerCommodities.filter(c => c.status === 'published' || !c.status).length;
-    const draftProducts = workerCommodities.filter(c => c.status === 'draft').length;
-    const archivedProducts = workerCommodities.filter(c => c.status === 'archived').length;
+    const products = await getProducts(env.DB, { includeDrafts: true });
+    const articles = await getArticles(env.DB, { includeDrafts: true });
+    const inquiries = await getInquiries(env.DB);
 
-    const totalArticles = workerBlogPosts.length;
-    const publishedArticles = workerBlogPosts.filter(p => p.status === 'published' || !p.status).length;
-    const draftArticles = workerBlogPosts.filter(p => p.status === 'draft').length;
+    const totalProducts = products.length;
+    const publishedProducts = products.filter(c => c.status === 'published' || !c.status).length;
+    const draftProducts = products.filter(c => c.status === 'draft').length;
+    const archivedProducts = products.filter(c => c.status === 'archived').length;
 
-    const totalInquiries = workerInquiries.length;
-    const newInquiries = workerInquiries.filter(i => i.status === 'new' || !i.status).length;
+    const totalArticles = articles.length;
+    const publishedArticles = articles.filter(p => p.status === 'published' || !p.status).length;
+    const draftArticles = articles.filter(p => p.status === 'draft').length;
+
+    const totalInquiries = inquiries.length;
+    const newInquiries = inquiries.filter(i => i.status === 'new' || !i.status).length;
 
     return jsonResponse({
       success: true,
@@ -252,9 +274,9 @@ export async function handleApiRequest(
         newInquiries,
         liveVisitors: 46,
         totalPageViews: 28450,
-        recentInquiries: workerInquiries.slice(0, 5),
-        recentProducts: workerCommodities.slice(0, 5),
-        recentArticles: workerBlogPosts.slice(0, 5)
+        recentInquiries: inquiries.slice(0, 5),
+        recentProducts: products.slice(0, 5),
+        recentArticles: articles.slice(0, 5)
       }
     });
   }
@@ -266,29 +288,15 @@ export async function handleApiRequest(
   if (pathname === '/api/products' && method === 'GET') {
     const category = url.searchParams.get('category');
     const search = url.searchParams.get('search');
-    let list = workerCommodities.filter(c => c.status !== 'draft' && c.status !== 'archived');
-
-    if (category && category !== 'all') {
-      list = list.filter(c => c.category === category);
-    }
-    if (search) {
-      const q = search.toLowerCase();
-      list = list.filter(c =>
-        c.name.toLowerCase().includes(q) ||
-        c.indonesianName.toLowerCase().includes(q) ||
-        c.origin.toLowerCase().includes(q)
-      );
-    }
-    return jsonResponse({ products: list });
+    const products = await getProducts(env.DB, { category, search, includeDrafts: false });
+    return jsonResponse({ products });
   }
 
   // Public Single Product
   if (pathname.startsWith('/api/products/') && method === 'GET') {
     const idOrSlug = pathname.replace('/api/products/', '');
-    const product = workerCommodities.find(
-      c => (c.id === idOrSlug || c.slug === idOrSlug) && c.status !== 'draft' && c.status !== 'archived'
-    );
-    if (!product) {
+    const product = await getProductByIdOrSlug(env.DB, idOrSlug);
+    if (!product || product.status === 'draft' || product.status === 'archived') {
       return jsonResponse({ error: 'Produk tidak ditemukan.' }, 404);
     }
     return jsonResponse({ product });
@@ -303,23 +311,8 @@ export async function handleApiRequest(
       const search = url.searchParams.get('search');
       const category = url.searchParams.get('category');
       const status = url.searchParams.get('status');
-      let filtered = [...workerCommodities];
-
-      if (status && status !== 'all') {
-        filtered = filtered.filter(c => (c.status || 'published') === status);
-      }
-      if (category && category !== 'all') {
-        filtered = filtered.filter(c => c.category === category);
-      }
-      if (search) {
-        const q = search.toLowerCase();
-        filtered = filtered.filter(c =>
-          c.name.toLowerCase().includes(q) ||
-          c.indonesianName.toLowerCase().includes(q) ||
-          c.origin.toLowerCase().includes(q)
-        );
-      }
-      return jsonResponse({ success: true, products: filtered, total: filtered.length });
+      const products = await getProducts(env.DB, { search, category, status, includeDrafts: true });
+      return jsonResponse({ success: true, products, total: products.length });
     }
 
     if (method === 'POST') {
@@ -363,8 +356,8 @@ export async function handleApiRequest(
         metaDescription: body.metaDescription || (body.description ? body.description.slice(0, 160) : '')
       };
 
-      workerCommodities.unshift(newProduct);
-      return jsonResponse({ success: true, product: newProduct }, 201);
+      const saved = await createProduct(env.DB, newProduct);
+      return jsonResponse({ success: true, product: saved }, 201);
     }
 
     return methodNotAllowed(['GET', 'POST']);
@@ -376,30 +369,23 @@ export async function handleApiRequest(
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
     const id = pathname.replace('/api/admin/products/', '');
-    const index = workerCommodities.findIndex(c => c.id === id);
 
     if (method === 'GET') {
-      if (index === -1) return jsonResponse({ error: 'Produk tidak ditemukan.' }, 404);
-      return jsonResponse({ success: true, product: workerCommodities[index] });
+      const product = await getProductByIdOrSlug(env.DB, id);
+      if (!product) return jsonResponse({ error: 'Produk tidak ditemukan.' }, 404);
+      return jsonResponse({ success: true, product });
     }
 
     if (method === 'PUT') {
-      if (index === -1) return jsonResponse({ error: 'Produk tidak ditemukan.' }, 404);
       const body = (await request.json().catch(() => ({}))) as any;
-      workerCommodities[index] = {
-        ...workerCommodities[index],
-        ...body,
-        specification: {
-          ...workerCommodities[index].specification,
-          ...(body.specification || {})
-        }
-      };
-      return jsonResponse({ success: true, product: workerCommodities[index] });
+      const updated = await updateProduct(env.DB, id, body);
+      if (!updated) return jsonResponse({ error: 'Produk tidak ditemukan.' }, 404);
+      return jsonResponse({ success: true, product: updated });
     }
 
     if (method === 'DELETE') {
-      if (index === -1) return jsonResponse({ error: 'Produk tidak ditemukan.' }, 404);
-      workerCommodities.splice(index, 1);
+      const deleted = await deleteProduct(env.DB, id);
+      if (!deleted) return jsonResponse({ error: 'Produk tidak ditemukan.' }, 404);
       return jsonResponse({ success: true, message: 'Produk berhasil dihapus.' });
     }
 
@@ -413,23 +399,15 @@ export async function handleApiRequest(
   if (pathname === '/api/blog' && method === 'GET') {
     const category = url.searchParams.get('category');
     const search = url.searchParams.get('search');
-    let list = workerBlogPosts.filter(p => p.status === 'published' || !p.status);
-
-    if (category && category !== 'all') {
-      list = list.filter(p => p.category === category);
-    }
-    if (search) {
-      const q = search.toLowerCase();
-      list = list.filter(p => p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q));
-    }
-    return jsonResponse({ posts: list });
+    const posts = await getArticles(env.DB, { category, search, includeDrafts: false });
+    return jsonResponse({ posts });
   }
 
   // Public Single Post
   if (pathname.startsWith('/api/blog/') && !pathname.endsWith('/comments') && method === 'GET') {
     const idOrSlug = pathname.replace('/api/blog/', '');
-    const post = workerBlogPosts.find(p => p.id === idOrSlug || p.slug === idOrSlug);
-    if (!post) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
+    const post = await getArticleByIdOrSlug(env.DB, idOrSlug);
+    if (!post || post.status === 'draft') return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
     return jsonResponse({ post });
   }
 
@@ -437,7 +415,7 @@ export async function handleApiRequest(
   if (pathname.includes('/api/blog/') && pathname.endsWith('/comments') && method === 'POST') {
     const parts = pathname.split('/');
     const id = parts[3];
-    const post = workerBlogPosts.find(p => p.id === id);
+    const post = await getArticleByIdOrSlug(env.DB, id);
     if (!post) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
 
     const body = (await request.json().catch(() => ({}))) as any;
@@ -448,8 +426,8 @@ export async function handleApiRequest(
       content: body.content || '',
       createdAt: 'Baru saja'
     };
-    if (!post.comments) post.comments = [];
-    post.comments.push(newComment);
+
+    await addArticleComment(env.DB, post.id, newComment);
     return jsonResponse({ success: true, comment: newComment }, 201);
   }
 
@@ -459,7 +437,8 @@ export async function handleApiRequest(
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
     if (method === 'GET') {
-      return jsonResponse({ success: true, articles: workerBlogPosts });
+      const articles = await getArticles(env.DB, { includeDrafts: true });
+      return jsonResponse({ success: true, articles });
     }
 
     if (method === 'POST') {
@@ -486,7 +465,7 @@ export async function handleApiRequest(
           role: 'Fisheries & Trade Intelligence Desk',
           avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
         },
-        category: body.category || 'Ekspor & Pasar',
+        category: body.category || 'ekspor-pasar',
         tags: body.tags || ['Dried Seafood', 'Ekspor Perikanan'],
         readTime: body.readTime || '5 menit baca',
         publishedAt: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }),
@@ -495,8 +474,8 @@ export async function handleApiRequest(
         comments: []
       };
 
-      workerBlogPosts.unshift(newPost);
-      return jsonResponse({ success: true, article: newPost }, 201);
+      const saved = await createArticle(env.DB, newPost);
+      return jsonResponse({ success: true, article: saved }, 201);
     }
 
     return methodNotAllowed(['GET', 'POST']);
@@ -508,30 +487,30 @@ export async function handleApiRequest(
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
     const id = pathname.replace('/api/admin/articles/', '').split('/')[0];
-    const index = workerBlogPosts.findIndex(p => p.id === id);
 
     if (pathname.endsWith('/status') && method === 'PATCH') {
-      if (index === -1) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
       const body = (await request.json().catch(() => ({}))) as any;
-      workerBlogPosts[index].status = body.status === 'draft' ? 'draft' : 'published';
-      return jsonResponse({ success: true, article: workerBlogPosts[index] });
+      const updated = await updateArticle(env.DB, id, { status: body.status === 'draft' ? 'draft' : 'published' });
+      if (!updated) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
+      return jsonResponse({ success: true, article: updated });
     }
 
     if (method === 'GET') {
-      if (index === -1) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
-      return jsonResponse({ success: true, article: workerBlogPosts[index] });
+      const article = await getArticleByIdOrSlug(env.DB, id);
+      if (!article) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
+      return jsonResponse({ success: true, article });
     }
 
     if (method === 'PUT') {
-      if (index === -1) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
       const body = (await request.json().catch(() => ({}))) as any;
-      workerBlogPosts[index] = { ...workerBlogPosts[index], ...body };
-      return jsonResponse({ success: true, article: workerBlogPosts[index] });
+      const updated = await updateArticle(env.DB, id, body);
+      if (!updated) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
+      return jsonResponse({ success: true, article: updated });
     }
 
     if (method === 'DELETE') {
-      if (index === -1) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
-      workerBlogPosts.splice(index, 1);
+      const deleted = await deleteArticle(env.DB, id);
+      if (!deleted) return jsonResponse({ error: 'Artikel tidak ditemukan.' }, 404);
       return jsonResponse({ success: true, message: 'Artikel berhasil dihapus.' });
     }
 
@@ -559,8 +538,8 @@ export async function handleApiRequest(
       status: 'new',
       sslEncrypted: true
     };
-    workerInquiries.unshift(newInquiry);
-    return jsonResponse({ success: true, inquiry: newInquiry }, 201);
+    const saved = await createInquiry(env.DB, newInquiry);
+    return jsonResponse({ success: true, inquiry: saved }, 201);
   }
 
   // Admin Inquiries
@@ -568,7 +547,8 @@ export async function handleApiRequest(
     const user = await authenticateRequest(request, env);
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
     if (method === 'GET') {
-      return jsonResponse({ success: true, inquiries: workerInquiries });
+      const inquiries = await getInquiries(env.DB);
+      return jsonResponse({ success: true, inquiries });
     }
     return methodNotAllowed(['GET']);
   }
@@ -578,19 +558,20 @@ export async function handleApiRequest(
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
     const id = pathname.replace('/api/admin/inquiries/', '');
-    const index = workerInquiries.findIndex(i => i.id === id);
 
     if (method === 'PATCH') {
-      if (index === -1) return jsonResponse({ error: 'Inquiry not found' }, 404);
       const body = (await request.json().catch(() => ({}))) as any;
-      if (body.status) workerInquiries[index].status = body.status;
-      if (body.replyNotes !== undefined) workerInquiries[index].replyNotes = body.replyNotes;
-      return jsonResponse({ success: true, inquiry: workerInquiries[index] });
+      const updated = await updateInquiryStatus(env.DB, id, {
+        status: body.status,
+        replyNotes: body.replyNotes
+      });
+      if (!updated) return jsonResponse({ error: 'Inquiry not found' }, 404);
+      return jsonResponse({ success: true, inquiry: updated });
     }
 
     if (method === 'DELETE') {
-      if (index === -1) return jsonResponse({ error: 'Inquiry not found' }, 404);
-      workerInquiries.splice(index, 1);
+      const deleted = await deleteInquiry(env.DB, id);
+      if (!deleted) return jsonResponse({ error: 'Inquiry not found' }, 404);
       return jsonResponse({ success: true, message: 'Inquiry berhasil dihapus.' });
     }
 
@@ -601,14 +582,18 @@ export async function handleApiRequest(
   // 7. GALLERY API
   // ----------------------------------------------------
   if (pathname === '/api/gallery' && method === 'GET') {
-    return jsonResponse({ items: workerGalleryItems });
+    const items = await getGalleryItems(env.DB);
+    return jsonResponse({ items });
   }
 
   if (pathname === '/api/admin/gallery') {
     const user = await authenticateRequest(request, env);
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
-    if (method === 'GET') return jsonResponse({ success: true, items: workerGalleryItems });
+    if (method === 'GET') {
+      const items = await getGalleryItems(env.DB);
+      return jsonResponse({ success: true, items });
+    }
 
     if (method === 'POST') {
       const body = (await request.json().catch(() => ({}))) as any;
@@ -622,8 +607,8 @@ export async function handleApiRequest(
         description: body.description || '',
         tags: body.tags || ['Hasil Laut', 'Ekspor']
       };
-      workerGalleryItems.unshift(newItem);
-      return jsonResponse({ success: true, item: newItem }, 201);
+      const saved = await createGalleryItem(env.DB, newItem);
+      return jsonResponse({ success: true, item: saved }, 201);
     }
     return methodNotAllowed(['GET', 'POST']);
   }
@@ -633,18 +618,17 @@ export async function handleApiRequest(
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
     const id = pathname.replace('/api/admin/gallery/', '');
-    const index = workerGalleryItems.findIndex(g => g.id === id);
 
     if (method === 'PUT') {
-      if (index === -1) return jsonResponse({ error: 'Item not found' }, 404);
       const body = (await request.json().catch(() => ({}))) as any;
-      workerGalleryItems[index] = { ...workerGalleryItems[index], ...body };
-      return jsonResponse({ success: true, item: workerGalleryItems[index] });
+      const updated = await updateGalleryItem(env.DB, id, body);
+      if (!updated) return jsonResponse({ error: 'Item not found' }, 404);
+      return jsonResponse({ success: true, item: updated });
     }
 
     if (method === 'DELETE') {
-      if (index === -1) return jsonResponse({ error: 'Item not found' }, 404);
-      workerGalleryItems.splice(index, 1);
+      const deleted = await deleteGalleryItem(env.DB, id);
+      if (!deleted) return jsonResponse({ error: 'Item not found' }, 404);
       return jsonResponse({ success: true, message: 'Item berhasil dihapus.' });
     }
 
@@ -655,26 +639,30 @@ export async function handleApiRequest(
   // 8. SEO SETTINGS API
   // ----------------------------------------------------
   if (pathname === '/api/seo' && method === 'GET') {
-    return jsonResponse(workerSeoSettings);
+    const settings = await getSeoSettings(env.DB);
+    return jsonResponse(settings);
   }
 
   if (pathname === '/api/admin/seo') {
     const user = await authenticateRequest(request, env);
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
-    if (method === 'GET') return jsonResponse({ success: true, settings: workerSeoSettings });
+    if (method === 'GET') {
+      const settings = await getSeoSettings(env.DB);
+      return jsonResponse({ success: true, settings });
+    }
 
     if (method === 'POST') {
       const body = (await request.json().catch(() => ({}))) as any;
-      Object.assign(workerSeoSettings, body);
-      return jsonResponse({ success: true, settings: workerSeoSettings });
+      const saved = await saveSeoSettings(env.DB, body);
+      return jsonResponse({ success: true, settings: saved });
     }
 
     return methodNotAllowed(['GET', 'POST']);
   }
 
   // ----------------------------------------------------
-  // 9. MEDIA UPLOAD API
+  // 9. MEDIA UPLOAD API (R2 Persistent Storage Support)
   // ----------------------------------------------------
   if (pathname === '/api/admin/upload') {
     const user = await authenticateRequest(request, env);
@@ -687,10 +675,48 @@ export async function handleApiRequest(
       return jsonResponse({ error: 'Format data gambar tidak valid.' }, 400);
     }
 
+    const safeFilename = (filename || `upload-${Date.now()}.webp`).replace(/[^a-zA-Z0-9._-]/g, '_');
+    const storageKey = `uploads/${Date.now()}-${safeFilename}`;
+
+    // If R2 bucket is configured in env, save the media file directly
+    if (env.MEDIA_BUCKET && typeof env.MEDIA_BUCKET.put === 'function') {
+      try {
+        let contentType = 'image/jpeg';
+        let base64Data = dataUrl;
+
+        if (dataUrl.startsWith('data:')) {
+          const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+          if (match) {
+            contentType = match[1];
+            base64Data = match[2];
+          }
+        }
+
+        const binaryString = atob(base64Data);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        await env.MEDIA_BUCKET.put(storageKey, bytes, {
+          httpMetadata: { contentType }
+        });
+
+        return jsonResponse({
+          success: true,
+          url: `/media/${storageKey}`,
+          filename: safeFilename,
+          message: 'Gambar berhasil diunggah ke persistent Cloudflare R2 storage.'
+        });
+      } catch (uploadErr) {
+        console.error('R2 upload failed, returning fallback dataUrl:', uploadErr);
+      }
+    }
+
     return jsonResponse({
       success: true,
       url: dataUrl,
-      filename: filename || `upload-${Date.now()}.webp`,
+      filename: safeFilename,
       message: 'Gambar berhasil diproses.'
     });
   }
@@ -812,7 +838,7 @@ export async function handleApiRequest(
       try {
         const ai = new GoogleGenAI({ apiKey });
         if (mode === 'generate-blog') {
-          const prompt = `Anda adalah Pakar Ekspor Hasil Laut di "Dried Seafood Global". Tulis artikel blog profesional tentang: "${topic || 'Inovasi Ekspor Ikan Asin'}". Kembalikan JSON: { "title": "...", "excerpt": "...", "category": "Ekspor & Pasar", "readTime": "5 menit", "tags": ["Dried Seafood", "Ekspor"], "content": "..." }`;
+          const prompt = `Anda adalah Pakar Ekspor Hasil Laut di "Dried Seafood Global". Tulis artikel blog profesional tentang: "${topic || 'Inovasi Ekspor Ikan Asin'}". Kembalikan JSON: { "title": "...", "excerpt": "...", "category": "ekspor-pasar", "readTime": "5 menit", "tags": ["Dried Seafood", "Ekspor"], "content": "..." }`;
           const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
@@ -832,7 +858,7 @@ export async function handleApiRequest(
       result: {
         title: `Inovasi Standar Mutu Ekspor: ${topic || 'Solar Dome Dryer & Higienitas Hasil Laut'}`,
         excerpt: 'Panduan strategis pemenuhan standar mutu internasional untuk ekspor ikan asin dan hasil laut khas Indonesia.',
-        category: 'Kualitas & Higienitas',
+        category: 'kualitas-higienitas',
         readTime: '5 menit baca',
         tags: ['Dried Seafood', 'Ekspor Ikan Asin', 'KKP RI', 'HACCP'],
         content: `### Standar Mutu Ekspor Hasil Laut Kering Indonesia\n\nDalam perdagangan hasil laut internasional, sertifikasi higienis dan konsistensi kadar air menjadi faktor penentu.\n\n* **Higienitas Solar Dome Dryer:** Bebas dari debu dan kontaminasi luar.\n* **Pengawasan Kadar Garam & Air:** Uji laboratorium berkala dengan sertifikat analisis (COA).\n* **Sertifikasi Karantina Resmi:** Health Certificate resmi dari BKIPM Kementerian Kelautan dan Perikanan.`

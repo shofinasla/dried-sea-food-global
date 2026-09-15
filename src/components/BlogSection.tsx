@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { BlogPost } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
-import { getAllCategoryLabel, getCategoryLabel } from '../i18n/categoryLabels';
+import { getAllCategoryLabel, getCategoryLabel, normalizeBlogCategory } from '../i18n/categoryLabels';
 
 interface BlogSectionProps {
   posts: BlogPost[];
@@ -40,19 +40,21 @@ export default function BlogSection({ posts, onAddComment }: BlogSectionProps) {
 
   const categories = [
     { id: 'all', label: getAllCategoryLabel('blog', currentLang) },
-    { id: 'Ekspor & Pasar', label: getCategoryLabel('blog', 'Ekspor & Pasar', currentLang) },
-    { id: 'Teknologi Pengolahan', label: getCategoryLabel('blog', 'Teknologi Pengolahan', currentLang) },
-    { id: 'Regulasi & Sertifikasi', label: getCategoryLabel('blog', 'Regulasi & Sertifikasi', currentLang) },
-    { id: 'Kualitas & Higienitas', label: getCategoryLabel('blog', 'Kualitas & Higienitas', currentLang) },
-    { id: 'Nelayan & Keberlanjutan', label: getCategoryLabel('blog', 'Nelayan & Keberlanjutan', currentLang) }
+    { id: 'ekspor-pasar', label: getCategoryLabel('blog', 'ekspor-pasar', currentLang) },
+    { id: 'teknologi-pengolahan', label: getCategoryLabel('blog', 'teknologi-pengolahan', currentLang) },
+    { id: 'regulasi-sertifikasi', label: getCategoryLabel('blog', 'regulasi-sertifikasi', currentLang) },
+    { id: 'kualitas-higienitas', label: getCategoryLabel('blog', 'kualitas-higienitas', currentLang) },
+    { id: 'nelayan-keberlanjutan', label: getCategoryLabel('blog', 'nelayan-keberlanjutan', currentLang) }
   ];
 
   const filteredPosts = posts.filter(post => {
-    const matchesCat = selectedCategory === 'all' || post.category === selectedCategory;
+    const postNorm = normalizeBlogCategory(post.category);
+    const selNorm = selectedCategory === 'all' ? null : normalizeBlogCategory(selectedCategory);
+    const matchesCat = selectedCategory === 'all' || post.category === selectedCategory || (selNorm && postNorm.slug === selNorm.slug);
     const matchesSearch = searchQuery === '' || 
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      (Array.isArray(post.tags) && post.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
     return matchesCat && matchesSearch;
   });
 

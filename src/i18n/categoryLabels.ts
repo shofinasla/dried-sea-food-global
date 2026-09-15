@@ -27,11 +27,20 @@ const CATEGORY_LABELS: Record<CategoryGroup, Record<string, Partial<Record<Suppo
     }
   },
   blog: {
+    'ekspor-pasar': { en: 'Export & Global Markets', id: 'Ekspor & Pasar', zh: '出口与全球市场', ja: '輸出・グローバル市場', ko: '수출 및 글로벌 시장', ar: 'التصدير والأسواق العالمية', es: 'Exportación y Mercados Globales', fr: 'Exportation et Marchés Mondiaux', de: 'Export & Globale Märkte', vi: 'Xuất khẩu và thị trường toàn cầu', ru: 'Экспорт и мировые рынки' },
+    'teknologi-pengolahan': { en: 'Processing Technology', id: 'Teknologi Pengolahan', zh: '加工技术', ja: '加工技術', ko: '가공 기술', ar: 'تقنيات المعالجة', es: 'Tecnología de Procesamiento', fr: 'Technologie de Transformation', de: 'Verarbeitungstechnologie', vi: 'Công nghệ chế biến', ru: 'Технология обработки' },
+    'regulasi-sertifikasi': { en: 'Regulations & Certification', id: 'Regulasi & Sertifikasi', zh: '法规与认证', ja: '規制・認証', ko: '규정 및 인증', ar: 'اللوائح والشهادات', es: 'Regulación y Certificación', fr: 'Réglementation et Certification', de: 'Regulierung & Zertifizierung', vi: 'Quy định và chứng nhận', ru: 'Регулирование и сертификация' },
+    'kualitas-higienitas': { en: 'Quality & Hygiene', id: 'Kualitas & Higienitas', zh: '质量与卫生', ja: '品質・衛生', ko: '품질 및 위생', ar: 'الجودة والنظافة', es: 'Calidad e Higiene', fr: 'Qualité et Hygiène', de: 'Qualität & Hygiene', vi: 'Chất lượng và vệ sinh', ru: 'Качество и гигиена' },
+    'nelayan-keberlanjutan': { en: 'Fisheries & Sustainability', id: 'Nelayan & Keberlanjutan', zh: '渔民与可持续发展', ja: '漁業・持続可能性', ko: '어민 및 지속가능성', ar: 'الصيادون والاستدامة', es: 'Pesca y Sostenibilidad', fr: 'Pêcheurs et Durabilité', de: 'Fischer & Nachhaltigkeit', vi: 'Ngư dân và phát triển bền vững', ru: 'Рыбаки и устойчивое развитие' },
     'Ekspor & Pasar': { en: 'Export & Global Markets', id: 'Ekspor & Pasar', zh: '出口与全球市场', ja: '輸出・グローバル市場', ko: '수출 및 글로벌 시장', ar: 'التصدير والأسواق العالمية', es: 'Exportación y Mercados Globales', fr: 'Exportation et Marchés Mondiaux', de: 'Export & Globale Märkte', vi: 'Xuất khẩu và thị trường toàn cầu', ru: 'Экспорт и мировые рынки' },
     'Teknologi Pengolahan': { en: 'Processing Technology', id: 'Teknologi Pengolahan', zh: '加工技术', ja: '加工技術', ko: '가공 기술', ar: 'تقنيات المعالجة', es: 'Tecnología de Procesamiento', fr: 'Technologie de Transformation', de: 'Verarbeitungstechnologie', vi: 'Công nghệ chế biến', ru: 'Технология обработки' },
     'Regulasi & Sertifikasi': { en: 'Regulations & Certification', id: 'Regulasi & Sertifikasi', zh: '法规与认证', ja: '規制・認証', ko: '규정 및 인증', ar: 'اللوائح والشهادات', es: 'Regulación y Certificación', fr: 'Réglementation et Certification', de: 'Regulierung & Zertifizierung', vi: 'Quy định và chứng nhận', ru: 'Регулирование и сертификация' },
     'Kualitas & Higienitas': { en: 'Quality & Hygiene', id: 'Kualitas & Higienitas', zh: '质量与卫生', ja: '品質・衛生', ko: '품질 및 위생', ar: 'الجودة والنظافة', es: 'Calidad e Higiene', fr: 'Qualité et Hygiène', de: 'Qualität & Hygiene', vi: 'Chất lượng và vệ sinh', ru: 'Качество и гигиена' },
-    'Nelayan & Keberlanjutan': { en: 'Fisheries & Sustainability', id: 'Nelayan & Keberlanjutan', zh: '渔民与可持续发展', ja: '漁業・持続可能性', ko: '어민 및 지속가능성', ar: 'الصيادون والاستدامة', es: 'Pesca y Sostenibilidad', fr: 'Pêcheurs et Durabilité', de: 'Fischer & Nachhaltigkeit', vi: 'Ngư dân và phát triển bền vững', ru: 'Рыбаки и устойчивое развитие' }
+    'Nelayan & Keberlanjutan': { en: 'Fisheries & Sustainability', id: 'Nelayan & Keberlanjutan', zh: '渔民与可持续发展', ja: '漁業・持続可能性', ko: '어민 및 지속가능성', ar: 'الصيادون والاستدامة', es: 'Pesca y Sostenibilidad', fr: 'Pêcheurs et Durabilité', de: 'Fischer & Nachhaltigkeit', vi: 'Ngư dân và phát triển bền vững', ru: 'Рыбаки и устойчивое развитие' },
+    'Industri': { en: 'Export & Global Markets', id: 'Ekspor & Pasar', zh: '出口与全球市场', ja: '輸出・グローバル市場', ko: '수출 및 글로벌 시장', ar: 'التصدير والأسواق العالمية', es: 'Exportación y Mercados Globales', fr: 'Exportation et Marchés Mondiaux', de: 'Export & Globale Märkte', vi: 'Xuất khẩu và thị trường toàn cầu', ru: 'Экспорт и мировые рынки' },
+    'Teknologi': { en: 'Processing Technology', id: 'Teknologi Pengolahan', zh: '加工技术', ja: '加工技術', ko: '가공 기술', ar: 'تقنيات المعالجة', es: 'Tecnología de Procesamiento', fr: 'Technologie de Transformation', de: 'Verarbeitungstechnologie', vi: 'Công nghệ chế biến', ru: 'Технология обработки' },
+    'Kasus Nyata': { en: 'Regulations & Certification', id: 'Regulasi & Sertifikasi', zh: '法规与认证', ja: '規制・認証', ko: '규정 및 인증', ar: 'اللوائح والشهادات', es: 'Regulación y Certificación', fr: 'Réglementation et Certification', de: 'Regulierung & Zertifizierung', vi: 'Quy định và chứng nhận', ru: 'Регулирование и сертификация' },
+    'Sustainability': { en: 'Fisheries & Sustainability', id: 'Nelayan & Keberlanjutan', zh: '渔民与可持续发展', ja: '漁業・持続可能性', ko: '어민 및 지속가능성', ar: 'الصيادون والاستدامة', es: 'Pesca y Sostenibilidad', fr: 'Pêcheurs et Durabilité', de: 'Fischer & Nachhaltigkeit', vi: 'Ngư dân và phát triển bền vững', ru: 'Рыбаки и устойчивое развитие' }
   },
   gallery: {
     processing: { en: 'Processing & Solar Dome', id: 'Pengeringan & Solar Dome', zh: '加工与太阳能穹顶', ja: '加工・ソーラードーム', ko: '가공 및 솔라 돔', ar: 'المعالجة والقبة الشمسية', es: 'Procesamiento y Solar Dome', fr: 'Transformation et Solar Dome', de: 'Verarbeitung & Solar Dome', vi: 'Chế biến và Solar Dome', ru: 'Обработка и Solar Dome' },
@@ -54,3 +63,25 @@ export function getAllCategoryLabel(group: CategoryGroup, language: SupportedLan
   };
   return labels[group][language] || labels[group].en || 'All';
 }
+
+export function normalizeBlogCategory(category: string): { slug: string; label: string } {
+  const clean = (category || '').trim();
+  const lower = clean.toLowerCase();
+  if (lower === 'ekspor-pasar' || lower === 'ekspor & pasar' || lower === 'industri') {
+    return { slug: 'ekspor-pasar', label: 'Ekspor & Pasar' };
+  }
+  if (lower === 'teknologi-pengolahan' || lower === 'teknologi pengolahan' || lower === 'teknologi') {
+    return { slug: 'teknologi-pengolahan', label: 'Teknologi Pengolahan' };
+  }
+  if (lower === 'regulasi-sertifikasi' || lower === 'regulasi & sertifikasi' || lower === 'kasus nyata') {
+    return { slug: 'regulasi-sertifikasi', label: 'Regulasi & Sertifikasi' };
+  }
+  if (lower === 'kualitas-higienitas' || lower === 'kualitas & higienitas') {
+    return { slug: 'kualitas-higienitas', label: 'Kualitas & Higienitas' };
+  }
+  if (lower === 'nelayan-keberlanjutan' || lower === 'nelayan & keberlanjutan' || lower === 'sustainability') {
+    return { slug: 'nelayan-keberlanjutan', label: 'Nelayan & Keberlanjutan' };
+  }
+  return { slug: clean.toLowerCase().replace(/[^a-z0-9]+/g, '-'), label: clean || 'Ekspor & Pasar' };
+}
+
