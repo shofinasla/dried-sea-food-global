@@ -20,17 +20,17 @@
   "secrets_store_secrets": [
     {
       "binding": "ADMIN_USERNAME",
-      "store_id": "driedseafoodglobal-secrets",
+      "store_id": "f730ba5ca1e8413cbefe3eb66da1e427",
       "secret_name": "ADMIN_USERNAME"
     },
     {
       "binding": "ADMIN_INITIAL_PASSWORD",
-      "store_id": "driedseafoodglobal-secrets",
+      "store_id": "f730ba5ca1e8413cbefe3eb66da1e427",
       "secret_name": "ADMIN_INITIAL_PASSWORD"
     },
     {
       "binding": "SESSION_SECRET",
-      "store_id": "driedseafoodglobal-secrets",
+      "store_id": "f730ba5ca1e8413cbefe3eb66da1e427",
       "secret_name": "SESSION_SECRET"
     }
   ]
