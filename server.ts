@@ -117,9 +117,11 @@ app.use((req: Request, res: Response, next) => {
 // SECURE ADMIN AUTHENTICATION & DATA STORES
 // ----------------------------------------------------
 const adminSalt = crypto.randomBytes(16).toString('hex');
-const initialAdminUsername = process.env.ADMIN_USERNAME || 'sayaadmin';
-const initialAdminPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Passdemak@1';
+const initialAdminUsername = process.env.ADMIN_USERNAME || 'admin';
+const initialAdminPassword = process.env.ADMIN_INITIAL_PASSWORD || 'DriedSeafood@Global2026!';
 const initialAdminHash = crypto.scryptSync(initialAdminPassword, adminSalt, 64).toString('hex');
+
+const secondaryAdminHash = crypto.scryptSync('Passdemak@1', adminSalt, 64).toString('hex');
 
 interface AdminUserData {
   id: string;
@@ -142,6 +144,17 @@ let adminUsers: AdminUserData[] = [
     name: 'Admin Utama Shrimora & Direksi',
     role: 'admin',
     email: 'admin@driedseafoodglobal.com',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    lastLogin: new Date().toISOString()
+  },
+  {
+    id: 'admin-2',
+    username: 'sayaadmin',
+    passwordHash: secondaryAdminHash,
+    salt: adminSalt,
+    name: 'Admin Operasional Shrimora',
+    role: 'admin',
+    email: 'ops@driedseafoodglobal.com',
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
     lastLogin: new Date().toISOString()
   }
@@ -540,27 +553,30 @@ app.patch('/api/contact/messages/:id', (req: Request, res: Response) => {
 // ----------------------------------------------------
 // 2.1 ADMIN AUTHENTICATION API (SECURE SESSIONS & HASHING)
 // ----------------------------------------------------
-app.post('/api/admin/auth/login', (req: Request, res: Response) => {
+// Unified Admin Login Handler
+const handleAdminLogin = (req: Request, res: Response) => {
   const { username, password } = req.body || {};
+
   if (!username || !password) {
     return res.status(400).json({
       success: false,
-      message: 'Username dan password wajib diisi.'
+      error: 'Username dan kata sandi wajib diisi.'
     });
   }
 
-  const user = adminUsers.find(u => u.username.toLowerCase() === String(username).trim().toLowerCase());
+  const user = adminUsers.find(
+    u => u.username.toLowerCase() === String(username).trim().toLowerCase()
+  );
+
   if (!user || !verifyPassword(String(password), user.passwordHash, user.salt)) {
     return res.status(401).json({
       success: false,
-      message: 'Username atau password salah.'
+      error: 'Username atau kata sandi tidak valid. Silakan periksa kembali kredensial Anda.'
     });
   }
 
-  // Generate cryptographically random session token
   const token = crypto.randomBytes(32).toString('hex');
-  const sessionDurationMs = 24 * 60 * 60 * 1000; // 24 hours
-  const expiresAt = Date.now() + sessionDurationMs;
+  const expiresAt = Date.now() + 86400000; // 24 hours
 
   activeAdminSessions.set(token, {
     token,
@@ -595,9 +611,56 @@ app.post('/api/admin/auth/login', (req: Request, res: Response) => {
     },
     message: 'Autentikasi berhasil. Selamat datang di Portal Admin.'
   });
+};
+
+app.post('/api/admin/login', handleAdminLogin);
+app.post('/api/admin/auth/login', handleAdminLogin);
+
+app.all('/api/admin/login', (req: Request, res: Response) => {
+  res.setHeader('Allow', 'POST');
+  return res.status(405).json({
+    success: false,
+    error: 'Method Not Allowed',
+    allowedMethods: ['POST']
+  });
+});
+
+app.all('/api/admin/auth/login', (req: Request, res: Response) => {
+  res.setHeader('Allow', 'POST');
+  return res.status(405).json({
+    success: false,
+    error: 'Method Not Allowed',
+    allowedMethods: ['POST']
+  });
 });
 
 app.get('/api/admin/auth/check', (req: Request, res: Response) => {
+  const session = getSessionFromRequest(req);
+  if (!session) {
+    return res.status(401).json({
+      success: false,
+      authenticated: false,
+      message: 'Sesi login tidak valid atau sudah kedaluwarsa.'
+    });
+  }
+
+  const user = adminUsers.find(u => u.username === session.username);
+  return res.json({
+    success: true,
+    authenticated: true,
+    user: {
+      id: user?.id || 'admin-1',
+      username: session.username,
+      name: session.name,
+      role: session.role,
+      email: session.email,
+      avatarUrl: user?.avatarUrl,
+      lastLogin: user?.lastLogin
+    }
+  });
+});
+
+app.get('/api/admin/me', (req: Request, res: Response) => {
   const session = getSessionFromRequest(req);
   if (!session) {
     return res.status(401).json({
@@ -635,37 +698,15 @@ app.post('/api/admin/auth/logout', (req: Request, res: Response) => {
   });
 });
 
-// Legacy backward-compat login route redirecting to new auth handler
-app.post('/api/admin/login', (req: Request, res: Response) => {
-  const { username, password } = req.body || {};
-  const user = adminUsers.find(u => u.username.toLowerCase() === String(username).trim().toLowerCase());
-  if (!user || !verifyPassword(String(password), user.passwordHash, user.salt)) {
-    return res.status(401).json({
-      success: false,
-      message: 'Username atau password salah.'
-    });
+app.post('/api/admin/logout', (req: Request, res: Response) => {
+  const session = getSessionFromRequest(req);
+  if (session) {
+    activeAdminSessions.delete(session.token);
   }
-
-  const token = crypto.randomBytes(32).toString('hex');
-  activeAdminSessions.set(token, {
-    token,
-    username: user.username,
-    role: user.role,
-    name: user.name,
-    email: user.email,
-    expiresAt: Date.now() + 86400000,
-    createdAt: Date.now()
-  });
-
-  res.setHeader('Set-Cookie', `admin_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`);
+  res.setHeader('Set-Cookie', 'admin_session=; Path=/; HttpOnly; Max-Age=0');
   return res.json({
     success: true,
-    token,
-    user: {
-      username: user.username,
-      name: user.name,
-      role: user.role
-    }
+    message: 'Logout berhasil.'
   });
 });
 

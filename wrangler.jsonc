@@ -1,11 +1,38 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dried-sea-food-global",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-09-11",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "observability": {
     "enabled": true
   },
   "assets": {
-    "not_found_handling": "single-page-application"
-  }
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "secrets_store_secrets": [
+    {
+      "binding": "ADMIN_USERNAME",
+      "store_id": "driedseafoodglobal-secrets",
+      "secret_name": "ADMIN_USERNAME"
+    },
+    {
+      "binding": "ADMIN_INITIAL_PASSWORD",
+      "store_id": "driedseafoodglobal-secrets",
+      "secret_name": "ADMIN_INITIAL_PASSWORD"
+    },
+    {
+      "binding": "SESSION_SECRET",
+      "store_id": "driedseafoodglobal-secrets",
+      "secret_name": "SESSION_SECRET"
+    }
+  ]
 }
+
