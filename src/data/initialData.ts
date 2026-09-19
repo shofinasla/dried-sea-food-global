@@ -777,6 +777,7 @@ export const SSL_CERTIFICATE_INFO = {
 export const EXPORT_COMMODITIES: ExportCommodity[] = [
   {
     id: 'exp-teri-nasi',
+    slug: 'dried-anchovy',
     name: 'Super White Anchovy / Teri Nasi Belawan Grade AAA',
     indonesianName: 'Ikan Teri Nasi Super Putih & Teri Medan Asli',
     category: 'Ikan Teri & Bilis Kering',
@@ -803,6 +804,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
   },
   {
     id: 'exp-ikan-jambal',
+    slug: 'dried-fish',
     name: 'Salted Dried Giant Catfish Fillet (Ikan Asin Jambal Roti)',
     indonesianName: 'Ikan Asin Jambal Roti Super Gurih Khas Pangandaran & Cilacap',
     category: 'Ikan Asin Olahan Tradisional',
@@ -830,6 +832,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
   },
   {
     id: 'exp-cumi-kering',
+    slug: 'dried-squid',
     name: 'Sun-Dried Squid & Loligo Baby Cuttlefish',
     indonesianName: 'Cumi Kering Sero Pilihan & Baby Cumi Kering Super',
     category: 'Cumi & Sotong Kering',
@@ -857,6 +860,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
   },
   {
     id: 'exp-fish-maw',
+    slug: 'fish-maw',
     name: 'Indonesian Premium Dried Fish Maw (Gelembung Ikan Gulama & Kakap)',
     indonesianName: 'Gelembung Ikan / Fish Maw Kering Kualitas Mewah',
     category: 'Gelembung Ikan / Fish Maw',
@@ -883,6 +887,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
   },
   {
     id: 'exp-teripang',
+    slug: 'sea-cucumber',
     name: 'Wild-Harvested Dried Sea Cucumber (Teripang Pasir & Gosok)',
     indonesianName: 'Teripang Kering Super (Sandfish & Black Teatfish)',
     category: 'Teripang & Hasil Laut Eksklusif',
@@ -909,33 +914,8 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
     featured: false
   },
   {
-    id: 'exp-teri-asin',
-    name: 'Ikan Teri Asin / Baby Fish Ikan Teri',
-    indonesianName: 'Ikan Teri Nasi Super Putih & Teri Medan Asli',
-    category: 'Ikan Teri & Asin',
-    hsCode: '0305.59.90',
-    origin: 'Belawan (Sumatera Utara), Tuban & Pasuruan (Jawa Timur)',
-    specification: {
-      grade: 'Super AAA Grade (Ukuran 1.5 - 2.5 cm, Utuh & Putih Bersih)',
-      moisture: '10% - 12% Max (Kadar Garam 2% - 4% Low Salt)',
-      packaging: '100g/250g/500g Vacuum Pouch / 10 Kg Master Carton Box',
-      moq: '500 Kg (LCL) / 1 x 20ft FCL (12 Metric Tons)',
-      shelfLife: '12 Bulan dalam suhu ruang kering / 24 Bulan chiller',
-      colorTexture: 'Putih Gading Alami, Renyah, Non-Formalin, Bebas Pemutih'
-    },
-    supplyCapacity: '80 Metrik Ton / Bulan',
-    certifications: ['HACCP Grade A', 'Health Certificate BKIPM', 'SKP KKP RI', 'Halal BPJPH', 'US FDA Registered'],
-    keyMarkets: ['Hong Kong', 'Singapura', 'Taiwan', 'Malaysia', 'Amerika Serikat (USA)'],
-    imageUrl: '/images/products/exp-teri-nasi-1.png',
-    galleryImages: [
-      '/images/products/exp-teri-nasi-1.png',
-      '/images/products/exp-teri-nasi-2.png'
-    ],
-    description: 'Ikan teri nasi kualitas super grade yang dikeringkan secara higienis menggunakan teknologi pengering modern. Berwarna putih gading alami tanpa bahan kimia pemutih, bercita rasa gurih renyah, dan sangat digemari pasar Asia Timur serta supermarket diaspora.',
-    featured: true
-  },
-  {
     id: 'exp-udang-ebi',
+    slug: 'dried-shrimp',
     name: 'Super Red Sun-Dried Prawns / Ebi Kering Pilihan',
     indonesianName: 'Ebi / Udang Kering Super Manis Gurih Alami',
     category: 'Hasil Laut & Pangan',
@@ -963,6 +943,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
   },
   {
     id: 'exp-tenggiri-kering',
+    slug: 'dried-spanish-mackerel',
     name: 'Traditional Salted Spanish Mackerel Fillet (Tenggiri Papan Kering)',
     indonesianName: 'Ikan Asin Tenggiri Batang & Papan Fillet Ekspor',
     category: 'Ikan Asin Olahan Tradisional',
@@ -991,6 +972,7 @@ export const EXPORT_COMMODITIES: ExportCommodity[] = [
   },
   {
     id: 'exp-ikan-gabus',
+    slug: 'dried-snakehead-fish',
     name: 'Sun-Dried Snakehead Fish Fillet (Ikan Asin Gabus Kering Rawa)',
     indonesianName: 'Ikan Asin Gabus Pilihan & Bilis Kering Danau Toba',
     category: 'Ikan Asin Olahan Tradisional',

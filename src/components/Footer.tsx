@@ -20,6 +20,7 @@ import { useTranslation } from '../i18n/LanguageContext';
 
 interface FooterProps {
   onScrollTo: (id: string) => void;
+  onNavigate?: (path: string) => void;
   onOpenCompany: () => void;
   onOpenPartners: () => void;
   onOpenSSLModal: () => void;
@@ -27,10 +28,25 @@ interface FooterProps {
   onOpen404?: () => void;
 }
 
-export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOpenSSLModal, onOpen404 }: FooterProps) {
+export default function Footer({ 
+  onScrollTo, 
+  onNavigate,
+  onOpenCompany, 
+  onOpenPartners, 
+  onOpenSSLModal, 
+  onOpen404 
+}: FooterProps) {
   const { t, currentLang, setLanguage } = useTranslation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNav = (path: string) => {
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      window.location.href = path;
+    }
   };
 
   return (
@@ -39,21 +55,29 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
       <div className="border-b border-slate-200 py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 text-[#009bb3] flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-200 text-[#009bb3] flex items-center justify-center shadow-xs">
               <ShieldCheck className="w-5 h-5 text-[#009bb3]" />
             </div>
             <div>
-              <span className="font-bold text-slate-900 block text-sm">{t.footer?.securityTitle || 'Enterprise Security Guaranteed'}</span>
-              <span className="text-[11px] text-slate-500">{t.footer?.securityDesc || 'TLS 1.3 256-Bit DigiCert Encryption'}</span>
+              <span className="font-bold text-slate-900 block text-sm">International Food Safety & Export Standard</span>
+              <span className="text-[11px] text-slate-500">HACCP Grade A • BKIPM Quarantine Certified • 0% Formalin Verified</span>
             </div>
           </div>
 
-          <button
-            onClick={onOpenSSLModal}
-            className="px-4 py-2 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold hover:bg-teal-100 transition-colors cursor-pointer"
-          >
-            TLS 1.3 DigiCert EV SSL
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onOpenSSLModal}
+              className="px-4 py-2 rounded-full bg-cyan-50 border border-cyan-200 text-[#009bb3] text-xs font-bold hover:bg-cyan-100 transition-colors cursor-pointer"
+            >
+              TLS 1.3 256-Bit DigiCert EV SSL
+            </button>
+            <button
+              onClick={() => handleNav('/request-quote')}
+              className="px-5 py-2 rounded-full bg-[#009bb3] text-white text-xs font-bold hover:bg-[#0d8a9e] transition shadow-xs cursor-pointer"
+            >
+              Request Quote (RFQ)
+            </button>
+          </div>
         </div>
       </div>
 
@@ -64,16 +88,16 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <a
-              href="#hero"
+              href="/"
               onClick={(e) => {
                 e.preventDefault();
-                onScrollTo('#hero');
+                handleNav('/');
               }}
               id="footer-brand-logo-link"
               className="inline-flex items-center gap-3 group cursor-pointer"
               aria-label="Dried Seafood Global"
             >
-              <div className="p-2 rounded-xl bg-white border border-slate-200 shadow-2xs group-hover:border-teal-400 transition-all">
+              <div className="p-2 rounded-xl bg-white border border-slate-200 shadow-2xs group-hover:border-cyan-400 transition-all">
                 <img
                   src="/logo-dsg.png"
                   alt="Dried Seafood Global - PT Samdura Bara Persada"
@@ -84,7 +108,7 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
             </a>
 
             <p className="text-slate-600 text-xs leading-relaxed max-w-sm">
-              {t.footer?.description || t.footer?.tagline || ''}
+              PT Samdura Bara Persada is a premier Indonesian marine export enterprise delivering Grade AAA sun-dried white anchovy, squid, shrimp, salted catfish, and fish maw directly from Indonesian coastal fishing hubs to international wholesale markets.
             </p>
 
             <div className="pt-2 text-xs space-y-2">
@@ -94,7 +118,7 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
               </p>
               <p className="flex items-center gap-2 text-slate-700">
                 <Phone className="w-4 h-4 text-[#009bb3] shrink-0" />
-                <span>{t.topBar?.hotlineLabel || 'Hotline:'} <strong className="text-slate-900">{COMPANY_PROFILE.hotline}</strong></span>
+                <span>Export Desk: <strong className="text-slate-900">{COMPANY_PROFILE.hotline}</strong></span>
               </p>
               <p className="flex items-center gap-2 text-slate-700">
                 <Mail className="w-4 h-4 text-[#009bb3] shrink-0" />
@@ -103,42 +127,44 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
             </div>
           </div>
 
-          {/* Col 2: Services */}
+          {/* Col 2: Export Products */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">{t.footer?.productsTitle || 'Products & Services'}</h4>
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">Export Products</h4>
             <ul className="space-y-2">
-              <li><button onClick={() => onScrollTo('#komoditas')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">Dried Whitebait (Teri Nasi)</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">Salted Giant Catfish (Jambal)</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">Sun-Dried Squid (Cumi Sero)</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">Fish Maw (Gelembung Ikan)</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">Dried Sea Cucumber (Teripang)</button></li>
-              <li><button onClick={() => onScrollTo('#alur-ekspor')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">BKIPM Quarantine Certificate</button></li>
+              <li><button onClick={() => handleNav('/products/dried-anchovy')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Dried White Anchovy (Teri Nasi)</button></li>
+              <li><button onClick={() => handleNav('/products/dried-squid')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Sun-Dried Squid (Cumi Sero)</button></li>
+              <li><button onClick={() => handleNav('/products/dried-shrimp')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Dried Shrimp / Ebi Super</button></li>
+              <li><button onClick={() => handleNav('/products/dried-fish')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Salted Giant Catfish (Jambal)</button></li>
+              <li><button onClick={() => handleNav('/products/fish-maw')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Premium Fish Maw (Gelembung Ikan)</button></li>
+              <li><button onClick={() => handleNav('/products/sea-cucumber')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Dried Sea Cucumber (Teripang)</button></li>
+              <li><button onClick={() => handleNav('/products')} className="text-[#009bb3] font-bold transition-colors cursor-pointer text-left">View All Products Catalog &rarr;</button></li>
             </ul>
           </div>
 
-          {/* Col 3: Navigation */}
+          {/* Col 3: Export & Facility */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">{t.footer?.quickLinks || 'Quick Links'}</h4>
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">Export & Operations</h4>
             <ul className="space-y-2">
-              <li><button onClick={() => onScrollTo('#hero')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.home || 'Home'}</button></li>
-              <li><button onClick={() => onScrollTo('#tentang')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.about || 'About'}</button></li>
-              <li><button onClick={() => onScrollTo('#komoditas')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.products || 'Products'}</button></li>
-              <li><button onClick={() => onScrollTo('#kalkulator')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.shippingCalc || 'Shipping'}</button></li>
-              <li><button onClick={() => onScrollTo('#galeri')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.gallery || 'Facility'}</button></li>
-              <li><button onClick={() => onScrollTo('#lokasi')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.mapHubs || 'Ports'}</button></li>
-              <li><button onClick={() => onScrollTo('#kontak')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">{t.nav?.contactRfq || 'Contact'}</button></li>
-              <li><button onClick={onOpenPartners} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">Mitra Strategis</button></li>
+              <li><button onClick={() => handleNav('/export-process')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Export Process (9 Steps)</button></li>
+              <li><button onClick={() => handleNav('/quality')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Quality & Lab Standards</button></li>
+              <li><button onClick={() => handleNav('/facility')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Muara Baru Facilities</button></li>
+              <li><button onClick={() => handleNav('/markets')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Global Export Markets</button></li>
+              <li><button onClick={() => handleNav('/insights')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Industry Insights & Guides</button></li>
+              <li><button onClick={() => handleNav('/request-quote')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left font-bold text-[#009bb3]">Request Quote (RFQ)</button></li>
+              <li><button onClick={() => handleNav('/buyer-inquiry')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Buyer Sample Request</button></li>
             </ul>
           </div>
 
-          {/* Col 4: Compliance & Certifications */}
+          {/* Col 4: Corporate & Credentials */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">{t.footer?.complianceTitle || 'Compliance & Ports'}</h4>
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">Corporate & Legal</h4>
             <ul className="space-y-2">
-              <li><button onClick={onOpenSSLModal} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer">TLS 1.3 EV SSL Certificate</button></li>
-              <li><span className="text-slate-400">HACCP Grade A Certified</span></li>
-              <li><span className="text-slate-400">BPJPH Halal Indonesia</span></li>
-              <li><span className="text-slate-400">BKIPM Quarantine Health Cert</span></li>
+              <li><button onClick={() => handleNav('/about')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">About PT Samdura Bara Persada</button></li>
+              <li><button onClick={onOpenPartners} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Strategic Ecosystem Partners</button></li>
+              <li><button onClick={onOpenSSLModal} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">TLS 1.3 EV SSL Security</button></li>
+              <li><span className="text-slate-400">NIB: 1408230135849</span></li>
+              <li><span className="text-slate-400">P-IRT: 5023315010556-31</span></li>
+              <li><span className="text-slate-400">AHU-0034189.AH.01.01.2014</span></li>
             </ul>
 
             <div className="pt-3">
@@ -151,60 +177,6 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
               </button>
             </div>
           </div>
-
-          {/* Col 5: Multilingual Regional Portals */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">{t.footer?.regionalPortals || 'Regional Portals'}</h4>
-            <ul className="space-y-2 text-xs">
-              <li>
-                <a 
-                  href="/" 
-                  onClick={(e) => { e.preventDefault(); setLanguage('en'); onScrollTo('#hero'); }}
-                  className={`flex items-center justify-between transition-colors ${currentLang === 'en' ? 'text-teal-700 font-bold' : 'text-slate-600 hover:text-[#009bb3]'}`}
-                >
-                  <span>Global (English)</span>
-                  <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-500">/</span>
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="/id/" 
-                  onClick={(e) => { e.preventDefault(); setLanguage('id'); onScrollTo('#hero'); }}
-                  className={`flex items-center justify-between transition-colors ${currentLang === 'id' ? 'text-teal-700 font-bold' : 'text-slate-600 hover:text-[#009bb3]'}`}
-                >
-                  <span>Indonesia (Bahasa)</span>
-                  <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-500">/id/</span>
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="/ar/" 
-                  onClick={(e) => { e.preventDefault(); setLanguage('ar'); onScrollTo('#hero'); }}
-                  className={`flex items-center justify-between transition-colors ${currentLang === 'ar' ? 'text-teal-700 font-bold' : 'text-slate-600 hover:text-[#009bb3]'}`}
-                >
-                  <span>الشرق الأوسط (العربية)</span>
-                  <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-500">/ar/</span>
-                </a>
-              </li>
-              <li className="pt-2 border-t border-slate-200">
-                <button 
-                  onClick={onOpenCompany}
-                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left block"
-                >
-                  {currentLang === 'ar' ? 'الملف التعريفي للشركة' : currentLang === 'id' ? 'Profil Legal Perusahaan' : 'Corporate Legal Profile'}
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={onOpenPartners}
-                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left block"
-                >
-                  {currentLang === 'ar' ? 'الشركاء الاستراتيجيون' : currentLang === 'id' ? 'Mitra Strategis & Jaringan' : 'Strategic Export Partners'}
-                </button>
-              </li>
-            </ul>
-          </div>
-
         </div>
 
         {/* Bottom copyright row */}
@@ -213,27 +185,22 @@ export default function Footer({ onScrollTo, onOpenCompany, onOpenPartners, onOp
             © {new Date().getFullYear()}{' '}
             <button
               type="button"
-              onClick={onOpenCompany}
+              onClick={() => handleNav('/about')}
               className="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-[#009bb3]"
             >
               {COMPANY_PROFILE.legalName}
             </button>
-            . {t.footer?.rightsReserved || 'All Rights Reserved'}.
+            . All Rights Reserved. Indonesian Seafood Marine Exporter.
           </p>
           <div className="flex items-center gap-4">
             <button onClick={onOpenSSLModal} className="hover:text-[#009bb3] cursor-pointer">TLS 1.3 Verified</button>
             <span>•</span>
-            <button onClick={() => onScrollTo('#kontak')} className="hover:text-[#009bb3] cursor-pointer">Contact & RFQ</button>
-            {onOpen404 && (
-              <>
-                <span>•</span>
-                <button onClick={onOpen404} className="hover:text-[#009bb3] cursor-pointer text-slate-400">Halaman 404</button>
-              </>
-            )}
+            <button onClick={() => handleNav('/request-quote')} className="hover:text-[#009bb3] cursor-pointer">Official RFQ</button>
+            <span>•</span>
+            <button onClick={() => handleNav('/admin')} className="text-slate-400 hover:text-slate-600 cursor-pointer">Admin Portal</button>
           </div>
         </div>
       </div>
     </footer>
   );
 }
-

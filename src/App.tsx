@@ -20,6 +20,19 @@ import StrategicPartners from './components/StrategicPartners';
 import WhatsAppFloatingWidget from './components/WhatsAppFloatingWidget';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminLogin from './components/admin/AdminLogin';
+
+// Dedicated New Architecture Pages
+import ProductsPage from './components/pages/ProductsPage';
+import ProductDetailPage from './components/pages/ProductDetailPage';
+import ExportProcessPage from './components/pages/ExportProcessPage';
+import QualityPage from './components/pages/QualityPage';
+import FacilityPage from './components/pages/FacilityPage';
+import AboutPage from './components/pages/AboutPage';
+import MarketsPage from './components/pages/MarketsPage';
+import InsightsPage from './components/pages/InsightsPage';
+import ArticleDetailPage from './components/pages/ArticleDetailPage';
+import RequestQuotePage from './components/pages/RequestQuotePage';
+
 import { EXPORT_COMMODITIES, INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
 import { BlogPost, BlogComment, GalleryItem, ContactInquiry, SEOSettings, ExportCommodity } from './types';
 import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
@@ -47,6 +60,7 @@ export default function App() {
         return {
           ...product,
           id: uniqueId,
+          slug: product.slug || uniqueId,
           category: String(product.category || 'Uncategorized').trim()
         };
       });
@@ -72,7 +86,10 @@ export default function App() {
     estimatedPriceUSD: number;
   } | null>(null);
 
-  // Client-side route detection (supporting /admin, /company, /partners, /404, etc.)
+  // Selected commodity for quotation
+  const [activeQuoteCommodity, setActiveQuoteCommodity] = useState<string>('');
+
+  // Client-side route detection
   const [currentPath, setCurrentPath] = useState<string>(() => {
     return typeof window !== 'undefined' ? window.location.pathname : '/';
   });
@@ -114,7 +131,6 @@ export default function App() {
   }, []);
 
   // Route Parser: Extracts language subdirectory and page subpath
-  // Supports: /, /id/, /ar/, /admin, /company, /partners
   const normalizedRaw = currentPath.toLowerCase().replace(/\/+$/, '') || '/';
   
   let currentLangPrefix = '';
@@ -128,18 +144,83 @@ export default function App() {
     subPath = normalizedRaw.slice(3) || '/';
   }
 
+  // Exact or prefix checks for pages
   const isHome = subPath === '/' || subPath === '/index.html';
-  const isCompany = subPath === '/company';
+  const isProducts = subPath === '/products';
+  const isProductDetail = subPath.startsWith('/products/');
+  const isExport = subPath === '/export' || subPath === '/export-process';
+  const isQuality = subPath === '/quality';
+  const isFacility = subPath === '/facility';
+  const isAbout = subPath === '/about' || subPath === '/company';
+  const isMarkets = subPath === '/markets';
+  const isInsights = subPath === '/insights' || subPath === '/blog';
+  const isArticleDetail = subPath.startsWith('/insights/') || subPath.startsWith('/blog/');
+  const isRequestQuote = subPath === '/request-quote';
+  const isBuyerInquiry = subPath === '/buyer-inquiry' || subPath === '/sample-request';
   const isPartners = subPath === '/partners';
   const isAdminRoute = subPath === '/admin' || normalizedRaw === '/admin' || normalizedRaw.startsWith('/admin/');
-  const is404 = !isHome && !isCompany && !isPartners && !isAdminRoute;
+  
+  const isKnownRoute = isHome || isProducts || isProductDetail || isExport || isQuality || isFacility || isAbout || isMarkets || isInsights || isArticleDetail || isRequestQuote || isBuyerInquiry || isPartners || isAdminRoute;
+  const is404 = !isKnownRoute;
+
   const homeUrl = currentLangPrefix ? `${currentLangPrefix}/` : '/';
+
+  // Find targeted product for ProductDetailPage
+  let selectedProduct: ExportCommodity | undefined;
+  if (isProductDetail) {
+    const slugOrId = subPath.replace('/products/', '').trim();
+    selectedProduct = products.find(p => p.slug === slugOrId || p.id === slugOrId)
+      || (slugOrId.includes('anchovy') || slugOrId.includes('teri') ? products.find(p => p.id === 'teri-nasi-super' || p.slug === 'dried-anchovy') : undefined)
+      || (slugOrId.includes('squid') || slugOrId.includes('cumi') ? products.find(p => p.id === 'cumi-kering-sero' || p.slug === 'dried-squid') : undefined)
+      || (slugOrId.includes('shrimp') || slugOrId.includes('ebi') ? products.find(p => p.id === 'udang-rebon-kering' || p.slug === 'dried-shrimp') : undefined)
+      || (slugOrId.includes('fish') || slugOrId.includes('ikan') || slugOrId.includes('jambal') ? products.find(p => p.id === 'ikan-asin-jambal' || p.slug === 'dried-fish') : undefined)
+      || (slugOrId.includes('maw') || slugOrId.includes('gelembung') ? products.find(p => p.id === 'fish-maw-gulama' || p.slug === 'fish-maw') : undefined)
+      || (slugOrId.includes('cucumber') || slugOrId.includes('teripang') ? products.find(p => p.id === 'teripang-pasir' || p.slug === 'sea-cucumber') : undefined)
+      || products[0];
+  }
+
+  // Find targeted article for ArticleDetailPage
+  let selectedArticle: BlogPost | undefined;
+  if (isArticleDetail) {
+    const artIdOrSlug = subPath.replace('/insights/', '').replace('/blog/', '').trim();
+    selectedArticle = blogPosts.find(b => b.id === artIdOrSlug)
+      || blogPosts.find(b => b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').includes(artIdOrSlug))
+      || blogPosts[0];
+  }
+
+  // Dynamic document title update per route
+  useEffect(() => {
+    if (isProductDetail && selectedProduct) {
+      document.title = `${selectedProduct.name} Supplier & Exporter | Dried Seafood Global`;
+    } else if (isProducts) {
+      document.title = `Export Dried Seafood Products Catalog | Dried Seafood Global`;
+    } else if (isExport) {
+      document.title = `9-Step B2B Dried Seafood Export Process & Compliance | Dried Seafood Global`;
+    } else if (isQuality) {
+      document.title = `HACCP Quality Standards & Solar Dome Processing | Dried Seafood Global`;
+    } else if (isFacility) {
+      document.title = `Muara Baru Processing & Storage Facilities | Dried Seafood Global`;
+    } else if (isAbout) {
+      document.title = `About PT Samdura Bara Persada - Indonesian Marine Exporter | Dried Seafood Global`;
+    } else if (isMarkets) {
+      document.title = `Global Export Markets & International Shipping Ports | Dried Seafood Global`;
+    } else if (isInsights) {
+      document.title = `Export Insights & Seafood Buyer Intelligence | Dried Seafood Global`;
+    } else if (isArticleDetail && selectedArticle) {
+      document.title = `${selectedArticle.title} | Dried Seafood Global Insights`;
+    } else if (isRequestQuote) {
+      document.title = `Request Official B2B Export Quotation (RFQ) | Dried Seafood Global`;
+    } else if (isBuyerInquiry) {
+      document.title = `Buyer Inquiry & Quality Sample Request | Dried Seafood Global`;
+    } else if (isHome) {
+      document.title = 'Dried Seafood Global | Indonesian Dried Seafood Exporter | PT Samdura Bara Persada';
+    }
+  }, [currentPath, selectedProduct, selectedArticle, isProducts, isExport, isQuality, isFacility, isAbout, isMarkets, isInsights, isRequestQuote, isBuyerInquiry, isHome]);
 
   // Fetch initial public data from server APIs
   useEffect(() => {
     if (isAdminRoute) return;
 
-    // 1. Fetch Blog Posts
     fetch('/api/blog')
       .then(res => res.json())
       .then(data => {
@@ -149,9 +230,8 @@ export default function App() {
           setBlogPosts(data.posts);
         }
       })
-      .catch(err => console.log('API blog load fallback to memory', err));
+      .catch(() => {});
 
-    // 2. Fetch Gallery
     fetch('/api/gallery')
       .then(res => res.json())
       .then(data => {
@@ -161,9 +241,8 @@ export default function App() {
           setGalleryItems(data.items);
         }
       })
-      .catch(err => console.log('API gallery load fallback to memory', err));
+      .catch(() => {});
 
-    // 3. Fetch Inquiries
     fetch('/api/contact/messages')
       .then(res => res.json())
       .then(data => {
@@ -173,15 +252,13 @@ export default function App() {
       })
       .catch(() => {});
 
-    // 4. Fetch SEO Settings
     fetch('/api/seo')
       .then(res => res.json())
       .then(data => {
         if (data && data.metaTitle) setSeoSettings(data);
       })
-      .catch(err => console.log('API SEO fallback to memory', err));
+      .catch(() => {});
 
-    // 5. Real-time Telemetry Ping & Active Visitor counter
     pingVisitorPresence();
     fetch('/api/analytics/realtime')
       .then(res => res.json())
@@ -192,7 +269,6 @@ export default function App() {
       })
       .catch(() => {});
 
-    // Periodic heartbeat to refresh live visitor count every 20 seconds
     const interval = setInterval(() => {
       pingVisitorPresence();
       fetch('/api/analytics/realtime')
@@ -208,71 +284,41 @@ export default function App() {
     return () => clearInterval(interval);
   }, [isAdminRoute]);
 
-  // Keep analytics and verification settings in sync with the admin panel.
-  // LanguageContext owns translated title and description metadata.
-  useEffect(() => {
-    // Google Site Verification (GSC / GMC)
-    const gscMeta = document.getElementById('meta-google-verification');
-    if (gscMeta && seoSettings.googleSearchConsoleKey) {
-      gscMeta.setAttribute('content', seoSettings.googleSearchConsoleKey);
-    }
-
-    // Google Analytics 4 (GA4)
-    if (seoSettings.googleAnalyticsId) {
-      initGoogleAnalytics(seoSettings.googleAnalyticsId);
-    }
-
-    // Google Tag Manager (GTM)
-    if (seoSettings.googleTagManagerId) {
-      initGoogleTagManager(seoSettings.googleTagManagerId);
-    }
-
-    // Canonical Link verification & synchronization
-    const canonicalLink = document.getElementById('meta-canonical') || document.querySelector('link[rel="canonical"]');
-    if (canonicalLink) {
-      canonicalLink.setAttribute('href', seoSettings.canonicalUrl || 'https://www.driedseafoodglobal.com/');
-    }
-  }, [seoSettings]);
-
-  // Dynamic Scroll-Spy to highlight current active section in Navbar
+  // Active section tracking for homepage
   const [activeSection, setActiveSection] = useState<string>('hero');
-
   useEffect(() => {
-    const sections = [
-      'hero',
-      'tentang',
-      'komoditas',
-      'alur-ekspor',
-      'kalkulator',
-      'galeri',
-      'lokasi',
-      'testimoni',
-      'blog',
-      'kontak'
-    ];
-
+    if (!isHome) return;
     const handleScroll = () => {
-      const scrollY = window.scrollY + 180;
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollY >= top && scrollY < top + height) {
-            setActiveSection(id);
+      const sections = ['hero', 'tentang', 'komoditas', 'alur-ekspor', 'kalkulator', 'galeri', 'testimoni', 'lokasi', 'blog', 'kontak'];
+      const scrollPosition = window.scrollY + 250;
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
             break;
           }
         }
       }
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHome]);
 
-  // Smooth scroll handler
   const handleScrollTo = (id: string) => {
+    if (!isHome) {
+      navigateTo(homeUrl);
+      setTimeout(() => {
+        const targetElement = document.querySelector(id);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      return;
+    }
     const targetElement = document.querySelector(id);
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth' });
@@ -281,14 +327,13 @@ export default function App() {
 
   const handleSelectServiceForQuote = (serviceTitle: string) => {
     setPrefilledService(serviceTitle);
-    setPrefilledBooking(null);
-    handleScrollTo('#kontak');
+    setActiveQuoteCommodity(serviceTitle);
+    navigateTo('/request-quote');
   };
 
   const handleSelectCommodityForQuote = (commodityName: string) => {
-    setPrefilledService(`Permintaan Penawaran Ekspor: ${commodityName}`);
-    setPrefilledBooking(null);
-    handleScrollTo('#kontak');
+    setActiveQuoteCommodity(commodityName);
+    navigateTo('/request-quote');
   };
 
   const handleBookFromCalculator = (bookingDetails: {
@@ -300,75 +345,7 @@ export default function App() {
   }) => {
     setPrefilledBooking(bookingDetails);
     setPrefilledService('');
-    handleScrollTo('#kontak');
-  };
-
-  // CMS Handlers
-  const handleSaveBlogPost = async (postData: Partial<BlogPost>) => {
-    try {
-      const res = await fetch('/api/blog', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData)
-      });
-      const data = await res.json();
-      if (data.success && data.post) {
-        if (postData.id) {
-          setBlogPosts(prev => prev.map(p => p.id === postData.id ? data.post : p));
-        } else {
-          setBlogPosts(prev => [data.post, ...prev]);
-        }
-      }
-    } catch (err) {
-      console.error('Failed to save blog post:', err);
-    }
-  };
-
-  const handleDeleteBlogPost = async (id: string) => {
-    try {
-      const res = await fetch(`/api/blog/${id}`, { method: 'DELETE' });
-      const data = await res.json();
-      if (data.success) {
-        setBlogPosts(prev => prev.filter(p => p.id !== id));
-      }
-    } catch (err) {
-      console.error('Failed to delete blog post:', err);
-    }
-  };
-
-  const handleSaveProduct = async (productData: Partial<ExportCommodity>) => {
-    const product: ExportCommodity = {
-      id: productData.id || `product-${Date.now()}`,
-      name: productData.name?.trim() || 'Unnamed Export Product',
-      indonesianName: productData.indonesianName?.trim() || productData.name?.trim() || 'Produk Hasil Laut',
-      category: productData.category?.trim() || 'Uncategorized',
-      hsCode: productData.hsCode?.trim() || 'N/A',
-      origin: productData.origin?.trim() || 'Indonesia',
-      specification: {
-        grade: productData.specification?.grade?.trim() || 'Standard Export Grade',
-        moisture: productData.specification?.moisture?.trim() || '',
-        packaging: productData.specification?.packaging?.trim() || 'Food-grade export packaging',
-        moq: productData.specification?.moq?.trim() || 'Contact us',
-        shelfLife: productData.specification?.shelfLife?.trim() || '',
-        colorTexture: productData.specification?.colorTexture?.trim() || ''
-      },
-      supplyCapacity: productData.supplyCapacity?.trim() || 'Available on request',
-      certifications: productData.certifications || [],
-      keyMarkets: productData.keyMarkets || [],
-      imageUrl: productData.imageUrl?.trim() || '/images/products/exp-teri-nasi-1.png',
-      galleryImages: productData.galleryImages || [productData.imageUrl?.trim() || '/images/products/exp-teri-nasi-1.png'],
-      description: productData.description?.trim() || 'Export-ready Indonesian dried seafood product.',
-      featured: productData.featured || false
-    };
-
-    setProducts(previous => productData.id
-      ? previous.map(item => item.id === product.id ? product : item)
-      : [product, ...previous]
-    );
-  };
-
-  const handleDeleteProduct = async (id: string) => {
-    setProducts(previous => previous.filter(product => product.id !== id));
+    navigateTo('/request-quote');
   };
 
   const handleAddBlogComment = (postId: string, comment: { author: string; email: string; content: string }) => {
@@ -381,70 +358,13 @@ export default function App() {
             author: comment.author,
             email: comment.email,
             content: comment.content,
-            createdAt: 'Baru saja'
+            createdAt: 'Just now'
           }
         ];
         return { ...post, comments: newComments };
       }
       return post;
     }));
-  };
-
-  const handleSaveGalleryItem = async (itemData: Partial<GalleryItem>) => {
-    try {
-      const res = await fetch('/api/gallery', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(itemData)
-      });
-      const data = await res.json();
-      if (data.success && data.item) {
-        setGalleryItems(prev => [data.item, ...prev]);
-      }
-    } catch (err) {
-      console.error('Failed to save gallery item:', err);
-    }
-  };
-
-  const handleDeleteGalleryItem = async (id: string) => {
-    try {
-      const res = await fetch(`/api/gallery/${id}`, { method: 'DELETE' });
-      const data = await res.json();
-      if (data.success) {
-        setGalleryItems(prev => prev.filter(i => i.id !== id));
-      }
-    } catch (err) {
-      console.error('Failed to delete gallery item:', err);
-    }
-  };
-
-  const handleUpdateInquiryStatus = async (id: string, status: string, notes?: string) => {
-    setInquiries(prev => prev.map(inq => {
-      if (inq.id === id) {
-        return {
-          ...inq,
-          status: status as any,
-          replyNotes: notes || inq.replyNotes
-        };
-      }
-      return inq;
-    }));
-  };
-
-  const handleSaveSEOSettings = async (newSettings: Partial<SEOSettings>) => {
-    try {
-      const res = await fetch('/api/seo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newSettings)
-      });
-      const data = await res.json();
-      if (data.success && data.settings) {
-        setSeoSettings(data.settings);
-      }
-    } catch (err) {
-      console.error('Failed to save SEO settings:', err);
-    }
   };
 
   // Admin Route: completely isolated from public pages
@@ -477,25 +397,19 @@ export default function App() {
     );
   }
 
-  if (isCompany) {
-    return <CompanyPage onBackToHome={() => navigateTo(homeUrl)} />;
-  }
-
-  if (isPartners) {
-    return (
-      <PartnersPage
-        onBackToHome={() => navigateTo(homeUrl)}
-        onOpenContact={() => {
-          navigateTo(homeUrl);
-          setTimeout(() => handleScrollTo('#kontak'), 120);
-        }}
-      />
-    );
-  }
-
+  // 404 Handler
   if (is404) {
     return (
       <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
+        <Navbar
+          onOpenSSLModal={() => setIsSSLModalOpen(true)}
+          onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
+          onScrollTo={handleScrollTo}
+          onNavigate={navigateTo}
+          currentPath={currentPath}
+          activeSection={activeSection}
+          activeVisitors={liveVisitors}
+        />
         <NotFoundPage
           onBackToHome={() => navigateTo(homeUrl)}
           onScrollToSection={(sectionId) => {
@@ -507,24 +421,19 @@ export default function App() {
           onOpenSSLModal={() => setIsSSLModalOpen(true)}
           onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
         />
-
-        <SSLSecurityModal
-          isOpen={isSSLModalOpen}
-          onClose={() => setIsSSLModalOpen(false)}
+        <Footer
+          onScrollTo={handleScrollTo}
+          onNavigate={navigateTo}
+          onOpenCompany={() => navigateTo('/about')}
+          onOpenPartners={() => navigateTo('/partners')}
+          onOpenSSLModal={() => setIsSSLModalOpen(true)}
+          onOpen404={() => navigateTo('/404')}
         />
-
-        <ExportCatalogModal
-          isOpen={isCatalogModalOpen}
-          products={products}
-          onClose={() => setIsCatalogModalOpen(false)}
-          onSelectCommodityForQuote={handleSelectCommodityForQuote}
-        />
-
-        <WhatsAppFloatingWidget />
       </div>
     );
   }
 
+  // Public Layout rendering Header + Active Page + Footer
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 font-sans selection:bg-[#009bb3] selection:text-white">
       
@@ -533,83 +442,173 @@ export default function App() {
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
         onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
         onScrollTo={handleScrollTo}
+        onNavigate={navigateTo}
+        currentPath={currentPath}
         activeSection={activeSection}
         activeVisitors={liveVisitors}
       />
 
-      {/* Main Page Sections */}
+      {/* Main Content Router */}
       <main>
-        {/* 1. Hero Section with Trust Badges, High-Res Image Carousel & Live KPI counters */}
-        <Hero
-          onScrollTo={handleScrollTo}
-          onOpenSSLModal={() => setIsSSLModalOpen(true)}
-          onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
-        />
+        {isHome && (
+          <>
+            <Hero
+              onScrollTo={handleScrollTo}
+              onOpenSSLModal={() => setIsSSLModalOpen(true)}
+              onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
+            />
+            <AboutServices onSelectServiceForQuote={handleSelectServiceForQuote} />
+            <StrategicPartners onOpenPartners={() => navigateTo(currentLangPrefix ? `${currentLangPrefix}/partners` : '/partners')} />
+            <ExportCommodities
+              products={products}
+              onSelectCommodityForQuote={handleSelectCommodityForQuote}
+              onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
+            />
+            <ExportProcessWorkflow />
+            <GlobalShippingCalculator onBookInquiry={handleBookFromCalculator} />
+            <PhotoGallery items={galleryItems} />
+            <BuyerTestimonials />
+            <LocationMap />
+            <BlogSection posts={blogPosts} onAddComment={handleAddBlogComment} />
+            <ContactSection
+              prefilledService={prefilledService}
+              prefilledBooking={prefilledBooking}
+              onOpenSSLModal={() => setIsSSLModalOpen(true)}
+              onInquirySubmitted={(newInquiry) => setInquiries(prev => [newInquiry, ...prev])}
+            />
+          </>
+        )}
 
-        {/* 2. Corporate Profile, Vision, 6 Core Logistics Pillars, & Leadership */}
-        <AboutServices
-          onSelectServiceForQuote={handleSelectServiceForQuote}
-        />
+        {isProducts && (
+          <ProductsPage
+            products={products}
+            onSelectProduct={(p) => navigateTo(`/products/${p.slug || p.id}`)}
+            onRequestQuote={handleSelectCommodityForQuote}
+            onRequestSample={(p) => {
+              setActiveQuoteCommodity(p.name);
+              navigateTo('/buyer-inquiry');
+            }}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        <StrategicPartners onOpenPartners={() => navigateTo(currentLangPrefix ? `${currentLangPrefix}/partners` : '/partners')} />
+        {isProductDetail && selectedProduct && (
+          <ProductDetailPage
+            product={selectedProduct}
+            allProducts={products}
+            onSelectProduct={(p) => navigateTo(`/products/${p.slug || p.id}`)}
+            onRequestQuote={handleSelectCommodityForQuote}
+            onRequestSample={(prodName) => {
+              setActiveQuoteCommodity(prodName);
+              navigateTo('/buyer-inquiry');
+            }}
+            onNavigateProducts={() => navigateTo('/products')}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        {/* 3. Indonesian High-Value Export Commodities Showcase (WebEkspor Collaboration) */}
-        <ExportCommodities
-          products={products}
-          onSelectCommodityForQuote={handleSelectCommodityForQuote}
-          onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
-        />
+        {isExport && (
+          <ExportProcessPage
+            onRequestQuote={() => navigateTo('/request-quote')}
+            onRequestSample={() => navigateTo('/buyer-inquiry')}
+            onNavigateProducts={() => navigateTo('/products')}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        {/* 4. Visual 5-Step Export Workflow & Quality Standard (ISPM 15, HACCP, AEO) */}
-        <ExportProcessWorkflow />
+        {isQuality && (
+          <QualityPage
+            onRequestQuote={() => navigateTo('/request-quote')}
+            onRequestSample={() => navigateTo('/buyer-inquiry')}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        {/* 5. Global Multi-Carrier Shipping Estimator & AI Customs Advisory */}
-        <GlobalShippingCalculator
-          onBookInquiry={handleBookFromCalculator}
-        />
+        {isFacility && (
+          <FacilityPage
+            onRequestQuote={() => navigateTo('/request-quote')}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        {/* 6. High-Resolution Responsive Photo Gallery with Lightbox */}
-        <PhotoGallery
-          items={galleryItems}
-        />
+        {isAbout && (
+          <AboutPage
+            onRequestQuote={() => navigateTo('/request-quote')}
+            onNavigateHome={() => navigateTo('/')}
+            onNavigateProducts={() => navigateTo('/products')}
+          />
+        )}
 
-        {/* 7. Verified Global Importer & Buyer Testimonials */}
-        <BuyerTestimonials />
+        {isMarkets && (
+          <MarketsPage
+            onRequestQuote={() => navigateTo('/request-quote')}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        {/* 8. Interactive Global Map Integration with International Hubs */}
-        <LocationMap />
+        {isInsights && (
+          <InsightsPage
+            articles={blogPosts}
+            onSelectArticle={(a) => navigateTo(`/insights/${a.id}`)}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        {/* 9. Blog & Industrial Intelligence Reader with Comments */}
-        <BlogSection
-          posts={blogPosts}
-          onAddComment={handleAddBlogComment}
-        />
+        {isArticleDetail && selectedArticle && (
+          <ArticleDetailPage
+            article={selectedArticle}
+            allArticles={blogPosts}
+            onSelectArticle={(a) => navigateTo(`/insights/${a.id}`)}
+            onRequestQuote={() => navigateTo('/request-quote')}
+            onNavigateInsights={() => navigateTo('/insights')}
+            onNavigateHome={() => navigateTo('/')}
+          />
+        )}
 
-        {/* 10. Professional RFQ Contact Form with End-to-End SSL Encryption & Anti-Spam */}
-        <ContactSection
-          prefilledService={prefilledService}
-          prefilledBooking={prefilledBooking}
-          onOpenSSLModal={() => setIsSSLModalOpen(true)}
-          onInquirySubmitted={(newInquiry) => setInquiries(prev => [newInquiry, ...prev])}
-        />
+        {isRequestQuote && (
+          <RequestQuotePage
+            initialCommodity={activeQuoteCommodity}
+            isSampleMode={false}
+            products={products}
+            onNavigateHome={() => navigateTo('/')}
+            onNavigateProducts={() => navigateTo('/products')}
+          />
+        )}
+
+        {isBuyerInquiry && (
+          <RequestQuotePage
+            initialCommodity={activeQuoteCommodity}
+            isSampleMode={true}
+            products={products}
+            onNavigateHome={() => navigateTo('/')}
+            onNavigateProducts={() => navigateTo('/products')}
+          />
+        )}
+
+        {isPartners && (
+          <PartnersPage
+            onBackToHome={() => navigateTo(homeUrl)}
+            onOpenContact={() => navigateTo('/request-quote')}
+          />
+        )}
       </main>
 
-      {/* Footer with rich enterprise navigation and certification logos */}
+      {/* Global Footer */}
       <Footer
         onScrollTo={handleScrollTo}
-        onOpenCompany={() => navigateTo('/company')}
+        onNavigate={navigateTo}
+        onOpenCompany={() => navigateTo('/about')}
         onOpenPartners={() => navigateTo('/partners')}
         onOpenSSLModal={() => setIsSSLModalOpen(true)}
         onOpen404={() => navigateTo('/404')}
       />
 
-      {/* SSL / TLS 1.3 Extended Validation Certificate Modal */}
+      {/* Modals & Floating Tools */}
       <SSLSecurityModal
         isOpen={isSSLModalOpen}
         onClose={() => setIsSSLModalOpen(false)}
       />
 
-      {/* Export Commodity E-Catalog Download Modal */}
       <ExportCatalogModal
         isOpen={isCatalogModalOpen}
         products={products}
@@ -618,7 +617,6 @@ export default function App() {
       />
 
       <WhatsAppFloatingWidget />
-
     </div>
   );
 }

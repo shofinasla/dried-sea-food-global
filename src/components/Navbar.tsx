@@ -15,7 +15,12 @@ import {
   Star,
   Award,
   Globe2,
-  Check
+  Check,
+  Building2,
+  Package,
+  Layers,
+  Sparkles,
+  Ship
 } from 'lucide-react';
 import { COMPANY_PROFILE } from '../data/initialData';
 import { useTranslation } from '../i18n/LanguageContext';
@@ -26,6 +31,8 @@ interface NavbarProps {
   onOpenSSLModal: () => void;
   onOpenCatalogModal?: () => void;
   onScrollTo?: (id: string) => void;
+  onNavigate?: (path: string) => void;
+  currentPath?: string;
   activeSection?: string;
   activeVisitors?: number;
 }
@@ -34,20 +41,22 @@ export default function Navbar({
   onOpenSSLModal, 
   onOpenCatalogModal,
   onScrollTo, 
+  onNavigate,
+  currentPath = '/',
   activeSection = 'hero', 
   activeVisitors = 42 
 }: NavbarProps) {
   const { currentLang, setLanguage, t, availableLanguages, currentLanguageOption } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const productsDropdownRef = useRef<HTMLDivElement>(null);
   const langDropdownRef = useRef<HTMLDivElement>(null);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Track window scroll to add shadow and ensure sticky navbar stays visible
+  // Track window scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 15);
@@ -59,8 +68,8 @@ export default function Navbar({
   // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen(false);
+      if (productsDropdownRef.current && !productsDropdownRef.current.contains(event.target as Node)) {
+        setProductsDropdownOpen(false);
       }
       if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
         setLangDropdownOpen(false);
@@ -70,75 +79,68 @@ export default function Navbar({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Quick navigation items matching Shrimora categories (SALTED, NATURAL, DRIED, PACKED)
-  const categoryShortcuts = [
-    { label: 'SALTED', href: '#komoditas', id: 'komoditas-salted' },
-    { label: 'NATURAL', href: '#komoditas', id: 'komoditas-natural' },
-    { label: 'DRIED', href: '#komoditas', id: 'komoditas-dried' },
-    { label: 'PACKED', href: '#komoditas', id: 'komoditas-packed' }
-  ];
-
-  // Primary streamlined desktop nav items
-  const primaryNavLinks = [
-    { label: t.nav.home, href: '#hero', id: 'hero' },
-    { label: t.nav.about, href: '#tentang', id: 'tentang' },
-    { label: t.nav.products, href: '#komoditas', id: 'komoditas' },
-    { label: t.nav.workflow, href: '#alur-ekspor', id: 'alur-ekspor' },
-    { label: t.nav.shippingCalc, href: '#kalkulator', id: 'kalkulator' }
-  ];
-
-  // Secondary items grouped in a clean dropdown
-  const explorationLinks = [
-    { 
-      label: t.nav.gallery, 
-      desc: t.nav.galleryDesc, 
-      href: '#galeri', 
-      id: 'galeri', 
-      icon: ImageIcon 
-    },
-    { 
-      label: t.nav.mapHubs, 
-      desc: t.nav.mapHubsDesc, 
-      href: '#lokasi', 
-      id: 'lokasi', 
-      icon: MapPin 
-    },
-    { 
-      label: t.nav.testimonials, 
-      desc: t.nav.testimonialsDesc, 
-      href: '#testimoni', 
-      id: 'testimoni', 
-      icon: Star 
-    },
-    { 
-      label: t.nav.insights, 
-      desc: t.nav.insightsDesc, 
-      href: '#blog', 
-      id: 'blog', 
-      icon: BookOpen 
-    }
-  ];
-
-  const handleNavClick = (href: string) => {
+  const handleLinkClick = (path: string, anchorId?: string) => {
     setMobileMenuOpen(false);
-    setDropdownOpen(false);
+    setProductsDropdownOpen(false);
     setLangDropdownOpen(false);
-    if (onScrollTo) {
-      onScrollTo(href);
-    } else {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+
+    if (path.startsWith('/#') || (path.startsWith('#') && (currentPath === '/' || currentPath === '/index.html'))) {
+      const anchor = path.startsWith('/#') ? path.slice(1) : path;
+      if (currentPath === '/' || currentPath === '/index.html') {
+        if (onScrollTo) {
+          onScrollTo(anchor);
+        } else {
+          const el = document.querySelector(anchor);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
       }
+    }
+
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      window.location.href = path;
     }
   };
 
   const handleSelectLanguage = (code: SupportedLanguage) => {
     setLanguage(code);
     setLangDropdownOpen(false);
+    if (onNavigate) {
+      if (code === 'en') {
+        onNavigate('/');
+      } else {
+        onNavigate(`/${code}`);
+      }
+    }
   };
 
-  const isExplorationActive = explorationLinks.some(link => link.id === activeSection);
+  const productSubmenu = [
+    { label: 'All Export Commodities', path: '/products', desc: 'Full B2B catalog & specifications' },
+    { label: 'Super White Anchovy (Teri Nasi)', path: '/products/dried-anchovy', desc: 'Grade AAA, sun-dried, 0% formalin' },
+    { label: 'Sun-Dried Squid (Cumi Sero)', path: '/products/dried-squid', desc: 'Whole dried calamari, moisture <14%' },
+    { label: 'Dried Shrimp / Ebi Premium', path: '/products/dried-shrimp', desc: 'Clean, headless, natural sea-red' },
+    { label: 'Salted Giant Catfish (Jambal Roti)', path: '/products/dried-fish', desc: 'Thick fillet, flaky texture, gourmet export' },
+    { label: 'Premium Fish Maw (Gelembung Ikan)', path: '/products/fish-maw', desc: 'High collagen, vacuum packed' },
+    { label: 'Dried Sea Cucumber (Teripang Pasir)', path: '/products/sea-cucumber', desc: 'Sandfish / teatfish, premium grade' }
+  ];
+
+  const navLinks = [
+    { label: 'Home', path: '/' },
+    { label: 'Export Process', path: '/export-process' },
+    { label: 'Quality & Lab', path: '/quality' },
+    { label: 'Facility', path: '/facility' },
+    { label: 'About', path: '/about' },
+    { label: 'Markets', path: '/markets' },
+    { label: 'Insights', path: '/insights' }
+  ];
+
+  const isCurrentActive = (path: string) => {
+    if (path === '/' && (currentPath === '/' || currentPath === '/index.html')) return true;
+    if (path !== '/' && currentPath.startsWith(path)) return true;
+    return false;
+  };
 
   return (
     <header className={`sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200/90 transition-all duration-300 ${isScrolled ? 'shadow-md' : 'shadow-xs'}`}>
@@ -147,20 +149,20 @@ export default function Navbar({
       <div className="bg-slate-50 border-b border-slate-200/80 py-1.5 px-3 sm:px-6 text-xs text-slate-600">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
-          {/* Left: Security & Official Trade Accreditations */}
+          {/* Left: Security & Official Accreditations */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button 
               onClick={onOpenSSLModal}
               id="top-ssl-badge-btn"
-              title="Sertifikat Ekspor Resmi: HACCP Grade A, KKP RI & TLS 1.3 EV SSL"
-              className="inline-flex items-center gap-1.5 text-slate-700 hover:text-teal-700 font-medium transition-colors cursor-pointer shrink-0"
+              title="Official Certifications: HACCP Grade A, BKIPM KKP RI, TLS 1.3 EV SSL"
+              className="inline-flex items-center gap-1.5 text-slate-700 hover:text-[#009bb3] font-medium transition-colors cursor-pointer shrink-0"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#009bb3] shrink-0" />
               <span className="font-bold text-slate-900 text-[11px] sm:text-xs">HACCP Grade A</span>
               <span className="text-slate-300">•</span>
-              <span className="text-[11px] text-slate-600 hidden sm:inline">KKP RI Certified</span>
+              <span className="text-[11px] text-slate-600 hidden sm:inline">BKIPM Quarantine Certified</span>
               <span className="text-slate-300 hidden sm:inline">•</span>
-              <span className="px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-[10px] hidden md:inline">TLS 1.3 EV</span>
+              <span className="px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-[10px] hidden md:inline">0% Formalin Verified</span>
             </button>
 
             <span className="text-slate-300 hidden md:inline">|</span>
@@ -168,73 +170,63 @@ export default function Navbar({
             {/* Live Global Activity Indicator */}
             <div
               id="top-bar-live-analytics-badge"
-              title="Live Active Buyers Telemetry"
+              title="Live Active Importers & Buyers"
               className="hidden md:inline-flex items-center gap-1.5 text-[11px] text-slate-600 shrink-0 select-none"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#009bb3] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#009bb3]"></span>
               </span>
-              <span><strong className="text-teal-700 font-mono font-bold">{activeVisitors}</strong> {t.topBar.buyersOnline}</span>
+              <span><strong className="text-[#009bb3] font-mono font-bold">{activeVisitors}</strong> Verified Buyers Online</span>
             </div>
           </div>
 
-          {/* Right: Hotline, Multilingual Selector & Admin Portal */}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0 ml-auto">
-            {/* 24/7 Direct Trade Desk Phone */}
+          {/* Right: Direct Hotline & International Language Switcher */}
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             <a 
-              href={`tel:${COMPANY_PROFILE.hotline.replace(/\s+/g, '')}`}
-              id="top-hotline-link"
-              className="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-slate-600 hover:text-teal-700 transition-colors font-medium"
+              href={`tel:${COMPANY_PROFILE.hotline.replace(/[^0-9+]/g, '')}`}
+              className="hidden sm:inline-flex items-center gap-1.5 text-slate-700 hover:text-[#009bb3] transition-colors"
             >
-              <PhoneCall className="w-3 h-3 text-teal-600" />
-              <span className="text-slate-500">{t.topBar.hotlineLabel}</span>
-              <strong className="text-slate-900 font-mono tracking-tight">{COMPANY_PROFILE.hotline}</strong>
+              <PhoneCall className="w-3 h-3 text-[#009bb3]" />
+              <span className="font-semibold text-[11px]">Hotline: {COMPANY_PROFILE.hotline}</span>
             </a>
 
-            {/* Global Multilingual Selector Dropdown - Hidden on Mobile to keep top bar uncluttered; available in Mobile Menu */}
-            <div className="relative hidden sm:block" ref={langDropdownRef}>
+            <span className="text-slate-300 hidden sm:inline">|</span>
+
+            {/* Language Switcher Dropdown */}
+            <div className="relative" ref={langDropdownRef}>
               <button
                 type="button"
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                id="btn-lang-selector-top"
-                aria-label="Change Website Language & Country Locale"
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-teal-500 text-slate-700 hover:text-slate-900 transition-all cursor-pointer text-xs font-semibold shadow-2xs"
+                id="language-selector-btn"
+                className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[11px] font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-200/60 transition-colors cursor-pointer"
+                aria-label="Select Language"
               >
-                <Globe2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                <span className="font-bold text-[11px] text-teal-700 uppercase tracking-wide">{currentLanguageOption.code}</span>
-                <span className="hidden md:inline text-slate-600 text-[11px]">({currentLanguageOption.nativeName})</span>
-                <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${langDropdownOpen ? 'rotate-180 text-teal-600' : ''}`} />
+                <Globe2 className="w-3.5 h-3.5 text-[#009bb3]" />
+                <span>{currentLanguageOption.name}</span>
+                <span className="text-xs uppercase font-mono font-bold text-slate-500">({currentLang})</span>
+                <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${langDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {langDropdownOpen && (
-                <div className="absolute right-0 top-full mt-1.5 w-72 bg-white border border-slate-200 rounded-xl shadow-2xl p-1.5 z-50 animate-fadeIn max-h-96 overflow-y-auto">
-                  <div className="px-2.5 py-1.5 text-[10px] font-bold text-teal-700 uppercase tracking-wider border-b border-slate-100 mb-1 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-xs z-10">
-                    <div className="flex items-center gap-1.5">
-                      <Globe2 className="w-3 h-3 text-teal-600" />
-                      <span>{t.nav.selectLanguage || 'Select Language'}</span>
-                    </div>
-                    <span className="text-[9px] text-slate-500 font-normal">Subdirectory Architecture</span>
-                  </div>
-
-                  {/* Primary Language Subdirectories */}
-                  <div className="px-2 py-1 text-[9px] font-bold text-slate-400 uppercase tracking-wider">
-                    Primary Regional Portals
+                <div className="absolute right-0 top-full mt-1.5 w-60 bg-white border border-slate-200 rounded-xl shadow-xl p-1.5 z-50 animate-fadeIn">
+                  <div className="px-2 py-1 text-[9px] font-bold text-[#009bb3] uppercase tracking-wider border-b border-slate-100 mb-1">
+                    Select Language / Bahasa
                   </div>
                   <div className="space-y-0.5">
-                    {availableLanguages.filter(l => ['en', 'id', 'ar'].includes(l.code)).map((lang) => {
+                    {availableLanguages.map((lang) => {
                       const isSelected = lang.code === currentLang;
                       return (
                         <button
                           key={lang.code}
                           onClick={() => handleSelectLanguage(lang.code)}
-                          className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-all text-left cursor-pointer ${
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-all text-left cursor-pointer ${
                             isSelected 
-                              ? 'bg-teal-50 text-teal-900 font-bold border border-teal-200' 
-                              : 'hover:bg-slate-50 text-slate-800'
+                              ? 'bg-cyan-50 text-[#009bb3] font-bold border border-cyan-200' 
+                              : 'hover:bg-slate-50 text-slate-700 hover:text-slate-900'
                           }`}
                         >
-                          <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="flex items-center gap-2 min-w-0">
                             <span className="text-base shrink-0">{lang.flag}</span>
                             <div className="min-w-0">
                               <div className="font-semibold text-slate-900 truncate leading-tight flex items-center gap-1.5">
@@ -246,37 +238,7 @@ export default function Navbar({
                               <div className="text-[10px] text-slate-500 truncate">{lang.name} • {lang.region}</div>
                             </div>
                           </div>
-                          {isSelected && <Check className="w-3.5 h-3.5 text-teal-600 shrink-0 ml-1.5" />}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Additional International Translations */}
-                  <div className="mt-2 pt-2 border-t border-slate-100 px-2 py-1 text-[9px] font-bold text-slate-400 uppercase tracking-wider">
-                    Additional Languages
-                  </div>
-                  <div className="space-y-0.5">
-                    {availableLanguages.filter(l => !['en', 'id', 'ar'].includes(l.code)).map((lang) => {
-                      const isSelected = lang.code === currentLang;
-                      return (
-                        <button
-                          key={lang.code}
-                          onClick={() => handleSelectLanguage(lang.code)}
-                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-all text-left cursor-pointer ${
-                            isSelected 
-                              ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200' 
-                              : 'hover:bg-slate-50 text-slate-700 hover:text-slate-900'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-base shrink-0">{lang.flag}</span>
-                            <div className="min-w-0">
-                              <div className="font-semibold text-slate-900 truncate leading-tight">{lang.nativeName}</div>
-                              <div className="text-[10px] text-slate-500 truncate">{lang.name} • {lang.region}</div>
-                            </div>
-                          </div>
-                          {isSelected && <Check className="w-3.5 h-3.5 text-teal-600 shrink-0 ml-1.5" />}
+                          {isSelected && <Check className="w-3.5 h-3.5 text-[#009bb3] shrink-0 ml-1.5" />}
                         </button>
                       );
                     })}
@@ -292,10 +254,10 @@ export default function Navbar({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           
-          {/* Brand Logo & Corporate Identity (Fixed width, never truncated) */}
+          {/* Brand Logo & Corporate Identity */}
           <a 
-            href="#hero" 
-            onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}
+            href="/" 
+            onClick={(e) => { e.preventDefault(); handleLinkClick('/'); }}
             id="brand-logo-link"
             className="flex items-center gap-3 shrink-0 cursor-pointer group"
             aria-label="Dried Seafood Global home"
@@ -303,279 +265,226 @@ export default function Navbar({
             <img
               src="/logo-dsg.png"
               alt="Dried Seafood Global logo"
-              className="h-10 w-auto sm:h-11 object-contain drop-shadow-sm transition-transform group-hover:scale-[1.03]"
+              className="h-10 w-auto sm:h-11 object-contain drop-shadow-sm transition-transform group-hover:scale-[1.02]"
               referrerPolicy="no-referrer"
             />
           </a>
 
-          {/* Clean Desktop Navigation */}
+          {/* Clean Desktop Navigation Bar */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 ml-auto">
-            {primaryNavLinks.map((link) => {
-              const isActive = activeSection === link.id;
-              return (
-                <a
-                  key={link.id}
-                  href={link.href}
-                  id={`nav-link-${link.id}`}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
-                  className={`px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all ${
-                    isActive
-                      ? 'text-teal-800 bg-teal-50/90 font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                  }`}
-                >
-                  {link.label}
-                </a>
-              );
-            })}
+            {/* Home */}
+            <button
+              onClick={() => handleLinkClick('/')}
+              className={`px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all ${
+                isCurrentActive('/') && !currentPath.includes('/products') && !currentPath.includes('/export') && !currentPath.includes('/quality') && !currentPath.includes('/facility') && !currentPath.includes('/about') && !currentPath.includes('/markets') && !currentPath.includes('/insights') && !currentPath.includes('/request-quote')
+                  ? 'text-[#009bb3] bg-cyan-50 font-bold'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              Home
+            </button>
 
-            {/* Dropdown for Secondary Links (Galeri, Peta, Testimoni, Blog) */}
-            <div className="relative" ref={dropdownRef}>
+            {/* Products Dropdown */}
+            <div className="relative" ref={productsDropdownRef}>
               <button
                 type="button"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                id="nav-dropdown-toggle"
-                className={`px-3 py-2 rounded-lg text-xs xl:text-sm font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
-                  isExplorationActive || dropdownOpen
-                    ? 'text-teal-800 bg-teal-50/90 font-bold'
+                onClick={() => setProductsDropdownOpen(!productsDropdownOpen)}
+                className={`px-3 py-2 rounded-lg text-xs xl:text-sm font-medium flex items-center gap-1 transition-all cursor-pointer ${
+                  currentPath.startsWith('/products') || productsDropdownOpen
+                    ? 'text-[#009bb3] bg-cyan-50 font-bold'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
-                <span>{t.nav.docsHub}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180 text-teal-700' : 'text-slate-400'}`} />
+                <span>Products</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${productsDropdownOpen ? 'rotate-180 text-[#009bb3]' : 'text-slate-400'}`} />
               </button>
 
-              {dropdownOpen && (
+              {productsDropdownOpen && (
                 <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 space-y-1 z-50 animate-fadeIn">
-                  <div className="px-3 py-1.5 text-[10px] font-bold text-teal-700 uppercase tracking-wider border-b border-slate-100 mb-1">
-                    {t.nav.docsHub}
+                  <div className="px-3 py-1.5 text-[10px] font-bold text-[#009bb3] uppercase tracking-wider border-b border-slate-100 mb-1 flex items-center justify-between">
+                    <span>Export Commodities</span>
+                    <button 
+                      onClick={() => handleLinkClick('/products')}
+                      className="text-slate-500 hover:text-[#009bb3] text-[10px] font-semibold"
+                    >
+                      View All Catalog &rarr;
+                    </button>
                   </div>
-                  {explorationLinks.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = activeSection === item.id;
-                    return (
-                      <a
-                        key={item.id}
-                        href={item.href}
-                        id={`dropdown-link-${item.id}`}
-                        onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                        className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
-                          isActive 
-                            ? 'bg-teal-50 border border-teal-200 text-teal-900' 
-                            : 'hover:bg-slate-50 text-slate-700 hover:text-slate-900'
-                        }`}
-                      >
-                        <div className={`p-2 rounded-lg mt-0.5 shrink-0 ${
-                          isActive ? 'bg-teal-100 text-teal-700' : 'bg-slate-100 text-slate-500'
-                        }`}>
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-slate-900">{item.label}</div>
-                          <p className="text-[11px] text-slate-500 leading-tight mt-0.5">{item.desc}</p>
-                        </div>
-                      </a>
-                    );
-                  })}
+                  {productSubmenu.map((sub, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleLinkClick(sub.path)}
+                      className="w-full text-left p-2.5 rounded-xl hover:bg-cyan-50/70 transition-all flex items-start gap-2.5 group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-cyan-100/60 text-[#009bb3] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#009bb3] group-hover:text-white transition">
+                        <Fish className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-900 group-hover:text-[#009bb3] transition-colors">{sub.label}</div>
+                        <p className="text-[11px] text-slate-500 leading-tight mt-0.5">{sub.desc}</p>
+                      </div>
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
 
+            {/* Standard Nav Items */}
+            {navLinks.slice(1).map((link) => (
+              <button
+                key={link.path}
+                onClick={() => handleLinkClick(link.path)}
+                className={`px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all ${
+                  isCurrentActive(link.path)
+                    ? 'text-[#009bb3] bg-cyan-50 font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                }`}
+              >
+                {link.label}
+              </button>
+            ))}
+
             {/* High-Converting Executive RFQ Quote CTA Button */}
             <button
-              onClick={() => handleNavClick('#kontak')}
+              onClick={() => handleLinkClick('/request-quote')}
               id="nav-btn-rfq-cta"
-              className="ml-2 inline-flex items-center justify-center gap-1.5 px-4.5 py-2 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs xl:text-[13px] shadow-sm hover:shadow transition-all cursor-pointer whitespace-nowrap"
+              className="ml-2 inline-flex items-center justify-center gap-1.5 px-4.5 py-2 rounded-xl bg-[#009bb3] hover:bg-[#0d8a9e] text-white font-bold text-xs xl:text-[13px] shadow-sm hover:shadow transition-all cursor-pointer whitespace-nowrap"
             >
               <Mail className="w-3.5 h-3.5" />
-              <span>{t.nav.requestRfqBtn}</span>
+              <span>REQUEST A QUOTE</span>
             </button>
           </nav>
 
           {/* Mobile Right: RFQ CTA & Hamburger */}
           <div className="lg:hidden flex items-center gap-2">
             <button
-              onClick={() => handleNavClick('#kontak')}
-              className="px-3 py-1.5 rounded-lg bg-teal-700 text-white font-bold text-xs shadow-xs"
+              onClick={() => handleLinkClick('/request-quote')}
+              className="px-3 py-1.5 rounded-lg bg-[#009bb3] text-white font-bold text-xs shadow-xs"
             >
-              RFQ
+              RFQ Quote
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               id="btn-mobile-menu-toggle"
-              className="p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
+              className="p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#009bb3] cursor-pointer"
               aria-label="Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 text-teal-700" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-[#009bb3]" /> : <Menu className="w-5 h-5 text-slate-700" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* 3. COMPREHENSIVE RESPONSIVE MOBILE MENU DRAWER */}
+      {/* 3. MOBILE MENU DRAWER */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-8 space-y-4 animate-fadeIn max-h-[85vh] overflow-y-auto shadow-xl">
-          
-          {/* Mobile Quick Category Shortcuts */}
-          <div className="p-3 bg-teal-50/70 rounded-2xl border border-teal-100">
-            <div className="text-[10px] font-bold text-[#009bb3] uppercase tracking-wider mb-2">
-              Kategori Komoditas Cepat
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {categoryShortcuts.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => handleNavClick('#komoditas')}
-                  className="px-3 py-2 rounded-xl bg-white border border-teal-200 text-slate-800 font-bold text-xs hover:border-[#009bb3] transition-all text-center"
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Language Switcher Row */}
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-            <div className="flex items-center justify-between text-[11px] font-bold text-[#009bb3] uppercase tracking-wider">
-              <div className="flex items-center gap-1.5">
-                <Globe2 className="w-3.5 h-3.5" />
-                <span>Language / Bahasa ({availableLanguages.length})</span>
-              </div>
-              <span className="text-[10px] text-slate-600 font-normal">Global</span>
-            </div>
-            <div className="grid grid-cols-2 gap-1.5 max-h-56 overflow-y-auto pr-0.5">
-              {availableLanguages.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => handleSelectLanguage(lang.code)}
-                  className={`flex items-center gap-2 p-2 rounded-lg text-xs transition-all text-left ${
-                    currentLang === lang.code
-                      ? 'bg-[#009bb3] text-white font-bold shadow-xs'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  <span className="text-base shrink-0">{lang.flag}</span>
-                  <div className="min-w-0">
-                    <div className="truncate font-semibold leading-tight">{lang.nativeName}</div>
-                    <div className={`text-[9px] truncate ${currentLang === lang.code ? 'text-teal-100' : 'text-slate-500'}`}>{lang.name}</div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Section 1: Main Commercial Links */}
+          {/* Main Links */}
           <div className="space-y-1">
-            <div className="text-[10px] font-bold text-[#009bb3] uppercase tracking-wider px-3 py-1">
-              Menu Utama
-            </div>
-            {primaryNavLinks.map((link) => (
-              <a
-                key={link.id}
-                href={link.href}
-                id={`mobile-nav-link-${link.id}`}
-                onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
-                className={`block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                  activeSection === link.id
-                    ? 'text-[#009bb3] bg-teal-50 border border-teal-200 font-bold'
-                    : 'text-slate-700 hover:bg-slate-50'
-                }`}
+            <button
+              onClick={() => handleLinkClick('/')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => handleLinkClick('/products')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
+            >
+              Products Catalog
+            </button>
+            <div className="pl-4 space-y-1 border-l-2 border-cyan-100 ml-2">
+              <button
+                onClick={() => handleLinkClick('/products/dried-anchovy')}
+                className="w-full text-left text-xs py-1 text-slate-600 hover:text-[#009bb3]"
               >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Section 2: Exploration & Visual Documentation */}
-          <div className="space-y-1 pt-2 border-t border-slate-100">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 py-1">
-              {t.nav.docsHub}
+                • Super White Anchovy (Teri Nasi)
+              </button>
+              <button
+                onClick={() => handleLinkClick('/products/dried-squid')}
+                className="w-full text-left text-xs py-1 text-slate-600 hover:text-[#009bb3]"
+              >
+                • Sun-Dried Squid (Cumi Sero)
+              </button>
+              <button
+                onClick={() => handleLinkClick('/products/dried-shrimp')}
+                className="w-full text-left text-xs py-1 text-slate-600 hover:text-[#009bb3]"
+              >
+                • Dried Shrimp (Ebi Super)
+              </button>
+              <button
+                onClick={() => handleLinkClick('/products/dried-fish')}
+                className="w-full text-left text-xs py-1 text-slate-600 hover:text-[#009bb3]"
+              >
+                • Salted Dried Fish (Jambal Roti)
+              </button>
             </div>
-            {explorationLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  id={`mobile-dropdown-link-${item.id}`}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all ${
-                    activeSection === item.id
-                      ? 'text-[#009bb3] bg-teal-50 border border-teal-200 font-bold'
-                      : 'text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  <Icon className="w-4 h-4 text-[#009bb3] shrink-0" />
-                  <span>{item.label}</span>
-                </a>
-              );
-            })}
-          </div>
-
-          {/* Mobile Language Switcher */}
-          <div className="pt-3 border-t border-slate-100">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 py-1 flex items-center gap-1.5">
-              <Globe2 className="w-3.5 h-3.5 text-[#009bb3]" />
-              <span>{t.nav.selectLanguage || 'Language / Regional Portal'}</span>
-            </div>
-            <div className="grid grid-cols-3 gap-1.5 px-1 py-1.5">
-              {[
-                { code: 'en', label: 'English', path: '/' },
-                { code: 'id', label: 'Indonesia', path: '/id/' },
-                { code: 'ar', label: 'العربية', path: '/ar/' }
-              ].map((item) => {
-                const isActive = currentLang === item.code;
-                return (
-                  <button
-                    key={item.code}
-                    onClick={() => {
-                      handleSelectLanguage(item.code as SupportedLanguage);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`flex flex-col items-center justify-center p-2 rounded-xl text-center border transition-all cursor-pointer ${
-                      isActive 
-                        ? 'bg-teal-50 border-teal-500 text-teal-900 font-bold shadow-xs' 
-                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    <span className="text-xs font-bold leading-tight">{item.label}</span>
-                    <span className="text-[9px] text-slate-500 font-mono mt-0.5">{item.path}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Section 3: Contact & Direct Action Buttons */}
-          <div className="pt-3 border-t border-slate-100 space-y-2">
             <button
-              onClick={() => { setMobileMenuOpen(false); onOpenCatalogModal ? onOpenCatalogModal() : handleNavClick('#komoditas'); }}
-              className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#009bb3] to-[#519992] text-white font-bold py-2.5 rounded-xl text-sm shadow-md"
+              onClick={() => handleLinkClick('/export-process')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
             >
-              <span>Buka Katalog Produk Shrimora</span>
+              Export Process
             </button>
             <button
-              onClick={() => { setMobileMenuOpen(false); handleNavClick('#kalkulator'); }}
-              id="mobile-btn-calculator"
-              className="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-800 font-semibold py-2.5 rounded-xl text-sm hover:bg-slate-50"
+              onClick={() => handleLinkClick('/quality')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
             >
-              <Calculator className="w-4 h-4 text-[#009bb3]" />
-              <span>{t.nav.shippingCalc}</span>
+              Quality & Lab Standards
+            </button>
+            <button
+              onClick={() => handleLinkClick('/facility')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
+            >
+              Processing Facility
+            </button>
+            <button
+              onClick={() => handleLinkClick('/about')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
+            >
+              About Company
+            </button>
+            <button
+              onClick={() => handleLinkClick('/markets')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
+            >
+              Global Markets
+            </button>
+            <button
+              onClick={() => handleLinkClick('/insights')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
+            >
+              Insights & Intelligence
+            </button>
+            <button
+              onClick={() => handleLinkClick('/request-quote')}
+              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-[#009bb3] bg-cyan-50"
+            >
+              Request a Quote (RFQ)
             </button>
           </div>
 
-          {/* Mobile Direct Phone Dial */}
-          <div className="p-3 rounded-xl bg-teal-50/50 border border-teal-100 text-xs text-slate-600 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <PhoneCall className="w-4 h-4 text-[#009bb3]" />
-              <span>{t.nav.hotline24h}</span>
+          {/* Mobile Language Selection */}
+          <div className="pt-3 border-t border-slate-200">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Language</span>
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <button
+                onClick={() => handleSelectLanguage('en')}
+                className={`p-2 rounded-lg border text-center font-bold ${currentLang === 'en' ? 'border-[#009bb3] text-[#009bb3] bg-cyan-50' : 'border-slate-200 text-slate-700'}`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => handleSelectLanguage('id')}
+                className={`p-2 rounded-lg border text-center font-bold ${currentLang === 'id' ? 'border-[#009bb3] text-[#009bb3] bg-cyan-50' : 'border-slate-200 text-slate-700'}`}
+              >
+                ID
+              </button>
+              <button
+                onClick={() => handleSelectLanguage('ar')}
+                className={`p-2 rounded-lg border text-center font-bold ${currentLang === 'ar' ? 'border-[#009bb3] text-[#009bb3] bg-cyan-50' : 'border-slate-200 text-slate-700'}`}
+              >
+                AR
+              </button>
             </div>
-            <a 
-              href={`tel:${COMPANY_PROFILE.hotline.replace(/\s+/g, '')}`} 
-              className="text-slate-900 font-bold font-mono hover:text-[#009bb3]"
-            >
-              {COMPANY_PROFILE.hotline}
-            </a>
           </div>
         </div>
       )}
