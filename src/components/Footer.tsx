@@ -157,14 +157,47 @@ export default function Footer({
 
           {/* Col 4: Corporate & Credentials */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">Corporate & Legal</h4>
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">
+              {currentLang === 'id' ? 'Profil & Legalitas' : 'Corporate & Legal'}
+            </h4>
             <ul className="space-y-2">
-              <li><button onClick={() => handleNav('/about')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">About PT Samdura Bara Persada</button></li>
-              <li><button onClick={onOpenPartners} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Strategic Ecosystem Partners</button></li>
-              <li><button onClick={onOpenSSLModal} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">TLS 1.3 EV SSL Security</button></li>
-              <li><span className="text-slate-400">NIB: 1408230135849</span></li>
-              <li><span className="text-slate-400">P-IRT: 5023315010556-31</span></li>
-              <li><span className="text-slate-400">AHU-0034189.AH.01.01.2014</span></li>
+              <li>
+                <button 
+                  onClick={() => handleNav('/about')} 
+                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left font-medium"
+                >
+                  {currentLang === 'id' ? 'Profil Perusahaan (PT Samdura Bara Persada)' : 'Corporate Profile & Capabilities'}
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => handleNav('/about')} 
+                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left"
+                >
+                  {currentLang === 'id' ? 'Tim Eksekutif & Sertifikasi' : 'Executive Team & Compliance'}
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={onOpenPartners} 
+                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left"
+                >
+                  {currentLang === 'id' ? 'Mitra Ekosistem Bahari' : 'Strategic Ecosystem Partners'}
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={onOpenSSLModal} 
+                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left"
+                >
+                  TLS 1.3 EV SSL Security
+                </button>
+              </li>
+              <li className="pt-1 text-[11px] text-slate-400 space-y-0.5">
+                <div>NIB: <span className="font-mono text-slate-600">1408230135849</span></div>
+                <div>P-IRT: <span className="font-mono text-slate-600">5023315010556-31</span></div>
+                <div>AHU: <span className="font-mono text-slate-600">0034189.AH.01.01.2014</span></div>
+              </li>
             </ul>
 
             <div className="pt-3">

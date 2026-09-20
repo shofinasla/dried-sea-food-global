@@ -48,6 +48,56 @@ export const OFFICIAL_COMPLIANCE_DOCUMENTS = {
 
 export const STRATEGIC_PARTNERS: StrategicPartner[] = [
   {
+    id: 'kkp',
+    name: 'Kementerian Kelautan dan Perikanan (KKP)',
+    category: 'Regulator & Karantina Ikan',
+    description: 'Instansi penerbit Sertifikat Kesehatan (Health Certificate) dan sertifikasi karantina mutu ekspor hasil perikanan.',
+    descriptionEn: 'Official government regulatory authority for marine fisheries quality, HACCP oversight, and export health certificates.',
+    descriptionAr: 'الهيئة الحكومية المسؤولة عن معايير الجودة البحرية والتفتيش الصحي وشهادات التصدير.',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_Kementerian_Kelautan_dan_Perikanan_RI.svg',
+    initials: 'KKP'
+  },
+  {
+    id: 'halal-bpjph',
+    name: 'Halal Indonesia (BPJPH Kemenag)',
+    category: 'Sertifikasi Kehalalan Pangan',
+    description: 'Badan Penyelenggara Jaminan Produk Halal resmi yang menjamin rantai pasok dan pengolahan hasil laut halal 100%.',
+    descriptionEn: 'Official Indonesian Halal Product Assurance Agency certifying 100% halal marine food processing and distribution.',
+    descriptionAr: 'الهيئة الرسمية لضمان المنتجات الحلال الإندونيسية لتأكيد توافق كافة سلاسل الإمداد.',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Logo_Halal_Indonesia.svg',
+    initials: 'HALAL'
+  },
+  {
+    id: 'kemendag',
+    name: 'Kementerian Perdagangan (Kemendag)',
+    category: 'Fasilitasi Ekspor & Perdagangan',
+    description: 'Kementerian Pembina Perdagangan Luar Negeri RI yang memfasilitasi akses pasar ekspor dan sertifikat asal barang (COO).',
+    descriptionEn: 'Ministry of Trade of Indonesia supporting bilateral market access, verified exporter registration, and trade missions.',
+    descriptionAr: 'وزارة التجارة الإندونيسية الداعمة للتصدير الدولي وتسهيل الإجراءات الجمركية.',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/07/Logo_Kementerian_Perdagangan_Republik_Indonesia_%282014%29.png',
+    initials: 'KEMENDAG'
+  },
+  {
+    id: 'inaexport',
+    name: 'InaExport (Kemendag RI)',
+    category: 'Direktori Eksportir Terverifikasi',
+    description: 'Platform resmi Kementerian Perdagangan yang memverifikasi dan menghubungkan eksportir unggulan Indonesia dengan pembeli global.',
+    descriptionEn: 'Official export platform of the Ministry of Trade connecting verified Indonesian suppliers with global buyers.',
+    descriptionAr: 'المنصة الرسمية لوزارة التجارة الإندونيسية لربط الموردين المعتمدين مع المستوردين العالميين.',
+    logoUrl: 'https://inaexport.kemendag.go.id/assets/images/logo.png',
+    initials: 'INA'
+  },
+  {
+    id: 'kemenkumham',
+    name: 'Kemenkumham Republik Indonesia',
+    category: 'Legalitas Badan Usaha',
+    description: 'Kementerian yang mengesahkan badan hukum PT Samdura Bara Persada (SK Menkumham No. AHU-0034189.AH.01.01.2014).',
+    descriptionEn: 'Ministry of Law and Human Rights certifying the official legal entity status of PT Samdura Bara Persada.',
+    descriptionAr: 'وزارة القانون وحقوق الإنسان الموثقة للوضع القانوني الرسمي لشركة PT Samdura Bara Persada.',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/07/Logo_Kementerian_Hukum_dan_Hak_Asasi_Manusia_Republik_Indonesia.png',
+    initials: 'KUMHAM'
+  },
+  {
     id: 'shrimora',
     name: 'Shrimora',
     category: 'Brand & Produk Hasil Laut',

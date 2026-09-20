@@ -114,8 +114,8 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
             <span className="block">{content.titleSuffix}</span>
           </h1>
 
-          {/* Lead Description (20px / Enhanced readability with thick layered shadow) */}
-          <p className="mt-4 sm:mt-5 text-white text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-2xl [text-shadow:_0_2px_4px_rgba(0,0,0,0.95),_0_4px_16px_rgba(0,0,0,0.9),_0_8px_30px_rgba(0,0,0,0.85)] drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
+          {/* Lead Description (20px / Shadow configured to 8px) */}
+          <p className="mt-4 sm:mt-5 text-white text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] [text-shadow:_0_2px_8px_rgba(0,0,0,0.85)]">
             {content.description}
           </p>
 
@@ -173,17 +173,17 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
         </div>
 
         {/* ============================================================ */}
-        {/* STATS BAR (4-COLUMN GRID WITH THICK HIGH-CONTRAST SHADOWS)   */}
+        {/* STATS BAR (4-COLUMN GRID WITH 8PX SHADOWS)                   */}
         {/* Values: 18px-22px / Bold, Labels: 12px-14px / 85% Opacity    */}
         {/* ============================================================ */}
-        <div className="mt-8 sm:mt-10 lg:mt-12 pt-6 sm:pt-7 border-t border-white/25 drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
+        <div className="mt-8 sm:mt-10 lg:mt-12 pt-6 sm:pt-7 border-t border-white/25 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-7">
             {content.stats.map((stat, idx) => (
-              <div key={idx} className="flex flex-col [filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.95))_drop-shadow(0_8px_24px_rgba(0,0,0,0.85))]">
-                <span className="text-xl sm:text-2xl font-bold text-white tracking-tight [text-shadow:_0_2px_4px_rgba(0,0,0,0.95),_0_4px_12px_rgba(0,0,0,0.9)]">
+              <div key={idx} className="flex flex-col [filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.85))]">
+                <span className="text-xl sm:text-2xl font-bold text-white tracking-tight [text-shadow:_0_2px_8px_rgba(0,0,0,0.85)]">
                   {stat.value}
                 </span>
-                <span className="text-xs sm:text-sm text-white/90 font-medium mt-1 [text-shadow:_0_1px_3px_rgba(0,0,0,0.95),_0_2px_8px_rgba(0,0,0,0.9)]">
+                <span className="text-xs sm:text-sm text-white/90 font-medium mt-1 [text-shadow:_0_1px_8px_rgba(0,0,0,0.85)]">
                   {stat.label}
                 </span>
               </div>

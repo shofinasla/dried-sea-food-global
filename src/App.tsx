@@ -457,7 +457,10 @@ export default function App() {
               onOpenSSLModal={() => setIsSSLModalOpen(true)}
               onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
             />
-            <AboutServices onSelectServiceForQuote={handleSelectServiceForQuote} />
+            <AboutServices 
+              onSelectServiceForQuote={handleSelectServiceForQuote} 
+              onNavigate={navigateTo}
+            />
             <StrategicPartners onOpenPartners={() => navigateTo(currentLangPrefix ? `${currentLangPrefix}/partners` : '/partners')} />
             <ExportCommodities
               products={products}
