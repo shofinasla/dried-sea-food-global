@@ -22,7 +22,7 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
         titleHighlight: 'Kesegaran Samudra',
         titleSuffix: 'ke Meja Anda',
         description:
-          'Hasil laut premium pilihan, dipasok langsung dari perairan pesisir Indonesia tepercaya dan dikirimkan dengan standar mutu terjamin ke Arab Saudi dan pasar internasional.',
+          'Makanan laut kering premium dari Indonesia, dipilih secara cermat dari nelayan tepercaya dan diproses secara alami untuk menjaga cita rasa, kualitas, dan karakteristik aslinya.',
         ctaExplore: 'Lihat Koleksi Ikan',
         ctaStory: 'Profil Kami',
         ctaB2B: 'Permintaan Grosir B2B',
@@ -55,11 +55,11 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
     }
     return {
       badge: 'FRESH AND FROZEN FISH • SFDA APPROVED',
-      titlePrefix: 'Delivering the',
-      titleHighlight: 'Freshness of the Ocean',
-      titleSuffix: 'to Your Table',
+      titlePrefix: 'Welcome To',
+      titleHighlight: 'Dried Seafood Global',
+      titleSuffix: '',
       description:
-        'Premium seafood, sourced directly from trusted waters around the world and delivered with care across Saudi Arabia.',
+        'Premium dried seafood from Indonesia, carefully selected from trusted fishermen and naturally processed to preserve its authentic taste, quality, and character.',
       ctaExplore: 'Explore our Fish',
       ctaStory: 'Our Story',
       ctaB2B: 'B2B Wholesale Inquiry',
