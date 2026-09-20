@@ -70,7 +70,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'Registrasi Eksportir & Fasilitasi Dagang Internasional',
       icon: Building2,
       color: 'text-cyan-600 bg-cyan-50 border-cyan-200',
-      logoUrl: '/images/logos/kemendag.svg'
+      logoUrl: '/images/logos/kemendag.png'
     },
     {
       id: 'kemenkumham',

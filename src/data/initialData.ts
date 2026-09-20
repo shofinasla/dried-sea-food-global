@@ -74,7 +74,7 @@ export const STRATEGIC_PARTNERS: StrategicPartner[] = [
     description: 'Kementerian Pembina Perdagangan Luar Negeri RI yang memfasilitasi akses pasar ekspor dan sertifikat asal barang (COO).',
     descriptionEn: 'Ministry of Trade of Indonesia supporting bilateral market access, verified exporter registration, and trade missions.',
     descriptionAr: 'وزارة التجارة الإندونيسية الداعمة للتصدير الدولي وتسهيل الإجراءات الجمركية.',
-    logoUrl: '/images/logos/kemendag.svg',
+    logoUrl: '/images/logos/kemendag.png',
     initials: 'KEMENDAG'
   },
   {
