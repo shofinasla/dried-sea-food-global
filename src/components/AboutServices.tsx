@@ -54,7 +54,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'Sertifikasi & Karantina Hasil Laut BKIPM',
       icon: ShieldCheck,
       color: 'text-teal-600 bg-teal-50 border-teal-200',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_Kementerian_Kelautan_dan_Perikanan_RI.svg'
+      logoUrl: '/images/logos/kkp.png'
     },
     {
       id: 'halal',
@@ -62,7 +62,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'Sertifikasi Halal Resmi Kemenag RI',
       icon: Award,
       color: 'text-amber-600 bg-amber-50 border-amber-200',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Logo_Halal_Indonesia.svg'
+      logoUrl: '/images/logos/halal.svg'
     },
     {
       id: 'kemendag',
@@ -70,7 +70,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'Registrasi Eksportir & Fasilitasi Dagang Internasional',
       icon: Building2,
       color: 'text-cyan-600 bg-cyan-50 border-cyan-200',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/07/Logo_Kementerian_Perdagangan_Republik_Indonesia_%282014%29.png'
+      logoUrl: '/images/logos/kemendag.svg'
     },
     {
       id: 'kemenkumham',
@@ -78,7 +78,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'Legalitas Badan Usaha PT Samdura Bara Persada',
       icon: BadgeCheck,
       color: 'text-blue-600 bg-blue-50 border-blue-200',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/07/Logo_Kementerian_Hukum_dan_Hak_Asasi_Manusia_Republik_Indonesia.png'
+      logoUrl: '/images/logos/kemenkumham.png'
     },
     {
       id: 'inaexport',
@@ -86,7 +86,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'Portal Resmi Eksportir Terverifikasi RI',
       icon: Globe2,
       color: 'text-sky-600 bg-sky-50 border-sky-200',
-      logoUrl: 'https://inaexport.kemendag.go.id/assets/images/logo.png'
+      logoUrl: '/images/logos/inaexport.png'
     },
     {
       id: 'haccp',
