@@ -22,13 +22,7 @@
     {
       "binding": "DB",
       "database_name": "dried-sea-food-global-db",
-      "database_id": "dried-sea-food-global-db"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "MEDIA_BUCKET",
-      "bucket_name": "dried-sea-food-global-media"
+      "database_id": "0b37bbc7-cb12-45f1-815e-3f0f63f68c35"
     }
   ],
   "secrets_store_secrets": [

@@ -32,9 +32,10 @@ import {
   deleteGalleryItem,
   getSeoSettings,
   saveSeoSettings
-} from './d1';
+} from './supabase-data';
 import { ExportCommodity, BlogPost, GalleryItem, ContactInquiry } from '../src/types';
 import { GoogleGenAI } from '@google/genai';
+import { getSupabaseClient } from './supabase';
 
 function jsonResponse(data: any, status: number = 200, headers: HeadersInit = {}): Response {
   const mergedHeaders = new Headers(headers);
@@ -89,6 +90,47 @@ export async function handleApiRequest(
       }
     });
   }
+
+
+  // ----------------------------------------------------
+  // SUPABASE CONNECTION TEST
+  // ----------------------------------------------------
+  if (pathname === '/api/test-supabase' && method === 'GET') {
+    try {
+    const supabase = await getSupabaseClient(env);
+
+    const { count, error } = await supabase
+      .from('products')
+      .select('id', { count: 'exact', head: true });
+
+    if (error) {
+      console.error('Supabase connection test failed:', error);
+
+      return jsonResponse({
+        success: false,
+        service: 'supabase',
+        error: error.message
+      }, 500);
+    }
+
+    return jsonResponse({
+      success: true,
+      service: 'supabase',
+      database: 'connected',
+      products_count: count
+    });
+  } catch (error) {
+    console.error('Supabase connection test error:', error);
+
+    return jsonResponse({
+      success: false,
+      service: 'supabase',
+      error: error instanceof Error
+        ? error.message
+        : 'Unknown Supabase connection error'
+    }, 500);
+  }
+}
 
   // ----------------------------------------------------
   // 1. HEALTH CHECK

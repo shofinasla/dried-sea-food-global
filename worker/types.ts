@@ -12,6 +12,10 @@ export interface Env {
   ADMIN_INITIAL_PASSWORD?: string | SecretsStoreSecret;
   SESSION_SECRET?: string | SecretsStoreSecret;
   GEMINI_API_KEY?: string | SecretsStoreSecret;
+
+  
+  SUPABASE_URL?: string | SecretsStoreSecret;
+  SUPABASE_SERVICE_ROLE_KEY?: string | SecretsStoreSecret;
   [key: string]: any;
 }
 
