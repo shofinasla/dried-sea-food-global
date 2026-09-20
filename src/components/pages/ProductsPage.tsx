@@ -162,13 +162,13 @@ export default function ProductsPage({
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
             {filteredProducts.map((product) => {
               const targetSlug = product.slug || product.id;
               return (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-[#009bb3] hover:shadow-xl hover:shadow-[#009bb3]/5 transition-all duration-300 flex flex-col justify-between"
+                  className="group bg-white rounded-xl sm:rounded-2xl border border-slate-200 overflow-hidden hover:border-[#009bb3] hover:shadow-xl hover:shadow-[#009bb3]/5 transition-all duration-300 flex flex-col justify-between hover:-translate-y-0.5 sm:hover:-translate-y-1"
                 >
                   <div>
                     {/* Product Image */}
@@ -179,63 +179,63 @@ export default function ProductsPage({
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
-                      <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-slate-900/80 backdrop-blur-sm text-white px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[8px] sm:text-[10px] font-bold uppercase tracking-wider truncate max-w-[70%]">
                         {product.category}
                       </div>
                       {product.hsCode && (
-                        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-slate-700 px-2 py-0.5 rounded text-[10px] font-mono font-semibold">
+                        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white/90 backdrop-blur-sm text-slate-700 px-1.5 sm:px-2 py-0.5 rounded text-[8px] sm:text-[10px] font-mono font-semibold">
                           HS {product.hsCode}
                         </div>
                       )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#009bb3] transition-colors leading-snug">
+                    <div className="p-2.5 sm:p-6">
+                      <h3 className="text-xs sm:text-base md:text-lg font-bold text-slate-900 group-hover:text-[#009bb3] transition-colors leading-tight sm:leading-snug line-clamp-1 sm:line-clamp-2">
                         {product.name}
                       </h3>
-                      <p className="text-xs text-slate-500 italic mt-0.5">
+                      <p className="text-[10px] sm:text-xs text-slate-500 italic mt-0.5 line-clamp-1">
                         {product.indonesianName}
                       </p>
 
-                      <p className="text-xs text-slate-600 mt-3 line-clamp-2 leading-relaxed">
+                      <p className="text-[11px] sm:text-xs text-slate-600 mt-1.5 sm:mt-3 line-clamp-2 leading-relaxed hidden sm:block">
                         {product.description}
                       </p>
 
                       {/* Key Export Specs Chips */}
-                      <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-2 text-[11px]">
-                        <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
+                      <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 text-[9px] sm:text-[11px]">
+                        <div className="bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-slate-100 flex justify-between sm:block">
+                          <span className="text-slate-400 block text-[8px] sm:text-[10px] uppercase font-semibold">Grade</span>
+                          <span className="font-semibold text-slate-800 truncate block">{product.specification?.grade || 'Export Grade'}</span>
+                        </div>
+                        <div className="bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-slate-100 flex justify-between sm:block">
+                          <span className="text-slate-400 block text-[8px] sm:text-[10px] uppercase font-semibold">MOQ</span>
+                          <span className="font-semibold text-slate-800 truncate block">{product.specification?.moq || 'Contact us'}</span>
+                        </div>
+                        <div className="bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-slate-100 hidden sm:block">
                           <span className="text-slate-400 block text-[10px] uppercase font-semibold">Moisture</span>
                           <span className="font-semibold text-slate-800">{product.specification?.moisture || 'Standard Low'}</span>
                         </div>
-                        <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
-                          <span className="text-slate-400 block text-[10px] uppercase font-semibold">Grade</span>
-                          <span className="font-semibold text-slate-800 truncate block">{product.specification?.grade || 'Export Grade'}</span>
-                        </div>
-                        <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
+                        <div className="bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-slate-100 hidden sm:block">
                           <span className="text-slate-400 block text-[10px] uppercase font-semibold">Origin</span>
                           <span className="font-semibold text-slate-800 truncate block">{product.origin || 'Indonesia'}</span>
-                        </div>
-                        <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
-                          <span className="text-slate-400 block text-[10px] uppercase font-semibold">Min. Order (MOQ)</span>
-                          <span className="font-semibold text-slate-800 truncate block">{product.specification?.moq || 'Contact us'}</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Actions */}
-                  <div className="p-6 pt-0 border-t border-slate-100 bg-slate-50/50 mt-4 flex items-center justify-between gap-3">
+                  <div className="p-2.5 sm:p-6 pt-2 sm:pt-0 border-t border-slate-100 bg-slate-50/50 mt-2 sm:mt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1.5 sm:gap-3">
                     <button
                       onClick={() => onSelectProduct(product)}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#009bb3] hover:text-[#0d8a9e] transition"
+                      className="inline-flex items-center justify-center sm:justify-start gap-1 text-[10px] sm:text-xs font-bold text-[#009bb3] hover:text-[#0d8a9e] transition py-1 sm:py-0"
                     >
-                      <span>View Specifications</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span>Specifications</span>
+                      <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     </button>
                     <button
                       onClick={() => onRequestQuote(product.name)}
-                      className="px-3.5 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-[#009bb3] transition shadow-sm"
+                      className="px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-slate-900 text-white text-[10px] sm:text-xs font-semibold hover:bg-[#009bb3] transition shadow-2xs text-center"
                     >
                       Request Quote
                     </button>

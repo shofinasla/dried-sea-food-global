@@ -16,7 +16,6 @@ import ExportCatalogModal from './components/ExportCatalogModal';
 import NotFoundPage from './components/NotFoundPage';
 import CompanyPage from './components/CompanyPage';
 import PartnersPage from './components/PartnersPage';
-import StrategicPartners from './components/StrategicPartners';
 import WhatsAppFloatingWidget from './components/WhatsAppFloatingWidget';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminLogin from './components/admin/AdminLogin';
@@ -461,11 +460,11 @@ export default function App() {
               onSelectServiceForQuote={handleSelectServiceForQuote} 
               onNavigate={navigateTo}
             />
-            <StrategicPartners onOpenPartners={() => navigateTo(currentLangPrefix ? `${currentLangPrefix}/partners` : '/partners')} />
             <ExportCommodities
               products={products}
               onSelectCommodityForQuote={handleSelectCommodityForQuote}
               onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
+              onNavigateProducts={() => navigateTo(currentLangPrefix ? `${currentLangPrefix}/products` : '/products')}
             />
             <ExportProcessWorkflow />
             <GlobalShippingCalculator onBookInquiry={handleBookFromCalculator} />

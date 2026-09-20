@@ -482,35 +482,35 @@ export default function ProductDetailPage({
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {relatedProducts.map((rel) => (
                 <div
                   key={rel.id}
                   onClick={() => onSelectProduct(rel)}
-                  className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:border-[#009bb3] hover:shadow-md transition cursor-pointer flex flex-col justify-between"
+                  className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:border-[#009bb3] hover:shadow-md transition cursor-pointer flex flex-col justify-between hover:-translate-y-0.5"
                 >
                   <div>
-                    <div className="aspect-[16/10] bg-slate-100 overflow-hidden">
+                    <div className="aspect-[4/3] sm:aspect-[16/10] bg-slate-100 overflow-hidden">
                       <img
                         src={rel.imageUrl || '/images/products/exp-teri-nasi-1.png'}
                         alt={rel.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <div className="p-4">
-                      <div className="text-[10px] font-bold text-[#009bb3] uppercase">{rel.category}</div>
-                      <h4 className="font-bold text-sm text-slate-900 group-hover:text-[#009bb3] transition-colors mt-1 line-clamp-1">
+                    <div className="p-2.5 sm:p-4">
+                      <div className="text-[9px] sm:text-[10px] font-bold text-[#009bb3] uppercase truncate">{rel.category}</div>
+                      <h4 className="font-bold text-xs sm:text-sm text-slate-900 group-hover:text-[#009bb3] transition-colors mt-0.5 sm:mt-1 line-clamp-1">
                         {rel.name}
                       </h4>
-                      <p className="text-xs text-slate-500 line-clamp-2 mt-1">
+                      <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 mt-1 hidden sm:block">
                         {rel.description}
                       </p>
                     </div>
                   </div>
-                  <div className="p-4 pt-0 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-xs font-bold text-slate-700">
-                    <span>MOQ: {rel.specification?.moq || '500 Kg'}</span>
-                    <span className="text-[#009bb3] flex items-center gap-1">
-                      View Specs <ArrowRight className="w-3 h-3" />
+                  <div className="p-2.5 sm:p-4 pt-0 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
+                    <span className="truncate">MOQ: {rel.specification?.moq || '500 Kg'}</span>
+                    <span className="text-[#009bb3] flex items-center justify-end gap-1">
+                      <span>Specs</span> <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
                 </div>

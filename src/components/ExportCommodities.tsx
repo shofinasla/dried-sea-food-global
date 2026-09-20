@@ -25,12 +25,14 @@ interface ExportCommoditiesProps {
   products: ExportCommodity[];
   onSelectCommodityForQuote: (commodityName: string) => void;
   onOpenCatalogModal: () => void;
+  onNavigateProducts?: () => void;
 }
 
 export default function ExportCommodities({ 
   products,
   onSelectCommodityForQuote,
-  onOpenCatalogModal 
+  onOpenCatalogModal,
+  onNavigateProducts
 }: ExportCommoditiesProps) {
   const { t, currentLang } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -57,11 +59,22 @@ export default function ExportCommodities({
     return matchesCategory && matchesSearch;
   });
 
+  // Limit display to exactly 6 products on the main page
+  const displayedCommodities = filteredCommodities.slice(0, 6);
+
   const uiTexts = {
     topProduct: currentLang === 'id' ? 'Produk Unggulan' : currentLang === 'ar' ? 'منتج رئيسي' : 'Top Product',
     viewSpecs: currentLang === 'id' ? 'Lihat Foto & Spek' : currentLang === 'ar' ? 'عرض الصور والمواصفات' : 'View Photos & Specs',
     viewDetails: currentLang === 'id' ? 'Detail Produk' : currentLang === 'ar' ? 'تفاصيل المنتج' : 'View Details',
     requestQuote: currentLang === 'id' ? 'Minta Penawaran' : currentLang === 'ar' ? 'طلب تسعير' : 'Request Quote',
+    viewAllProducts: currentLang === 'id' ? 'Lihat Semua Katalog Komoditas' : currentLang === 'ar' ? 'عرض جميع منتجات التصدير' : 'View All Export Commodities',
+    showingCount: (count: number, total: number) => {
+      if (currentLang === 'id') return `Menampilkan ${count} dari ${total} komoditas ekspor unggulan`;
+      if (currentLang === 'ar') return `عرض ${count} من أصل ${total} سلعة تصدير رئيسية`;
+      return `Showing ${count} of ${total} featured export commodities`;
+    },
+    noResults: currentLang === 'id' ? 'Tidak ada produk yang cocok dengan pencarian Anda.' : currentLang === 'ar' ? 'لم يتم العثور على منتجات مطابقة لبحثك.' : 'No products matched your search.',
+    resetFilter: currentLang === 'id' ? 'Reset Filter' : currentLang === 'ar' ? 'إعادة ضبط التصفية' : 'Reset Filters',
     photoCount: (current: number, total: number) => {
       if (currentLang === 'ar') return `صورة ${current} من ${total}`;
       if (currentLang === 'id') return `Foto ${current} dari ${total}`;
@@ -155,133 +168,168 @@ export default function ExportCommodities({
           </div>
         </div>
 
-        {/* Commodity Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCommodities.map((item) => (
-            <div
-              key={`${item.id}-${item.category}`}
-              className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1"
-            >
-              <div>
-                {/* Photo with badges and zoom overlay */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-black/20" />
-                  
-                  {/* Category & Origin Tags */}
-                  <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                    <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 text-[10px] font-extrabold uppercase shadow-xs">
-                      {getCategoryLabel('product', item.category, currentLang)}
-                    </span>
-                    {item.featured && (
-                      <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white text-[10px] font-extrabold uppercase shadow-sm">
-                        {uiTexts.topProduct}
+        {/* Commodity Cards Grid - 2 columns on mobile, 3 on desktop */}
+        {displayedCommodities.length > 0 ? (
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
+            {displayedCommodities.map((item) => (
+              <div
+                key={`${item.id}-${item.category}`}
+                className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group flex flex-col justify-between hover:-translate-y-0.5 sm:hover:-translate-y-1"
+              >
+                <div>
+                  {/* Photo with badges and zoom overlay */}
+                  <div className="relative aspect-[4/3] sm:aspect-[16/10] overflow-hidden bg-slate-100">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20" />
+                    
+                    {/* Category & Origin Tags */}
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-wrap gap-1 sm:gap-1.5 max-w-[70%]">
+                      <span className="px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 text-[8px] sm:text-[10px] font-extrabold uppercase shadow-2xs truncate">
+                        {getCategoryLabel('product', item.category, currentLang)}
                       </span>
-                    )}
-                  </div>
-
-                  <div className="absolute top-3 right-3">
-                    <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[10px] font-mono">
-                      HS: {item.hsCode}
-                    </span>
-                  </div>
-
-                  {/* Quick View Button on Image */}
-                  <button
-                    onClick={() => openCommodityDetail(item)}
-                    className="absolute bottom-3 right-3 p-2 rounded-xl bg-white/95 hover:bg-[#009bb3] text-slate-800 hover:text-white transition-colors shadow-sm flex items-center justify-center cursor-pointer"
-                    title={uiTexts.viewSpecs}
-                  >
-                    <Eye className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Content Details */}
-                <div className="p-6">
-                  <h3 className="text-lg font-black text-slate-950 group-hover:text-[#009bb3] transition-colors line-clamp-1">
-                    {item.name}
-                  </h3>
-                  <p className="text-xs text-[#519992] font-bold mt-0.5 mb-3">
-                    {item.indonesianName}
-                  </p>
-                  
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-4">
-                    {item.description}
-                  </p>
-
-                  {/* Specs Quick Matrix */}
-                  <div className="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 space-y-2 mb-4 text-[11px]">
-                    <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.origin || (currentLang === 'ar' ? 'ميناء المنشأ:' : 'Asal Perairan:')}</span>
-                      <span className="text-slate-800 font-semibold text-right max-w-[180px] truncate">{item.origin}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.grade || (currentLang === 'ar' ? 'معيار الجودة:' : 'Standar Grade:')}</span>
-                      <span className="text-[#009bb3] font-black">{item.specification.grade}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.moq || (currentLang === 'ar' ? 'الحد الأدنى للطلب (MOQ):' : 'Min. Order (MOQ):')}</span>
-                      <span className="text-slate-800 font-bold">{item.specification.moq}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-slate-500">
-                      <span>{t.commodities?.supplyCapacity || (currentLang === 'ar' ? 'طاقة الإمداد:' : 'Kapasitas Pasokan:')}</span>
-                      <span className="text-[#519992] font-black">{item.supplyCapacity}</span>
-                    </div>
-                  </div>
-
-                  {/* Certifications badges */}
-                  <div className="space-y-1.5">
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-extrabold block">
-                      {t.commodities?.certifications || (currentLang === 'ar' ? 'شهادات الجودة:' : 'Sertifikasi Mutu:')}
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {item.certifications.slice(0, 3).map((cert, idx) => (
-                        <span 
-                          key={idx}
-                          className="px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-100 text-[#009bb3] text-[10px] font-bold flex items-center gap-1"
-                        >
-                          <CheckCircle2 className="w-2.5 h-2.5" />
-                          <span>{cert}</span>
-                        </span>
-                      ))}
-                      {item.certifications.length > 3 && (
-                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold">
-                          +{item.certifications.length - 3}
+                      {item.featured && (
+                        <span className="hidden xs:inline-flex sm:inline-flex px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] text-white text-[8px] sm:text-[10px] font-extrabold uppercase shadow-sm">
+                          {uiTexts.topProduct}
                         </span>
                       )}
                     </div>
+
+                    <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                      <span className="px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[8px] sm:text-[10px] font-mono">
+                        HS: {item.hsCode}
+                      </span>
+                    </div>
+
+                    {/* Quick View Button on Image */}
+                    <button
+                      onClick={() => openCommodityDetail(item)}
+                      className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-white/95 hover:bg-[#009bb3] text-slate-800 hover:text-white transition-colors shadow-xs flex items-center justify-center cursor-pointer"
+                      title={uiTexts.viewSpecs}
+                    >
+                      <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </button>
+                  </div>
+
+                  {/* Content Details */}
+                  <div className="p-2.5 sm:p-6">
+                    <h3 className="text-xs sm:text-base md:text-lg font-bold sm:font-black text-slate-950 group-hover:text-[#009bb3] transition-colors line-clamp-1 sm:line-clamp-2 leading-tight sm:leading-snug">
+                      {item.name}
+                    </h3>
+                    <p className="text-[10px] sm:text-xs text-[#519992] font-bold mt-0.5 mb-1.5 sm:mb-3 line-clamp-1">
+                      {item.indonesianName}
+                    </p>
+                    
+                    <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed line-clamp-2 mb-2 sm:mb-4 hidden sm:block">
+                      {item.description}
+                    </p>
+
+                    {/* Specs Quick Matrix */}
+                    <div className="bg-slate-50 rounded-xl sm:rounded-2xl p-2 sm:p-3.5 border border-slate-100 space-y-1 sm:space-y-2 mb-2 sm:mb-4 text-[9px] sm:text-[11px]">
+                      <div className="flex justify-between items-center text-slate-500 gap-1">
+                        <span className="shrink-0">{t.commodities?.grade || (currentLang === 'ar' ? 'الجودة:' : 'Grade:')}</span>
+                        <span className="text-[#009bb3] font-black truncate">{item.specification.grade}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-500 gap-1">
+                        <span className="shrink-0">{t.commodities?.moq || (currentLang === 'ar' ? 'الطلب:' : 'MOQ:')}</span>
+                        <span className="text-slate-800 font-bold truncate">{item.specification.moq}</span>
+                      </div>
+                      <div className="hidden sm:flex justify-between items-center text-slate-500 gap-1">
+                        <span className="shrink-0">{t.commodities?.origin || (currentLang === 'ar' ? 'المنشأ:' : 'Asal:')}</span>
+                        <span className="text-slate-800 font-semibold text-right max-w-[140px] truncate">{item.origin}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-500 gap-1">
+                        <span className="shrink-0">{t.commodities?.supplyCapacity || (currentLang === 'ar' ? 'الإمداد:' : 'Pasokan:')}</span>
+                        <span className="text-[#519992] font-black truncate">{item.supplyCapacity}</span>
+                      </div>
+                    </div>
+
+                    {/* Certifications badges */}
+                    <div className="space-y-1 sm:space-y-1.5 hidden xs:block sm:block">
+                      <span className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-extrabold block">
+                        {t.commodities?.certifications || (currentLang === 'ar' ? 'شهادات الجودة:' : 'Sertifikasi Mutu:')}
+                      </span>
+                      <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                        {item.certifications.slice(0, 2).map((cert, idx) => (
+                          <span 
+                            key={idx}
+                            className="px-1.5 sm:px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-100 text-[#009bb3] text-[8px] sm:text-[10px] font-bold flex items-center gap-1"
+                          >
+                            <CheckCircle2 className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
+                            <span className="truncate max-w-[75px] sm:max-w-none">{cert}</span>
+                          </span>
+                        ))}
+                        {item.certifications.length > 2 && (
+                          <span className="px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[8px] sm:text-[10px] font-bold">
+                            +{item.certifications.length - 2}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Action Footer */}
-              <div className="p-6 pt-0 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => openCommodityDetail(item)}
-                  className="flex-1 py-2.5 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors text-center cursor-pointer"
-                >
-                  {uiTexts.viewDetails}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onSelectCommodityForQuote(item.name)}
-                  className="flex-1 py-2.5 px-3 rounded-lg bg-[#009bb3] hover:bg-[#008399] text-white text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-2xs hover:shadow-sm cursor-pointer"
-                >
-                  <span>{uiTexts.requestQuote}</span>
-                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                </button>
-              </div>
+                {/* Action Footer */}
+                <div className="p-2.5 sm:p-6 pt-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2">
+                  <button
+                    type="button"
+                    onClick={() => openCommodityDetail(item)}
+                    className="w-full sm:flex-1 py-1.5 sm:py-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-[10px] sm:text-xs font-bold transition-colors text-center cursor-pointer"
+                  >
+                    {uiTexts.viewDetails}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onSelectCommodityForQuote(item.name)}
+                    className="w-full sm:flex-1 py-1.5 sm:py-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-[#009bb3] hover:bg-[#008399] text-white text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-2xs hover:shadow-sm cursor-pointer"
+                  >
+                    <span>{uiTexts.requestQuote}</span>
+                    <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 rtl:rotate-180" />
+                  </button>
+                </div>
 
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-16 text-center bg-slate-50 rounded-3xl border border-slate-200">
+            <Package className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+            <p className="text-slate-600 font-semibold text-sm mb-4">{uiTexts.noResults}</p>
+            <button
+              onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }}
+              className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-[#009bb3] transition-colors"
+            >
+              {uiTexts.resetFilter}
+            </button>
+          </div>
+        )}
+
+        {/* View All Commodities CTA Banner */}
+        {onNavigateProducts && (
+          <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200">
+            <div className="text-center sm:text-left">
+              <span className="text-xs sm:text-sm font-bold text-slate-900 block">
+                {uiTexts.showingCount(displayedCommodities.length, filteredCommodities.length)}
+              </span>
+              <span className="text-[11px] sm:text-xs text-slate-500">
+                {currentLang === 'id' ? 'Tersedia ragam komoditas hasil laut kering standar ekspor dengan dokumen karantina lengkap.' : 'Explore full collection with technical specs, moisture limits, and export compliance documents.'}
+              </span>
             </div>
-          ))}
-        </div>
+            <button
+              type="button"
+              onClick={onNavigateProducts}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#009bb3] hover:bg-[#008399] text-white text-xs sm:text-sm font-bold transition-all shadow-sm hover:shadow-md cursor-pointer shrink-0"
+            >
+              <span>{uiTexts.viewAllProducts}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </button>
+          </div>
+        )}
 
       </div>
 
