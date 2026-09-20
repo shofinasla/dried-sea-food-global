@@ -106,7 +106,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'B2B Trade Directory Kemendag RI',
       icon: Globe2,
       color: 'text-sky-600 bg-sky-50 border-sky-200',
-      logoUrl: 'https://inaexport.kemendag.go.id/assets/images/logo.png'
+      logoUrl: '/images/logos/inaexport.png'
     },
     {
       id: 'kkp-alt',
@@ -114,7 +114,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: 'Health Certificate & Sanitary Clearance',
       icon: ShieldCheck,
       color: 'text-teal-600 bg-teal-50 border-teal-200',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_Kementerian_Kelautan_dan_Perikanan_RI.svg'
+      logoUrl: '/images/logos/kkp.png'
     },
     {
       id: 'halal-alt',
@@ -122,7 +122,7 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
       label: '100% Halal Verified Sourcing & Process',
       icon: Award,
       color: 'text-amber-600 bg-amber-50 border-amber-200',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Logo_Halal_Indonesia.svg'
+      logoUrl: '/images/logos/halal.svg'
     },
     {
       id: 'priok',
