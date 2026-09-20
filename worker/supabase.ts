@@ -8,13 +8,14 @@ async function getSecretValue(
 
   if (
     typeof value === 'object' &&
+    value !== null &&
     'get' in value &&
-    typeof value.get === 'function'
+    typeof (value as any).get === 'function'
   ) {
-    return await value.get();
+    return await (value as any).get();
   }
 
-  return value;
+  return typeof value === 'string' ? value : undefined;
 }
 
 export async function getSupabaseClient(
