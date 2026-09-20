@@ -450,9 +450,21 @@ export default function AboutPage({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {STRATEGIC_PARTNERS.map((partner) => (
-              <div key={partner.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white font-bold flex items-center justify-center shrink-0 text-sm font-mono shadow-sm">
-                  {partner.initials}
+              <div key={partner.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex items-start gap-4 hover:border-[#009bb3] transition-colors">
+                <div className="w-14 h-14 rounded-2xl bg-white border border-slate-200 p-1.5 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
+                  {partner.logoUrl ? (
+                    <img 
+                      src={partner.logoUrl} 
+                      alt={partner.name}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLElement).style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <span className="text-slate-900 font-bold text-xs font-mono">{partner.initials}</span>
+                  )}
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-[#009bb3] uppercase tracking-wider">{partner.category}</span>
