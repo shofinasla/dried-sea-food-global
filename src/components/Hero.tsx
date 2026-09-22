@@ -27,7 +27,7 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
         ctaStory: 'Profil Kami',
         ctaB2B: 'Permintaan Grosir B2B',
         stats: [
-          { value: '150+ Ton', label: 'Kapasitas Pasokan Bulanan' },
+          { value: '1000+ Ton', label: 'Kapasitas Pasokan Bulanan' },
           { value: 'Sertifikasi SFDA', label: 'Standar Keamanan Pangan' },
           { value: '25+ Spesies', label: 'Varietas Hasil Laut' },
           { value: 'Sejak 2015', label: 'Reputasi Terpercaya' },
@@ -46,7 +46,7 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
         ctaStory: 'قصتنا',
         ctaB2B: 'استفسارات الجملة B2B',
         stats: [
-          { value: '+150 طن', label: 'إمداد شهري منتظم' },
+          { value: '+1000 طن', label: 'إمداد شهري منتظم' },
           { value: 'معتمد من SFDA', label: 'أعلى معايير السلامة' },
           { value: '+25 نوعاً', label: 'تشكيلة بحرية متنوعة' },
           { value: 'تأسس 2015', label: 'خبرة وموثوقية عريقة' },
@@ -54,7 +54,7 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
       };
     }
     return {
-      badge: 'FRESH AND FROZEN FISH • SFDA APPROVED',
+      badge: '',
       titlePrefix: 'Welcome To',
       titleHighlight: 'Dried Seafood Global',
       titleSuffix: '',
@@ -64,7 +64,7 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
       ctaStory: 'Our Story',
       ctaB2B: 'B2B Wholesale Inquiry',
       stats: [
-        { value: '150+ Tons', label: 'Monthly Supply' },
+        { value: '1000+ Tons', label: 'Monthly Supply' },
         { value: 'SFDA Certified', label: 'Safety Approved' },
         { value: '25+ Species', label: 'Seafood Varieties' },
         { value: 'Est. 2015', label: 'Trusted Heritage' },
@@ -119,21 +119,21 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
             {content.description}
           </p>
 
-          {/* CTA Action Pill Buttons with Deep Thick Shadows */}
-          <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-3.5">
+          {/* CTA Action Pill Buttons with Deep Thick Shadows 
+           <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-3.5">
             
             {/* Primary Pill: Explore our Fish */}
-            <button
+            {/* <button
               type="button"
               onClick={() => onScrollTo('#komoditas')}
               id="hero-explore-fish-btn"
               className="group inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-[#f8f6f0] hover:bg-white text-slate-950 font-bold text-sm sm:text-base tracking-wide shadow-[0_8px_25px_rgba(0,0,0,0.7),_0_3px_10px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.8)] hover:scale-[1.02] transition-all cursor-pointer min-h-[46px]"
-            >
+            > 
               <span>{content.ctaExplore}</span>
               <ArrowRight className="w-4 h-4 text-slate-900 group-hover:translate-x-1 transition-transform" />
             </button>
 
-            {/* Secondary Pill: Our Story */}
+            {/* Secondary Pill: Our Story 
             <button
               type="button"
               onClick={() => onScrollTo('#tentang')}
@@ -141,9 +141,9 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
               className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-slate-950/70 hover:bg-slate-950/90 backdrop-blur-md border border-white/40 text-white font-medium text-sm sm:text-base shadow-[0_8px_25px_rgba(0,0,0,0.7),_0_3px_10px_rgba(0,0,0,0.5)] hover:border-white/70 transition-all cursor-pointer min-h-[46px]"
             >
               <span>{content.ctaStory}</span>
-            </button>
+            </button> 
 
-            {/* Tertiary Pill: B2B Wholesale Inquiry */}
+            {/* Tertiary Pill: B2B Wholesale Inquiry 
             <button
               type="button"
               onClick={() => onScrollTo('#kontak')}
@@ -152,9 +152,9 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
             >
               <Anchor className="w-4 h-4 text-cyan-300" />
               <span>{content.ctaB2B}</span>
-            </button>
+            </button> */}
 
-            {/* Discreet Specification Catalog Modal Trigger */}
+            {/* Discreet Specification Catalog Modal Trigger
             {onOpenCatalogModal && (
               <button
                 type="button"
@@ -168,7 +168,7 @@ export default function Hero({ onScrollTo, onOpenCatalogModal }: HeroProps) {
               </button>
             )}
 
-          </div>
+          </div> */}
 
         </div>
 

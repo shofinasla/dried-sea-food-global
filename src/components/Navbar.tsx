@@ -158,11 +158,11 @@ export default function Navbar({
               className="inline-flex items-center gap-1.5 text-slate-700 hover:text-[#009bb3] font-medium transition-colors cursor-pointer shrink-0"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-[#009bb3] shrink-0" />
-              <span className="font-bold text-slate-900 text-[11px] sm:text-xs">HACCP Grade A</span>
-              <span className="text-slate-300">•</span>
-              <span className="text-[11px] text-slate-600 hidden sm:inline">BKIPM Quarantine Certified</span>
-              <span className="text-slate-300 hidden sm:inline">•</span>
-              <span className="px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-[10px] hidden md:inline">0% Formalin Verified</span>
+              <span className="font-bold text-slate-900 text-[11px] sm:text-xs"></span>
+              <span className="text-slate-300"></span>
+              <span className="text-[11px] text-slate-600 hidden sm:inline"></span>
+              <span className="text-slate-300 hidden sm:inline"></span>
+              <span className="px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-[10px] hidden md:inline"></span>
             </button>
 
             <span className="text-slate-300 hidden md:inline">|</span>
