@@ -19,17 +19,19 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+const ALL_LANG_CODES: SupportedLanguage[] = ['id', 'en', 'zh', 'ja', 'ko', 'ar', 'es', 'fr', 'de', 'vi', 'ru'];
+
 /**
  * Extract canonical language from URL pathname
- * Subdirectory architecture: /id/* -> id, /ar/* -> ar, / -> en
+ * Subdirectory architecture: /id/* -> id, /ar/* -> ar, /zh/* -> zh, etc., / -> en
  */
 export const getLanguageFromPathname = (pathname: string): SupportedLanguage => {
   const cleanPath = (pathname || '').toLowerCase();
-  if (cleanPath === '/ar' || cleanPath.startsWith('/ar/')) {
-    return 'ar';
-  }
-  if (cleanPath === '/id' || cleanPath.startsWith('/id/')) {
-    return 'id';
+  for (const code of ALL_LANG_CODES) {
+    if (code === 'en') continue;
+    if (cleanPath === `/${code}` || cleanPath === `/${code}/` || cleanPath.startsWith(`/${code}/`)) {
+      return code;
+    }
   }
   return 'en'; // Root domain represents English by default
 };
@@ -39,18 +41,14 @@ export const getLanguageFromPathname = (pathname: string): SupportedLanguage => 
  * e.g. / -> /ar/, /company -> /ar/company, /id/company -> /ar/company
  */
 export const buildLocalizedPath = (targetLang: SupportedLanguage, currentPath: string = '/'): string => {
-  // Strip any current language prefix (/id, /id/, /ar, /ar/, /en, /en/)
-  let cleanSubPath = currentPath.replace(/^\/(ar|id|en)(\/|$)/, '/');
+  // Strip any current language prefix (/id, /ar, /zh, /ja, /ko, /es, /fr, /de, /vi, /ru, /en)
+  let cleanSubPath = currentPath.replace(/^\/(id|en|zh|ja|ko|ar|es|fr|de|vi|ru)(\/|$)/, '/');
   if (!cleanSubPath || cleanSubPath === '') cleanSubPath = '/';
 
-  if (targetLang === 'ar') {
-    return cleanSubPath === '/' ? '/ar/' : `/ar${cleanSubPath.startsWith('/') ? '' : '/'}${cleanSubPath}`;
+  if (targetLang === 'en') {
+    return cleanSubPath;
   }
-  if (targetLang === 'id') {
-    return cleanSubPath === '/' ? '/id/' : `/id${cleanSubPath.startsWith('/') ? '' : '/'}${cleanSubPath}`;
-  }
-  // English default goes to root / or /subpath
-  return cleanSubPath;
+  return cleanSubPath === '/' ? `/${targetLang}/` : `/${targetLang}${cleanSubPath.startsWith('/') ? '' : '/'}${cleanSubPath}`;
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -62,20 +60,23 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       // Check legacy ?lang= query parameter and migrate safely
       const urlParams = new URLSearchParams(window.location.search);
       const queryLang = urlParams.get('lang') as SupportedLanguage;
-      if (queryLang && (queryLang === 'id' || queryLang === 'ar')) {
+      if (queryLang && ALL_LANG_CODES.includes(queryLang)) {
         urlParams.delete('lang');
         const remainingQuery = urlParams.toString() ? `?${urlParams.toString()}` : '';
         const targetPath = buildLocalizedPath(queryLang, window.location.pathname);
         const newUrl = `${targetPath}${remainingQuery}${window.location.hash || ''}`;
         window.history.replaceState({}, '', newUrl);
         return queryLang;
-      } else if (queryLang === 'en') {
-        urlParams.delete('lang');
-        const remainingQuery = urlParams.toString() ? `?${urlParams.toString()}` : '';
-        const targetPath = buildLocalizedPath('en', window.location.pathname);
-        const newUrl = `${targetPath}${remainingQuery}${window.location.hash || ''}`;
-        window.history.replaceState({}, '', newUrl);
-        return 'en';
+      }
+
+      // Check stored preference if on root and no path lang
+      if (pathLang === 'en' && window.location.pathname === '/') {
+        try {
+          const stored = localStorage.getItem('dsg_lang') as SupportedLanguage;
+          if (stored && ALL_LANG_CODES.includes(stored) && stored !== 'en') {
+            return stored;
+          }
+        } catch (e) {}
       }
 
       return pathLang;
@@ -138,8 +139,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     // 2. Compute canonical URL and reciprocal alternates
     let currentPath = window.location.pathname;
-    if (currentPath === '/id') currentPath = '/id/';
-    if (currentPath === '/ar') currentPath = '/ar/';
+    if (currentLang !== 'en' && currentPath === `/${currentLang}`) {
+      currentPath = `/${currentLang}/`;
+    }
 
     const canonicalUrl = `https://www.driedseafoodglobal.com${currentPath}`;
     const canonicalLink = document.querySelector('link#meta-canonical') || document.querySelector('link[rel="canonical"]');
@@ -148,12 +150,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
 
     // 3. Dynamic Reciprocal Hreflang Alternates
-    let cleanSubPath = window.location.pathname.replace(/^\/(ar|id|en)(\/|$)/, '/');
+    let cleanSubPath = window.location.pathname.replace(/^\/(id|en|zh|ja|ko|ar|es|fr|de|vi|ru)(\/|$)/, '/');
     if (!cleanSubPath || cleanSubPath === '') cleanSubPath = '/';
-
-    const enUrl = `https://www.driedseafoodglobal.com${cleanSubPath === '/' ? '/' : cleanSubPath}`;
-    const idUrl = `https://www.driedseafoodglobal.com/id${cleanSubPath === '/' ? '/' : cleanSubPath}`;
-    const arUrl = `https://www.driedseafoodglobal.com/ar${cleanSubPath === '/' ? '/' : cleanSubPath}`;
 
     const updateHreflang = (hreflang: string, href: string) => {
       let el = document.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`);
@@ -166,10 +164,13 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       el.setAttribute('href', href);
     };
 
-    updateHreflang('x-default', enUrl);
-    updateHreflang('en', enUrl);
-    updateHreflang('id', idUrl);
-    updateHreflang('ar', arUrl);
+    updateHreflang('x-default', `https://www.driedseafoodglobal.com${cleanSubPath === '/' ? '/' : cleanSubPath}`);
+    ALL_LANG_CODES.forEach(code => {
+      const langUrl = code === 'en' 
+        ? `https://www.driedseafoodglobal.com${cleanSubPath === '/' ? '/' : cleanSubPath}`
+        : `https://www.driedseafoodglobal.com/${code}${cleanSubPath === '/' ? '/' : cleanSubPath}`;
+      updateHreflang(code, langUrl);
+    });
 
     // 4. Open Graph & Twitter meta tags
     const ogLocales: Record<SupportedLanguage, string> = {
@@ -231,7 +232,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     // Subpage-specific title adjustments
-    if (cleanSubPath === '/company') {
+    if (cleanSubPath === '/company' || cleanSubPath === '/about') {
       document.title = currentLang === 'ar'
         ? 'الملف التعريفي للشركة | Dried Seafood Global (PT Samdura Bara Persada)'
         : currentLang === 'id'
@@ -251,34 +252,26 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (metaDesc) {
       metaDesc.setAttribute('content', descriptions[currentLang] || descriptions.en);
     }
-
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', document.title);
-    }
-
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) {
-      ogDesc.setAttribute('content', descriptions[currentLang] || descriptions.en);
-    }
   }, [currentLang, dir]);
 
   return (
-    <LanguageContext.Provider value={{
-      currentLang,
-      setLanguage,
-      t,
-      dir,
-      currentLanguageOption,
-      availableLanguages: SUPPORTED_LANGUAGES,
-      getLocalizedPath
-    }}>
+    <LanguageContext.Provider
+      value={{
+        currentLang,
+        setLanguage,
+        t,
+        dir,
+        currentLanguageOption,
+        availableLanguages: SUPPORTED_LANGUAGES,
+        getLocalizedPath,
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   );
 };
 
-export const useTranslation = () => {
+export const useTranslation = (): LanguageContextType => {
   const context = useContext(LanguageContext);
   if (!context) {
     throw new Error('useTranslation must be used within a LanguageProvider');

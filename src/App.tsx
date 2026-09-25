@@ -135,12 +135,11 @@ export default function App() {
   let currentLangPrefix = '';
   let subPath = normalizedRaw;
 
-  if (normalizedRaw === '/id' || normalizedRaw.startsWith('/id/')) {
-    currentLangPrefix = '/id';
-    subPath = normalizedRaw.slice(3) || '/';
-  } else if (normalizedRaw === '/ar' || normalizedRaw.startsWith('/ar/')) {
-    currentLangPrefix = '/ar';
-    subPath = normalizedRaw.slice(3) || '/';
+  const langMatch = normalizedRaw.match(/^\/(id|zh|ja|ko|ar|es|fr|de|vi|ru)(\/|$)/);
+  if (langMatch) {
+    currentLangPrefix = `/${langMatch[1]}`;
+    subPath = normalizedRaw.slice(langMatch[0].length - 1) || '/';
+    if (!subPath.startsWith('/')) subPath = `/${subPath}`;
   }
 
   // Exact or prefix checks for pages

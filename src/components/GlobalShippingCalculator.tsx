@@ -2,16 +2,10 @@ import { useState } from 'react';
 import { 
   Plane, 
   Ship, 
-  ShieldCheck, 
   CheckCircle2, 
   Clock, 
   Globe2, 
-  ArrowRight, 
-  Sparkles, 
-  PackageCheck,
-  Send,
-  Radio,
-  FileCheck
+  ArrowRight
 } from 'lucide-react';
 import { useTranslation } from '../i18n/LanguageContext';
 
@@ -25,6 +19,36 @@ interface GlobalShippingCalculatorProps {
   }) => void;
 }
 
+function CourierLogo({ logoUrl, brand, name }: { logoUrl?: string; brand: string; name: string }) {
+  const [imgError, setImgError] = useState(false);
+
+  const isFedEx = brand.toLowerCase().includes('fedex') || (logoUrl ? logoUrl.toLowerCase().includes('fedex') : false);
+
+  if (!imgError && logoUrl) {
+    return (
+      <div className="h-10 sm:h-12 flex items-center justify-start">
+        <img
+          src={logoUrl}
+          alt={name}
+          onError={() => setImgError(true)}
+          className={`h-8 sm:h-10 w-auto max-w-[130px] sm:max-w-[150px] object-contain ${
+            isFedEx ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.18)]' : ''
+          }`}
+          referrerPolicy="no-referrer"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className={`text-xl sm:text-2xl font-black uppercase tracking-wider text-slate-900 ${
+      isFedEx ? 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]' : ''
+    }`}>
+      {brand}
+    </div>
+  );
+}
+
 export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippingCalculatorProps) {
   const { currentLang } = useTranslation();
   const [selectedCourier, setSelectedCourier] = useState<string>('dhl');
@@ -33,8 +57,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
   const isArabic = currentLang === 'ar';
 
   // Courier Partners Configuration
-  // TIP: Masukkan file logo asli Anda ke folder public (misal: /images/logos/dhl.svg / /images/logos/fedex.svg)
-  // lalu isi properti logoUrl di bawah. Jika gambar belum ada, teks grafis profesional akan otomatis tampil.
+  // TIP: Masukkan file logo asli Anda ke folder public (misal: /images/logos/dhl.svg / /images/logos/fedex.png)
   const courierPartners = [
     {
       id: 'dhl',
@@ -43,7 +66,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
       serviceType: isIndonesian ? 'Kargo Udara Kilat Prioritas (Air Express)' : isArabic ? 'شحن جوي سريع دولي' : 'Priority Global Air Express',
       transitTime: isIndonesian ? '2 – 4 Hari Kerja' : isArabic ? '2 - 4 أيام عمل' : '2 – 4 Business Days',
       reach: isIndonesian ? '220+ Negara & Teritori Global' : isArabic ? '+220 دولة ومنطقة' : '220+ Countries & Territories',
-      logoUrl: '/images/logos/dhl.svg', // Anda bisa ganti dengan logo asli
+      logoUrl: '/images/logos/dhl.svg',
       accentColor: 'border-amber-300 hover:border-amber-500 bg-amber-500/5',
       badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
       tagline: isIndonesian ? 'Pengiriman ekspres global tercepat dengan pemantauan suhu & kelembaban' : 'Fastest global express dispatch with temperature & humidity monitoring',
@@ -61,7 +84,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
       serviceType: isIndonesian ? 'Pengiriman Cepat Internasional (Priority Freight)' : isArabic ? 'شحن دولي ذو أولوية فائقة' : 'International Priority Freight',
       transitTime: isIndonesian ? '2 – 5 Hari Kerja' : isArabic ? '2 - 5 أيام عمل' : '2 – 5 Business Days',
       reach: isIndonesian ? '140+ Destinasi Utama Dunia' : isArabic ? '+140 وجهة عالمية' : '140+ Global Destinations',
-      logoUrl: '/images/logos/fedex.svg', // Anda bisa ganti dengan logo asli
+      logoUrl: '/images/logos/fedex.png',
       accentColor: 'border-purple-300 hover:border-purple-500 bg-purple-500/5',
       badgeColor: 'bg-purple-100 text-purple-900 border-purple-300',
       tagline: isIndonesian ? 'Solusi logistik hasil laut bernilai tinggi dengan pengawasan IoT SenseAware' : 'High-value marine cargo logistics with SenseAware IoT surveillance',
@@ -111,7 +134,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
           {courierPartners.map((courier) => (
             <div
               key={courier.id}
-              className={`rounded-3xl border-2 p-6 sm:p-8 transition-all duration-300 shadow-xs hover:shadow-xl flex flex-col justify-between relative group ${
+              className={`rounded-3xl border-2 p-5 sm:p-7 transition-all duration-300 shadow-2xs hover:shadow-lg flex flex-col justify-between relative group ${
                 selectedCourier === courier.id 
                   ? 'border-[#009bb3] bg-teal-50/20' 
                   : 'border-slate-200 hover:border-slate-300 bg-white'
@@ -119,44 +142,33 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
             >
               <div>
                 
-                {/* Header: Logo and Service Tier */}
-                <div className="flex items-center justify-between gap-4 pb-5 mb-5 border-b border-slate-100">
-                  
-                  {/* Courier Brand Logo Display */}
-                  <div className="flex items-center gap-3">
-                    <div className="h-12 px-4 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black tracking-widest text-lg shadow-xs overflow-hidden">
-                      {/* Logo image with text fallback */}
-                      <img 
-                        src={courier.logoUrl} 
-                        alt={courier.name}
-                        onError={(e) => {
-                          // Hide image on error and show text fallback
-                          (e.target as HTMLElement).style.display = 'none';
-                        }}
-                        className="h-7 w-auto object-contain"
-                      />
-                      <span className="font-extrabold uppercase text-white tracking-wider">
-                        {courier.brand}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-black text-slate-900 text-lg sm:text-xl leading-tight">
-                        {courier.name}
-                      </h3>
-                      <span className="text-xs text-[#009bb3] font-semibold block mt-0.5">
-                        {courier.serviceType}
-                      </span>
-                    </div>
+                {/* Header: Logo on Top, Title & Subtitle Below (No dark background box) */}
+                <div className="pb-4 mb-4 border-b border-slate-100">
+                  <div className="flex items-start justify-between gap-3 mb-2.5">
+                    <CourierLogo
+                      logoUrl={courier.logoUrl}
+                      brand={courier.brand}
+                      name={courier.name}
+                    />
+                    
+                    <span className="p-2 rounded-xl bg-teal-50 text-[#009bb3] shrink-0 border border-teal-100/80">
+                      <Plane className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </span>
                   </div>
 
-                  <span className="p-2 rounded-xl bg-teal-50 text-[#009bb3] shrink-0 border border-teal-100">
-                    <Plane className="w-5 h-5" />
-                  </span>
+                  <div>
+                    <h3 className="font-black text-slate-900 text-lg sm:text-xl leading-tight">
+                      {courier.name}
+                    </h3>
+                    <span className="text-xs text-[#009bb3] font-semibold block mt-1">
+                      {courier.serviceType}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Key Metrics: Transit Time & Reach */}
-                <div className="grid grid-cols-2 gap-3 mb-6">
-                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mb-5">
+                  <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                     <div className="flex items-center gap-1.5 text-slate-500 text-[11px] font-medium mb-1">
                       <Clock className="w-3.5 h-3.5 text-[#009bb3]" />
                       <span>{isIndonesian ? 'Estimasi Transit' : 'Transit Time'}</span>
@@ -166,7 +178,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
                     </span>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                     <div className="flex items-center gap-1.5 text-slate-500 text-[11px] font-medium mb-1">
                       <Globe2 className="w-3.5 h-3.5 text-[#009bb3]" />
                       <span>{isIndonesian ? 'Jangkauan Wilayah' : 'Global Reach'}</span>
@@ -178,14 +190,17 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
                 </div>
 
                 {/* Tagline Description */}
-                <p className="text-xs text-slate-600 mb-6 leading-relaxed">
+                <p className="text-xs text-slate-600 mb-5 leading-relaxed bg-slate-50/80 p-3 rounded-xl border border-slate-200/80">
                   {courier.tagline}
                 </p>
 
-                {/* Service Features Checklist */}
-                <div className="space-y-2.5 mb-6">
+                {/* Feature Bullet Points */}
+                <div className="space-y-2 mb-5">
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 block mb-2">
+                    {isIndonesian ? 'Layanan & Keamanan Prioritas:' : 'Key Service & Security Capabilities:'}
+                  </span>
                   {courier.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-700">
+                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
                       <CheckCircle2 className="w-4 h-4 text-[#009bb3] shrink-0 mt-0.5" />
                       <span className="leading-snug">{feat}</span>
                     </div>
@@ -194,17 +209,19 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
 
               </div>
 
-              {/* Bottom Card Action */}
-              <div className="pt-5 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-[11px] text-slate-400 font-medium">
-                  {isIndonesian ? 'Kemitraan Resmi Ekspor' : 'Official Cargo Partner'}
+              {/* Action Button: Book / RFQ */}
+              <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between gap-3">
+                <span className="text-[11px] text-slate-500">
+                  {isIndonesian ? 'Door-to-Door / Airport Delivery' : 'Door-to-Door / Port Delivery'}
                 </span>
+                
                 <a
                   href="#kontak"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-[#009bb3] text-slate-800 hover:text-white text-xs font-bold transition-colors cursor-pointer"
+                  id={`btn-select-courier-${courier.id}`}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#009bb3] hover:bg-[#0d8a9e] text-white text-xs font-bold transition-all shadow-2xs hover:shadow-xs cursor-pointer group"
                 >
-                  <span>{isIndonesian ? 'Pilih Pengiriman Ini' : 'Inquire Shipping'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>{isIndonesian ? 'Pilih Jasa Kirim Ini' : 'Inquire with Courier'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
 
@@ -212,31 +229,33 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
           ))}
         </div>
 
-        {/* Bottom Trust & Compliance Bar */}
-        <div className="max-w-5xl mx-auto p-5 sm:p-6 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-teal-100 text-[#009bb3] flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5" />
+        {/* Ocean Freight Notice / Container Shipping */}
+        <div className="p-4 sm:p-6 rounded-3xl bg-slate-50 border border-slate-200 max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5 text-center sm:text-left">
+            <div className="w-10 h-10 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-[#009bb3] shrink-0">
+              <Ship className="w-5 h-5 text-[#009bb3]" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+              <h4 className="text-sm font-bold text-slate-900">
                 {isIndonesian 
-                  ? 'Jaminan Karantina & Kepatuhan Bea Cukai 100%' 
-                  : '100% Quarantine & Customs Clearance Guarantee'}
+                  ? 'Kargo Laut Kontainer Penuh (FCL & LCL Reefer Container)' 
+                  : 'Ocean Freight Reefer Container Dispatch (FCL & LCL)'}
               </h4>
-              <p className="text-[11px] text-slate-500">
-                {isIndonesian 
-                  ? 'Setiap kargo disertai Health Certificate BKIPM KKP, COA ISO 17025, dan Certificate of Origin (COO).' 
-                  : 'All shipments are backed with official Health Certificates, COA Lab testing, and COO documents.'}
+              <p className="text-xs text-slate-500 mt-0.5">
+                {isIndonesian
+                  ? 'Tersedia pengiriman kontainer berpendingin 20ft & 40ft melalui Pelabuhan Tanjung Priok (IDTPP) dan Tanjung Emas (IDSRG).'
+                  : '20ft & 40ft refrigerated container shipments departing weekly via Port of Tanjung Priok and Tanjung Emas.'}
               </p>
             </div>
           </div>
 
           <a
             href="#kontak"
-            className="px-5 py-2.5 rounded-full bg-[#009bb3] hover:bg-[#0d8a9e] text-white font-bold text-xs whitespace-nowrap transition-all shadow-xs cursor-pointer"
+            id="btn-ocean-freight-inquiry"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-100 text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer"
           >
-            {isIndonesian ? 'Konsultasi Logistik & Pengiriman' : 'Contact Us for Shipping'}
+            <span>{isIndonesian ? 'Konsultasi Kontainer' : 'FCL Container RFQ'}</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#009bb3]" />
           </a>
         </div>
 
