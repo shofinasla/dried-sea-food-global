@@ -159,11 +159,11 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
   ];
 
   return (
-    <section id="tentang" className="py-20 bg-slate-50 text-slate-800 border-b border-slate-200 overflow-hidden">
+    <section id="tentang" className="py-8 sm:py-12 bg-slate-50 text-slate-800 border-b border-slate-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* SHORT COMPANY INTRODUCTION (Dried Seafood Global & PT Samdura Bara Persada) */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-14 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-6 sm:mb-8 shadow-xs">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider mb-4">
               <Building2 className="w-3.5 h-3.5 text-[#009bb3]" />
@@ -197,90 +197,6 @@ export default function AboutServices({ onSelectServiceForQuote, onNavigate }: A
               <span>{currentLang === 'id' ? 'Pelajari Profil Lengkap & Legalitas' : 'Learn More About Corporate Profile'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
-          </div>
-        </div>
-
-        {/* 3 CORE PILLARS: TERPERCAYA, KOMPETITIF, EFISIEN */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6 mb-12 sm:mb-16">
-          {/* Card 1: Terpercaya */}
-          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
-            <div>
-              {/* Header: Side-by-side on mobile, stacked on desktop */}
-              <div className="flex items-center sm:block gap-3.5 sm:gap-0 mb-2.5 sm:mb-5">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center shrink-0 sm:mb-5 group-hover:scale-105 transition-transform shadow-xs">
-                  <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[9px] sm:text-[11px] font-extrabold text-[#009bb3] uppercase tracking-wider sm:tracking-widest mb-0.5 sm:mb-1">
-                    JAMINAN LEGALITAS
-                  </div>
-                  <h3 className="text-base sm:text-xl font-black text-slate-950 uppercase sm:mb-2.5 leading-tight">
-                    TERPERCAYA
-                  </h3>
-                </div>
-              </div>
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Mitra dagang resmi berizin ekspor terdaftar di KKP RI dengan sertifikasi kesehatan karantina, sertifikat halal BPJPH, serta standar Hazard Analysis Critical Control Point (HACCP Grade A).
-              </p>
-            </div>
-            <div className="pt-3 sm:pt-5 mt-3 sm:mt-6 border-t border-slate-100 flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-bold text-[#519992]">
-              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-              <span>Full Trade Documentation &amp; COA</span>
-            </div>
-          </div>
-
-          {/* Card 2: Kompetitif */}
-          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
-            <div>
-              {/* Header: Side-by-side on mobile, stacked on desktop */}
-              <div className="flex items-center sm:block gap-3.5 sm:gap-0 mb-2.5 sm:mb-5">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center shrink-0 sm:mb-5 group-hover:scale-105 transition-transform shadow-xs">
-                  <Award className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[9px] sm:text-[11px] font-extrabold text-[#009bb3] uppercase tracking-wider sm:tracking-widest mb-0.5 sm:mb-1">
-                    HARGA SENTRA PERTAMA
-                  </div>
-                  <h3 className="text-base sm:text-xl font-black text-slate-950 uppercase sm:mb-2.5 leading-tight">
-                    KOMPETITIF
-                  </h3>
-                </div>
-              </div>
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Pasokan langsung dari sentra nelayan pesisir Jawa, Sumatra, dan Kalimantan tanpa mata rantai tengkulak berlebih, memberikan margin terbaik dan stabilitas harga jangka panjang bagi importir.
-              </p>
-            </div>
-            <div className="pt-3 sm:pt-5 mt-3 sm:mt-6 border-t border-slate-100 flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-bold text-[#519992]">
-              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-              <span>Direct Sourcing &amp; Fair Trade</span>
-            </div>
-          </div>
-
-          {/* Card 3: Efisien */}
-          <div className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
-            <div>
-              {/* Header: Side-by-side on mobile, stacked on desktop */}
-              <div className="flex items-center sm:block gap-3.5 sm:gap-0 mb-2.5 sm:mb-5">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#eef7f6] text-[#519992] flex items-center justify-center shrink-0 sm:mb-5 group-hover:scale-105 transition-transform shadow-xs">
-                  <Ship className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[9px] sm:text-[11px] font-extrabold text-[#009bb3] uppercase tracking-wider sm:tracking-widest mb-0.5 sm:mb-1">
-                    DISTRIBUSI CEPAT
-                  </div>
-                  <h3 className="text-base sm:text-xl font-black text-slate-950 uppercase sm:mb-2.5 leading-tight">
-                    EFISIEN
-                  </h3>
-                </div>
-              </div>
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Manajemen logistik multimoda via kapal laut (FCL/LCL) dan kargo udara ekspres dari pelabuhan utama Indonesia, didukung sistem monitoring kelembaban kontainer hingga ke dermaga tujuan.
-              </p>
-            </div>
-            <div className="pt-3 sm:pt-5 mt-3 sm:mt-6 border-t border-slate-100 flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-bold text-[#519992]">
-              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-              <span>Ocean &amp; Air Freight Global Logistics</span>
-            </div>
           </div>
         </div>
 

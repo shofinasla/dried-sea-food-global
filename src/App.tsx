@@ -468,10 +468,17 @@ export default function App() {
             />
             <ExportProcessWorkflow />
             <GlobalShippingCalculator onBookInquiry={handleBookFromCalculator} />
-            <PhotoGallery items={galleryItems} />
+            <PhotoGallery 
+              items={galleryItems} 
+              onNavigateFacility={() => navigateTo('/facility')}
+            />
             <BuyerTestimonials />
             <LocationMap />
-            <BlogSection posts={blogPosts} onAddComment={handleAddBlogComment} />
+            <BlogSection 
+              posts={blogPosts} 
+              onAddComment={handleAddBlogComment} 
+              onNavigateInsights={() => navigateTo('/insights')}
+            />
             <ContactSection
               prefilledService={prefilledService}
               prefilledBooking={prefilledBooking}

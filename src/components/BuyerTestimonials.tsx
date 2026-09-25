@@ -111,28 +111,28 @@ export default function BuyerTestimonials() {
   return (
     <section 
       id="testimoni" 
-      className="py-20 bg-slate-50 relative border-t border-slate-200 overflow-hidden"
+      className="py-8 sm:py-12 bg-slate-50 relative border-t border-slate-200 overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-xs">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-2.5 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
             <span>{t.testimonials?.badge || (isArabic ? 'آراء شركائنا الموثوقين' : isIndonesian ? 'PENILAIAN & KEPERCAYAAN IMPORTIR' : 'GLOBAL PARTNERSHIPS & BUYER TRUST')}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight leading-tight uppercase font-sans">
             {t.testimonials?.title || (isArabic ? 'ماذا يقول المستوردون الدوليون عن جودتنا' : isIndonesian ? 'Dipercaya oleh Ratusan Importir & Distributor Pasar Global' : 'Trusted by Importers & Distributors Worldwide')}
           </h2>
-          <p className="mt-3 text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-2 text-slate-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
             {t.testimonials?.subtitle || (isArabic ? 'تقييمات واقعية وموثقة من مديري المشتريات ومستوردي الأغذية في الشرق الأوسط، آسيا، وأمريكا الشمالية.' : isIndonesian ? 'Penilaian bintang 5 dari para importir resmi terhadap mutu komoditas, keandalan jadwal pelayaran, serta jaminan perlindungan kontrak dagang internasional.' : '5-star reviews from verified international buyers and food distributors across North America, Asia, and the Middle East.')}
           </p>
         </div>
 
         {/* Global Destination Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
           {globalDestinations.map((dest, idx) => (
             <div 
               key={idx}

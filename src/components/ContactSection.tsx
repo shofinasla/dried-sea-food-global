@@ -283,24 +283,24 @@ Mohon jadwalkan penjemputan kargo (cargo pickup) dan pengurusan dokumen ekspor.`
   };
 
   return (
-    <section id="kontak" className="py-20 bg-slate-50 text-slate-800 border-b border-slate-200 relative overflow-hidden">
+    <section id="kontak" className="py-8 sm:py-12 bg-slate-50 text-slate-800 border-b border-slate-200 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-2.5 shadow-2xs">
             <ShieldCheck className="w-3.5 h-3.5 text-[#009bb3]" />
             <span>{labels.badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight uppercase font-sans">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight uppercase font-sans">
             {labels.title}
           </h2>
-          <p className="mt-3 text-slate-600 text-base">
+          <p className="mt-2 text-slate-600 text-xs sm:text-sm">
             {labels.subtitle}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
           {/* Left Column: Direct Concierge & Security Guarantees */}
           <div className="lg:col-span-5 space-y-6">

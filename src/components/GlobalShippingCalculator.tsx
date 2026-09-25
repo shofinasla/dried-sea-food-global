@@ -1,29 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { 
-  Calculator, 
-  Globe, 
-  Package, 
   Plane, 
   Ship, 
   ShieldCheck, 
-  AlertCircle, 
-  ArrowRight, 
-  FileText, 
-  Sparkles, 
-  Download, 
-  Check, 
+  CheckCircle2, 
   Clock, 
-  ChevronRight,
-  TrendingUp,
-  Boxes,
-  HelpCircle
+  Globe2, 
+  ArrowRight, 
+  Sparkles, 
+  PackageCheck,
+  Send,
+  Radio,
+  FileCheck
 } from 'lucide-react';
-import { GLOBAL_COUNTRIES } from '../data/initialData';
-import { ShippingCalculationResult, CountryInfo } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 
 interface GlobalShippingCalculatorProps {
-  onBookInquiry: (bookingDetails: {
+  onBookInquiry?: (bookingDetails: {
     origin: string;
     destination: string;
     weight: number;
@@ -33,551 +26,220 @@ interface GlobalShippingCalculatorProps {
 }
 
 export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippingCalculatorProps) {
-  const { t, currentLang } = useTranslation();
-  const calculatorText = t.calculator || {
-    badge: 'LOGISTIK REAL-TIME',
-    title: 'Kalkulator Estimasi Ongkir Kargo & Waktu Transit',
-    subtitle: 'Hitung perkiraan biaya pengiriman kontainer laut (FCL/LCL) dan kargo udara ekspres dari Indonesia ke lebih dari 140 negara tujuan.'
-  };
-  const [originCode, setOriginCode] = useState('ID');
-  const [destinationCode, setDestinationCode] = useState('US');
-  const [weightKg, setWeightKg] = useState<number>(5);
-  const [lengthCm, setLengthCm] = useState<number>(30);
-  const [widthCm, setWidthCm] = useState<number>(25);
-  const [heightCm, setHeightCm] = useState<number>(20);
-  const [itemType, setItemType] = useState<'parcel' | 'document' | 'fragile' | 'perishable' | 'dangerous_goods' | 'heavy_machinery'>('parcel');
-  const [declaredValueUSD, setDeclaredValueUSD] = useState<number>(250);
-  const [includeInsurance, setIncludeInsurance] = useState<boolean>(true);
-  const [expressClearance, setExpressClearance] = useState<boolean>(false);
+  const { currentLang } = useTranslation();
+  const [selectedCourier, setSelectedCourier] = useState<string>('dhl');
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [result, setResult] = useState<ShippingCalculationResult | null>(null);
-  const [selectedQuoteId, setSelectedQuoteId] = useState<string>('dhl-express');
-  const [customsAdvisory, setCustomsAdvisory] = useState<any | null>(null);
-  const [loadingAdvisory, setLoadingAdvisory] = useState<boolean>(false);
-  const [copiedSlip, setCopiedSlip] = useState<boolean>(false);
+  const isIndonesian = currentLang === 'id';
+  const isArabic = currentLang === 'ar';
 
-  // Auto calculate initial quote on mount
-  useEffect(() => {
-    handleCalculate();
-  }, []);
-
-  const handleCalculate = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/shipping/estimate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          originCode,
-          destinationCode,
-          weightKg: Number(weightKg) || 1,
-          lengthCm: Number(lengthCm) || 10,
-          widthCm: Number(widthCm) || 10,
-          heightCm: Number(heightCm) || 10,
-          itemType,
-          declaredValueUSD: Number(declaredValueUSD) || 100,
-          includeInsurance,
-          expressClearance
-        })
-      });
-      const data: ShippingCalculationResult = await res.json();
-      setResult(data);
-      if (data.quotes && data.quotes.length > 0) {
-        setSelectedQuoteId(data.quotes[0].courierId);
-      }
-    } catch (err) {
-      console.error('Failed to calculate shipping:', err);
-    } finally {
-      setLoading(false);
+  // Courier Partners Configuration
+  // TIP: Masukkan file logo asli Anda ke folder public (misal: /images/logos/dhl.svg / /images/logos/fedex.svg)
+  // lalu isi properti logoUrl di bawah. Jika gambar belum ada, teks grafis profesional akan otomatis tampil.
+  const courierPartners = [
+    {
+      id: 'dhl',
+      name: 'DHL Express Worldwide',
+      brand: 'DHL',
+      serviceType: isIndonesian ? 'Kargo Udara Kilat Prioritas (Air Express)' : isArabic ? 'شحن جوي سريع دولي' : 'Priority Global Air Express',
+      transitTime: isIndonesian ? '2 – 4 Hari Kerja' : isArabic ? '2 - 4 أيام عمل' : '2 – 4 Business Days',
+      reach: isIndonesian ? '220+ Negara & Teritori Global' : isArabic ? '+220 دولة ومنطقة' : '220+ Countries & Territories',
+      logoUrl: '/images/logos/dhl.svg', // Anda bisa ganti dengan logo asli
+      accentColor: 'border-amber-300 hover:border-amber-500 bg-amber-500/5',
+      badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+      tagline: isIndonesian ? 'Pengiriman ekspres global tercepat dengan pemantauan suhu & kelembaban' : 'Fastest global express dispatch with temperature & humidity monitoring',
+      features: [
+        isIndonesian ? 'Live GPS & Satelit Flight Tracking Real-Time' : 'Live Real-Time Satellite Flight Tracking',
+        isIndonesian ? 'On-Demand Delivery (ODD) & Signature on Delivery' : 'On-Demand Delivery (ODD) & Signature Release',
+        isIndonesian ? 'Kepatuhan Karantina Ikan Internasional Cepat' : 'Expedited Quarantine & Customs Clearance',
+        isIndonesian ? 'Kemasan Khusus Insulasi Termal & Desiccant Food-Grade' : 'Specialized Thermal Insulation & Food-Grade Desiccant'
+      ]
+    },
+    {
+      id: 'fedex',
+      name: 'FedEx International Priority',
+      brand: 'FedEx',
+      serviceType: isIndonesian ? 'Pengiriman Cepat Internasional (Priority Freight)' : isArabic ? 'شحن دولي ذو أولوية فائقة' : 'International Priority Freight',
+      transitTime: isIndonesian ? '2 – 5 Hari Kerja' : isArabic ? '2 - 5 أيام عمل' : '2 – 5 Business Days',
+      reach: isIndonesian ? '140+ Destinasi Utama Dunia' : isArabic ? '+140 وجهة عالمية' : '140+ Global Destinations',
+      logoUrl: '/images/logos/fedex.svg', // Anda bisa ganti dengan logo asli
+      accentColor: 'border-purple-300 hover:border-purple-500 bg-purple-500/5',
+      badgeColor: 'bg-purple-100 text-purple-900 border-purple-300',
+      tagline: isIndonesian ? 'Solusi logistik hasil laut bernilai tinggi dengan pengawasan IoT SenseAware' : 'High-value marine cargo logistics with SenseAware IoT surveillance',
+      features: [
+        isIndonesian ? 'SenseAware IoT Multi-Sensor Monitoring (Suhu/Kelembaban)' : 'SenseAware IoT Multi-Sensor Environmental Monitoring',
+        isIndonesian ? 'Customs Pre-Clearance & Jalur Prioritas Ekspor' : 'Customs Pre-Clearance & Export Priority Lane',
+        isIndonesian ? 'Penanganan Kargo Bernilai Tinggi (Fish Maw & Ebi Super)' : 'Dedicated High-Value Marine Cargo Handling',
+        isIndonesian ? 'Jaminan Ketepatan Waktu & Garansi Pengiriman Internasional' : 'Money-Back Guarantee & Timed Delivery Commitment'
+      ]
     }
-  };
-
-  const handleAskCustomsAI = async () => {
-    setLoadingAdvisory(true);
-    try {
-      const originCountry = GLOBAL_COUNTRIES.find(c => c.code === originCode)?.name || originCode;
-      const destinationCountry = GLOBAL_COUNTRIES.find(c => c.code === destinationCode)?.name || destinationCode;
-      
-      const res = await fetch('/api/ai/assistant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          mode: 'customs-advisory',
-          originCountry,
-          destinationCountry
-        })
-      });
-      const data = await res.json();
-      setCustomsAdvisory(data.result);
-    } catch (e) {
-      console.error('Customs AI error:', e);
-    } finally {
-      setLoadingAdvisory(false);
-    }
-  };
-
-  const selectedQuote = result?.quotes.find(q => q.courierId === selectedQuoteId) || result?.quotes[0];
-
-  const handleCopyQuoteSlip = () => {
-    if (!result || !selectedQuote) return;
-    const slipText = `=================================================
-OFFICIAL FREIGHT & SHIPPING ESTIMATE - DRIED SEAFOOD GLOBAL
-Ref ID: ${selectedQuote.bookingReference}
-Date: ${new Date().toLocaleDateString('en-US')}
-Route: ${result.origin.name} (${result.origin.code}) -> ${result.destination.name} (${result.destination.code})
-Carrier Partner: ${selectedQuote.courierName} (${selectedQuote.serviceTier})
-Actual Weight: ${result.actualWeightKg} kg | Volumetric: ${result.volumetricWeightKg} kg
-Chargeable Weight: ${result.chargeableWeightKg} kg
-Dimensions: ${lengthCm}x${widthCm}x${heightCm} cm
-Transit Estimate: ${selectedQuote.estimatedDeliveryDays} (Est: ${selectedQuote.estimatedDeliveryDate})
-Total Estimated Cost: USD $${selectedQuote.totalUSD} (Rp ${selectedQuote.totalIDR.toLocaleString('id-ID')})
-Encrypted Transaction: TLS 1.3 256-Bit DigiCert Verified
-=================================================`;
-    navigator.clipboard.writeText(slipText);
-    setCopiedSlip(true);
-    setTimeout(() => setCopiedSlip(false), 3000);
-  };
-
-  const handleProceedBooking = () => {
-    if (!result || !selectedQuote) return;
-    onBookInquiry({
-      origin: result.origin.name,
-      destination: result.destination.name,
-      weight: result.chargeableWeightKg,
-      courierName: selectedQuote.courierName,
-      estimatedPriceUSD: selectedQuote.totalUSD
-    });
-  };
+  ];
 
   return (
-    <section id="kalkulator" className="py-20 bg-white border-b border-slate-200 text-slate-800 relative overflow-hidden">
+    <section id="kalkulator" className="py-8 sm:py-12 bg-white border-b border-slate-200 text-slate-800 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
-            <Calculator className="w-3.5 h-3.5 text-[#009bb3]" />
-            <span>{calculatorText.badge}</span>
+        
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-2.5 shadow-2xs">
+            <Globe2 className="w-3.5 h-3.5 text-[#009bb3]" />
+            <span>
+              {isIndonesian 
+                ? 'JASA PENGIRIMAN & LOGISTIK GLOBAL' 
+                : isArabic 
+                ? 'خدمات الشحن واللوجستيات العالمية' 
+                : 'GLOBAL EXPEDITION & FREIGHT PARTNERS'}
+            </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight uppercase font-sans">
-            {calculatorText.title}
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight uppercase font-sans">
+            {isIndonesian 
+              ? 'Mitra Jasa Pengiriman Internasional' 
+              : isArabic 
+              ? 'شركاء الشحن الجوي والبحري الدولي' 
+              : 'International Freight & Courier Partners'}
           </h2>
-          <p className="mt-3 text-slate-600 text-base">
-            {calculatorText.subtitle}
+          <p className="mt-2 text-slate-600 text-xs sm:text-sm leading-relaxed">
+            {isIndonesian 
+              ? 'Pengiriman cepat, aman, dan higienis ke lebih dari 140 negara tujuan di seluruh dunia melalui maskapai ekspedisi resmi terpercaya dengan dukungan sertifikat karantina dan kontrol suhu.' 
+              : isArabic 
+              ? 'توصيل سريع وآمن ومعقم إلى أكثر من 140 وجهة حول العالم عبر كبرى شركات الشحن الدولية المعتمدة مع التوثيق الكامل.' 
+              : 'Fast, secure, and moisture-controlled international dispatch to over 140 countries via premier certified global freight carriers.'}
           </p>
         </div>
 
-        {/* Calculator Main Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Input Form Parameters */}
-          <div className="lg:col-span-5 bg-slate-50 border border-slate-200 p-6 sm:p-7 rounded-3xl shadow-xs space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-              <span className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <Globe className="w-4 h-4 text-[#009bb3]" />
-                Parameter Kargo & Rute
-              </span>
-              <span className="text-[11px] text-[#009bb3] font-bold bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">
-                Live Currency Rate USD/IDR
-              </span>
-            </div>
-
-            {/* Country Origin & Destination */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Courier Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto mb-8 sm:mb-10">
+          {courierPartners.map((courier) => (
+            <div
+              key={courier.id}
+              className={`rounded-3xl border-2 p-6 sm:p-8 transition-all duration-300 shadow-xs hover:shadow-xl flex flex-col justify-between relative group ${
+                selectedCourier === courier.id 
+                  ? 'border-[#009bb3] bg-teal-50/20' 
+                  : 'border-slate-200 hover:border-slate-300 bg-white'
+              }`}
+            >
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Negara Asal (Origin)
-                </label>
-                <select
-                  value={originCode}
-                  onChange={(e) => setOriginCode(e.target.value)}
-                  id="select-origin-country"
-                  className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#009bb3] transition-colors shadow-xs"
-                >
-                  {GLOBAL_COUNTRIES.map((c) => (
-                    <option key={c.code} value={c.code}>
-                      {c.flag} {c.name} ({c.code})
-                    </option>
-                  ))}
-                </select>
-              </div>
+                
+                {/* Header: Logo and Service Tier */}
+                <div className="flex items-center justify-between gap-4 pb-5 mb-5 border-b border-slate-100">
+                  
+                  {/* Courier Brand Logo Display */}
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 px-4 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black tracking-widest text-lg shadow-xs overflow-hidden">
+                      {/* Logo image with text fallback */}
+                      <img 
+                        src={courier.logoUrl} 
+                        alt={courier.name}
+                        onError={(e) => {
+                          // Hide image on error and show text fallback
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                        className="h-7 w-auto object-contain"
+                      />
+                      <span className="font-extrabold uppercase text-white tracking-wider">
+                        {courier.brand}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-black text-slate-900 text-lg sm:text-xl leading-tight">
+                        {courier.name}
+                      </h3>
+                      <span className="text-xs text-[#009bb3] font-semibold block mt-0.5">
+                        {courier.serviceType}
+                      </span>
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Negara Tujuan (Destination)
-                </label>
-                <select
-                  value={destinationCode}
-                  onChange={(e) => setDestinationCode(e.target.value)}
-                  id="select-destination-country"
-                  className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#009bb3] transition-colors shadow-xs"
-                >
-                  {GLOBAL_COUNTRIES.map((c) => (
-                    <option key={c.code} value={c.code}>
-                      {c.flag} {c.name} ({c.code})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Package Type & Actual Weight */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Kategori Kargo / Barang
-                </label>
-                <select
-                  value={itemType}
-                  onChange={(e: any) => setItemType(e.target.value)}
-                  id="select-item-type"
-                  className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#009bb3] shadow-xs"
-                >
-                  <option value="parcel">Paket Standar Komersil</option>
-                  <option value="document">Dokumen / Kontrak Bisnis</option>
-                  <option value="fragile">Pecah Belah / Elektronik</option>
-                  <option value="perishable">Cold Chain / Pangan / Vaksin</option>
-                  <option value="dangerous_goods">Dangerous Goods (DGR IATA)</option>
-                  <option value="heavy_machinery">Alat Berat / Komponen Mesin</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Berat Aktual (Kg)
-                </label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    min="0.1"
-                    step="0.5"
-                    value={weightKg}
-                    onChange={(e) => setWeightKg(Math.max(0.1, parseFloat(e.target.value) || 0))}
-                    id="input-weight-kg"
-                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-3 py-2.5 text-sm pr-10 focus:outline-none focus:border-[#009bb3] font-semibold shadow-xs"
-                  />
-                  <span className="absolute right-3 top-2.5 text-xs text-slate-500 font-bold">KG</span>
+                  <span className="p-2 rounded-xl bg-teal-50 text-[#009bb3] shrink-0 border border-teal-100">
+                    <Plane className="w-5 h-5" />
+                  </span>
                 </div>
-              </div>
-            </div>
 
-            {/* Dimensions (Length, Width, Height) */}
+                {/* Key Metrics: Transit Time & Reach */}
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                    <div className="flex items-center gap-1.5 text-slate-500 text-[11px] font-medium mb-1">
+                      <Clock className="w-3.5 h-3.5 text-[#009bb3]" />
+                      <span>{isIndonesian ? 'Estimasi Transit' : 'Transit Time'}</span>
+                    </div>
+                    <span className="text-xs sm:text-sm font-black text-slate-900 block">
+                      {courier.transitTime}
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                    <div className="flex items-center gap-1.5 text-slate-500 text-[11px] font-medium mb-1">
+                      <Globe2 className="w-3.5 h-3.5 text-[#009bb3]" />
+                      <span>{isIndonesian ? 'Jangkauan Wilayah' : 'Global Reach'}</span>
+                    </div>
+                    <span className="text-xs sm:text-sm font-black text-slate-900 block">
+                      {courier.reach}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Tagline Description */}
+                <p className="text-xs text-slate-600 mb-6 leading-relaxed">
+                  {courier.tagline}
+                </p>
+
+                {/* Service Features Checklist */}
+                <div className="space-y-2.5 mb-6">
+                  {courier.features.map((feat, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-[#009bb3] shrink-0 mt-0.5" />
+                      <span className="leading-snug">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+
+              {/* Bottom Card Action */}
+              <div className="pt-5 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] text-slate-400 font-medium">
+                  {isIndonesian ? 'Kemitraan Resmi Ekspor' : 'Official Cargo Partner'}
+                </span>
+                <a
+                  href="#kontak"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-[#009bb3] text-slate-800 hover:text-white text-xs font-bold transition-colors cursor-pointer"
+                >
+                  <span>{isIndonesian ? 'Pilih Pengiriman Ini' : 'Inquire Shipping'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Trust & Compliance Bar */}
+        <div className="max-w-5xl mx-auto p-5 sm:p-6 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-teal-100 text-[#009bb3] flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                Dimensi Paket (P x L x T dalam cm)
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="relative">
-                  <input
-                    type="number"
-                    min="1"
-                    value={lengthCm}
-                    onChange={(e) => setLengthCm(Math.max(1, parseInt(e.target.value) || 1))}
-                    id="input-length-cm"
-                    placeholder="P"
-                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-[#009bb3] focus:outline-none shadow-xs"
-                  />
-                  <span className="text-[10px] text-slate-500 block text-center mt-0.5">Panjang (cm)</span>
-                </div>
-                <div className="relative">
-                  <input
-                    type="number"
-                    min="1"
-                    value={widthCm}
-                    onChange={(e) => setWidthCm(Math.max(1, parseInt(e.target.value) || 1))}
-                    id="input-width-cm"
-                    placeholder="L"
-                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-[#009bb3] focus:outline-none shadow-xs"
-                  />
-                  <span className="text-[10px] text-slate-500 block text-center mt-0.5">Lebar (cm)</span>
-                </div>
-                <div className="relative">
-                  <input
-                    type="number"
-                    min="1"
-                    value={heightCm}
-                    onChange={(e) => setHeightCm(Math.max(1, parseInt(e.target.value) || 1))}
-                    id="input-height-cm"
-                    placeholder="T"
-                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl px-2.5 py-2 text-xs text-center font-semibold focus:border-[#009bb3] focus:outline-none shadow-xs"
-                  />
-                  <span className="text-[10px] text-slate-500 block text-center mt-0.5">Tinggi (cm)</span>
-                </div>
-              </div>
-              <p className="text-[11px] text-slate-500 mt-1">
-                Rumus Volumetrik IATA: <code className="text-[#009bb3] font-mono font-bold">(P×L×T)/5000</code> = {((lengthCm * widthCm * heightCm) / 5000).toFixed(2)} Kg
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+                {isIndonesian 
+                  ? 'Jaminan Karantina & Kepatuhan Bea Cukai 100%' 
+                  : '100% Quarantine & Customs Clearance Guarantee'}
+              </h4>
+              <p className="text-[11px] text-slate-500">
+                {isIndonesian 
+                  ? 'Setiap kargo disertai Health Certificate BKIPM KKP, COA ISO 17025, dan Certificate of Origin (COO).' 
+                  : 'All shipments are backed with official Health Certificates, COA Lab testing, and COO documents.'}
               </p>
             </div>
-
-            {/* Declared Value & Value Additions */}
-            <div className="space-y-3 pt-2 border-t border-slate-200">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Nilai Deklarasi Barang (Declared Value USD)
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-2.5 text-xs text-slate-500 font-bold">$</span>
-                  <input
-                    type="number"
-                    min="10"
-                    value={declaredValueUSD}
-                    onChange={(e) => setDeclaredValueUSD(Math.max(0, parseFloat(e.target.value) || 0))}
-                    id="input-declared-value"
-                    className="w-full bg-white border border-slate-300 text-slate-800 rounded-xl pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-[#009bb3] font-semibold shadow-xs"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2 pt-1">
-                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={includeInsurance}
-                    onChange={(e) => setIncludeInsurance(e.target.checked)}
-                    id="check-insurance"
-                    className="rounded border-slate-300 text-[#009bb3] focus:ring-[#009bb3] bg-white"
-                  />
-                  <span>Sertakan Asuransi All-Risk Maritim & Udara Klausul A (+1.5% nilai barang)</span>
-                </label>
-                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={expressClearance}
-                    onChange={(e) => setExpressClearance(e.target.checked)}
-                    id="check-express-clearance"
-                    className="rounded border-slate-300 text-[#009bb3] focus:ring-[#009bb3] bg-white"
-                  />
-                  <span>Prioritas Fast-Track Jalur Hijau AEO Kepabeanan (+$15)</span>
-                </label>
-              </div>
-            </div>
-
-            {/* Calculate Button */}
-            <button
-              onClick={handleCalculate}
-              disabled={loading}
-              id="btn-trigger-estimate"
-              className="w-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-black py-3 rounded-xl text-sm shadow-md shadow-teal-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-            >
-              <Calculator className="w-4 h-4" />
-              <span>{loading ? 'Menghitung Rute & Tarif...' : 'Hitung Semua Opsi Kurir Global'}</span>
-            </button>
-
-            {/* AI Customs Advisor Trigger */}
-            <button
-              onClick={handleAskCustomsAI}
-              disabled={loadingAdvisory}
-              id="btn-ai-customs-advisory"
-              className="w-full bg-teal-50 hover:bg-teal-100/80 border border-teal-200 text-[#009bb3] text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
-              <span>{loadingAdvisory ? 'Menganalisis Regulasi Bea Cukai...' : 'Konsultasi Regulasi Bea Cukai AI untuk Rute Ini'}</span>
-            </button>
           </div>
 
-          {/* Right Column: Comparative Courier Rates & Official Quote Slip */}
-          <div className="lg:col-span-7 space-y-6">
-            
-            {/* Weight Summary Banner */}
-            {result && (
-              <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs shadow-xs">
-                <div className="flex items-center gap-2">
-                  <span className="text-slate-500">Rute Pengiriman:</span>
-                  <span className="font-bold text-slate-900">{result.origin.flag} {result.origin.name} ➔ {result.destination.flag} {result.destination.name}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700">
-                    Aktual: <strong className="text-slate-900">{result.actualWeightKg} kg</strong>
-                  </span>
-                  <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700">
-                    Volumetrik: <strong className="text-slate-900">{result.volumetricWeightKg} kg</strong>
-                  </span>
-                  <span className="bg-teal-50 border border-teal-200 text-[#009bb3] px-2.5 py-1 rounded-md font-bold">
-                    Chargeable: {result.chargeableWeightKg} kg
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Comparative Courier Option Cards */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-black text-slate-500 uppercase tracking-wider flex items-center justify-between">
-                <span>Pilihan Layanan & Tarif Kurir Internasional</span>
-                <span className="text-xs text-slate-400 font-normal">Klik untuk memilih</span>
-              </h3>
-
-              {result?.quotes.map((quote) => {
-                const isSelected = quote.courierId === selectedQuoteId;
-                return (
-                  <div
-                    key={quote.courierId}
-                    id={`quote-card-${quote.courierId}`}
-                    onClick={() => setSelectedQuoteId(quote.courierId)}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-teal-50/60 border-2 border-[#009bb3] shadow-md'
-                        : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 shadow-xs'
-                    }`}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div className="flex items-start gap-3">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-xs shrink-0 ${
-                          isSelected ? 'bg-gradient-to-br from-[#009bb3] to-[#519992] text-white shadow-xs' : 'bg-slate-100 text-slate-600 border border-slate-200'
-                        }`}>
-                          {quote.serviceTier === 'Ocean Cargo' ? <Ship className="w-5 h-5" /> : <Plane className="w-5 h-5" />}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-bold text-slate-900 text-base">{quote.courierName}</h4>
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                              {quote.serviceTier}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2 text-xs text-slate-600 mt-1">
-                            <Clock className="w-3.5 h-3.5 text-[#009bb3]" />
-                            <span>Transit: <strong>{quote.estimatedDeliveryDays}</strong></span>
-                            <span className="text-slate-300">•</span>
-                            <span className="text-slate-500">Est. Tiba: {quote.estimatedDeliveryDate}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-right sm:border-l sm:border-slate-200 sm:pl-4">
-                        <div className="text-lg font-black text-[#009bb3]">
-                          USD ${quote.totalUSD.toFixed(2)}
-                        </div>
-                        <div className="text-xs text-slate-500 font-medium">
-                          Rp {quote.totalIDR.toLocaleString('id-ID')}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Features list */}
-                    <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500">
-                      <div className="flex items-center gap-3">
-                        {quote.features.map((feat, i) => (
-                          <span key={i} className="inline-flex items-center gap-1">
-                            <Check className="w-3 h-3 text-emerald-600" />
-                            <span>{feat}</span>
-                          </span>
-                        ))}
-                      </div>
-                      <span className="text-slate-400 font-mono">Ref: {quote.bookingReference}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Selected Quote Breakdown Slip & Actions */}
-            {selectedQuote && (
-              <div className="bg-white border-2 border-[#009bb3]/30 p-6 rounded-3xl shadow-sm space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <div>
-                    <span className="text-xs text-[#009bb3] font-bold uppercase tracking-wider">
-                      Official Freight Quotation Slip
-                    </span>
-                    <h4 className="text-lg font-bold text-slate-900">{selectedQuote.courierName}</h4>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs text-slate-500 block">Kode Referensi:</span>
-                    <span className="text-xs font-mono font-bold text-[#009bb3]">{selectedQuote.bookingReference}</span>
-                  </div>
-                </div>
-
-                {/* Price components breakdown */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs">
-                  <div>
-                    <span className="text-slate-500 block">Tarif Dasar Freight:</span>
-                    <strong className="text-slate-900 font-bold">${selectedQuote.basePriceUSD}</strong>
-                  </div>
-                  <div>
-                    <span className="text-slate-500 block">Fuel Surcharge:</span>
-                    <strong className="text-slate-900 font-bold">${selectedQuote.fuelSurchargeUSD}</strong>
-                  </div>
-                  <div>
-                    <span className="text-slate-500 block">Est. Pajak / Bea Masuk:</span>
-                    <strong className="text-slate-900 font-bold">${selectedQuote.customsDutyEstimatedUSD}</strong>
-                  </div>
-                  <div>
-                    <span className="text-slate-500 block">Asuransi All-Risk:</span>
-                    <strong className="text-slate-900 font-bold">${selectedQuote.insuranceUSD}</strong>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    <span className="text-xs text-slate-600">
-                      Enkripsi SSL TLS 1.3 Terjamin • Dijamin Sesuai Ketentuan Kepabeanan
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={handleCopyQuoteSlip}
-                      id="btn-copy-quote"
-                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
-                    >
-                      {copiedSlip ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Download className="w-3.5 h-3.5" />}
-                      <span>{copiedSlip ? 'Tersalin ke Clipboard!' : 'Salin Slip Penawaran'}</span>
-                    </button>
-
-                    <button
-                      onClick={handleProceedBooking}
-                      id="btn-book-quote"
-                      className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-bold text-xs inline-flex items-center gap-1.5 shadow-md shadow-teal-500/20 transition-all cursor-pointer"
-                    >
-                      <span>Lanjutkan Pemesanan RFQ</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* AI Customs Advisory Card (if generated) */}
-            {customsAdvisory && (
-              <div className="bg-teal-50/60 border border-teal-200 p-5 rounded-2xl animate-fadeIn space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-[#009bb3] font-bold text-sm">
-                    <Sparkles className="w-4 h-4 text-[#009bb3]" />
-                    <span>Panduan Regulasi Bea Cukai AI ({customsAdvisory.route})</span>
-                  </div>
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-white text-teal-800 border border-teal-200 font-medium">
-                    Tingkat Risiko: {customsAdvisory.riskLevel}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
-                  <div>
-                    <span className="font-bold text-slate-900 block mb-1">Dokumen Wajib:</span>
-                    <ul className="list-disc list-inside space-y-1 text-slate-600">
-                      {customsAdvisory.requiredDocuments?.map((doc: string, i: number) => (
-                        <li key={i}>{doc}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <span className="font-bold text-slate-900 block mb-1">Tips Kelancaran Pabean:</span>
-                    <ul className="list-disc list-inside space-y-1 text-slate-600">
-                      {customsAdvisory.customsTips?.map((tip: string, i: number) => (
-                        <li key={i}>{tip}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {customsAdvisory.preferentialTradeAgreements && (
-                  <p className="text-[11px] text-teal-900 bg-white p-2.5 rounded-xl border border-teal-200">
-                    <strong>Fasilitas Perdagangan:</strong> {customsAdvisory.preferentialTradeAgreements}
-                  </p>
-                )}
-              </div>
-            )}
-
-          </div>
+          <a
+            href="#kontak"
+            className="px-5 py-2.5 rounded-full bg-[#009bb3] hover:bg-[#0d8a9e] text-white font-bold text-xs whitespace-nowrap transition-all shadow-xs cursor-pointer"
+          >
+            {isIndonesian ? 'Konsultasi Logistik & Pengiriman' : 'Contact Us for Shipping'}
+          </a>
         </div>
+
       </div>
     </section>
   );

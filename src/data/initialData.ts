@@ -495,66 +495,6 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     isHQ: true,
     hours: 'Senin - Sabtu: 08.00 - 18.00 WIB (Hotline Korporat 24/7 Siap Melayani)',
     timeZone: 'WIB (UTC+7)'
-  },
-  {
-    id: 'jkt-hub',
-    city: 'Jakarta (Export Terminal & Port Hub)',
-    country: 'Indonesia',
-    address: 'Kawasan Industri & Pelabuhan Perikanan Samudera Jakarta, Jl. Muara Baru Raya No. 88, Penjaringan',
-    postalCode: '14440',
-    phone: '+62 889-8558-2838',
-    email: 'jakarta@driedseafoodglobal.com',
-    coordinates: { lat: -6.116500, lng: 106.804200 },
-    hours: 'Senin - Sabtu: 08.00 - 18.00 WIB',
-    timeZone: 'WIB (UTC+7)'
-  },
-  {
-    id: 'mdn-branch',
-    city: 'Medan (Sentra Teri Nasi & Belawan Hub)',
-    country: 'Indonesia',
-    address: 'Kawasan Pelabuhan Perikanan Samudera Belawan, Jl. Gabion No. 12, Medan',
-    postalCode: '20411',
-    phone: '+62 889-8558-2838',
-    email: 'medan@driedseafoodglobal.com',
-    coordinates: { lat: 3.782100, lng: 98.685400 },
-    hours: 'Senin - Sabtu: 08.00 - 17.00 WIB',
-    timeZone: 'WIB (UTC+7)'
-  },
-  {
-    id: 'sby-branch',
-    city: 'Surabaya (Sentra Pantura & Tanjung Perak)',
-    country: 'Indonesia',
-    address: 'Kawasan Pergudangan Muara Perak Blok C-5, Jl. Nilam Timur No. 18, Tanjung Perak',
-    postalCode: '60165',
-    phone: '+62 889-8558-2838',
-    email: 'surabaya@driedseafoodglobal.com',
-    coordinates: { lat: -7.198300, lng: 112.734200 },
-    hours: 'Senin - Sabtu: 08.00 - 17.00 WIB',
-    timeZone: 'WIB (UTC+7)'
-  },
-  {
-    id: 'hkg-desk',
-    city: 'Hong Kong (Asia-Pacific Seafood Desk)',
-    country: 'Hong Kong SAR',
-    address: '188 Des Voeux Road West, Dried Seafood Trading District, Sheung Wan',
-    postalCode: '999077',
-    phone: '+852 2815 8820',
-    email: 'hongkong@driedseafoodglobal.com',
-    coordinates: { lat: 22.287800, lng: 114.145500 },
-    hours: 'Monday - Friday: 09:00 - 18:00 HKT',
-    timeZone: 'HKT (UTC+8)'
-  },
-  {
-    id: 'sin-desk',
-    city: 'Singapore (Regional Distribution Hub)',
-    country: 'Singapura',
-    address: 'Jurong Fishery Port Complex, 35 Fishery Port Road #02-14',
-    postalCode: '619742',
-    phone: '+65 6265 9930',
-    email: 'singapore@driedseafoodglobal.com',
-    coordinates: { lat: 1.311200, lng: 103.719800 },
-    hours: 'Monday - Friday: 08:30 - 17:30 SGT',
-    timeZone: 'SGT (UTC+8)'
   }
 ];
 

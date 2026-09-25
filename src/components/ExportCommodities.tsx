@@ -101,7 +101,7 @@ export default function ExportCommodities({
   };
 
   return (
-    <section id="komoditas" className="py-24 bg-white relative border-t border-b border-slate-200 overflow-hidden">
+    <section id="komoditas" className="py-8 sm:py-12 bg-white relative border-t border-b border-slate-200 overflow-hidden">
       {/* Background Decorative Soft Tint */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-teal-100/40 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-emerald-100/30 rounded-full blur-3xl pointer-events-none" />
@@ -109,7 +109,7 @@ export default function ExportCommodities({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header with Inspiration from Image 1: KATALOG PRODUK */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
@@ -168,13 +168,15 @@ export default function ExportCommodities({
           </div>
         </div>
 
-        {/* Commodity Cards Grid - 2 columns on mobile, 3 on desktop */}
+        {/* Commodity Cards Grid - 2 columns on mobile (4 products), 3 on desktop (6 products) */}
         {displayedCommodities.length > 0 ? (
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
-            {displayedCommodities.map((item) => (
+            {displayedCommodities.map((item, idx) => (
               <div
                 key={`${item.id}-${item.category}`}
-                className="bg-white border border-slate-200 hover:border-[#009bb3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group flex flex-col justify-between hover:-translate-y-0.5 sm:hover:-translate-y-1"
+                className={`bg-white border border-slate-200 hover:border-[#009bb3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group flex-col justify-between hover:-translate-y-0.5 sm:hover:-translate-y-1 ${
+                  idx >= 4 ? 'hidden md:flex' : 'flex'
+                }`}
               >
                 <div>
                   {/* Photo with badges and zoom overlay */}

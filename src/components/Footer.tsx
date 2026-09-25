@@ -83,7 +83,7 @@ export default function Footer({
 
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
@@ -150,57 +150,11 @@ export default function Footer({
               <li><button onClick={() => handleNav('/facility')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Muara Baru Facilities</button></li>
               <li><button onClick={() => handleNav('/markets')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Global Export Markets</button></li>
               <li><button onClick={() => handleNav('/insights')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Industry Insights & Guides</button></li>
-              <li><button onClick={() => handleNav('/request-quote')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left font-bold text-[#009bb3]">Request Quote (RFQ)</button></li>
+              <li><button onClick={() => handleNav('/request-quote')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left font-bold text-[#009bb3]">Contact Us</button></li>
               <li><button onClick={() => handleNav('/buyer-inquiry')} className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left">Buyer Sample Request</button></li>
             </ul>
-          </div>
 
-          {/* Col 4: Corporate & Credentials */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">
-              {currentLang === 'id' ? 'Profil & Legalitas' : 'Corporate & Legal'}
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <button 
-                  onClick={() => handleNav('/about')} 
-                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left font-medium"
-                >
-                  {currentLang === 'id' ? 'Profil Perusahaan (PT Samdura Bara Persada)' : 'Corporate Profile & Capabilities'}
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => handleNav('/about')} 
-                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left"
-                >
-                  {currentLang === 'id' ? 'Tim Eksekutif & Sertifikasi' : 'Executive Team & Compliance'}
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={onOpenPartners} 
-                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left"
-                >
-                  {currentLang === 'id' ? 'Mitra Ekosistem Bahari' : 'Strategic Ecosystem Partners'}
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={onOpenSSLModal} 
-                  className="text-slate-600 hover:text-[#009bb3] transition-colors cursor-pointer text-left"
-                >
-                  TLS 1.3 EV SSL Security
-                </button>
-              </li>
-              <li className="pt-1 text-[11px] text-slate-400 space-y-0.5">
-                <div>NIB: <span className="font-mono text-slate-600">1408230135849</span></div>
-                <div>P-IRT: <span className="font-mono text-slate-600">5023315010556-31</span></div>
-                <div>AHU: <span className="font-mono text-slate-600">0034189.AH.01.01.2014</span></div>
-              </li>
-            </ul>
-
-            <div className="pt-3">
+            <div className="pt-2">
               <button
                 onClick={scrollToTop}
                 className="px-3.5 py-2 rounded-full bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all flex items-center gap-1.5 text-xs font-semibold cursor-pointer shadow-xs"

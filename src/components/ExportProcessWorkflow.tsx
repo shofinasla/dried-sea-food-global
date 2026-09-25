@@ -89,28 +89,28 @@ export default function ExportProcessWorkflow() {
   const texts = getWorkflowTexts();
 
   return (
-    <section id="alur-ekspor" className="py-24 bg-slate-50 relative border-t border-b border-slate-200 overflow-hidden">
+    <section id="alur-ekspor" className="py-8 sm:py-12 bg-slate-50 relative border-t border-b border-slate-200 overflow-hidden">
       {/* Background Soft Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] max-w-full bg-teal-100/30 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#009bb3]" />
             <span>{texts.badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight uppercase font-sans">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight leading-tight uppercase font-sans">
             {texts.title}
           </h2>
-          <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
+          <p className="mt-2.5 text-slate-600 text-xs sm:text-sm leading-relaxed">
             {texts.subtitle}
           </p>
         </div>
 
         {/* Step Navigation Pill Selector (Desktop / Tablet) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
           {EXPORT_WORKFLOW_STEPS.map((step, idx) => (
             <button
               key={step.stepNumber}

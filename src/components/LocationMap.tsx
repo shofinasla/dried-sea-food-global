@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { 
   MapPin, 
   Building, 
@@ -12,58 +11,30 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { OFFICE_LOCATIONS } from '../data/initialData';
-import { OfficeLocation } from '../types';
 
 export default function LocationMap() {
-  const [selectedOffice, setSelectedOffice] = useState<OfficeLocation>(OFFICE_LOCATIONS[0]);
+  const selectedOffice = OFFICE_LOCATIONS[0];
 
   return (
-    <section id="lokasi" className="py-20 bg-white text-slate-800 border-b border-slate-200 overflow-hidden">
+    <section id="lokasi" className="py-8 sm:py-12 bg-white text-slate-800 border-b border-slate-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-3 shadow-xs">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold uppercase tracking-wider mb-2.5 shadow-2xs">
             <MapPin className="w-3.5 h-3.5 text-[#009bb3]" />
-            <span>SENTRA PENGOLAHAN & HUB EKSPOR</span>
+            <span>KANTOR PUSAT & SENTRA PENGERINGAN</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight uppercase font-sans">
-            Peta Lokasi Kantor Pusat & Sentra Pengeringan
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight uppercase font-sans">
+            Peta Lokasi Kantor Pusat
           </h2>
-          <p className="mt-3 text-slate-600 text-base">
-            Kunjungi kantor pusat dan sentra pengolahan kami di Demak (Jawa Tengah) serta fasilitas sentra pengeringan dan gudang di Belawan (Medan), Cilacap, dan Surabaya.
+          <p className="mt-2 text-slate-600 text-xs sm:text-sm">
+            Kunjungi kantor pusat dan sentra pengeringan terstandarisasi kami di Demak, Jawa Tengah.
           </p>
         </div>
 
-        {/* Global Hub Switcher Pills */}
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
-          {OFFICE_LOCATIONS.map((office) => {
-            const isSelected = selectedOffice.id === office.id;
-            return (
-              <button
-                key={office.id}
-                onClick={() => setSelectedOffice(office)}
-                id={`hub-tab-${office.id}`}
-                className={`px-4 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
-                  isSelected
-                    ? 'bg-gradient-to-r from-[#009bb3] to-[#519992] text-white shadow-md shadow-teal-500/20'
-                    : 'bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-200'
-                }`}
-              >
-                <Building className="w-3.5 h-3.5" />
-                <span>{office.city}</span>
-                {office.isHQ && (
-                  <span className="bg-white/20 text-white text-[9px] px-1.5 py-0.5 rounded font-black">
-                    HQ
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
         {/* Map & Office Detail Split View */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Left Column: Interactive Map Visualization / Embed */}
           <div className="lg:col-span-7 bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs flex flex-col">
@@ -124,12 +95,10 @@ export default function LocationMap() {
                 <span className="px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#009bb3] text-xs font-bold">
                   {selectedOffice.country}
                 </span>
-                {selectedOffice.isHQ && (
-                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Global Headquarters
-                  </span>
-                )}
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Global Headquarters
+                </span>
               </div>
 
               <h3 className="text-2xl font-black text-slate-950 mb-2">
@@ -170,7 +139,7 @@ export default function LocationMap() {
                   <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-white border border-slate-200 shadow-xs">
                     <Mail className="w-4 h-4 text-[#009bb3] shrink-0 mt-0.5" />
                     <div>
-                      <span className="text-[11px] text-slate-500 block font-semibold">Email Cabang:</span>
+                      <span className="text-[11px] text-slate-500 block font-semibold">Email Kantor:</span>
                       <a href={`mailto:${selectedOffice.email}`} className="text-xs font-bold text-slate-800 hover:text-[#009bb3] truncate block max-w-[150px]">
                         {selectedOffice.email}
                       </a>
@@ -180,15 +149,15 @@ export default function LocationMap() {
               </div>
             </div>
 
-            {/* Visit Protocol & Security Assurance */}
-            <div className="pt-4 border-t border-slate-200">
-              <div className="flex items-center gap-2 text-xs text-slate-500">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Protokol keamanan terdaftar ISPS Code & Visitor Badging terenkripsi.</span>
-              </div>
+            {/* Verification Tag */}
+            <div className="pt-4 border-t border-slate-200/80 flex items-center gap-2 text-xs text-[#009bb3] font-semibold">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>Lokasi Terverifikasi KKP RI &amp; Karantina Mutu Perikanan</span>
             </div>
           </div>
+
         </div>
+
       </div>
     </section>
   );

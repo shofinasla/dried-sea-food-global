@@ -128,12 +128,8 @@ export default function Navbar({
 
   const navLinks = [
     { label: 'Home', path: '/' },
-    { label: 'Export Process', path: '/export-process' },
-    { label: 'Quality & Lab', path: '/quality' },
-    { label: 'Facility', path: '/facility' },
     { label: 'About', path: '/about' },
-    { label: 'Markets', path: '/markets' },
-    { label: 'Insights', path: '/insights' }
+    { label: 'Articles', path: '/insights' }
   ];
 
   const isCurrentActive = (path: string) => {
@@ -344,24 +340,24 @@ export default function Navbar({
               </button>
             ))}
 
-            {/* High-Converting Executive RFQ Quote CTA Button */}
+            {/* Contact Us CTA Button */}
             <button
               onClick={() => handleLinkClick('/request-quote')}
               id="nav-btn-rfq-cta"
               className="ml-2 inline-flex items-center justify-center gap-1.5 px-4.5 py-2 rounded-xl bg-[#009bb3] hover:bg-[#0d8a9e] text-white font-bold text-xs xl:text-[13px] shadow-sm hover:shadow transition-all cursor-pointer whitespace-nowrap"
             >
               <Mail className="w-3.5 h-3.5" />
-              <span>REQUEST A QUOTE</span>
+              <span>CONTACT US</span>
             </button>
           </nav>
 
-          {/* Mobile Right: RFQ CTA & Hamburger */}
+          {/* Mobile Right: Contact Us CTA & Hamburger */}
           <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => handleLinkClick('/request-quote')}
               className="px-3 py-1.5 rounded-lg bg-[#009bb3] text-white font-bold text-xs shadow-xs"
             >
-              RFQ Quote
+              Contact Us
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -419,46 +415,22 @@ export default function Navbar({
               </button>
             </div>
             <button
-              onClick={() => handleLinkClick('/export-process')}
-              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
-            >
-              Export Process
-            </button>
-            <button
-              onClick={() => handleLinkClick('/quality')}
-              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
-            >
-              Quality & Lab Standards
-            </button>
-            <button
-              onClick={() => handleLinkClick('/facility')}
-              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
-            >
-              Processing Facility
-            </button>
-            <button
               onClick={() => handleLinkClick('/about')}
               className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
             >
               About Company
             </button>
             <button
-              onClick={() => handleLinkClick('/markets')}
-              className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
-            >
-              Global Markets
-            </button>
-            <button
               onClick={() => handleLinkClick('/insights')}
               className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-slate-800 hover:bg-cyan-50"
             >
-              Insights & Intelligence
+              Articles
             </button>
             <button
               onClick={() => handleLinkClick('/request-quote')}
               className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-[#009bb3] bg-cyan-50"
             >
-              Request a Quote (RFQ)
+              Contact Us
             </button>
           </div>
 
