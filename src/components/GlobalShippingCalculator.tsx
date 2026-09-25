@@ -31,19 +31,32 @@ function CourierLogo({ logoUrl, brand, name }: { logoUrl?: string; brand: string
           src={logoUrl}
           alt={name}
           onError={() => setImgError(true)}
-          className={`h-8 sm:h-10 w-auto max-w-[130px] sm:max-w-[150px] object-contain ${
-            isFedEx ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.18)]' : ''
-          }`}
+          className="h-8 sm:h-10 w-auto max-w-[130px] sm:max-w-[150px] object-contain drop-shadow-2xs"
           referrerPolicy="no-referrer"
         />
       </div>
     );
   }
 
+  if (isFedEx) {
+    return (
+      <div className="text-2xl sm:text-3xl font-black tracking-tighter">
+        <span className="text-[#4D148C]">Fed</span>
+        <span className="text-[#FF6200]">Ex</span>
+      </div>
+    );
+  }
+
+  if (brand.toLowerCase().includes('dhl')) {
+    return (
+      <div className="text-2xl sm:text-3xl font-black italic tracking-wider text-[#d40511]">
+        DHL
+      </div>
+    );
+  }
+
   return (
-    <div className={`text-xl sm:text-2xl font-black uppercase tracking-wider text-slate-900 ${
-      isFedEx ? 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]' : ''
-    }`}>
+    <div className="text-xl sm:text-2xl font-black uppercase tracking-wider text-slate-900">
       {brand}
     </div>
   );
@@ -84,7 +97,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
       serviceType: isIndonesian ? 'Pengiriman Cepat Internasional (Priority Freight)' : isArabic ? 'شحن دولي ذو أولوية فائقة' : 'International Priority Freight',
       transitTime: isIndonesian ? '2 – 5 Hari Kerja' : isArabic ? '2 - 5 أيام عمل' : '2 – 5 Business Days',
       reach: isIndonesian ? '140+ Destinasi Utama Dunia' : isArabic ? '+140 وجهة عالمية' : '140+ Global Destinations',
-      logoUrl: '/images/logos/fedex.png',
+      logoUrl: '/images/logos/fedex.svg',
       accentColor: 'border-purple-300 hover:border-purple-500 bg-purple-500/5',
       badgeColor: 'bg-purple-100 text-purple-900 border-purple-300',
       tagline: isIndonesian ? 'Solusi logistik hasil laut bernilai tinggi dengan pengawasan IoT SenseAware' : 'High-value marine cargo logistics with SenseAware IoT surveillance',
