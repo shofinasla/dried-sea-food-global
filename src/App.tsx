@@ -496,6 +496,7 @@ export default function App() {
               setActiveQuoteCommodity(p.name);
               navigateTo('/buyer-inquiry');
             }}
+            onOpenCatalogModal={() => setIsCatalogModalOpen(true)}
             onNavigateHome={() => navigateTo('/')}
           />
         )}
