@@ -22,7 +22,7 @@ export const COMPANY_PROFILE = {
   tagline: 'Supplying Indonesia\'s Finest Dried Seafood & Heritage Marine Products Worldwide',
   description: 'Perusahaan eksportir terkemuka produk ikan asin, teri nasi super, cumi kering, gelembung ikan (fish maw), dan hasil laut kering khas Nusantara dengan sertifikasi HACCP, KKP, dan standar karantina perikanan internasional.',
   foundedYear: 2014,
-  headquarters: 'Kawasan Industri & Pelabuhan Perikanan Samudera Jakarta, Jl. Muara Baru Raya No. 88, Jakarta Utara 14440, Indonesia',
+  headquarters: 'Lapangan, Morodemak, Kec. Bonang, Kabupaten Demak, Jawa Tengah 59552, Indonesia',
   hotline: '+62 889-8558-2838',
   internationalPhone: '+62 889-8558-2838',
   supportEmail: 'info@driedseafoodglobal.com',
@@ -484,16 +484,28 @@ export const GALLERY_ITEMS: GalleryItem[] = [
 
 export const OFFICE_LOCATIONS: OfficeLocation[] = [
   {
-    id: 'jkt-hq',
-    city: 'Jakarta (Headquarters & Trade Terminal)',
+    id: 'dmk-hq',
+    city: 'Demak (Headquarters & Sentra Pengeringan)',
+    country: 'Indonesia',
+    address: 'Lapangan, Morodemak, Kec. Bonang, Kabupaten Demak, Jawa Tengah',
+    postalCode: '59552',
+    phone: '+62 889-8558-2838',
+    email: 'info@driedseafoodglobal.com',
+    coordinates: { lat: -6.828600, lng: 110.548000 },
+    isHQ: true,
+    hours: 'Senin - Sabtu: 08.00 - 18.00 WIB (Hotline Korporat 24/7 Siap Melayani)',
+    timeZone: 'WIB (UTC+7)'
+  },
+  {
+    id: 'jkt-hub',
+    city: 'Jakarta (Export Terminal & Port Hub)',
     country: 'Indonesia',
     address: 'Kawasan Industri & Pelabuhan Perikanan Samudera Jakarta, Jl. Muara Baru Raya No. 88, Penjaringan',
     postalCode: '14440',
     phone: '+62 889-8558-2838',
-    email: 'info@driedseafoodglobal.com',
+    email: 'jakarta@driedseafoodglobal.com',
     coordinates: { lat: -6.116500, lng: 106.804200 },
-    isHQ: true,
-    hours: 'Senin - Sabtu: 08.00 - 18.00 WIB (Hotline Korporat 24/7 Siap Melayani)',
+    hours: 'Senin - Sabtu: 08.00 - 18.00 WIB',
     timeZone: 'WIB (UTC+7)'
   },
   {
@@ -714,45 +726,6 @@ export const COURIER_PARTNERS: CourierOption[] = [
     reliabilityScore: 99.1,
     trackingFeatures: ['SenseAware IoT Monitoring', 'Customs Pre-Clearance', 'Money-Back Guarantee'],
     co2OffsetKg: 4.5
-  },
-  {
-    id: 'ups-worldwide',
-    name: 'UPS Worldwide Saver',
-    logo: 'UPS',
-    serviceTier: 'Express Air',
-    transitDaysMin: 3,
-    transitDaysMax: 5,
-    baseRatePerKgUSD: 15.2,
-    customsHandlingUSD: 22,
-    reliabilityScore: 98.9,
-    trackingFeatures: ['UPS Quantum View', 'End-to-End Milestone Alerts', 'Carbon Neutral Option'],
-    co2OffsetKg: 3.8
-  },
-  {
-    id: 'aramex-global',
-    name: 'Aramex Global Priority',
-    logo: 'Aramex',
-    serviceTier: 'Standard Parcel',
-    transitDaysMin: 4,
-    transitDaysMax: 7,
-    baseRatePerKgUSD: 11.5,
-    customsHandlingUSD: 18,
-    reliabilityScore: 97.8,
-    trackingFeatures: ['Middle East & Emerging Hub Specialist', 'SMS & WhatsApp Tracking'],
-    co2OffsetKg: 3.2
-  },
-  {
-    id: 'nusantara-cargo',
-    name: 'Nusantara Global Ocean & Air Cargo',
-    logo: 'Nusantara Direct',
-    serviceTier: 'Ocean Cargo',
-    transitDaysMin: 12,
-    transitDaysMax: 24,
-    baseRatePerKgUSD: 4.8,
-    customsHandlingUSD: 15,
-    reliabilityScore: 99.6,
-    trackingFeatures: ['FCL/LCL Container Satellite Tracking', 'AEO Gold Priority Customs', 'Zero Port Demurrage Guarantee'],
-    co2OffsetKg: 1.1
   }
 ];
 
@@ -807,7 +780,7 @@ export const DEFAULT_SEO_SETTINGS: SEOSettings = {
   googleAnalyticsId: '',
   googleTagManagerId: '',
   googleMerchantCenterId: '',
-  googleBusinessProfileUrl: 'https://maps.google.com/?q=Kawasan+Industri+Maritim+Muara+Baru+Jakarta+Utara'
+  googleBusinessProfileUrl: 'https://www.google.com/maps/search/?api=1&query=Lapangan%2C+Morodemak%2C+Kec.+Bonang%2C+Kabupaten+Demak%2C+Jawa+Tengah+59552'
 };
 
 export const INITIAL_SEO_SETTINGS = DEFAULT_SEO_SETTINGS;

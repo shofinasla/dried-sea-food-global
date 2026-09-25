@@ -467,7 +467,7 @@ export default function RequestQuotePage({
                 </div>
                 <h4 className="text-sm font-bold font-serif-display">PT Samdura Bara Persada</h4>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Kawasan Industri Maritim Terpadu Muara Baru No. 88, Jakarta Utara 14440, Indonesia.
+                  Lapangan, Morodemak, Kec. Bonang, Kabupaten Demak, Jawa Tengah 59552, Indonesia.
                 </p>
                 <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400 space-y-1 font-mono">
                   <div>NIB: 1408230135849</div>

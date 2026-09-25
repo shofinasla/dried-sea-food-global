@@ -26,7 +26,7 @@ export default function CompanyPage({ onBackToHome }: CompanyPageProps) {
         : 'Official corporate profile and legal identity page of Dried Seafood Global for global trade partners, international buyers, and official business correspondence.',
     backBtn: isAr ? 'العودة إلى الرئيسية' : isId ? 'Kembali ke Beranda' : 'Back to Home',
     hqTitle: isAr ? 'المقر الرئيسي' : isId ? 'Kantor Pusat' : 'Headquarters',
-    hqValue: isAr ? 'جاكرتا، إندونيسيا' : isId ? 'Jakarta, Indonesia' : 'Jakarta, Indonesia',
+    hqValue: isAr ? 'ديمك، جاوة الوسطى، إندونيسيا' : isId ? 'Demak, Jawa Tengah, Indonesia' : 'Demak, Central Java, Indonesia',
     hotlineTitle: isAr ? 'الخط الساخن 24/7' : isId ? 'Hotline Ekspor' : 'Trade Desk Hotline',
     emailTitle: isAr ? 'البريد الرسمي' : isId ? 'Email Resmi' : 'Official Email',
     legalTitle: isAr ? 'الهوية القانونية والتراخيص الرسمية' : isId ? 'Identitas Legal' : 'Legal & Corporate Identity',

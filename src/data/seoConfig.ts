@@ -15,10 +15,10 @@ export const SITE_CONFIG = {
   email: 'info@driedseafoodglobal.com',
   salesEmail: 'sales@driedseafoodglobal.com',
   address: {
-    street: 'Kawasan Industri Maritim Terpadu Muara Baru No. 88',
-    city: 'Jakarta Utara',
-    region: 'DKI Jakarta',
-    postalCode: '14440',
+    street: 'Lapangan, Morodemak, Kec. Bonang',
+    city: 'Kabupaten Demak',
+    region: 'Jawa Tengah',
+    postalCode: '59552',
     country: 'ID'
   }
 };

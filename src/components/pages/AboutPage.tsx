@@ -158,10 +158,10 @@ export default function AboutPage({
                     Membawa Cita Rasa & Standar Ikan Kering Nusantara ke Seluruh Dunia
                   </h2>
                   <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-                    Didirikan pada tahun 2012 di kawasan Pelabuhan Perikanan Samudera Jakarta, PT Samdura Bara Persada berakar dari kecintaan terhadap keanekaragaman bahari Nusantara dan kepedulian terhadap kesejahteraan nelayan tradisional.
+                    Didirikan di kawasan sentra pesisir bahari Jawa Tengah, PT Samdura Bara Persada berakar dari kecintaan terhadap keanekaragaman bahari Nusantara dan kepedulian terhadap kesejahteraan nelayan tradisional.
                   </p>
                   <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-                    Kini, kami mengoperasikan sentra pengeringan modern bertenaga surya (Solar Dome Dryer) dan gudang penyimpanan berkelembaban rendah di Belawan, Muara Baru, dan Surabaya, serta jaringan distribusi ekspor ke 28 negara di Asia, Timur Tengah, dan Amerika.
+                    Kini, kami mengoperasikan sentra pengeringan modern bertenaga surya (Solar Dome Dryer) dan gudang penyimpanan higienis di Demak (Jawa Tengah), Belawan, dan Surabaya, serta jaringan distribusi ekspor ke 28 negara di Asia, Timur Tengah, dan Amerika.
                   </p>
                 </div>
                 <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-slate-200 shadow-lg">
@@ -225,8 +225,8 @@ export default function AboutPage({
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <span className="text-[10px] font-bold text-slate-400 uppercase block">Kantor Operasional & Hub</span>
-                  <span className="font-bold text-slate-900 text-sm block mt-1">Muara Baru, Jakarta Utara</span>
-                  <span className="text-slate-500 mt-1 block">Pelabuhan Perikanan Samudera</span>
+                  <span className="font-bold text-slate-900 text-sm block mt-1">Demak, Jawa Tengah</span>
+                  <span className="text-slate-500 mt-1 block">Sentra Pengolahan & Kantor Pusat</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <span className="text-[10px] font-bold text-slate-400 uppercase block">Pelabuhan Muat Ekspor</span>

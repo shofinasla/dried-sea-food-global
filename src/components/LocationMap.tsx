@@ -31,7 +31,7 @@ export default function LocationMap() {
             Peta Lokasi Kantor Pusat & Sentra Pengeringan
           </h2>
           <p className="mt-3 text-slate-600 text-base">
-            Kunjungi kantor pusat ekspor kami di Jakarta serta fasilitas sentra pengeringan higienis dan gudang di Belawan (Medan), Cilacap, dan Surabaya.
+            Kunjungi kantor pusat dan sentra pengolahan kami di Demak (Jawa Tengah) serta fasilitas sentra pengeringan dan gudang di Belawan (Medan), Cilacap, dan Surabaya.
           </p>
         </div>
 
@@ -103,7 +103,7 @@ export default function LocationMap() {
               {/* Direct Directions Button on Map */}
               <div className="absolute top-4 right-4">
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${selectedOffice.coordinates.lat},${selectedOffice.coordinates.lng}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedOffice.address + (selectedOffice.postalCode ? ', ' + selectedOffice.postalCode : '') + ', ' + selectedOffice.country)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   id="btn-open-google-maps"
