@@ -31,11 +31,11 @@ export default function AdminInquiriesTab({ inquiries, onRefresh }: AdminInquiri
   const filteredInquiries = inquiries.filter(item => {
     const matchesStatus = selectedStatus === 'all' || (item.status || 'new') === selectedStatus;
     const matchesSearch = searchQuery === '' ||
-      item.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.destinationCountry.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.commodity.toLowerCase().includes(searchQuery.toLowerCase());
+      Boolean(item.companyName && item.companyName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.contactPerson && item.contactPerson.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.email && item.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.destinationCountry && item.destinationCountry.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.commodity && item.commodity.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesStatus && matchesSearch;
   });
 

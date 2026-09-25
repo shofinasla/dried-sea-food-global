@@ -70,9 +70,9 @@ export default function AdminArticlesTab({ blogPosts, onRefresh }: AdminArticles
     const selNorm = selectedCategory === 'all' ? null : normalizeBlogCategory(selectedCategory);
     const matchesCat = selectedCategory === 'all' || post.category === selectedCategory || (selNorm && postNorm.slug === selNorm.slug);
     const matchesSearch = searchQuery === '' ||
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (Array.isArray(post.tags) && post.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
+      Boolean(post.title && post.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (Array.isArray(post.tags) && post.tags.some(t => Boolean(t && t.toLowerCase().includes(searchQuery.toLowerCase()))));
     return matchesCat && matchesSearch;
   });
 

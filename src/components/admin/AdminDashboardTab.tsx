@@ -216,22 +216,28 @@ export default function AdminDashboardTab({
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <img 
-                      src={item.image} 
+                      src={item.imageUrl || item.image || '/images/products/exp-teri-nasi-1.png'} 
                       alt={item.name} 
                       referrerPolicy="no-referrer"
                       className="w-11 h-11 rounded-lg object-cover bg-slate-800 shrink-0 border border-slate-700" 
                     />
                     <div className="min-w-0">
                       <div className="text-xs font-bold text-white truncate">{item.name}</div>
-                      <div className="text-[11px] text-slate-400 truncate">{item.latinName}</div>
+                      <div className="text-[11px] text-slate-400 truncate">{item.indonesianName || item.latinName || item.origin || '-'}</div>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-xs font-mono font-bold text-teal-400">
-                      ${item.priceUSDPerKg}/kg
+                      {item.priceUSDPerKg != null
+                        ? `$${item.priceUSDPerKg.toLocaleString('en-US')}/kg`
+                        : item.price != null
+                        ? `$${item.price.toLocaleString('en-US')}/kg`
+                        : (item.specification?.grade || '-')}
                     </div>
                     <div className="text-[10px] text-slate-500 font-mono">
-                      MOQ: {item.moqKg} kg
+                      {item.moqKg != null
+                        ? `MOQ: ${item.moqKg.toLocaleString('id-ID')} kg`
+                        : (item.specification?.moq ? `MOQ: ${item.specification.moq}` : (item.hsCode ? `HS: ${item.hsCode}` : '-'))}
                     </div>
                   </div>
                 </div>

@@ -78,10 +78,11 @@ export default function AdminProductsTab({ commodities, onRefresh }: AdminProduc
   const filteredItems = commodities.filter(item => {
     const matchesCat = selectedCategory === 'all' || item.category === selectedCategory;
     const matchesSearch = searchQuery === '' ||
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.latinName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (item.sku && item.sku.toLowerCase().includes(searchQuery.toLowerCase()));
+      Boolean(item.name && item.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.indonesianName && item.indonesianName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.latinName && item.latinName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(item.sku && item.sku.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCat && matchesSearch;
   });
 
@@ -110,27 +111,27 @@ export default function AdminProductsTab({ commodities, onRefresh }: AdminProduc
 
   const openEditModal = (item: ExportCommodity) => {
     setEditingItem(item);
-    setFormName(item.name);
-    setFormLatinName(item.latinName);
-    setFormCategory(item.category);
+    setFormName(item.name || '');
+    setFormLatinName(item.latinName || item.indonesianName || '');
+    setFormCategory(item.category || 'ikan-asin');
     setFormSku(item.sku || `DSG-${item.id.toUpperCase()}`);
-    setFormDescription(item.description);
-    setFormPriceUSD(item.priceUSDPerKg);
-    setFormPriceIDR(item.priceIDRPerKg);
-    setFormMoq(item.moqKg);
-    setFormImage(item.image);
+    setFormDescription(item.description || '');
+    setFormPriceUSD(item.priceUSDPerKg ?? item.price ?? 12);
+    setFormPriceIDR(item.priceIDRPerKg ?? 185000);
+    setFormMoq(item.moqKg ?? (item.specification?.moq ? parseInt(item.specification.moq) || 50 : 50));
+    setFormImage(item.imageUrl || item.image || '');
     setFormHsCode(item.hsCode || '0305.59.00');
-    setFormOrigin(item.specifications?.origin || 'Pelabuhan Tanjung Emas, Semarang');
-    setFormMoisture(item.specifications?.moistureContent || '< 15%');
-    setFormSalt(item.specifications?.saltContent || '5 - 8%');
-    setFormShelfLife(item.specifications?.shelfLife || '12 Bulan');
+    setFormOrigin(item.origin || item.specifications?.origin || 'Pelabuhan Tanjung Emas, Semarang');
+    setFormMoisture(item.specification?.moisture || item.specifications?.moistureContent || '< 15%');
+    setFormSalt(item.specification?.colorTexture || item.specifications?.saltContent || '5 - 8%');
+    setFormShelfLife(item.specification?.shelfLife || item.specifications?.shelfLife || '12 Bulan');
     setFormPackaging(
       Array.isArray(item.packaging) 
         ? item.packaging.join(', ') 
         : (item.packaging || (typeof item.specification?.packaging === 'string' ? item.specification.packaging : 'Master Carton 10kg'))
     );
     setFormCertificates(item.certifications || ['HACCP Grade A', 'Health Certificate KKP RI']);
-    setFormIsPublished(item.isPublished !== false);
+    setFormIsPublished(item.status ? item.status === 'published' : item.isPublished !== false);
     setErrorMsg(null);
     setIsModalOpen(true);
   };
@@ -199,14 +200,25 @@ export default function AdminProductsTab({ commodities, onRefresh }: AdminProduc
     const payload = {
       name: formName.trim(),
       latinName: formLatinName.trim() || formName.trim(),
+      indonesianName: formLatinName.trim() || formName.trim(),
       category: formCategory,
       sku: formSku.trim(),
       description: formDescription.trim(),
       priceUSDPerKg: Number(formPriceUSD) || 10,
       priceIDRPerKg: Number(formPriceIDR) || 160000,
       moqKg: Number(formMoq) || 25,
+      imageUrl: formImage.trim() || 'https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=800&q=80',
       image: formImage.trim() || 'https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=800&q=80',
       hsCode: formHsCode.trim(),
+      origin: formOrigin.trim(),
+      specification: {
+        grade: formSalt.trim() || 'Grade AAA',
+        moisture: formMoisture.trim(),
+        packaging: formPackaging.split(',').map(s => s.trim()).filter(Boolean).join(', '),
+        moq: `${formMoq} kg`,
+        shelfLife: formShelfLife.trim(),
+        colorTexture: 'Alami Kering'
+      },
       specifications: {
         moistureContent: formMoisture.trim(),
         saltContent: formSalt.trim(),
@@ -216,6 +228,7 @@ export default function AdminProductsTab({ commodities, onRefresh }: AdminProduc
       },
       packaging: formPackaging.split(',').map(s => s.trim()).filter(Boolean),
       certifications: formCertificates,
+      status: formIsPublished ? 'published' : 'draft',
       isPublished: formIsPublished
     };
 
@@ -386,15 +399,15 @@ export default function AdminProductsTab({ commodities, onRefresh }: AdminProduc
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-3">
                         <img 
-                          src={item.image} 
+                          src={item.imageUrl || item.image || '/images/products/exp-teri-nasi-1.png'} 
                           alt={item.name} 
                           referrerPolicy="no-referrer"
                           className="w-12 h-12 rounded-xl object-cover bg-slate-800 border border-slate-700 shrink-0" 
                         />
                         <div className="min-w-0">
                           <div className="font-bold text-white text-sm truncate">{item.name}</div>
-                          <div className="text-[11px] text-slate-400 italic truncate">{item.latinName}</div>
-                          <div className="text-[10px] text-teal-400 font-mono mt-0.5">{item.sku || `SKU: ${item.id}`}</div>
+                          <div className="text-[11px] text-slate-400 italic truncate">{item.indonesianName || item.latinName || '-'}</div>
+                          <div className="text-[10px] text-teal-400 font-mono mt-0.5">{item.sku || (item.hsCode ? `HS: ${item.hsCode}` : `SKU: ${item.id}`)}</div>
                         </div>
                       </div>
                     </td>
@@ -408,21 +421,35 @@ export default function AdminProductsTab({ commodities, onRefresh }: AdminProduc
 
                     {/* Pricing */}
                     <td className="py-3.5 px-4 font-mono">
-                      <div className="text-teal-400 font-bold text-sm">${item.priceUSDPerKg}/kg</div>
-                      <div className="text-[11px] text-slate-400">Rp {item.priceIDRPerKg.toLocaleString('id-ID')}/kg</div>
-                      <div className="text-[10px] text-slate-500">MOQ: {item.moqKg} kg</div>
+                      <div className="text-teal-400 font-bold text-sm">
+                        {item.priceUSDPerKg != null
+                          ? `$${item.priceUSDPerKg.toLocaleString('en-US')}/kg`
+                          : item.price != null
+                          ? `$${item.price.toLocaleString('en-US')}/kg`
+                          : '-'}
+                      </div>
+                      <div className="text-[11px] text-slate-400">
+                        {item.priceIDRPerKg != null
+                          ? `Rp ${item.priceIDRPerKg.toLocaleString('id-ID')}/kg`
+                          : '-'}
+                      </div>
+                      <div className="text-[10px] text-slate-500">
+                        {item.moqKg != null
+                          ? `MOQ: ${item.moqKg.toLocaleString('id-ID')} kg`
+                          : (item.specification?.moq ? `MOQ: ${item.specification.moq}` : (item.specifications?.moq ? `MOQ: ${item.specifications.moq}` : '-'))}
+                      </div>
                     </td>
 
                     {/* Specs */}
                     <td className="py-3.5 px-4">
-                      <div className="text-[11px] text-slate-300">Air: {item.specifications?.moistureContent || '<15%'}</div>
-                      <div className="text-[11px] text-slate-400">Garam: {item.specifications?.saltContent || '4-8%'}</div>
-                      <div className="text-[10px] text-slate-500">Simpan: {item.specifications?.shelfLife || '12 Bln'}</div>
+                      <div className="text-[11px] text-slate-300">Air: {item.specification?.moisture || item.specifications?.moistureContent || '<15%'}</div>
+                      <div className="text-[11px] text-slate-400">Grade: {item.specification?.grade || item.specifications?.saltContent || 'Grade AAA'}</div>
+                      <div className="text-[10px] text-slate-500">Simpan: {item.specification?.shelfLife || item.specifications?.shelfLife || '12 Bln'}</div>
                     </td>
 
                     {/* Status */}
                     <td className="py-3.5 px-4">
-                      {item.isPublished !== false ? (
+                      {(item.status === 'published' || item.isPublished !== false) ? (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-semibold">
                           <Check className="w-3 h-3" />
                           <span>Publik</span>
