@@ -31,7 +31,9 @@ function CourierLogo({ logoUrl, brand, name }: { logoUrl?: string; brand: string
           src={logoUrl}
           alt={name}
           onError={() => setImgError(true)}
-          className="h-8 sm:h-10 w-auto max-w-[130px] sm:max-w-[150px] object-contain drop-shadow-2xs"
+          className={`h-8 sm:h-10 w-auto max-w-[130px] sm:max-w-[150px] object-contain ${
+            isFedEx ? 'drop-shadow-[0_2px_5px_rgba(0,0,0,0.22)]' : 'drop-shadow-2xs'
+          }`}
           referrerPolicy="no-referrer"
         />
       </div>
@@ -97,7 +99,7 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
       serviceType: isIndonesian ? 'Pengiriman Cepat Internasional (Priority Freight)' : isArabic ? 'شحن دولي ذو أولوية فائقة' : 'International Priority Freight',
       transitTime: isIndonesian ? '2 – 5 Hari Kerja' : isArabic ? '2 - 5 أيام عمل' : '2 – 5 Business Days',
       reach: isIndonesian ? '140+ Destinasi Utama Dunia' : isArabic ? '+140 وجهة عالمية' : '140+ Global Destinations',
-      logoUrl: '/images/logos/fedex.svg',
+      logoUrl: '/images/logos/fedex.png',
       accentColor: 'border-purple-300 hover:border-purple-500 bg-purple-500/5',
       badgeColor: 'bg-purple-100 text-purple-900 border-purple-300',
       tagline: isIndonesian ? 'Solusi logistik hasil laut bernilai tinggi dengan pengawasan IoT SenseAware' : 'High-value marine cargo logistics with SenseAware IoT surveillance',
