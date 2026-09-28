@@ -54,6 +54,26 @@ export default function ExportCatalogModal({
         })
       }).catch(() => {});
 
+      // Check if user has uploaded a custom static PDF in the public folder (e.g. /catalog.pdf)
+      try {
+        const checkStaticPdf = await fetch('/catalog.pdf', { method: 'HEAD' });
+        if (checkStaticPdf.ok) {
+          const link = document.createElement('a');
+          link.href = '/catalog.pdf';
+          link.download = 'Product-Catalog-Shrimora-Dried-Seafood-Global.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          setDownloading(false);
+          setDownloadSuccess(true);
+          setTimeout(() => setDownloadSuccess(false), 6000);
+          return;
+        }
+      } catch (staticErr) {
+        // Continue to generator fallback if static PDF is not found
+      }
+
       // Generate the official 10-page PDF matching the uploaded catalog
       const pdfBlob = await generateOfficialCatalogPdf();
       const url = URL.createObjectURL(pdfBlob);
