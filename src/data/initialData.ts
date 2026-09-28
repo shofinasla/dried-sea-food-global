@@ -31,6 +31,11 @@ export const COMPANY_PROFILE = {
   taxId: '02.768.914.5-043.000',
   registrationNo: 'AHU-0034189.AH.01.01.TAHUN 2014',
   sslVerification: 'DigiCert High-Assurance TLS 1.3 Extended Validation (EV) 256-Bit SHA-384',
+  socialMedia: {
+    instagram: 'https://www.instagram.com/driedseafoodglobal/',
+    facebook: 'https://www.facebook.com/profile.php?id=61594404034774',
+    threads: 'https://www.threads.com/@driedseafoodglobal'
+  }
 };
 
 export const OFFICIAL_COMPLIANCE_DOCUMENTS = {
@@ -720,7 +725,7 @@ export const DEFAULT_SEO_SETTINGS: SEOSettings = {
   googleAnalyticsId: '',
   googleTagManagerId: '',
   googleMerchantCenterId: '',
-  googleBusinessProfileUrl: 'https://www.google.com/maps/place/Dried+Seafood+Global+(Shrimora+Java)/@-6.824927,110.525486,16z/data=!4m6!3m5!1s0x2e709779a92604f7:0x70e41312df5e05ff!8m2!3d-6.824927!4d110.525486'
+  googleBusinessProfileUrl: 'https://maps.app.goo.gl/FPr8vRSe7E3dz3xZA'
 };
 
 export const INITIAL_SEO_SETTINGS = DEFAULT_SEO_SETTINGS;

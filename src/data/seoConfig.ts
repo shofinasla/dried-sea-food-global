@@ -65,7 +65,13 @@ export function getOrganizationSchema() {
       latitude: -6.824927,
       longitude: 110.525486
     },
-    hasMap: 'https://www.google.com/maps/place/Dried+Seafood+Global+(Shrimora+Java)/@-6.824927,110.525486,16z/data=!4m6!3m5!1s0x2e709779a92604f7:0x70e41312df5e05ff!8m2!3d-6.824927!4d110.525486'
+    hasMap: 'https://maps.app.goo.gl/FPr8vRSe7E3dz3xZA',
+    sameAs: [
+      'https://www.instagram.com/driedseafoodglobal/',
+      'https://www.facebook.com/profile.php?id=61594404034774',
+      'https://www.threads.com/@driedseafoodglobal',
+      'https://maps.app.goo.gl/FPr8vRSe7E3dz3xZA'
+    ]
   };
 }
 
