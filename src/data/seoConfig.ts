@@ -59,7 +59,13 @@ export function getOrganizationSchema() {
       addressRegion: SITE_CONFIG.address.region,
       postalCode: SITE_CONFIG.address.postalCode,
       addressCountry: SITE_CONFIG.address.country
-    }
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: -6.824927,
+      longitude: 110.525486
+    },
+    hasMap: 'https://www.google.com/maps/place/Dried+Seafood+Global+(Shrimora+Java)/@-6.824927,110.525486,16z/data=!4m6!3m5!1s0x2e709779a92604f7:0x70e41312df5e05ff!8m2!3d-6.824927!4d110.525486'
   };
 }
 

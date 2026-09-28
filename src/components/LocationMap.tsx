@@ -49,32 +49,35 @@ export default function LocationMap() {
               <span className="text-slate-500 font-mono text-[11px]">{selectedOffice.timeZone}</span>
             </div>
 
-            {/* Simulated Interactive Vector Map Canvas & Embedded OpenStreetMap iframe */}
-            <div className="relative flex-1 min-h-[360px] bg-slate-100">
+            {/* Interactive Google Maps Embed */}
+            <div className="relative flex-1 min-h-[380px] sm:min-h-[440px] bg-slate-100">
               <iframe
-                title={`Map of ${selectedOffice.city}`}
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15846.184298150416!2d110.52548646926883!3d-6.824927030761701!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e709779a92604f7%3A0x70e41312df5e05ff!2sDried%20Seafood%20Global%20(Shrimora%20Java)!5e0!3m2!1sid!2sid!4v1790601715689!5m2!1sid!2sid"
                 width="100%"
                 height="100%"
-                className="w-full h-full min-h-[360px] border-0 opacity-95"
+                className="w-full h-full min-h-[380px] sm:min-h-[440px] border-0"
+                style={{ border: 0 }}
+                allowFullScreen
                 loading="lazy"
-                src={`https://www.openstreetmap.org/export/embed.html?bbox=${selectedOffice.coordinates.lng - 0.04}%2C${selectedOffice.coordinates.lat - 0.03}%2C${selectedOffice.coordinates.lng + 0.04}%2C${selectedOffice.coordinates.lat + 0.03}&layer=mapnik&marker=${selectedOffice.coordinates.lat}%2C${selectedOffice.coordinates.lng}`}
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Dried Seafood Global (Shrimora Java) Google Maps"
               />
 
               {/* Custom Map Overlay Badge */}
-              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md border border-slate-200 p-3.5 rounded-2xl shadow-lg max-w-xs">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#009bb3] mb-1">
-                  <MapPin className="w-4 h-4 text-[#009bb3]" />
-                  <span>{selectedOffice.city}</span>
+              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md border border-slate-200 p-3 sm:p-3.5 rounded-2xl shadow-lg max-w-[280px] sm:max-w-xs pointer-events-none">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-[#009bb3] mb-1">
+                  <MapPin className="w-4 h-4 text-[#009bb3] shrink-0" />
+                  <span className="truncate">Dried Seafood Global (Shrimora Java)</span>
                 </div>
                 <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
-                  {selectedOffice.address}
+                  {selectedOffice.address}, {selectedOffice.postalCode}
                 </p>
               </div>
 
               {/* Direct Directions Button on Map */}
-              <div className="absolute top-4 right-4">
+              <div className="absolute top-4 right-4 z-10">
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedOffice.address + (selectedOffice.postalCode ? ', ' + selectedOffice.postalCode : '') + ', ' + selectedOffice.country)}`}
+                  href="https://www.google.com/maps/place/Dried+Seafood+Global+(Shrimora+Java)/@-6.824927,110.525486,16z/data=!4m6!3m5!1s0x2e709779a92604f7:0x70e41312df5e05ff!8m2!3d-6.824927!4d110.525486"
                   target="_blank"
                   rel="noopener noreferrer"
                   id="btn-open-google-maps"

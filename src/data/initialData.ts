@@ -485,13 +485,13 @@ export const GALLERY_ITEMS: GalleryItem[] = [
 export const OFFICE_LOCATIONS: OfficeLocation[] = [
   {
     id: 'dmk-hq',
-    city: 'Demak (Headquarters & Sentra Pengeringan)',
+    city: 'Demak (Headquarters & Sentra Pengeringan - Shrimora Java)',
     country: 'Indonesia',
     address: 'Lapangan, Morodemak, Kec. Bonang, Kabupaten Demak, Jawa Tengah',
     postalCode: '59552',
     phone: '+62 889-8558-2838',
     email: 'info@driedseafoodglobal.com',
-    coordinates: { lat: -6.828600, lng: 110.548000 },
+    coordinates: { lat: -6.824927, lng: 110.525486 },
     isHQ: true,
     hours: 'Senin - Sabtu: 08.00 - 18.00 WIB (Hotline Korporat 24/7 Siap Melayani)',
     timeZone: 'WIB (UTC+7)'
@@ -720,7 +720,7 @@ export const DEFAULT_SEO_SETTINGS: SEOSettings = {
   googleAnalyticsId: '',
   googleTagManagerId: '',
   googleMerchantCenterId: '',
-  googleBusinessProfileUrl: 'https://www.google.com/maps/search/?api=1&query=Lapangan%2C+Morodemak%2C+Kec.+Bonang%2C+Kabupaten+Demak%2C+Jawa+Tengah+59552'
+  googleBusinessProfileUrl: 'https://www.google.com/maps/place/Dried+Seafood+Global+(Shrimora+Java)/@-6.824927,110.525486,16z/data=!4m6!3m5!1s0x2e709779a92604f7:0x70e41312df5e05ff!8m2!3d-6.824927!4d110.525486'
 };
 
 export const INITIAL_SEO_SETTINGS = DEFAULT_SEO_SETTINGS;
