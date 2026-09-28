@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { ExportCommodity } from '../../types';
 import { SITE_CONFIG } from '../../data/seoConfig';
+import { trackMetaEvent } from '../../utils/analytics';
 
 interface ProductDetailPageProps {
   product: ExportCommodity;
@@ -50,6 +51,18 @@ export default function ProductDetailPage({
   useEffect(() => {
     setActiveImageIndex(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Track Meta Pixel ViewContent event
+    if (product) {
+      trackMetaEvent('ViewContent', {
+        content_name: product.name,
+        content_category: product.category,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: product.priceUSDPerKg || product.price || 0,
+        currency: 'USD'
+      });
+    }
   }, [product.id]);
 
   const relatedProducts = allProducts
@@ -212,7 +225,17 @@ export default function ProductDetailPage({
               <div className="mt-8 pt-6 border-t border-slate-200">
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <button
-                    onClick={() => onRequestQuote(product.name)}
+                    onClick={() => {
+                      trackMetaEvent('InitiateCheckout', {
+                        content_name: product.name,
+                        content_category: product.category,
+                        content_ids: [product.id],
+                        content_type: 'product',
+                        value: product.priceUSDPerKg || product.price || 0,
+                        currency: 'USD'
+                      });
+                      onRequestQuote(product.name);
+                    }}
                     className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#009bb3] text-white font-bold text-sm hover:bg-[#0d8a9e] transition shadow-lg shadow-[#009bb3]/25"
                   >
                     <span>Request Quotation (RFQ)</span>
@@ -220,7 +243,13 @@ export default function ProductDetailPage({
                   </button>
 
                   <button
-                    onClick={() => onRequestSample(product.name)}
+                    onClick={() => {
+                      trackMetaEvent('Contact', {
+                        content_name: `Sample Request - ${product.name}`,
+                        contact_channel: 'Sample Request Button'
+                      });
+                      onRequestSample(product.name);
+                    }}
                     className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition shadow-sm"
                   >
                     <Package className="w-4 h-4 text-cyan-400" />
@@ -231,6 +260,12 @@ export default function ProductDetailPage({
                     href={`https://wa.me/6288985582838?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => {
+                      trackMetaEvent('Contact', {
+                        content_name: `WhatsApp - ${product.name}`,
+                        contact_channel: 'WhatsApp'
+                      });
+                    }}
                     className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 transition shadow-sm"
                     title="Direct WhatsApp Export Desk"
                   >

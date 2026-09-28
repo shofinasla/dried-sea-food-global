@@ -17,6 +17,7 @@ import {
 import { COMPANY_PROFILE, GLOBAL_COUNTRIES } from '../data/initialData';
 import { useTranslation } from '../i18n/LanguageContext';
 import { ContactInquiry } from '../types';
+import { trackMetaEvent } from '../utils/analytics';
 
 interface ContactSectionProps {
   prefilledService?: string;
@@ -266,6 +267,19 @@ Mohon jadwalkan penjemputan kargo (cargo pickup) dan pengurusan dokumen ekspor.`
         setSubmitSuccess(true);
         setSubmittedRefId(data.inquiry.id);
         onInquirySubmitted?.(data.inquiry);
+
+        // Track Meta Pixel Lead & Contact events
+        trackMetaEvent('Lead', {
+          content_name: inquiryType || 'Commercial RFQ Inquiry',
+          content_category: 'B2B Inquiry',
+          currency: 'USD',
+          value: Number(estimatedWeight) || 0
+        });
+        trackMetaEvent('Contact', {
+          content_name: 'Commercial Inquiry Form',
+          contact_channel: 'Website Form'
+        });
+
         setName('');
         setEmail('');
         setPhone('');

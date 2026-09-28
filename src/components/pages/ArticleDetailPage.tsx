@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, 
   Calendar, 
@@ -12,6 +12,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { BlogPost } from '../../types';
+import { trackMetaEvent } from '../../utils/analytics';
 
 interface ArticleDetailPageProps {
   article: BlogPost;
@@ -35,6 +36,17 @@ export default function ArticleDetailPage({
   const [commentBody, setCommentBody] = useState('');
   const [comments, setComments] = useState(article.comments || []);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (article) {
+      trackMetaEvent('ViewContent', {
+        content_name: article.title,
+        content_category: article.category || 'Export Insights',
+        content_ids: [article.id],
+        content_type: 'article'
+      });
+    }
+  }, [article.id]);
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();

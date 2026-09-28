@@ -16,6 +16,22 @@
     <link rel="canonical" id="meta-canonical" href="https://www.driedseafoodglobal.com/" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+
+      fbq('init', '1421795956555912');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+
     <!-- International Hreflang Alternates (ISO 639-1 Subdirectories) -->
     <link rel="alternate" hreflang="x-default" href="https://www.driedseafoodglobal.com/" />
     <link rel="alternate" hreflang="en" href="https://www.driedseafoodglobal.com/" />
@@ -239,6 +255,12 @@
     </script>
   </head>
   <body class="bg-white text-slate-800 font-sans antialiased selection:bg-[#009bb3] selection:text-white">
+    <!-- Meta Pixel noscript fallback -->
+    <noscript>
+      <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1421795956555912&ev=PageView&noscript=1"
+        alt="" />
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

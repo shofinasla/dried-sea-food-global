@@ -1,14 +1,99 @@
-// Google Analytics 4, Google Tag Manager & Real-Time Visitor Telemetry Utility
+// Google Analytics 4, Google Tag Manager, Meta Pixel & Real-Time Visitor Telemetry Utility
 
 declare global {
   interface Window {
     dataLayer: any[];
-    gtag: (...args: any[]) => void;
+    gtag?: (...args: any[]) => void;
+    fbq?: {
+      (...args: any[]): void;
+      callMethod?: (...args: any[]) => void;
+      queue?: any[];
+      loaded?: boolean;
+      version?: string;
+    };
+    _fbq?: any;
   }
 }
 
+export const META_PIXEL_ID = '1421795956555912';
+
 let isGAInitialized = false;
 let isGTMInitialized = false;
+
+/**
+ * Initialize Meta Pixel dynamically if not already initialized in index.html
+ */
+export function initMetaPixel(pixelId: string = META_PIXEL_ID) {
+  if (typeof window === 'undefined') return;
+
+  if (window.fbq && typeof window.fbq === 'function') {
+    return; // Already initialized in index.html
+  }
+
+  /* eslint-disable */
+  (function (f: any, b: any, e: any, v: any, n?: any, t?: any, s?: any) {
+    if (f.fbq) return;
+    n = f.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = true;
+    n.version = '2.0';
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = true;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s);
+  })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  /* eslint-enable */
+
+  if (window.fbq) {
+    window.fbq('init', pixelId);
+    window.fbq('track', 'PageView');
+  }
+}
+
+/**
+ * Track PageView event in Meta Pixel for SPA route transitions
+ */
+export function trackMetaPageView() {
+  if (typeof window === 'undefined') return;
+  if (typeof window.fbq === 'function') {
+    try {
+      window.fbq('track', 'PageView');
+    } catch (e) {
+      console.warn('[Meta Pixel] PageView tracking failed:', e);
+    }
+  }
+}
+
+/**
+ * Track Standard / Custom Event in Meta Pixel
+ * Supported standard events: Contact, Lead, ViewContent, AddToCart, Purchase, etc.
+ * Never send PII (passwords, emails, phone numbers) directly in event parameters!
+ */
+export function trackMetaEvent(
+  eventName: 'Contact' | 'Lead' | 'ViewContent' | 'AddToCart' | 'InitiateCheckout' | 'Purchase' | string,
+  params: Record<string, any> = {}
+) {
+  if (typeof window === 'undefined') return;
+
+  if (typeof window.fbq === 'function') {
+    try {
+      window.fbq('track', eventName, params);
+    } catch (e) {
+      console.warn(`[Meta Pixel] Event tracking failed for ${eventName}:`, e);
+    }
+  }
+
+  // Also bridge with Google Analytics / Internal Telemetry
+  trackEvent(`meta_${eventName.toLowerCase()}`, {
+    event_category: 'Meta Pixel',
+    ...params
+  });
+}
 
 /**
  * Initialize Google Analytics 4 (gtag.js) dynamically

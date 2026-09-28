@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MessageCircle, X, ExternalLink, ShieldCheck, Mail, ArrowUpRight } from 'lucide-react';
 import { useTranslation } from '../i18n/LanguageContext';
 import { COMPANY_PROFILE } from '../data/initialData';
+import { trackMetaEvent } from '../utils/analytics';
 
 export default function WhatsAppFloatingWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -105,6 +106,10 @@ export default function WhatsAppFloatingWidget() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
+                trackMetaEvent('Contact', {
+                  content_name: 'WhatsApp Floating Widget',
+                  contact_channel: 'WhatsApp'
+                });
                 fetch('/api/analytics/event', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
@@ -120,6 +125,10 @@ export default function WhatsAppFloatingWidget() {
             <a
               href={emailUrl}
               onClick={() => {
+                trackMetaEvent('Contact', {
+                  content_name: 'Email Trade Desk',
+                  contact_channel: 'Email'
+                });
                 fetch('/api/analytics/event', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },

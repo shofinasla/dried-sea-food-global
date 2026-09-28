@@ -12,6 +12,7 @@ import { COMPANY_PROFILE } from '../data/initialData';
 import { ExportCommodity } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 import { generateOfficialCatalogPdf } from '../utils/generatePdfCatalog';
+import { trackMetaEvent } from '../utils/analytics';
 
 interface ExportCatalogModalProps {
   isOpen: boolean;
@@ -36,7 +37,13 @@ export default function ExportCatalogModal({
     try {
       setDownloading(true);
 
-      // Track download in analytics API
+      // Track download in analytics API & Meta Pixel
+      trackMetaEvent('Contact', {
+        content_name: 'Download PDF Catalog',
+        content_category: 'B2B Catalog',
+        contact_channel: 'Catalog Download'
+      });
+
       fetch('/api/analytics/event', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

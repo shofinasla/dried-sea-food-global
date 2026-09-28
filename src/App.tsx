@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutServices from './components/AboutServices';
@@ -34,7 +34,7 @@ import RequestQuotePage from './components/pages/RequestQuotePage';
 
 import { EXPORT_COMMODITIES, INITIAL_BLOG_POSTS, INITIAL_GALLERY, INITIAL_INQUIRIES, INITIAL_SEO_SETTINGS } from './data/initialData';
 import { BlogPost, BlogComment, GalleryItem, ContactInquiry, SEOSettings, ExportCommodity } from './types';
-import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence } from './utils/analytics';
+import { initGoogleAnalytics, initGoogleTagManager, pingVisitorPresence, trackMetaPageView } from './utils/analytics';
 
 export default function App() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(INITIAL_BLOG_POSTS);
@@ -96,6 +96,16 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('dried-seafood-products', JSON.stringify(products));
   }, [products]);
+
+  // Track Meta Pixel PageView on subsequent SPA route transitions (skip initial mount to avoid duplicate)
+  const isFirstMountRef = useRef(true);
+  useEffect(() => {
+    if (isFirstMountRef.current) {
+      isFirstMountRef.current = false;
+      return;
+    }
+    trackMetaPageView();
+  }, [currentPath]);
 
   useEffect(() => {
     const handlePopState = () => {

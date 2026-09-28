@@ -689,22 +689,62 @@ export async function handleApiRequest(
     const user = await authenticateRequest(request, env);
     if (!user) return jsonResponse({ error: 'Unauthorized' }, 401);
 
-    const id = pathname.replace('/api/admin/inquiries/', '');
+    // Extract ID cleanly handling :id and :id/status
+    let id = decodeURIComponent(pathname.replace('/api/admin/inquiries/', ''));
+    if (id.endsWith('/status')) {
+      id = id.slice(0, -7);
+    }
+    id = id.replace(/\/$/, '');
 
     if (method === 'PATCH') {
       const body = (await request.json().catch(() => ({}))) as any;
+      console.log(`[Admin] Updating inquiry ID="${id}" status="${body.status}"`);
+
       const updated = await updateInquiryStatus(env.DB, id, {
         status: body.status,
         replyNotes: body.replyNotes
       });
-      if (!updated) return jsonResponse({ error: 'Inquiry not found' }, 404);
-      return jsonResponse({ success: true, inquiry: updated });
+
+      if (!updated) {
+        console.warn(`[Admin] Inquiry not found for ID="${id}"`);
+        return jsonResponse({ error: 'Inquiry not found' }, 404);
+      }
+
+      // Also sync to Supabase if configured
+      if (env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY) {
+        try {
+          const supabase = await getSupabaseClient(env);
+          const sbUpdate: any = { updated_at: new Date().toISOString() };
+          if (body.status) sbUpdate.status = body.status;
+          if (body.replyNotes !== undefined) sbUpdate.reply_notes = body.replyNotes;
+          await supabase.from('inquiries').update(sbUpdate).eq('id', id);
+        } catch (sbEx: any) {
+          console.error('Supabase inquiry update sync error:', sbEx?.message || sbEx);
+        }
+      }
+
+      return jsonResponse({ success: true, inquiry: updated }, 200);
     }
 
     if (method === 'DELETE') {
+      console.log(`[Admin] Deleting inquiry ID="${id}"`);
       const deleted = await deleteInquiry(env.DB, id);
-      if (!deleted) return jsonResponse({ error: 'Inquiry not found' }, 404);
-      return jsonResponse({ success: true, message: 'Inquiry berhasil dihapus.' });
+      if (!deleted) {
+        console.warn(`[Admin] Delete failed, inquiry not found for ID="${id}"`);
+        return jsonResponse({ error: 'Inquiry not found' }, 404);
+      }
+
+      // Also sync delete to Supabase if configured
+      if (env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY) {
+        try {
+          const supabase = await getSupabaseClient(env);
+          await supabase.from('inquiries').delete().eq('id', id);
+        } catch (sbEx: any) {
+          console.error('Supabase inquiry delete sync error:', sbEx?.message || sbEx);
+        }
+      }
+
+      return jsonResponse({ success: true, message: 'Inquiry berhasil dihapus.' }, 200);
     }
 
     return methodNotAllowed(['PATCH', 'DELETE']);

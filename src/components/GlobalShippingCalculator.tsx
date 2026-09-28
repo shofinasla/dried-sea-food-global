@@ -8,6 +8,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useTranslation } from '../i18n/LanguageContext';
+import { trackMetaEvent } from '../utils/analytics';
 
 interface GlobalShippingCalculatorProps {
   onBookInquiry?: (bookingDetails: {
@@ -233,6 +234,13 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
                 <a
                   href="#kontak"
                   id={`btn-select-courier-${courier.id}`}
+                  onClick={() => {
+                    trackMetaEvent('Contact', {
+                      content_name: `Courier Inquiry - ${courier.name}`,
+                      content_category: 'Freight Calculator',
+                      contact_channel: 'Shipping Calculator'
+                    });
+                  }}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#009bb3] hover:bg-[#0d8a9e] text-white text-xs font-bold transition-all shadow-2xs hover:shadow-xs cursor-pointer group"
                 >
                   <span>{isIndonesian ? 'Pilih Jasa Kirim Ini' : 'Inquire with Courier'}</span>
@@ -267,6 +275,13 @@ export default function GlobalShippingCalculator({ onBookInquiry }: GlobalShippi
           <a
             href="#kontak"
             id="btn-ocean-freight-inquiry"
+            onClick={() => {
+              trackMetaEvent('Contact', {
+                content_name: 'FCL / LCL Container Consultation',
+                content_category: 'Ocean Freight',
+                contact_channel: 'Shipping Calculator'
+              });
+            }}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-100 text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer"
           >
             <span>{isIndonesian ? 'Konsultasi Kontainer' : 'FCL Container RFQ'}</span>

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { ExportCommodity } from '../../types';
 import { useTranslation } from '../../i18n/LanguageContext';
+import { trackMetaEvent } from '../../utils/analytics';
 
 interface RequestQuotePageProps {
   initialCommodity?: string;
@@ -95,6 +96,17 @@ export default function RequestQuotePage({
       if (res.ok && (data.success || data.id)) {
         setSubmittedSuccess(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Track Meta Pixel Lead & Contact
+        trackMetaEvent('Lead', {
+          content_name: selectedProduct || 'B2B Export RFQ',
+          content_category: inquiryType || 'Request for Quotation (RFQ)',
+          currency: 'USD'
+        });
+        trackMetaEvent('Contact', {
+          content_name: 'Official RFQ Form',
+          contact_channel: 'Quote Page Form'
+        });
       } else {
         setErrorMessage(data.error || 'Unable to transmit quotation request. Please check your connection or contact our WhatsApp export desk directly.');
       }
@@ -167,6 +179,12 @@ export default function RequestQuotePage({
                 href={`https://wa.me/6288985582838?text=${whatsappMessage}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  trackMetaEvent('Contact', {
+                    content_name: `WhatsApp Trade Desk - ${selectedProduct}`,
+                    contact_channel: 'WhatsApp'
+                  });
+                }}
                 className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-md"
               >
                 Chat Instant WhatsApp Export Desk
@@ -437,6 +455,12 @@ export default function RequestQuotePage({
                   href={`https://wa.me/6288985582838?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    trackMetaEvent('Contact', {
+                      content_name: `WhatsApp Trade Desk - ${selectedProduct}`,
+                      contact_channel: 'WhatsApp'
+                    });
+                  }}
                   className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-sm"
                 >
                   <MessageSquare className="w-4 h-4" />

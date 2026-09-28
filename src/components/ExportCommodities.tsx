@@ -20,6 +20,7 @@ import { ExportCommodity } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 import { getCategoryLabel } from '../i18n/categoryLabels';
 import { getLocalizedCommodity } from '../utils/localizedData';
+import { trackMetaEvent } from '../utils/analytics';
 
 interface ExportCommoditiesProps {
   products: ExportCommodity[];
@@ -98,6 +99,14 @@ export default function ExportCommodities({
   const openCommodityDetail = (commodity: ExportCommodity) => {
     setActiveModalCommodity(commodity);
     setActiveImageIndex(0);
+    trackMetaEvent('ViewContent', {
+      content_name: commodity.name,
+      content_category: commodity.category,
+      content_ids: [commodity.id],
+      content_type: 'product',
+      value: commodity.priceUSDPerKg || commodity.price || 0,
+      currency: 'USD'
+    });
   };
 
   return (
@@ -287,7 +296,17 @@ export default function ExportCommodities({
                   </button>
                   <button
                     type="button"
-                    onClick={() => onSelectCommodityForQuote(item.name)}
+                    onClick={() => {
+                      trackMetaEvent('InitiateCheckout', {
+                        content_name: item.name,
+                        content_category: item.category,
+                        content_ids: [item.id],
+                        content_type: 'product',
+                        value: item.priceUSDPerKg || item.price || 0,
+                        currency: 'USD'
+                      });
+                      onSelectCommodityForQuote(item.name);
+                    }}
                     className="w-full sm:flex-1 py-1.5 sm:py-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-[#009bb3] hover:bg-[#008399] text-white text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-2xs hover:shadow-sm cursor-pointer"
                   >
                     <span>{uiTexts.requestQuote}</span>
@@ -479,7 +498,17 @@ export default function ExportCommodities({
                 <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => {
-                      onSelectCommodityForQuote(activeModalCommodity.name);
+                      if (activeModalCommodity) {
+                        trackMetaEvent('InitiateCheckout', {
+                          content_name: activeModalCommodity.name,
+                          content_category: activeModalCommodity.category,
+                          content_ids: [activeModalCommodity.id],
+                          content_type: 'product',
+                          value: activeModalCommodity.priceUSDPerKg || activeModalCommodity.price || 0,
+                          currency: 'USD'
+                        });
+                        onSelectCommodityForQuote(activeModalCommodity.name);
+                      }
                       setActiveModalCommodity(null);
                     }}
                     className="flex-1 py-3 px-5 rounded-full bg-gradient-to-r from-[#009bb3] to-[#519992] hover:opacity-95 text-white font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-md shadow-teal-500/20 cursor-pointer"

@@ -793,18 +793,33 @@ export async function createInquiry(db: any, inquiry: ContactInquiry): Promise<C
   }
 }
 
+export async function getInquiryById(db: any, id: string): Promise<ContactInquiry | null> {
+  const existing = workerInquiries.find(i => i.id === id);
+
+  if (!db) return existing || null;
+
+  try {
+    const row = await db.prepare('SELECT * FROM inquiries WHERE id = ? LIMIT 1').bind(id).first();
+    if (row) return rowToInquiry(row);
+    return existing || null;
+  } catch (err) {
+    console.error('D1 getInquiryById error:', err);
+    return existing || null;
+  }
+}
+
 export async function updateInquiryStatus(
   db: any,
   id: string,
   update: { status?: ContactInquiry['status'] | string; replyNotes?: string }
 ): Promise<ContactInquiry | null> {
-  const existing = workerInquiries.find(i => i.id === id);
+  const existingInMemory = workerInquiries.find(i => i.id === id);
 
   if (!db) {
-    if (!existing) return null;
-    if (update.status) existing.status = update.status as ContactInquiry['status'];
-    if (update.replyNotes !== undefined) existing.replyNotes = update.replyNotes;
-    return existing;
+    if (!existingInMemory) return null;
+    if (update.status) existingInMemory.status = update.status as ContactInquiry['status'];
+    if (update.replyNotes !== undefined) existingInMemory.replyNotes = update.replyNotes;
+    return existingInMemory;
   }
 
   try {
@@ -826,38 +841,57 @@ export async function updateInquiryStatus(
 
     await db.prepare(sql).bind(...params).run();
 
-    if (existing) {
-      if (update.status) existing.status = update.status as ContactInquiry['status'];
-      if (update.replyNotes !== undefined) existing.replyNotes = update.replyNotes;
-      return existing;
+    // Query updated row from database
+    const row = await db.prepare('SELECT * FROM inquiries WHERE id = ? LIMIT 1').bind(id).first();
+    if (row) {
+      const updated = rowToInquiry(row);
+      if (existingInMemory) {
+        if (update.status) existingInMemory.status = update.status as ContactInquiry['status'];
+        if (update.replyNotes !== undefined) existingInMemory.replyNotes = update.replyNotes;
+      } else {
+        workerInquiries.unshift(updated);
+      }
+      return updated;
     }
+
+    if (existingInMemory) {
+      if (update.status) existingInMemory.status = update.status as ContactInquiry['status'];
+      if (update.replyNotes !== undefined) existingInMemory.replyNotes = update.replyNotes;
+      return existingInMemory;
+    }
+
     return null;
   } catch (err) {
     console.error('D1 updateInquiryStatus error:', err);
-    return existing || null;
+    if (existingInMemory) {
+      if (update.status) existingInMemory.status = update.status as ContactInquiry['status'];
+      if (update.replyNotes !== undefined) existingInMemory.replyNotes = update.replyNotes;
+      return existingInMemory;
+    }
+    return null;
   }
 }
 
 export async function deleteInquiry(db: any, id: string): Promise<boolean> {
+  const existingIdx = workerInquiries.findIndex(i => i.id === id);
+
   if (!db) {
-    const idx = workerInquiries.findIndex(i => i.id === id);
-    if (idx >= 0) {
-      workerInquiries.splice(idx, 1);
+    if (existingIdx >= 0) {
+      workerInquiries.splice(existingIdx, 1);
       return true;
     }
     return false;
   }
 
   try {
+    const row = await db.prepare('SELECT id FROM inquiries WHERE id = ? LIMIT 1').bind(id).first();
     await db.prepare('DELETE FROM inquiries WHERE id = ?').bind(id).run();
-    const idx = workerInquiries.findIndex(i => i.id === id);
-    if (idx >= 0) workerInquiries.splice(idx, 1);
-    return true;
+    if (existingIdx >= 0) workerInquiries.splice(existingIdx, 1);
+    return Boolean(row || existingIdx >= 0);
   } catch (err) {
     console.error('D1 deleteInquiry error:', err);
-    const idx = workerInquiries.findIndex(i => i.id === id);
-    if (idx >= 0) {
-      workerInquiries.splice(idx, 1);
+    if (existingIdx >= 0) {
+      workerInquiries.splice(existingIdx, 1);
       return true;
     }
     return false;
