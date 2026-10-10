@@ -8,7 +8,6 @@ import {
   Mail, 
   ShieldCheck, 
   Compass, 
-  Globe2, 
   ArrowRight,
   PhoneCall
 } from 'lucide-react';
@@ -78,43 +77,6 @@ export default function NotFoundPage({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-[#009bb3] selection:text-white">
-      {/* Top Professional Header Bar */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={onBackToHome}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#009bb3] to-[#519992] flex items-center justify-center text-white shadow-xs">
-              <Globe2 className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <span className="font-extrabold text-slate-900 tracking-tight text-sm sm:text-base block">
-                DRIED SEAFOOD GLOBAL
-              </span>
-              <span className="text-[10px] text-[#009bb3] font-bold uppercase tracking-wider block">
-                Indonesian Seafood Enterprise
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-4">
-            <button
-              onClick={onOpenSSLModal}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold hover:bg-emerald-100 transition-all cursor-pointer"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>TLS 1.3 EV Verified</span>
-            </button>
-
-            <button
-              onClick={onBackToHome}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-all cursor-pointer"
-            >
-              <Home className="w-3.5 h-3.5" />
-              <span>{currentLang === 'id' ? 'Beranda' : 'Home'}</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
       {/* Main 404 Body */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 flex flex-col justify-center items-center text-center">
         
